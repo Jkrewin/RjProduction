@@ -1,0 +1,81 @@
+$heading
+<html lang="ru"><head><meta http-equiv=Content-Type content="text/html;"></head>
+<body lang=RU style='word-wrap:break-word'>
+$heading end
+$mbody
+<div class=WordSection1>
+<p class=MsoNormal><b><span style='font-size:16.0pt;'>Отчет №
+$MNumber$ за $MDateCr$</span></b></p>
+$mbody end
+$tabel 
+<p class=MsoNormal style='margin-bottom:0cm'><b><span style='font-size:14.0pt;
+line-height:107%'>$MnameGrup$</span></b></p>
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=47 valign=top style='width:35.2pt;border:solid windowtext 1.0pt;
+  background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;text-align:center;
+  line-height:normal'><span style='font-size:12.0pt;color:black'>№</span></p>
+  </td>
+  <td width=567 valign=top style='width:15.0cm;border:solid windowtext 1.0pt;
+  border-left:none;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;text-align:center;
+  line-height:normal'><span style='font-size:12.0pt;color:black'>Наименование</span></p>
+  </td>
+  <td width=151 valign=top style='width:4.0cm;border:solid windowtext 1.0pt;
+  border-left:none;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;text-align:center;
+  line-height:normal'><span style='font-size:12.0pt;color:black'>Итог</span></p>
+  </td>
+ </tr>
+ $tabel end
+ $row
+ <tr>
+  <td width=47 valign=top style='width:35.2pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;line-height:normal'><span
+  style='font-size:12.0pt;font-family:"Arial",sans-serif'>$text_num$</span></p>
+  </td>
+  <td width=567 valign=top style='width:15.0cm;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;line-height:normal'><span
+  style='font-size:12.0pt;font-family:"Arial",sans-serif'>$text$</span></p>
+  </td>
+  <td width=151 valign=top style='width:4.0cm;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;text-align:center;
+  line-height:normal'><span style='font-size:12.0pt;font-family:"Arial",sans-serif'>$text_sum$</span></p>
+  </td>
+ </tr>
+ $row end
+ $rowf
+ <tr>
+  <td width=47 valign=top style='width:35.2pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;line-height:normal'><span
+  style='font-size:12.0pt;font-family:"Arial",sans-serif'>&nbsp;</span></p>
+  </td>
+  <td width=567 valign=top style='width:15.0cm;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;line-height:normal'><span
+  style='font-size:12.0pt;font-family:"Arial",sans-serif'>&nbsp;</span></p>
+  </td>
+  <td width=151 valign=top style='width:4.0cm;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='margin-bottom:0cm;text-align:center;
+  line-height:normal'><span style='font-size:12.0pt;font-family:"Arial",sans-serif'><b>$text_sum$</b></span></p>
+  </td>
+ </tr>
+</table>
+$rowf end
+$final
+<p class=MsoNormal><b><span style='font-size:14.0pt;line-height:107%'>&nbsp;</span></b></p>
+</div>
+</body>
+</html>
+$final end

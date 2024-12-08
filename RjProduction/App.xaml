@@ -1,0 +1,9 @@
+﻿<Application x:Class="RjProduction.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:RjProduction"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Image x:Key="NameOfResource" Width="800" Height="501" Source="SplashScreen.png"/>
+    </Application.Resources>
+</Application>
