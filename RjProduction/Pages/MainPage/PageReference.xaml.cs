@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using static RjProduction.Model.Document;
+using RjProduction.Model;
 
 namespace RjProduction.Pages
 {
@@ -90,12 +90,41 @@ namespace RjProduction.Pages
                 MDL.MyDataBase.NamesGrup[index] = НазваниеГруппы;
             }
         }
+        /// <summary>
+        /// для групп
+        /// </summary>
+        private class WarehouseEdit : MainRow
+        {
+            public required string НазваниеСклада { get; set; }
+            public required string Описание { get; set; }
+            public required string Адрес { get; set; }
+
+            public override void CreateNew()
+            {
+               // Нужна форма для добавления
+            }
+
+            public override void RefrehData()
+            {
+                // Нужна форма для добавления
+            }
+        }
+
+        private void ClearUI() {
+            Button_add_edit.Visibility = Visibility.Hidden;
+            DG_Main.CanUserAddRows = true;
+        }
 
         private void УдаляетСтроку(object sender, RoutedEventArgs e)
         {
             if (DelObj != null)
             {
-                _list!.Remove(DelObj.Obj);
+                if (_list is null)
+                {
+                    MDL.LogError("Удаление строки невозвожно Справочник не загружен ");
+                    return;
+                }
+                _list.Remove(DelObj.Obj);
                 ((IList)DG_Main.ItemsSource).Remove(DelObj);
                 DG_Main.Items.Refresh();
                 DelObj = null;
@@ -116,6 +145,7 @@ namespace RjProduction.Pages
 
         public void МоиСотрудники(object sender, RoutedEventArgs e)
         {
+            ClearUI();
             List<RowEmpl> ls = [];
             foreach (var item in MDL.MyDataBase.EmployeeDic)
             {
@@ -132,6 +162,7 @@ namespace RjProduction.Pages
 
         public void МоиМатериалы(object sender, RoutedEventArgs e)
         {
+            ClearUI();
             List<RowMaterial> ls = [];
             foreach (var item in MDL.MyDataBase.MaterialsDic)
             {
@@ -145,6 +176,7 @@ namespace RjProduction.Pages
                 });
             }
             DG_Main.ItemsSource = ls;
+            _list = MDL.MyDataBase.MaterialsDic;
             DG_Main.Columns[0].Width = 60;
             DG_Main.Columns[1].Width = 60;
             DG_Main.Columns[2].Width = 60;
@@ -167,6 +199,7 @@ namespace RjProduction.Pages
 
         public void МоиГруппы(object sender, RoutedEventArgs e)
         {
+            ClearUI();
             List<GrupName> ls = [];
             foreach (var item in MDL.MyDataBase.NamesGrup)
             {
@@ -181,6 +214,39 @@ namespace RjProduction.Pages
             DG_Main.Columns[0].Width = 250;
         }
 
-        private void ВыгрузкаИзПамяти(object sender, RoutedEventArgs e)=> MDL.SaveXml<MDL.BoardDic>(MDL.MyDataBase, MDL.SFile_DB);
+        private void ВыгрузкаИзПамяти(object sender, RoutedEventArgs e)=> MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+
+        public void МоиСклады() {
+
+            List<WarehouseEdit> ls = [];
+            foreach (var item in MDL.MyDataBase.Warehouses) {
+                ls.Add(new WarehouseEdit() { Obj =item,
+                    Адрес = item.AddressWarehouse, 
+                    НазваниеСклада = item.NameWarehouse ,
+                    Описание = item.DescriptionWarehouse
+                });
+            }
+
+            DG_Main.ItemsSource = ls;
+            Button_add_edit.Visibility = Visibility.Visible;
+            _list = MDL.MyDataBase.Warehouses;
+            DG_Main.CanUserAddRows = false;
+            
+            DG_Main.Columns[0].Header = "Название склада";
+            DG_Main.Columns[1].Header = "Описание склада";
+            DG_Main.Columns[2].Header = "Адрес склада       ";
+        }
+
+        private void Добавить_изменить(object sender, RoutedEventArgs e)
+        {            
+            if (DG_Main.ItemsSource is List<Model.WarehouseClass>) {
+                // Редактор складов
+                var wpf = new WpfFrm.WpfWarehouse(() => DG_Main.Items.Refresh());
+                wpf.ShowDialog();
+            }
+
+        }
+
+       
     }
 }

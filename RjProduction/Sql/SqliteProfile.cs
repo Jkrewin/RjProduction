@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using static RjProduction.Sql.ISqlProfile;
@@ -8,9 +9,7 @@ namespace RjProduction.Sql
     public class SqliteProfile : ISqlProfile
     {
         private readonly SQLiteConnection SQLite = new();
-        ISqlProfile.TypeSqlConnection ISqlProfile.SqlType => ISqlProfile.TypeSqlConnection.Sqlite;
-
-        public string QuotSql(string str) => $"[{str}]";
+        public TypeSqlConnection SqlType => ISqlProfile.TypeSqlConnection.Sqlite;
 
         /// <summary>
         /// Локальное размещение папки для базы данных
@@ -19,11 +18,14 @@ namespace RjProduction.Sql
         /// <summary>
         /// База данных по умолчанию
         /// </summary>
-        public string DataBase { get; set; } = "DBsqlite";
-
+        public string DataBaseFile { get; set; } = "DBsqlite";
+        /// <summary>
+        /// Есть коннект или нет
+        /// </summary>
         public bool ConnectIs => SQLite.State == System.Data.ConnectionState.Open;
 
-        public ISqlProfile.FieldSql[] GetDate(int ID, string TabelName)
+        public string QuotSql(string str) => $"[{str}]";
+        public ISqlProfile.FieldSql[] GetDate(long ID, string TabelName)
         {
             if (ID == -1) { throw new Exception("ID = -1 not exist id"); }            
 
@@ -43,7 +45,6 @@ namespace RjProduction.Sql
             }
             return [.. ls];
         }
-
         public bool ExistTabel(string tabelName)
         {
             bool d;
@@ -57,21 +58,19 @@ namespace RjProduction.Sql
             }
             return d;
         }
-
         public string TypeSQL(string info) => info switch
         {
-            "Decimal" => "NUMERIC",
+            "Decimal" => "TEXT",
             "Int16" => "INTEGER",
             "Int32" => "INTEGER",
             "Short" => "INTEGER",
             "UInt32"=> "REAL",
             "Int64" => "REAL",
-            "Fload" => "REAL",
-            "Double" => "REAL",
+            "Float" => "REAL",
+            "Double" => "TEXT",
             "KEY_ID" => "INTEGER primary key AUTOINCREMENT",
             _ => "TEXT"
         };
-
         public long SqlCommand(string sql)
         {
             if (ConnectIs == false) throw new Exception("Не выполнено подключение к бд");
@@ -82,17 +81,54 @@ namespace RjProduction.Sql
 #endif            
             return (long)command.ExecuteScalar();
         }
+        public List<object[]> AdapterSql(string tabelName, out long id, string where = "")
+        {
+            id = -1;
+            string pol;
+            if (where != "")
+            {
+                pol = $"SELECT * FROM [{tabelName}] WHERE " + where;
+            }
+            else
+            {
+                pol = $"SELECT * FROM [{tabelName}]";
+            }
+            List<object[]> ls = [];
+            SQLiteCommand command = new(pol, SQLite);
+            using (SQLiteDataReader sqReader = command.ExecuteReader())
+            {
+                while (sqReader.Read())
+                {
+                    object[] obj = new object[sqReader.FieldCount];
+                    for (global::System.Int32 i = sqReader.FieldCount-1; i >= 0; i--)
+                    {
+                        if (sqReader.GetName(i)=="ID") id = (long)sqReader.GetValue(i);
+                         obj[i] = sqReader.GetValue(i);
+                    }
+                    ls.Add(obj);
+                }
+            }
+            return ls;
+        }
+        public DataTable GetDataTable(string tabelName, string select_sql="*", string where_sql="") {
+            SQLiteCommand cmd = SQLite.CreateCommand();
+            if (where_sql != "") where_sql = " WHERE " + where_sql;
+            cmd.CommandText = $"SELECT {select_sql} FROM {tabelName}{where_sql}";
+
+            DataTable dataTable = new ();
+            using (SQLiteDataAdapter dataAdapter = new(cmd.CommandText, SQLite)) dataAdapter.Fill(dataTable);
+            return dataTable;
+        }       
 
         public void Disconnect() => SQLite.Close();
-
         public void Conection()
         {
-            string sFile = LocalDir + DataBase + ".db";
+            string sFile = LocalDir + DataBaseFile + ".db";
             SQLiteConnectionStringBuilder stringBuilder = new() { DataSource = sFile + "" };
             SQLite.ConnectionString = stringBuilder.ToString();
             try
             {
-                SQLite.Open();
+                SQLite.Open();                
             }
             catch
             {
@@ -100,7 +136,6 @@ namespace RjProduction.Sql
             }
         }
 
-
-
+       
     }
 }

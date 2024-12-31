@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static RjProduction.Model.Document;
+using RjProduction.Model;
 
 namespace RjProduction.WpfFrm
 {
@@ -106,7 +94,7 @@ namespace RjProduction.WpfFrm
 
         private void НоваяЯчейка(object? sender, AddingNewItemEventArgs e)
         {
-            var tt = ((IList)DG_Main.ItemsSource)[^1];
+           // var tt = ((IList)DG_Main.ItemsSource)[^1];
         }
 
         private void ВыборОбъекта(object sender, SelectedCellsChangedEventArgs e)
@@ -116,7 +104,7 @@ namespace RjProduction.WpfFrm
 
         private void МоиСотрудники(object sender, RoutedEventArgs e)
         {            
-            List<RowEmpl> ls = new List<RowEmpl>();
+            List<RowEmpl> ls = [];
             foreach (var item in MDL.MyDataBase.EmployeeDic)
             {
                 ls.Add(new RowEmpl()
@@ -132,7 +120,7 @@ namespace RjProduction.WpfFrm
 
         private void МоиМатериалы(object sender, RoutedEventArgs e)
         {            
-            List<RowMaterial> ls = new List<RowMaterial>();
+            List<RowMaterial> ls = [];
             foreach (var item in MDL.MyDataBase.MaterialsDic)
             {
                 ls.Add(new RowMaterial()
@@ -145,6 +133,7 @@ namespace RjProduction.WpfFrm
                 });
             }
             DG_Main.ItemsSource = ls;
+            _list = MDL.MyDataBase.MaterialsDic;
             DG_Main.Columns[0].Width = 60;
             DG_Main.Columns[1].Width = 60;
             DG_Main.Columns[2].Width = 60;
@@ -155,14 +144,18 @@ namespace RjProduction.WpfFrm
         {
             if (DelObj != null)
             {
-                _list!.Remove(DelObj.Obj);
+                if (_list is null) {
+                    MDL.LogError("Удаление строки невозвожно так как справочник не выбран.", "#УдаляетСтроку - Справочник ");
+                    return;
+                }
+                _list.Remove(DelObj.Obj);
                 ((IList)DG_Main.ItemsSource).Remove(DelObj);
                 DG_Main.Items.Refresh();
                 DelObj = null;
             }
         }
 
-        private void ВыходИзФормы(object sender, EventArgs e)=> MDL.SaveXml<MDL.BoardDic>(MDL.MyDataBase, MDL.SFile_DB);
+        private void ВыходИзФормы(object sender, EventArgs e)=> MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
 
         private void ЯчекаИзменена(object? sender, EventArgs e)
         {

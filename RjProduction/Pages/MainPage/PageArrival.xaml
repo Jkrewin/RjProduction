@@ -34,32 +34,34 @@
             <Label x:Name="Label_Tmp_Title" Content="Документы прихода на склад " HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
 
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" VerticalAlignment="Bottom" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="37*"/>
             </Grid.ColumnDefinitions>
-            <Button  HorizontalAlignment="Left" Margin="18,144,0,0" VerticalAlignment="Top" Height="30" Width="120" Background="#FFFF6434" Content="Добавить +" FontFamily="Trebuchet MS" Foreground="White" Click="ОткрытьОкноОбъектов" FontSize="14" BorderBrush="{x:Null}" Grid.Column="1">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="3"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button  HorizontalAlignment="Left" Margin="149,144,0,0" VerticalAlignment="Top" Height="30" Width="120" Background="{x:Null}" Content="Удалить -" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="УдалитьОбъект" FontSize="14" BorderBrush="#FFFF6434" Grid.Column="1">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="3"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button  HorizontalAlignment="Left" Margin="358,144,0,0" VerticalAlignment="Top" Height="30" Width="141" Background="{x:Null}" Content="Добавить из файл" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="УдалитьОбъект" FontSize="14" BorderBrush="#FFFF6434" Grid.Column="1">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="3"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <Grid VerticalAlignment="Bottom" Grid.Column="1" Margin="63,0,0,0" Height="36">
+                <Button  HorizontalAlignment="Left"  VerticalAlignment="Top" Height="30" Width="120" Background="#FFFF6434" Content="Добавить +" FontFamily="Trebuchet MS" Foreground="White" Click="ОткрытьОкноОбъектов" FontSize="14" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button  HorizontalAlignment="Left" Margin="149,0,0,0" VerticalAlignment="Top" Height="30" Width="120" Background="{x:Null}" Content="Удалить -" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="УдалитьОбъект" FontSize="14" BorderBrush="#FFFF6434" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button  HorizontalAlignment="Left" Margin="358,0,0,0" VerticalAlignment="Top" Height="30" Width="141" Background="{x:Null}" Content="Добавить из файл" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="УдалитьОбъект" FontSize="14" BorderBrush="#FFFF6434" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -114,7 +116,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Статус" Width="150">
+                        <DataGridTemplateColumn x:Name="StatusColums" Header="Статус" Width="150">
                             <DataGridColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -123,7 +125,7 @@
                             </DataGridColumn.HeaderStyle>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Width="138" Foreground="White" Background="#FF797979" Content="Не проведён" FontFamily="Trebuchet MS" FontSize="12" Click="ПровестиДок">
+                                    <Button x:Name="StatusButton" Width="138" Foreground="White" Background="#FF797979" Content="Не проведён" FontFamily="Trebuchet MS" FontSize="12" Click="ПровестиДок">
                                         <Button.Resources>
                                             <Style TargetType="{x:Type Border}">
                                                 <Setter Property="CornerRadius" Value="3"/>

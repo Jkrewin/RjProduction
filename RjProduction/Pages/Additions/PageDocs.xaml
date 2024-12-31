@@ -1,0 +1,116 @@
+﻿<Page x:Class="RjProduction.Pages.Additions.PageDocs"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RjProduction.Pages.Additions"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageDocs" Loaded="Загруженно">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Rectangle VerticalAlignment="Bottom" Height="5">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FF2304FF" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.321"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label Content="Документы" HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
+            <Label x:Name="Label_NotDB" Visibility="Collapsed" Content=" Нет подключения к БД. Проверте настройки." Background="Red" Foreground="White" Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,1,5,5"  />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid x:Name="G_SelectDocs">
+                <Label Content="Тип документа:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Bottom" Width="152" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
+                <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="167,0,0,2" VerticalAlignment="Bottom" Width="283" FontFamily="Arial Black" FontSize="14" Height="25" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
+            </Grid>
+
+        </Grid>
+
+        <DataGrid x:Name="DG_Main"  Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,0" Grid.Row="2" >
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                   Color="#FFAACAFE"/>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Наименование" Width="200"   >
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding NameItem}"  FontWeight="Normal" FontFamily="Calibri" HorizontalAlignment="Stretch" FontSize="14"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Дата" Width="100">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding DateDoc}" FontFamily="Arial" VerticalContentAlignment="Center"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Номер" Width="100">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Num}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Сумма" Width="100">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Summ}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Кубы" Width="80">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label  Content="{Binding Cubs}" FontFamily="Arial" VerticalContentAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Page>

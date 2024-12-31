@@ -1,4 +1,7 @@
 ﻿
+using RjProduction.Model;
+using System.Data;
+
 namespace RjProduction.Sql
 {
     /// <summary>
@@ -11,7 +14,7 @@ namespace RjProduction.Sql
         /// <summary>
         /// Название таблици
         /// </summary>
-        [Ignore] public string TabelName { get => this.GetType().Name; }
+        [SqlIgnore] public string TabelName { get => this.GetType().Name; }
         /// <summary>
         /// Ид в бд
         /// </summary>
@@ -25,6 +28,14 @@ namespace RjProduction.Sql
         /// </summary>
         public string LockInfo { get; set; } = "";
 
-       
+        /// <summary>
+        /// Заполнение из dataRow значений для этого класса
+        /// </summary>
+        private protected void FullSet(DataRow dataRow)
+        {
+            if (long.TryParse(dataRow["ID"].ToString(), out long l)) IDField = l;
+            if (dataRow["ActiveObjIsDelete"] is bool b) ActiveObjIsDelete = b;
+            if (dataRow["LockInfo"] is string s) LockInfo = s;
+        }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using RjProduction.Model;
+using RjProduction.XML;
 using System.Windows;
 using System.Windows.Controls;
 using static RjProduction.MDL;
-using static RjProduction.Model.Document;
 
 namespace RjProduction.Pages
-{    
+{
     public partial class PageReport : Page
     {
-        private List<Document>? _docs;
+        private List<IDocMain>? _docs;
 
         public Action Report_Gen_МесячнаяЗарплата { get => () => Report_01(); }
         public Action Report_Gen_ВсеДниРабочих { get => () => ReportAllDay(); }
@@ -42,7 +42,7 @@ namespace RjProduction.Pages
         /// отчет за все дни
         /// </summary>
         private void ReportAllDay() {
-            _docs = MDL.GetDocuments(DateTime.Now.Year, SetMonth())!;
+            _docs = MDL.GetDocuments(DateTime.Now.Year, SetMonth(),DocCode.Производство_склад)!;
             if (_docs == null || _docs.Count == 0)
             {
                 Label_Error.Visibility = Visibility.Visible;
@@ -76,19 +76,19 @@ namespace RjProduction.Pages
                         HtmlReport.SetValue("text_sum", tv2.Amount.ToString(), ref str);
 
                         string text = "";
-                        if (tv2 is Document.Employee eml)
+                        if (tv2 is Model.Employee eml)
                         {
                             string r = eml.Worker == false ? eml.Note : "Cдельная";
                             text = $"{eml.NameEmployee} / {eml.Payment}p. {r}";
                         }
-                        else if (tv2 is Document.MaterialObj m)
+                        else if (tv2 is Model.MaterialObj m)
                         {
-                            sum += m.CubM;
-                            text = $"{m.HeightMaterial}x{m.WidthMaterial}x{m.LongMaterial} кол-во: {m.Quantity} = {Math.Round(m.CubM, 3)} * {m.Price}p; {m.Amount}p.";
+                            sum += m.CubatureAll;
+                            text = $"{m.HeightMaterial}x{m.WidthMaterial}x{m.LongMaterial} кол-во: {m.Quantity} = {Math.Round(m.CubatureAll, 3)} * {m.Price}p; {m.Amount}p.";
                         }
-                        else if (tv2 is Document.Tabel_Timbers tt)
+                        else if (tv2 is Model.Tabel_Timbers tt)
                         {
-                            sum += tt.CubAll;
+                            sum += tt.CubatureAll;
                             text = tt.ToString();
                         }
                         else text = tv2.ToString() ?? "n/a";
@@ -111,7 +111,7 @@ namespace RjProduction.Pages
         /// зарплатный отчет
         /// </summary>
         private void Report_01() {
-             _docs= MDL.GetDocuments(DateTime.Now.Year, SetMonth())!;
+             _docs= MDL.GetDocuments(DateTime.Now.Year, SetMonth(), DocCode.Производство_склад)!;
             if (_docs == null || _docs.Count == 0)
             {
                 Label_Error.Visibility = Visibility.Visible;
@@ -121,7 +121,7 @@ namespace RjProduction.Pages
 
             // сборка сведений
             List<(DateOnly, string, decimal)> ls = [];
-            foreach (Document s in _docs)
+            foreach (DocArrival s in _docs)
             {
                 Dictionary<string, decimal> dic = []; // зарплата в течение всего дня у работника
                 foreach (var item in s.MainTabel)

@@ -29,8 +29,8 @@ namespace RjProduction.Sql
             if (_sqlProfile.ConnectIs == true)
             {
                 string sql;
-                if (_unlock) sql = $"/* unlock */DELETE FROM Premision WHERE tabel_name='{LockObj.TabelName}' and index_id={LockObj.ID} and user='{MDL.UserName}' ";
-                else sql = $"/* CallBack update */UPDATE Premision SET timeout = time('now', '5 minutes') WHERE  tabel_name= '{LockObj.TabelName}' and index_id = {LockObj.ID} and user ='{MDL.UserName}'";
+                if (_unlock) sql = $"/* unlock */DELETE FROM Premision WHERE tabel_name='{LockObj.TabelName}' and index_id={LockObj.ID} and user='{MDL.SetApp.UserName}' ";
+                else sql = $"/* CallBack update */UPDATE Premision SET timeout = time('now', '5 minutes') WHERE  tabel_name= '{LockObj.TabelName}' and index_id = {LockObj.ID} and user ='{MDL.SetApp.UserName}'";
 
                 _sqlProfile.Conection();
                 try
@@ -68,7 +68,7 @@ namespace RjProduction.Sql
         {
             // Немедленно разблокирует запись иначе она останеться зависшей в течение таймера
             if (_sqlProfile.ConnectIs == false) return;
-            string sql = $"/* unlock */DELETE FROM Premision WHERE tabel_name='{LockObj.TabelName}' and index_id={LockObj.ID} and user='{MDL.UserName}' ";
+            string sql = $"/* unlock */DELETE FROM Premision WHERE tabel_name='{LockObj.TabelName}' and index_id={LockObj.ID} and user='{MDL.SetApp.UserName}' ";
             _sqlProfile.Conection();
             try
             {

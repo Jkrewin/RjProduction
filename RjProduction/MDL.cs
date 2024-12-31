@@ -1,14 +1,18 @@
-﻿using System.Diagnostics;
+﻿using RjProduction.Model;
+using RjProduction.Sql;
+using RjProduction.XML;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
+using static RjProduction.Sql.ISqlProfile;
 
 namespace RjProduction
 {
     static public class MDL
-    {       
+    {
         /// <summary>
         /// Текущий каталог где справочник
         /// </summary>
@@ -16,10 +20,21 @@ namespace RjProduction
         /// <summary>
         /// Справочник
         /// </summary>
-        static public BoardDic MyDataBase { get; set; } = new ();
+        static public Reference MyDataBase { get; set; } = new();
+        /// <summary>
+        /// Настройки программы
+        /// </summary>
+        static public SettingAppClass SetApp {get;set;} =new ();
+        /// <summary>
+        /// Профиль  для sql подключения
+        /// </summary>            
+        [XmlIgnore] static public ISqlProfile? SqlProfile { get; set; }
 
-        static public string UserName { get; set; } = "TestApp";
 
+        public static void LogError(string mess, string error_text="") {
+            var t = new WpfFrm.ErrorLog(mess, error_text);
+            t.ShowDialog();
+        }
         /// <summary>
         /// Uses BrushConverter to convert text to color. 
         /// </summary>
@@ -115,39 +130,55 @@ namespace RjProduction
         /// Загружает в список данные из файлов за <b>текущий</b> период
         /// </summary>
         /// <returns></returns>
-        static public List<Model.Document>? GetDocuments() {           
-            return GetDocuments(DateTime.Now.Year, DateTime.Now.Month);
-        }
+        static public List<IDocMain>? GetDocuments(string doc_code) => GetDocuments(DateTime.Now.Year, DateTime.Now.Month, doc_code);
         /// <summary>
         /// Загружает в список данные из файлов за выбранный период
         /// </summary>
         /// <param name="year">год</param>
         /// <param name="month">месяц</param>
         /// <returns></returns>
-        static public List<Model.Document>? GetDocuments(int year, int month)
+        static public List<IDocMain>? GetDocuments(int year, int month, string doc_code )
         {
-            List<Model.Document> docs = [];
+            bool allset = doc_code == "";
+            List<IDocMain> docs = [];
             string sfile = AppDomain.CurrentDomain.BaseDirectory + $"xmldocs\\{year}\\{month}\\";
             try
             {
                 foreach (var file in Directory.GetFiles(sfile))
                 {
-                    docs.Add(XML.XmlDocument.LoadXML(file));
+                    FileInfo fileInfo = new(file);
+                    string tag = fileInfo.Name.Split('_', StringSplitOptions.RemoveEmptyEntries)[0];
+                    if (allset) doc_code = tag;
+                    IDocMain? idoc;
+                    if (tag == DocCode.Производство_склад & doc_code == tag)
+                    {
+                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocArrival>(file);
+                        if (idoc is not null) docs.Add(idoc);
+                    }
+                    else if (tag == DocCode.ВыравниваниеОстатков & doc_code == tag)
+                    {
+                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocShipments>(file);
+                        if (idoc is not null) docs.Add(idoc);
+                    }
                 }
             }
-            catch  { return null; }
+            catch { return null; }
 
             return docs;
         }
         /// <summary>
         /// Заполняет данными класса форму или страницу
         /// </summary>
-        static public void FullWpf(FrameworkElement page, object obj)
+        static public void ImportToWpf(FrameworkElement page, object obj)
         {
             foreach (var item in obj.GetType().GetProperties())
             {
                 var t = page.FindName(item.Name);
-                if (t is TextBox text) text.Text = item.GetValue(obj)!.ToString() ?? string.Empty;
+                if (t is TextBox text) {
+                    var o = item.GetValue(obj);
+                    if (o is not null) text.Text = o.ToString();
+                    else text.Text = string.Empty;
+                }
                 else if (t is Label lab) lab.Content = item.GetValue(obj);
                 else if (t is DatePicker dat)
                 {
@@ -165,35 +196,113 @@ namespace RjProduction
             }
         }
         /// <summary>
-        /// Сохраняет справочник. 
-        /// сохранение файла тут происходит с полной очисткой файла
+        /// Выгружает страницу или форму на нужный класс заполняе его
+        /// </summary>
+        static public T ExportFromWpf<T>(FrameworkElement page) where T : class
+        {
+            T obj = Activator.CreateInstance<T>();
+            foreach (var property in obj!.GetType().GetProperties())
+            {
+                var t = page.FindName(property.Name);
+                if (t is null) continue;
+                string refObj = "";
+
+                if (t is TextBox text) refObj = text.Text;
+                else if (t is Label lab) refObj = lab.Content.ToString() ?? string.Empty;
+                else if (t is DatePicker dat) refObj = dat.DisplayDate.ToString();
+                else if (t is CheckBox checkBox) refObj = checkBox.IsChecked.ToString() ?? "false";
+
+
+                if (property.PropertyType.IsEnum)
+                {
+                    property.SetValue(obj, Enum.Parse(property.PropertyType, refObj));
+                    continue;
+                }
+
+                switch (property.PropertyType.Name)
+                {
+                    case "DateTime":
+                        property.SetValue(obj, DateTime.Parse(refObj));
+                        break;
+                    case "Double":
+                        property.SetValue(obj, Double.Parse(refObj));
+                        break;
+                    case "Int16":
+                        property.SetValue(obj, Int16.Parse(refObj));
+                        break;
+                    case "Int32":
+                        property.SetValue(obj, Int32.Parse(refObj));
+                        break;
+                    case "Int64":
+                        property.SetValue(obj, Int64.Parse(refObj));
+                        break;
+                    case "Decimal":
+                        property.SetValue(obj, decimal.Parse(refObj));
+                        break;
+                    case "Boolean":
+                        bool b;
+                        if (Boolean.TryParse(refObj, out b) == false)
+                        {
+                            if (refObj == "1") b = true;
+                        }
+                        property.SetValue(obj, b);
+                        break;
+                    default:
+                        property.SetValue(obj, refObj);
+                        break;
+                }
+            }
+            return obj;
+        }
+        /// <summary>
+        /// Создает путь к файлу с учетом создания каталогов по месяцам
+        /// </summary>
+        /// <param name="dataCreate">дата</param>
+        /// <returns>полный путь </returns>
+        public static string XmlPatch(DateOnly dataCreate) {
+            string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\";
+            sFile += dataCreate.Year.ToString();
+            if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
+            sFile += "\\";
+            sFile += dataCreate.Month.ToString();
+            if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
+            return sFile;
+        }
+
+        /// <summary>
+        /// Сохрание файла xml с полной очисткой файла
         /// </summary>
         static public void SaveXml<T>(T cl, string sFile) {
             XmlSerializer xmlSerializer = new(typeof(T));
             try
-            {
+           {
                 FileStream fs = new(sFile, FileMode.Create, FileAccess.Write, FileShare.None);
                 try
-                {
+               {
                     fs.SetLength(0);
                     xmlSerializer.Serialize(fs, cl);
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    throw new Exception(ex.Message);
+                    throw;
                 }
                 finally
                 {
                     fs.Close();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("Ошибка доступа к файлу " + sFile);
-            }
-
+                MDL.LogError($"Ошибка при сохрании в файл {cl}" ,ex.Message + ex.Source + ex.StackTrace);
+            }            
         }
-
+        /// <summary>
+        /// Сохранить настройки приложения
+        /// </summary>
+        static public void SaveSettingApp() {
+            MDL.SaveXml<MDL.SettingAppClass>(MDL.SetApp, MDL.SetApp.SetFile);
+        }
+                
 
         /// <summary>
         /// Создает отчет на основе html страницы.
@@ -293,15 +402,16 @@ namespace RjProduction
         /// <summary>
         /// Справочник
         /// </summary>
-        public class BoardDic
+        public class Reference
         {
             private List<string> _employeeDic = [];
 
-            public List<Model.Document.MaterialObj> MaterialsDic = [];
+            public List<Model.WarehouseClass> Warehouses = [];
+            public List<Model.MaterialObj> MaterialsDic = [];
             public List<string> EmployeeDic
             {
                 get => _employeeDic;
-                set => _employeeDic = [.. value.OrderBy(x => x)];
+                set => _employeeDic = value;
             }
             public List<string> NamesGrup = [];
             /// <summary>
@@ -312,6 +422,61 @@ namespace RjProduction
             /// Статус главного окна по умолчанию
             /// </summary>
             public WindowState WindowStateDef = WindowState.Normal;
+            /// <summary>
+            /// Склад по умолчанию выбран
+            /// </summary>
+            public Model.WarehouseClass? WarehouseDef;
+        }
+
+        /// <summary>
+        /// Настройки для программы
+        /// </summary>
+        public class SettingAppClass
+        {
+            public readonly string SetFile = AppDomain.CurrentDomain.BaseDirectory + @"Res\Setting_App.xml";
+
+            public string LocalDir ;
+            public string DataBaseFile ;
+            public int SqlType = (int)ISqlProfile.TypeSqlConnection.none;
+
+            public void SetProfile()
+            {
+                switch (SqlType)
+                {
+                    case (int)TypeSqlConnection.none:
+                        break;
+                    case (int)TypeSqlConnection.MSSQL:
+                        break;
+                    case (int)TypeSqlConnection.Sqlite:
+                        MDL.SqlProfile = new SqliteProfile()
+                        {
+                            DataBaseFile = DataBaseFile,
+                            LocalDir = LocalDir
+                        };
+                        break;
+                    case (int)TypeSqlConnection.MySQL:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            public SettingAppClass()
+            {
+                SqliteProfile sqlite = new();
+                LocalDir = sqlite.LocalDir;
+                DataBaseFile = sqlite.DataBaseFile;
+            }
+
+
+            /// <summary>
+            /// Округялет суммы рабочим без копеек
+            /// </summary>
+            public bool RoundingAmountsEmpl { get; set; } = true;
+            /// <summary>
+            /// Имя пользователя 
+            /// </summary>
+            public string UserName { get; set; } = "TestApp";
         }
     }
 }

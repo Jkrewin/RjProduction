@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static RjProduction.Model.Document;
+using RjProduction.Model;
 
 namespace RjProduction.Pages
 {

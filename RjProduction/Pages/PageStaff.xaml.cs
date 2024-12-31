@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static RjProduction.Model.Document;
+using RjProduction.Model;
 
 namespace RjProduction.Pages
 {
@@ -27,8 +27,9 @@ namespace RjProduction.Pages
             if (CBox_IsWorker.IsChecked == false) if (string.IsNullOrEmpty(TextBoxMoneySpend.Text)) { TextBoxMoneySpend.Background = Brushes.OrangeRed; return; }
 
             if (!MDL.MyDataBase.EmployeeDic.Any(x => x.Equals(ComBoxEmpl.Text, StringComparison.CurrentCultureIgnoreCase)))
-            {
+            {               
                 MDL.MyDataBase.EmployeeDic.Add(ComBoxEmpl.Text);
+                MDL.MyDataBase.EmployeeDic = [.. MDL.MyDataBase.EmployeeDic.OrderBy(x => x)];
             }
 
             ActionOne?.Invoke(MDL.GetStruct<Employee>(MainGrid));

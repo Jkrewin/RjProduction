@@ -13,6 +13,8 @@
     <None Remove="Res\GOST2078-75B.txt" />
     <None Remove="Res\Html\Report01.htm" />
     <None Remove="Res\Html\Report_AllDay.htm" />
+    <None Remove="Res\Icon\app_draw.ico" />
+    <None Remove="Res\Icon\docs-document-file.ico" />
     <None Remove="Res\images\094presentation.png" />
     <None Remove="Res\images\24b.jpg" />
     <None Remove="Res\images\analytics_report.png" />
@@ -24,6 +26,7 @@
     <None Remove="Res\images\Dexter.png" />
     <None Remove="Res\images\diagram_.png" />
     <None Remove="Res\images\document_icon-icons.png" />
+    <None Remove="Res\images\expandalt.png" />
     <None Remove="Res\images\graph_business_chart.png" />
     <None Remove="Res\images\handshake_partnership.png" />
     <None Remove="Res\images\hand_document_list.png" />
@@ -42,6 +45,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\Html\Report_AllDay.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\Icon\app_draw.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\Icon\docs-document-file.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\24b.jpg">
@@ -72,6 +81,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\document_icon-icons.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\images\expandalt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\graph_business_chart.png">

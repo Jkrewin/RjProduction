@@ -1,0 +1,32 @@
+﻿<Window x:Class="RjProduction.WpfFrm.ErrorLog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RjProduction.WpfFrm"
+        mc:Ignorable="d"
+        Title="Сообщение об ошибке" Height="450" Width="652" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FFCCD5F0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="162*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Label Content="Произошла серьезная ошибка в моменте выполнения программы" Margin="10,3,10,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF5F1212" FontFamily="Arial Narrow" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Rectangle Height="4" Margin="0,66,0,0" VerticalAlignment="Top" Fill="#FF3B4F81"/>
+            <Label x:Name="TitleError" Content="Произошла серьезная ошибка в моменте выполнения программы" Margin="10,34,10,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF6A6565" FontFamily="Arial Narrow" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="36"/>
+        </Grid>
+        <Label Content="Label" HorizontalAlignment="Right" Height="54" Margin="0,5,10,0" Grid.Row="1" VerticalAlignment="Top" Width="565" FontSize="14" FontFamily="Calibri"/>
+        <Border Grid.Row="1" BorderBrush="#FF080808" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Background="#FF1C2866">
+            <TextBlock x:Name="ErrorText" TextWrapping="Wrap" HorizontalAlignment="Center" Grid.Row="1" Text="TextBlock" VerticalAlignment="Center" Height="156" Width="596" Background="#FFF7F9FE"/>
+        </Border>
+        <Label Content="Описание ошибки" HorizontalAlignment="Left" Height="28" Margin="28,245,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126" FontSize="14" FontFamily="Calibri"/>
+        <TextBox x:Name="TextAnswer" HorizontalAlignment="Left" Margin="154,249,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="470" FontFamily="Calibri" FontSize="14"/>
+        <Label Content="&#xE7BA;" HorizontalAlignment="Right" Height="54" Margin="0,5,594,0" Grid.Row="1" VerticalAlignment="Top" Width="48" FontSize="36" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFBE3838"/>
+        <Rectangle HorizontalAlignment="Center" Height="40" Grid.Row="2" VerticalAlignment="Center" Width="652" Stroke="#FF5D6B99" Fill="#FF7182B9"/>
+        <Button Content="Отправить" HorizontalAlignment="Left" Margin="360,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial"/>
+        <Button Content="Закрыть Окно" HorizontalAlignment="Left" Margin="514,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial"/>
+
+    </Grid>
+</Window>

@@ -1,27 +1,34 @@
-﻿using System.IO;
+﻿using RjProduction.Model;
+using RjProduction.XML;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using static RjProduction.Model.Document;
-using Document = RjProduction.Model.Document;
 
 namespace RjProduction.Pages
 {
     public partial class PageDocEditor : Page
     {
         private GrupObj? SelectGrup;        //Выбранная группа
-        private readonly Document MyDoc;    //Редактируемый документ
+        private readonly DocArrival MyDoc;    //Редактируемый документ
         private bool RenameGrup = false;    //Режим переименование группы
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private object? _obj;               //Page с доб и изм строк
+        private readonly UIElement? MainFramePanel;
 
-        public PageDocEditor(Document doc, Action closePage)
+        public PageDocEditor(DocArrival doc, Action closePage)
         {
             InitializeComponent();
             MyDoc = doc;
             ClosePage = closePage;
+        }
+        public PageDocEditor(DocArrival doc, UIElement framePanel, Action closePage)
+        {
+            InitializeComponent();
+            MyDoc = doc;
+            ClosePage = closePage;
+            MainFramePanel = framePanel;
         }
 
         /// <summary>
@@ -50,7 +57,7 @@ namespace RjProduction.Pages
             // Тут доплаты
             List<Surcharges> surcharges = [];
             foreach (var item in SelectGrup!.Tabels) {
-                if (item is Document.Surcharges s) {
+                if (item is Surcharges s) {
                     if (s.TypeSurcharges == Surcharges.TypeSurchargesEnum.ДоплатаЦене) surch_price += s.UpRaise;
                     surcharges.Add(s); 
                 }                
@@ -104,11 +111,11 @@ namespace RjProduction.Pages
                 else if (item is MaterialObj m)
                 {                   
                     allAmount += m.Amount;
-                    cuba += m.CubM;
+                    cuba += m.CubatureAll;
                 }
                 else if (item is Tabel_Timbers h) {                   
                     allAmount += h.Amount; 
-                    cuba += h.CubAll; 
+                    cuba += h.CubatureAll; 
                 }
             }
                      
@@ -117,7 +124,7 @@ namespace RjProduction.Pages
             if (salaries > 0)
             {
                 allAmount /= salaries;
-                if (RoundingAmountsEmpl.IsChecked ?? false)
+                if (MDL.SetApp.RoundingAmountsEmpl)
                 {
                     int am = (int)allAmount;
                     double y = (double)(allAmount - am);
@@ -138,7 +145,7 @@ namespace RjProduction.Pages
             }
 
             Label_CUBA.Content = cuba == 0 ? "--" : Math.Round(cuba, 3);    // Сколько всего кубов
-            Label_SumDown.Content = (from tv in SelectGrup.Tabels where tv is Document.Employee select tv).Sum(x => x.Amount); // Сумма зарплат
+            Label_SumDown.Content = (from tv in SelectGrup.Tabels where tv is Employee select tv).Sum(x => x.Amount); // Сумма зарплат
             foreach (var item in SelectGrup!.Tabels) ListBoxEmp.Items.Add(item.ToString());
         }
 
@@ -154,7 +161,7 @@ namespace RjProduction.Pages
             Grid_Curtain.Visibility = Visibility.Visible;
             FrameDisplay.NavigationService.RemoveBackEntry();
 
-            if (doc is Document.MaterialObj mm) 
+            if (doc is MaterialObj mm) 
             {
                 _obj = new PageLumber(mm, actor,  
                     () => Grid_Curtain.Visibility = Visibility.Collapsed);
@@ -162,14 +169,14 @@ namespace RjProduction.Pages
                 FrameDisplay.Height= ((Page)_obj).Height ;
                 FrameDisplay.Navigate(_obj);               
             }
-            else if (doc is Document.Employee empl) {
+            else if (doc is Employee empl) {
                 _obj = new PageStaff(empl, actor,
                       () => Grid_Curtain.Visibility = Visibility.Collapsed);
 
                 FrameDisplay.Height = 229;
                 FrameDisplay.Navigate(_obj);
             }
-            else if (doc is Document.Tabel_Timbers tabel)
+            else if (doc is Tabel_Timbers tabel)
             {
                 _obj = new PageTimbers(tabel, actor,
                    () => Grid_Curtain.Visibility = Visibility.Collapsed);
@@ -177,7 +184,7 @@ namespace RjProduction.Pages
                 FrameDisplay.Height = 450 ;
                 FrameDisplay.Navigate(_obj);
             }
-            else if (doc is Document.Surcharges sur)
+            else if (doc is Surcharges sur)
             {
                 _obj = new PageSurcharges(sur, actor, () => Grid_Curtain.Visibility = Visibility.Collapsed)
                 {
@@ -275,30 +282,24 @@ namespace RjProduction.Pages
         }
 
         private void СохранитьXML(object sender, RoutedEventArgs e)
-        {
+        {            
             if (DataCreate.SelectedDate.HasValue == false)
             {
                 MessageBox.Show("Укажите дату документа.");
                 return;
             }
-            string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\";
-            sFile += DataCreate.SelectedDate.Value.Year.ToString();
-            if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
-            sFile += "\\";
-            sFile += DataCreate.SelectedDate.Value.Month.ToString();
-            if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
-
-            XML.XmlDocument xmlDocument = new()
+            if (Cbox_warehouses.SelectedItem is null)
             {
-                DataCreate = MyDoc.DataCreate.ToString("dd.MM.yyyy"),
-                DocTitle = MyDoc.DocTitle ?? "",
-                MainTabel = MyDoc.MainTabel,
-                Number = MyDoc.Number,
-                RoundingAmountsEmpl = RoundingAmountsEmpl.IsChecked ?? false
-            };           
+                MessageBox.Show("Укажите склад.");
+                return;
+            }
 
-            XML.XmlDocument.SaveXml($"{sFile}\\{xmlDocument.FileName}", xmlDocument);
+            MyDoc.Warehouse = (WarehouseClass)Cbox_warehouses.SelectedItem;
+            MDL.MyDataBase.WarehouseDef = (Model.WarehouseClass?)Cbox_warehouses.SelectedItem;
+
+            XmlProtocol.SaveDocXml<DocArrival>(MyDoc);
             SavedDoc = true;
+            ((Button)sender).Foreground = MDL.BrushConv("#FFFFFFFF");
         }
 
         private void ПереименоватьГруппу(object sender, RoutedEventArgs e)
@@ -308,6 +309,7 @@ namespace RjProduction.Pages
             TBox_GrupName.Text = SelectGrup.NameGrup;
             TBox_GrupName.Focus();
             RenameGrup = true;
+            Refreh_Tabels();
         }
                
         private void ВодНомера(object sender, RoutedEventArgs e)
@@ -336,9 +338,9 @@ namespace RjProduction.Pages
         private void БыстриыеКлвиши(object sender, KeyEventArgs e)
         {
             if (SelectGrup == null) return;
-            if (e.Key == Key.F5) OpenWpfItem(new Document.MaterialObj());
-            else if (e.Key == Key.F6) OpenWpfItem(new Document.Employee());
-            else if (e.Key == Key.F7) OpenWpfItem(new Document.Tabel_Timbers());
+            if (e.Key == Key.F5) OpenWpfItem(new MaterialObj());
+            else if (e.Key == Key.F6) OpenWpfItem(new Employee());
+            else if (e.Key == Key.F7) OpenWpfItem(new Tabel_Timbers());
         }
 
         private void РедактированиеОбъекта(object sender, MouseButtonEventArgs e)
@@ -349,9 +351,9 @@ namespace RjProduction.Pages
             OpenWpfItem(SelectGrup.Tabels[idex], idex);
         }
 
-        private void ДобавитьПМат(object sender, RoutedEventArgs e) => OpenWpfItem(new Document.MaterialObj());
-        private void ДобавитьСотрудника(object sender, RoutedEventArgs e) => OpenWpfItem(new Document.Employee());
-        private void ДобавитьКруглыйЛес(object sender, RoutedEventArgs e) => OpenWpfItem(new Document.Tabel_Timbers());
+        private void ДобавитьПМат(object sender, RoutedEventArgs e) => OpenWpfItem(new MaterialObj());
+        private void ДобавитьСотрудника(object sender, RoutedEventArgs e) => OpenWpfItem(new Employee());
+        private void ДобавитьКруглыйЛес(object sender, RoutedEventArgs e) => OpenWpfItem(new Tabel_Timbers());
         private void ЗакрытьОкноГруппы(object sender, RoutedEventArgs e) => Grid_NameGrup.Visibility = Visibility.Collapsed;
         private void ВыходИзДаты_(object sender, RoutedEventArgs e) => MyDoc.DataCreate = DateOnly.FromDateTime(((DatePicker)sender).SelectedDate!.Value);
         private void ВходВПоле_(object sender, RoutedEventArgs e) => ((TextBox)sender).Text = "";        
@@ -379,13 +381,52 @@ namespace RjProduction.Pages
             var window = Window.GetWindow(this);
             window.KeyDown += БыстриыеКлвиши;
 
-            MDL.FullWpf(this, MyDoc);
+            MDL.ImportToWpf(this, MyDoc);
             Refreh_Tabels();
+
+            Cbox_warehouses.ItemsSource = MDL.MyDataBase.Warehouses;
+            Cbox_warehouses.DisplayMemberPath = "NameWarehouse";
+
+            //  Выбрать склад по умолчанию
+            if (MDL.MyDataBase.WarehouseDef is not null)
+            {
+                Cbox_warehouses.SelectedIndex = MDL.MyDataBase.Warehouses.FindIndex(x => x.NameWarehouse == MDL.MyDataBase.WarehouseDef.NameWarehouse);
+            }
+
+
         }
 
         private void ДобавитьДоплата(object sender, RoutedEventArgs e)
         {
             OpenWpfItem(new Surcharges());
+        }
+
+        private void СоздатьСклад(object sender, RoutedEventArgs e)
+        {
+            WpfFrm.WpfWarehouse wpf = new(
+                () =>
+                {
+                    Cbox_warehouses.Items.Refresh();
+                    if (Cbox_warehouses.Items.Count >= 1) Cbox_warehouses.SelectedIndex = Cbox_warehouses.Items.Count - 1;
+                });
+            wpf.ShowDialog();
+
+        }
+
+        private void ВыбранСклад(object sender, SelectionChangedEventArgs e) => MyDoc.Warehouse = MDL.MyDataBase.Warehouses.Find(x => x.Equals(Cbox_warehouses.Text)) ?? new WarehouseClass() { NameWarehouse = "NaN" };
+
+        private void ВозвратЦвета(object sender, MouseEventArgs e)
+        {
+            ((Button)sender).Foreground = MDL.BrushConv("#FF000000");
+        }
+
+        private void РазвернутьЭкран(object sender, RoutedEventArgs e)
+        {
+            CloseWpf.Visibility = Visibility.Collapsed;
+            ((Button)sender).Visibility = Visibility.Collapsed;
+            if (MainFramePanel is not null) MainFramePanel.Visibility = Visibility.Collapsed;
+            var wpf =new WpfFrm.WpfView(this,ClosePage);
+            wpf.Show();
         }
     }
 }

@@ -1,12 +1,16 @@
 ﻿
+using System.Data;
 using System.Reflection;
+using static RjProduction.Sql.ISqlProfile;
 
 namespace RjProduction.Sql
 {
     public static class SqlRequest
     {
-        public static void CreateTabel<T>(ISqlProfile sqlProfile) where T : SqlParam
+        public static void CreateTabel<T>() where T : SqlParam
         {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof (MDL.SqlProfile));
             T obj = Activator.CreateInstance<T>();
 
             string str = "CREATE TABLE " + sqlProfile.QuotSql(obj.TabelName) + " (";
@@ -38,16 +42,45 @@ namespace RjProduction.Sql
                 sqlProfile.Disconnect();
             }
         }
+        /// <summary>
+        /// Проверка на существание записи. Тип необязательно указывать тут
+        /// </summary>
+        /// <typeparam name="T">SqlParam только</typeparam>
+        /// <param name="field">не обязательно указывать тип FieldSql только название и значение</param>
+        /// <returns>-1 - не существует </returns>
+        public static long ExistRecord<T>(FieldSql field ) where T : SqlParam {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
+            T obj = Activator.CreateInstance<T>();
+            sqlProfile.Conection();
+            try
+            {
+                var ls = sqlProfile.AdapterSql(obj.TabelName, out long id, $"{field.NameField}='{field.Value}'");
+                if (ls.Count == 0) return -1;
+                else return id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                sqlProfile.Disconnect();
+            }
+        }
 
-        public static T ReadData<T>(ISqlProfile sqlProfile, int id) where T : SqlParam
+        public static T ReadData<T>(long id) where T : SqlParam
         {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
             if (id == -1) throw new Exception("Неверный id для поиска строки");
             T obj;
 
             sqlProfile.Conection();
             try
             {
-                obj = (T)Integrator(Activator.CreateInstance<T>(), id, sqlProfile);
+                obj = (T)Integrator(Activator.CreateInstance<T>(), id);
             }
             catch (Exception)
             {
@@ -61,8 +94,38 @@ namespace RjProduction.Sql
             return obj;
         }
 
-        public static void SetData(ISqlProfile sqlProfile, SqlParam objA) 
+        public static T? ReadData<T>(FieldSql field) where T : SqlParam
         {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
+                        
+            T obj= Activator.CreateInstance<T>();
+            sqlProfile.Conection();
+            try
+            {
+                var ls = sqlProfile.AdapterSql(obj.TabelName, out long id, $"{field.NameField}='{field.Value}'");
+                if (ls.Count == 0) return null;
+                obj = (T)Integrator(obj, id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                sqlProfile.Disconnect();
+            }
+
+            return obj;
+        }
+
+        public static long SetData(SqlParam objA) => SetData([objA]);
+
+        public static long SetData( SqlParam[] objA) 
+        {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
+
             sqlProfile.Conection();
             long IDField_lite = -1;
 
@@ -86,6 +149,7 @@ namespace RjProduction.Sql
                         }
                         else
                         {
+                            var ttt = refl.GetValue(_obj);
                             if (refl.GetValue(_obj) is SqlParam sql)
                             {
                                 if (sql.ID != -1) values += "'" + sql.ID + "', ";
@@ -139,7 +203,10 @@ namespace RjProduction.Sql
 
             try
             {
-                IDField_lite = cROW(objA);
+                foreach (var item in objA)
+                {
+                    IDField_lite = cROW(item);
+                }
             }
             catch (Exception)
             {
@@ -149,8 +216,29 @@ namespace RjProduction.Sql
             {
                 sqlProfile.Disconnect();
             }
-           // return IDField_lite;
+            return IDField_lite;
         }
+
+        public static DataTable? GetDataTable(string tabel_name, string select_sql = "*", string where_sql = "") {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
+            DataTable? dt;
+            try
+            {
+                sqlProfile.Conection();
+                dt = sqlProfile.GetDataTable(tabel_name, select_sql, where_sql);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                sqlProfile.Disconnect();
+            }
+            return dt;
+        }
+
 
         /// <summary>
         /// Converts to the desired type.
@@ -173,8 +261,9 @@ namespace RjProduction.Sql
             return value;
         }
 
-        private static object Integrator(object obj, int id, ISqlProfile sqlProfile)
+        private static object Integrator(object obj, long id)
         {
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
             var tmp = sqlProfile.GetDate(id, ((SqlParam)obj).TabelName);
 
             // Назначение ID
@@ -189,7 +278,7 @@ namespace RjProduction.Sql
                 {
                     string str = tmp.First(x => x.NameField == item.Name ).Value;
                     object? dbClass = Activator.CreateInstance(item.PropertyType);
-                    if (dbClass != null) item.SetValue(obj, Integrator(dbClass, int.Parse(str), sqlProfile));
+                    if (dbClass != null) item.SetValue(obj, Integrator(dbClass, int.Parse(str)));
                 }
                 else
                 {

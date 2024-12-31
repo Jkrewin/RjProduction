@@ -32,14 +32,14 @@
             </Rectangle>
             <Label Content="Отчеты" HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
             <Image HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" VerticalAlignment="Top" Width="42" Source="/Res/images/business_report.png"/>
-            <Button x:Name="Button_GeneratedReport" Visibility="Visible" Content="Создать отчет" Margin="617,0,0,0" VerticalAlignment="Center" Click="ГенерироватьОтчет" FontSize="14" TabIndex="6" Foreground="White" Background="#FFFF6434" BorderBrush="White" Height="36" FontFamily="Corbel" FontWeight="Bold" HorizontalAlignment="Left" Width="155" MinWidth="155">
+            <Button x:Name="Button_GeneratedReport" Visibility="Hidden" Content="Создать отчет" Margin="0,0,10,0 " VerticalAlignment="Center" Click="ГенерироватьОтчет" FontSize="14" TabIndex="6" Foreground="White" Background="#FFFF6434" BorderBrush="White" Height="36" FontFamily="Corbel" FontWeight="Bold" HorizontalAlignment="Right" Width="155" MinWidth="155">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="3"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="Button_SetUpReport"  Visibility="Visible" Content="Настройка отчетов" Margin="458,0,0,0" VerticalAlignment="Center" Click="Настройка_отчетов" FontSize="14" TabIndex="6" Foreground="#FFFF6434" Background="White" BorderBrush="#FFFF6434" Height="36" FontFamily="Corbel" FontWeight="Bold" HorizontalAlignment="Left" Width="155" MinWidth="155">
+            <Button x:Name="Button_SetUpReport"  Visibility="Hidden" Content="Настройка отчетов" Margin="0,0,180,0 "  VerticalAlignment="Center" Click="Настройка_отчетов" FontSize="14" TabIndex="6" Foreground="#FFFF6434" Background="White" BorderBrush="#FFFF6434" Height="36" FontFamily="Corbel" FontWeight="Bold" HorizontalAlignment="Right" Width="155" MinWidth="155">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="3"/>

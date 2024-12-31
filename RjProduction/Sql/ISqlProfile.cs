@@ -1,4 +1,7 @@
 ﻿
+using System.Data;
+using System.Xml.Serialization;
+
 namespace RjProduction.Sql
 {
     public interface ISqlProfile
@@ -6,7 +9,7 @@ namespace RjProduction.Sql
         /// <summary>
         /// База Данных
         /// </summary>
-        public string DataBase { get; set; }
+        public string DataBaseFile { get; set; }
         /// <summary>
         /// Тип подключения к данных
         /// </summary>
@@ -31,6 +34,7 @@ namespace RjProduction.Sql
         /// </summary>
         public enum TypeSqlConnection
         {
+            none,
             /// <summary>
             /// <b>NuGet</b> >> Microsoft.Data.SqlClient
             /// </summary>
@@ -60,8 +64,19 @@ namespace RjProduction.Sql
         /// Проверка на существоание таблици
         /// </summary>
         public bool ExistTabel(string tabelName);
-        public FieldSql[] GetDate(int ID, string TabelName);
-
+        /// <summary>
+        /// Полученние данных по id
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="TabelName"></param>
+        /// <returns></returns>
+        public FieldSql[] GetDate(long ID, string TabelName);
+        /// <summary>
+        /// Получает List объектов по запросу или с параметрами поиска
+        /// </summary>
+        /// <param name="tabelName">Нзавание таблици</param>        
+        /// <param name="where">Необязателен. Можно составить запрос после WHERE с поиском строк </param>
+        public List<object[]> AdapterSql(string tabelName, out long id, string where = "");
         /// <summary>
         /// Подключиться к базе данных
         /// </summary>
@@ -79,10 +94,10 @@ namespace RjProduction.Sql
             foreach (var field in obj.GetType().GetProperties().Where(x => x.CanRead))
             {
                 // Проверяем атрибуты
-                var atr = field.GetCustomAttributes(true).Any(x => x is Ignore);
+                var atr = field.GetCustomAttributes(true).Any(x => x is SqlIgnore);
                 if (atr != false) continue;
 
-                string value = field.GetValue(obj)!.ToString() ?? string.Empty;
+                
                 SqlParam? param = field.GetValue(obj) as SqlParam;
 
                 if (param is not null) ls.Add(new(field.Name, TypeSQL("Int32")));
@@ -91,12 +106,32 @@ namespace RjProduction.Sql
             }
             return ls;
         }
+        /// <summary>
+        /// Обеспечивает работу с DataTable
+        /// </summary>
+        /// <param name="tabelName">Название таблици</param>
+        /// <param name="select_sql">Запрос по столбцам или все сразу </param>
+        /// <param name="where_sql">where выборка если нужна  </param>
+        /// <returns>DataTable</returns>
+        public DataTable GetDataTable(string tabelName, string select_sql ="*", string where_sql="");
 
-        public readonly struct FieldSql(string name, string type, string value)
+        public readonly struct FieldSql
         {
-            public readonly string NameField = name;
-            public readonly string TypeField = type;
-            public readonly string Value = value;
+            public readonly string NameField ;
+            public readonly string TypeField ;
+            public readonly string Value ;
+
+            public FieldSql(string name, string value) {
+                NameField = name;
+                Value = value;
+                TypeField = string.Empty;
+            }
+
+            public FieldSql(string name, string type, string value) {
+                NameField = name;
+                TypeField = type;
+                Value = value;
+            }
 
             public override readonly string ToString() => $"{NameField}; {TypeField} {Value}";
 

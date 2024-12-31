@@ -49,6 +49,18 @@
             </Button>
             <Label x:Name="Lab_Title_Копировать1" Content="Поиск:" HorizontalAlignment="Right" Margin="0,0,330,0" VerticalAlignment="Top" FontSize="16" FontFamily="Corbel" Width="60" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581"/>
             <TextBox HorizontalAlignment="Right" Margin="0,5,79,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="246" FontSize="16" Background="#FFFFFCE9" FontFamily="Calibri" Uid="Note"/>
+           
+            <Button x:Name="Button_add_edit"  Visibility="Collapsed" Click="Добавить_изменить" Foreground="#FF404040" Margin="137,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="145" Height="27" MaxWidth="145" MinWidth="145">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+                <StackPanel Orientation="Horizontal" >
+                    <Label FontFamily="Segoe MDL2 Assets" Foreground="#FF434242" Content=""/>
+                    <Label Padding="5,2,5,5" Foreground="#FF434242" Content="Изменить/Добавить"/>
+                </StackPanel>
+            </Button>
 
         </Grid>
         <DataGrid x:Name="DG_Main" AutoGenerateColumns="True" CanUserAddRows="True" SelectionMode="Single" SelectionUnit="Cell" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,-9" Grid.Row="2" />

@@ -1,0 +1,199 @@
+﻿<Page x:Class="RjProduction.Pages.PageRemains"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RjProduction.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageRemains" Loaded="Загруженно">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Rectangle VerticalAlignment="Bottom" Height="5">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FF2304FF" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.321"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label Content="Наличие остатков на складе" HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
+            <Label x:Name="Label_NotDB" Visibility="Collapsed" Content=" Нет подключения к БД. Проверте настройки." Background="Red" Foreground="White" Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,1,5,5"  />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Label x:Name="Lab_Title_Копировать1" Content="Поиск:" HorizontalAlignment="Right" Margin="0,0,330,0" VerticalAlignment="Top" FontSize="16" FontFamily="Corbel" Width="60" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581"/>
+            <TextBox HorizontalAlignment="Right" Margin="0,5,79,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="246" FontSize="16" Background="#FFFFFCE9" FontFamily="Calibri" Uid="Note" TextChanged="Поиск"/>
+            <Grid x:Name="SelectWarehouse">
+                <Label Content="Склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,51,0,0" VerticalAlignment="Bottom" Width="147" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
+                <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="98,54,0,0" VerticalAlignment="Bottom" Width="283" FontFamily="Arial Black" FontSize="14" Height="25" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
+            </Grid>
+            <Button Content="&#xE7C3;" HorizontalAlignment="Left" Margin="15,6,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="СоздатьДокумент" BorderBrush="Black"/>
+
+
+
+        </Grid>
+        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,0" Grid.Row="2" >
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                   Color="#FFAACAFE"/>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Наименование" Width="200"   >
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding NameItem}"  FontWeight="Normal" FontFamily="Calibri" HorizontalAlignment="Stretch" FontSize="14"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Тип дерева" Width="100">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding TypeWood}" FontFamily="Arial" VerticalContentAlignment="Center"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Куботура" Width="100">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Cubature}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               <!-- <DataGridTemplateColumn Header="Кол-во" Width="100">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Quantity}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTemplateColumn Header="Значение" Width="70" CanUserResize="False">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="70" Foreground="White" Background="#FF3D8F18" Content="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="14" Click="ВыбратьЗнак">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Кубы" Width="50">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox x:Name="TextCubs" Text="" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновлен"   />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Шт" Width="50">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox x:Name="TextQ" Text="" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновлен"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Итог" Width="80">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label  Content="{Binding Result}" FontFamily="Arial" VerticalContentAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Collapsed"  Grid.Row="2">
+            <Grid Height="80">
+                <Label Content="Выравнивание остатков" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+                <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
+                <TextBlock TextWrapping="Wrap" Text="Этот тип документа следует использовать при начальных остатках. Начитывает доставку или перемещение. Допускает отрицательные и положительные данные.  " HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="16" Width="682" Height="38"/>
+
+            </Grid>
+            <Grid Height="80">
+                <Label Content="Со склада на склад" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+                <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
+                <TextBlock TextWrapping="Wrap" Text="Переместить материалы со склада на склад, можно указать автотранспорт по вывозу материалов, не является обязательным" HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="16" Width="682" Height="38"/>
+
+            </Grid>
+            <Grid Height="54">
+                <Button Content="Закрыть меню" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32" Width="186" FontSize="14" Background="#FFDCF8C5" FontFamily="Arial" Click="Скрыть_Меню" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
+
+            </Grid>
+        </StackPanel>
+        
+        
+        <Grid x:Name="DockPanel_РамкаДокумента"  Visibility="Collapsed" Grid.RowSpan="3" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False"  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="750"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.3"/>
+                </Grid.Background>
+            </Grid>
+            <Grid   Background="White" Grid.Column="1">
+                <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+            </Grid>
+        </Grid>
+
+    </Grid>
+    
+    
+</Page>

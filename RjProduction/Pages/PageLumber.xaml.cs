@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using RjProduction.Model;
+using RjProduction.WpfFrm;
+using System.Reflection.Metadata;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static RjProduction.Model.Document;
+using System.Windows.Media.Media3D;
+using static RjProduction.XML.DocArrival;
 
 namespace RjProduction.Pages
 {
@@ -9,7 +13,7 @@ namespace RjProduction.Pages
     public partial class PageLumber : Page
     {
         private readonly Action CloseAction;
-        private readonly Action<IDoc> ActionOne;
+        private readonly Action<Model.IDoc> ActionOne;
         private MaterialObj _Material;
 
 
@@ -38,7 +42,7 @@ namespace RjProduction.Pages
             {
                 // количество
                 LabelTest.Content = _Material.Cub;
-                if (LabelОбъем != null) LabelОбъем.Content = Math.Round(_Material.CubM, 3);
+                if (LabelОбъем != null) LabelОбъем.Content = Math.Round(_Material.CubatureAll, 3);
                 Label_Amount.Content = _Material.Amount;
             }
             else if (_Material.MaterialType == MaterialObj.MaterialTypeEnum.Объем)
@@ -64,10 +68,16 @@ namespace RjProduction.Pages
                 return;
             }
 
-            if (!MDL.MyDataBase.MaterialsDic.Any(x => x == _Material))
+            // добавить в справочник только п/м
+            if (SelectorQ2.IsChecked == false)
             {
-                MDL.MyDataBase.MaterialsDic.Add(_Material);
+                if (!MDL.MyDataBase.MaterialsDic.Any(x => x == _Material))
+                {
+                    MDL.MyDataBase.MaterialsDic.Add(_Material);
+                }
             }
+            if (TypeWood.Text == "") _Material.TypeWood = TypeWoodEnum.Любой;
+            else _Material.TypeWood = (TypeWoodEnum)Enum.Parse(typeof(TypeWoodEnum), TypeWood.Text);
 
             ActionOne?.Invoke(_Material);
             ЗакрытьФорму(null!, null!);
@@ -102,12 +112,13 @@ namespace RjProduction.Pages
 
         private void ВыборОбъем(object sender, RoutedEventArgs e)
         {
-            Lab_Title.Content = "(см)Ш  х  (см)В х  (см)Д     ";
+            Lab_Title.Content = "(см)Ш  х  (см)В х  (см)Д     Кофф";
             TBoxКоличество.Visibility = Visibility.Hidden;
             _Material.Quantity = 1;
             ChangeField(ref _Material.Quantity, TBoxКоличество, "1");
             LabelMaterialType.Content = MaterialObj.MaterialTypeEnum.Объем.ToString();
             _Material.MaterialType = MaterialObj.MaterialTypeEnum.Объем;
+            TBoxКофф.Visibility = Visibility.Visible;
         }
 
         private void ВыборКоличество(object sender, RoutedEventArgs e)
@@ -118,10 +129,15 @@ namespace RjProduction.Pages
             ChangeField(ref _Material.Quantity, TBoxКоличество);
             LabelMaterialType.Content = MaterialObj.MaterialTypeEnum.Количество.ToString();
             _Material.MaterialType = MaterialObj.MaterialTypeEnum.Количество;
+            TBoxКофф.Visibility = Visibility.Collapsed;
         }
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {
+            var result = (from tv in Enum.GetNames(typeof(Model.TypeWoodEnum)) select new DeliveredStruct(tv)).ToList();    
+            TypeWood.ItemsSource = result;
+            TypeWood.Items.Refresh();
+
             ListBoadr.ItemsSource = MDL.MyDataBase.MaterialsDic;
             ListBoadr.DisplayMemberPath = "NameMaterial";
 
@@ -158,6 +174,11 @@ namespace RjProduction.Pages
             ChangeField(ref _Material.LongMaterial, TBoxДлинна, x.LongMaterial.ToString());
             ChangeField(ref _Material.Price, TBoxPrice, x.Price.ToString());
             TBoxКоличество.Focus();
+        }
+
+        private void СохранитьКофф(object sender, RoutedEventArgs e)
+        {
+            ChangeField(ref _Material.Ratio, sender);            
         }
     }
 }

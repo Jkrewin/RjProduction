@@ -9,6 +9,7 @@ using RjProduction.WpfFrm;
 using System.Diagnostics;
 using RjProduction.Pages;
 using RjProduction.Model;
+using RjProduction.Sql;
 
 namespace RjProduction
 {
@@ -40,15 +41,37 @@ namespace RjProduction
         }
 
 
+        private void SelectButton(Button button) {
+            
+            foreach (var item in Sp_leftPanel.Children)
+            {
+                if (item is  Button  b) {
+                    b.Background = null;
+                } 
+            }
+
+            button.Background = MDL.BrushConv("#FFB6D4D1");
+        }
+
         private void Загрузка(object sender, RoutedEventArgs e)
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("<< Start programm Debug >>");
 #endif
-            if (!File.Exists(SFile_DB)) return;
-            XmlSerializer xmlSerializer = new(typeof(BoardDic));
-            using FileStream fs = new(SFile_DB, FileMode.OpenOrCreate);
-            MDL.MyDataBase = xmlSerializer.Deserialize(fs) as BoardDic ?? new BoardDic();
+            XmlSerializer xmlSerializer;
+            if (File.Exists(SFile_DB))
+            {
+                xmlSerializer = new(typeof(Reference));
+                using FileStream fs = new(SFile_DB, FileMode.OpenOrCreate);
+                MDL.MyDataBase = xmlSerializer.Deserialize(fs) as Reference ?? new Reference();
+            }
+            if (File.Exists(MDL.SetApp.SetFile))
+            {
+                xmlSerializer = new(typeof(MDL.SettingAppClass));
+                using FileStream fss = new(MDL.SetApp.SetFile, FileMode.OpenOrCreate);
+                MDL.SetApp = xmlSerializer.Deserialize(fss) as SettingAppClass ?? new SettingAppClass();
+                MDL.SetApp.SetProfile();
+            }
 
             FrameDisplay.Navigate(new Pages.PageStartPage());
 
@@ -60,27 +83,14 @@ namespace RjProduction
 
             if (Directory.Exists(AppContext.BaseDirectory + "Data") == false) Directory.CreateDirectory(AppContext.BaseDirectory + "Data");
 
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight-8;
 
 
-
-            var s = new Sql.SqliteProfile() { DataBase = "test" };
-
-
-
-
-         //  Sql.SqlRequest.SetData<Model.WarehouseClass>(s, new WarehouseClass() {  DescriptionWarehouse ="0", NameWarehouse ="name"  });
-
-          // Sql.SqlRequest.SetData(s, new Products() {  Cubature =0, NameItem ="test", Quantity =5, Warehouse = new WarehouseClass() { NameWarehouse ="NameTest" } } );
-
-
-           //  var tttt=  Sql.SqlRequest.ReadData <Model.Products>( s,1);
-           //  Sql.SqlRequest.CreateTabel<Model.WarehouseClass>( s);
-           //  Sql.SqlRequest.CreateTabel<Model.Products>( s );
         }
 
         private void ПриложениеЗакрыто(object sender, EventArgs e)
         {
-            MDL.SaveXml<MDL.BoardDic>(MDL.MyDataBase, MDL.SFile_DB);
+            MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
             Application.Current.Shutdown();
         }
 
@@ -168,10 +178,17 @@ namespace RjProduction
 
         private void ОткрытьПапку(object sender, RoutedEventArgs e)
         {
+            SelectButton((Button)sender);
             string filePath = AppDomain.CurrentDomain.BaseDirectory + $"xmldocs\\{DateTime.Now.Year}\\{DateTime.Now.Month}\\";
             if (!Directory.Exists(filePath)) return;
-            Parallel.Invoke(() => Grid_AntiVirus.Visibility = Visibility.Visible);
-            Process.Start("explorer.exe", "/select, \"" + filePath + "\"");
+            try
+            {
+                Process.Start("explorer.exe", "/select, \"" + filePath + "\"");
+            }
+            catch 
+            {
+                Grid_AntiVirus.Visibility = Visibility.Visible;
+            }            
         }
 
         private void Перетаскивание(object sender, MouseButtonEventArgs e) {
@@ -225,7 +242,39 @@ namespace RjProduction
         {
             ClearButtonSel();
             ((Button)sender).Background.Opacity = 1;
-            FrameDisplay.Navigate(new Page1());
+            FrameDisplay.Navigate(new PageSetApp());
+        }
+
+        private void ДокументыБД(object sender, RoutedEventArgs e)
+        {
+            SelectButton((Button)sender);
+            FrameDisplay.Navigate(new Pages.Additions.PageDocs());
+        }
+
+        private void СмотретьОстаткиСклада(object sender, RoutedEventArgs e)
+        {
+            SelectButton((Button)sender);
+            FrameDisplay.Navigate(new Pages.PageRemains());
+
+        }
+
+        private void ПереходПроизводство2(object sender, RoutedEventArgs e)
+        {
+            SelectButton((Button)sender);
+            FrameDisplay.Navigate(new Pages.PageArrival());
+        }
+
+        private void ОткрытьСклады(object sender, RoutedEventArgs e)
+        {
+            if (Reference is PageReference r) r.МоиСклады();
+
+        }
+
+        private void Калькулятор(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process p = System.Diagnostics.Process.Start("calc.exe");
+            p.WaitForInputIdle();
+           
         }
     }
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         AllowsTransparency="True"
         WindowStyle="None"      
-        Title="" Height="900" Width="1500" Loaded="Загрузка" Closed="ПриложениеЗакрыто">
+        Title="" Height="900" Width="1000" Loaded="Загрузка" Closed="ПриложениеЗакрыто" Icon="/Res/Icon/app_draw.ico" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Grid DockPanel.Dock="Top" Height="29" PreviewMouseDown="Перетаскивание" Background="#FF6071AF" >
             <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,10,0"  Stroke="White" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" PreviewMouseLeftButtonDown="КружокЗакрытьПрограмму">
@@ -26,6 +26,7 @@
                 </Ellipse.Fill>
             </Ellipse>
             <Rectangle Height="2" Fill="White"  VerticalAlignment="Bottom" Stroke="White"  />
+            <Button Content="&#xE1D0;" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Height="20" Width="20" FontSize="14" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="Калькулятор" Foreground="#FFF3F3F3" BorderBrush="White" ToolTip="Калькулятор"/>
         </Grid>
 
         <Grid DockPanel.Dock="Left" Width="59" Background="#FF1C359A">
@@ -161,7 +162,7 @@
                         </Style>
                     </Button.Style>
                     <Image Source="/Res/images/teamwork_management.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>                
+                </Button>
                 <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьНастройки" ToolTip="Настройки программы">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -271,11 +272,11 @@
                 <RowDefinition Height="41*"/>
                 <RowDefinition Height="823*"/>
             </Grid.RowDefinitions>
-            <Label Content="ДОКУМЕНТ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
-            <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <Label Content="ДОКУМЕНТЫ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
+            <StackPanel x:Name="Sp_leftPanel" Grid.Row="1" Margin="0,10,0,0">
                 <Button Height="37" Background="{x:Null}" BorderBrush="{x:Null}" Click="ОткрытьПапку">
                     <DockPanel>
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE138;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE138;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                         <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Открыть папку с файлами" FontSize="16"/>
                     </DockPanel>
                 </Button>
@@ -283,8 +284,24 @@
                     <Label FontSize="16" FontFamily="Segoe MDL2 Assets" Content="&#xE1DE;" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFB84040" />
                     <TextBlock FontFamily="Corbel" TextWrapping="Wrap" Text="Некоторые антивирусы могут блокировать открытие из этой программы проводник.Следует разрешить открыть папку с документами." Margin="24,0,0,0" Foreground="#FF7C3030"/>
                 </Grid>
-
-
+                <Button Height="37" Background="#FFB6D4D1" BorderBrush="{x:Null}" Click="ПереходПроизводство2">
+                    <StackPanel Orientation="Horizontal" Width="211" >
+                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Документы XML" FontSize="16"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="37" Background="{x:Null}" BorderBrush="{x:Null}" Click="ДокументыБД">
+                    <StackPanel Orientation="Horizontal" Width="211" >
+                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Документы в БД" FontSize="16"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="37"  BorderBrush="{x:Null}" Click="СмотретьОстаткиСклада" Background="{x:Null}">
+                    <StackPanel Orientation="Horizontal" Width="211" >
+                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"/>
+                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Остатки на складе" FontSize="16"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -320,6 +337,15 @@
                     <DockPanel Width="243">
                         <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
                         <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Группы" FontSize="16" HorizontalContentAlignment="Center"/>
+                    </DockPanel>
+                </Button>
+                <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьСклады" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
+                    <Button.Background>
+                        <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
+                    </Button.Background>
+                    <DockPanel Width="243">
+                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Склады" FontSize="16" HorizontalContentAlignment="Center"/>
                     </DockPanel>
                 </Button>
             </StackPanel>
