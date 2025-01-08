@@ -22,7 +22,7 @@ namespace RjProduction.XML
         /// <summary>
         /// Заголовок документа
         /// </summary>
-        public string DocTitle { get; set; } = "Выравнивание остатков";
+        public string DocTitle { get; set; } = "Выравнивание Остатков";
         /// <summary>
         /// Статус документа
         /// </summary>
@@ -49,8 +49,10 @@ namespace RjProduction.XML
                 goto final;
             }
 
-            // Сохраним документ
-            SqlRequest.SetData(this);
+            // Получаем название поля для изменений
+            var o = new Products();
+            string fild = nameof(o.Cubature);
+            bool error = false;
 
             // Проводим по остаткам документ 
             foreach (var item in MainTabel)
@@ -58,10 +60,25 @@ namespace RjProduction.XML
                 foreach (var tv in item.Tabels)
                 {
                     if (tv is Pseudonym pseudonym) {
-                        Products.ConcurrentReqest(pseudonym.CubAll, pseudonym.Operation, pseudonym.ID_Prod);
+                        if (Sql.SqlRequest.ConcurrentReqest(o.TabelName, pseudonym.ID_Prod, new (fild, pseudonym.CubAll.ToString()), pseudonym.Operation) )
+                        {
+                            pseudonym.SyncError = true;
+                           error = true;
+                        }
                     }
                 }
             }
+
+            if (error) {
+                MessageBox.Show("У вас возникли проблемы при синхронизации, так как данные были ранее изменены другим пользователем. Поэтому документ проведен частично ");
+                SqlRequest.SetData(this);
+                Status = StatusEnum.Частично;
+                XmlProtocol.SaveDocXml<DocShipments>(this);
+                return;
+            }
+
+            // Сохраним документ
+            SqlRequest.SetData(this);
 
         final:
             Status = StatusEnum.Проведен;

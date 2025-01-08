@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.DirectoryServices.ActiveDirectory;
 using System.Windows;
 using System.Windows.Controls;
 using RjProduction.Model;
@@ -33,6 +34,7 @@ namespace RjProduction.Pages
             public required double Ширина { get; set; }
             public required double Длинна { get; set; }
             public required double Цена { get; set; }
+            public required string Общее_Название { get; set; }
 
             public override void CreateNew()
             {
@@ -113,6 +115,8 @@ namespace RjProduction.Pages
         private void ClearUI() {
             Button_add_edit.Visibility = Visibility.Hidden;
             DG_Main.CanUserAddRows = true;
+            DG_Main.SelectionUnit = DataGridSelectionUnit.Cell;
+            DG_Main.IsReadOnly = false;
         }
 
         private void УдаляетСтроку(object sender, RoutedEventArgs e)
@@ -172,7 +176,9 @@ namespace RjProduction.Pages
                     Высота = item.HeightMaterial,
                     Длинна = item.LongMaterial,
                     Цена = item.Price,
-                    Ширина = item.WidthMaterial
+                    Ширина = item.WidthMaterial,
+                    Общее_Название = item.NameMaterial
+                    
                 });
             }
             DG_Main.ItemsSource = ls;
@@ -181,6 +187,7 @@ namespace RjProduction.Pages
             DG_Main.Columns[1].Width = 60;
             DG_Main.Columns[2].Width = 60;
             DG_Main.Columns[3].Width = 80;
+            DG_Main.Columns[4].Width = 180;
         }
               
         private void ЯчекаИзменена(object? sender, EventArgs e)
@@ -217,7 +224,8 @@ namespace RjProduction.Pages
         private void ВыгрузкаИзПамяти(object sender, RoutedEventArgs e)=> MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
 
         public void МоиСклады() {
-
+            DG_Main.SelectionUnit = DataGridSelectionUnit.FullRow;
+            DG_Main.IsReadOnly = true;
             List<WarehouseEdit> ls = [];
             foreach (var item in MDL.MyDataBase.Warehouses) {
                 ls.Add(new WarehouseEdit() { Obj =item,

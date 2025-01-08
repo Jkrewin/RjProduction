@@ -12,5 +12,10 @@ namespace RjProduction.WpfFrm
             TitleError.Content = title_error;
             ErrorText.Text = mess_error;
         }
+
+        private void Закрыть(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

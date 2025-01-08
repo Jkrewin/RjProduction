@@ -1,6 +1,5 @@
-﻿using System;
+﻿
 using System.Data;
-using System.Data.Common;
 using System.Data.SQLite;
 using static RjProduction.Sql.ISqlProfile;
 
@@ -25,12 +24,11 @@ namespace RjProduction.Sql
         public bool ConnectIs => SQLite.State == System.Data.ConnectionState.Open;
 
         public string QuotSql(string str) => $"[{str}]";
-        public ISqlProfile.FieldSql[] GetDate(long ID, string TabelName)
-        {
-            if (ID == -1) { throw new Exception("ID = -1 not exist id"); }            
 
+        public ISqlProfile.FieldSql[] GetDate(string where, string TabelName) {
+           
             List<FieldSql> ls = [];
-            SQLiteCommand command = new($"SELECT * FROM [{TabelName}] WHERE ID={ID}", SQLite);
+            SQLiteCommand command = new($"SELECT * FROM [{TabelName}] WHERE {where}", SQLite);
             SQLiteDataReader sqReader = command.ExecuteReader();
             if (sqReader.HasRows)
             {
@@ -44,6 +42,10 @@ namespace RjProduction.Sql
                 }
             }
             return [.. ls];
+        }
+        public ISqlProfile.FieldSql[] GetDate(long ID, string TabelName)      
+        {
+            return GetDate($"ID = { ID }", TabelName);
         }
         public bool ExistTabel(string tabelName)
         {
@@ -81,6 +83,52 @@ namespace RjProduction.Sql
 #endif            
             return (long)command.ExecuteScalar();
         }
+
+        public List<FieldSql> GetDataFieldSql(string tabelName, string where, string _select ="*") {
+            if (ConnectIs == false) throw new Exception("Не выполнено подключение к бд");
+            string pol = $"SELECT {_select} FROM [{tabelName}] WHERE {where} LIMIT 1";
+            List<FieldSql> ls = [];
+
+            SQLiteCommand command = new(pol, SQLite);
+            using (SQLiteDataReader sqReader = command.ExecuteReader())
+            {
+                while (sqReader.Read())
+                {
+                    for (global::System.Int32 i = sqReader.FieldCount - 1; i >= 0; i--)
+                    {                       
+                        ls.Add(new FieldSql(sqReader.GetName(i), sqReader.GetDataTypeName(i), sqReader.GetValue(i).ToString()?? string.Empty));
+                    }
+                }
+            }
+            return ls;
+        }
+
+        public object? AdapterSql(string tabelName, FieldSql selectField, string where = "") {
+            if (ConnectIs == false) throw new Exception("Не выполнено подключение к бд");
+            string pol;
+            if (where != "")
+            {
+                pol = $"SELECT * FROM [{tabelName}] WHERE " + where;
+            }
+            else
+            {
+                pol = $"SELECT * FROM [{tabelName}]";
+            }
+
+            SQLiteCommand command = new(pol, SQLite);
+            using (SQLiteDataReader sqReader = command.ExecuteReader())
+            {
+                while (sqReader.Read())
+                {                    
+                    for (global::System.Int32 i = sqReader.FieldCount - 1; i >= 0; i--)
+                    {
+                        if (sqReader.GetName(i) == selectField.NameField) return sqReader.GetValue(i);                        
+                    }                   
+                }
+            }
+            return null;
+        }
+
         public List<object[]> AdapterSql(string tabelName, out long id, string where = "")
         {
             id = -1;

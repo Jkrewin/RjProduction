@@ -7,7 +7,7 @@ namespace RjProduction.XML
     
     public sealed class DocArrival : XmlProtocol, IDocMain
     {
-        public readonly string DOC_CODE = DocCode.Производство_склад ;
+        public static readonly string DOC_CODE = DocCode.Производство_склад ;
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace RjProduction.XML
         /// <summary>
         /// Заголовок документа
         /// </summary>
-        public string DocTitle { get; set; } = "--";
+        public string DocTitle { get; set; } = "Производство на склад";
 
         /// <summary>
         /// Текущий склад
@@ -79,26 +79,51 @@ namespace RjProduction.XML
                 goto final;
             }
 
-            // Проверка и создание нового склада
-            int w = MDL.MyDataBase.Warehouses.FindIndex(x => x.NameWarehouse == Warehouse.NameWarehouse);
-            if (w == -1) // если в локальной БД нет такого склада
+
+            // Проверка и создание нового склада и поиск склада из файла в локальной БД
+            int w = MDL.MyDataBase.Warehouses.FindIndex(x => x.Equals(Warehouse));
+            // если в локальной БД нет такого склада
+            if (w == -1)
             {
-                long lo = SqlRequest.ExistRecord<WarehouseClass>(new ISqlProfile.FieldSql("NameWarehouse",  Warehouse.NameWarehouse));
-                if (lo ==-1)
+                long lo = SqlRequest.ExistRecord<WarehouseClass>(new ISqlProfile.FieldSql("NameWarehouse", Warehouse.NameWarehouse));
+                if (lo == -1)
                 {
                     //то создадим его если нет и в общей БД
                     SqlRequest.SetData(Warehouse);
                 }
-                else {
+                else
+                {
                     // либо обновим инфу о нем 
                     Warehouse = SqlRequest.ReadData<WarehouseClass>(lo);
                 }
-            }
-            else // Создает если нет склада, обновляет ид
-            {                
-                SqlRequest.SetData(Warehouse);  
-                MDL.MyDataBase.Warehouses[w] = Warehouse;
+                MDL.MyDataBase.Warehouses.Add(Warehouse); // новое значение в локальное БД
                 MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+            }
+            // Создает если есть склада в локальной БД, создадим в общей  БД
+            else
+            {
+                // Если нет в общей БД создадим
+                long lo = SqlRequest.ExistRecord<WarehouseClass>(new ISqlProfile.FieldSql("ID", Warehouse.ID.ToString()));
+                if (lo == -1)
+                {
+                    Warehouse.Rebild();
+                    SqlRequest.SetData(Warehouse);
+                    MDL.MyDataBase.Warehouses[w] = Warehouse; // обновим ID
+                    MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+                }
+                // если есть в общей бд то проверим на актуальность 
+                WarehouseClass ww = SqlRequest.ReadData<WarehouseClass>(MDL.MyDataBase.Warehouses[w].ID);
+                if (ww.Equals(MDL.MyDataBase.Warehouses[w]))
+                {
+                    // если они одинаковы в общей БД
+                    // Warehouse = MDL.MyDataBase.Warehouses[w];
+                }
+                else
+                {
+                    // если есть отличте с локальной БД
+                    MDL.MyDataBase.Warehouses[w] = ww;
+                    MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+                }
             }
 
             //  Внесение в общую базу Products
@@ -113,9 +138,11 @@ namespace RjProduction.XML
                         if (material.MaterialType == MaterialObj.MaterialTypeEnum.Количество)
                         {
                             name_wood = material.NameMaterial;
+
                         }
                         else
                         {
+                            // тут н/о
                             if (material.TypeWood == TypeWoodEnum.Любой) name_wood = "Необрезная " + material.LongMaterial.ToString() + "метровый";
                             else name_wood = "Необрезная (" + material.TypeWood.ToString() + ")" + material.LongMaterial.ToString() + "метровый";
                         }
@@ -132,7 +159,8 @@ namespace RjProduction.XML
                                 OnePice = material.Cub,
                                 Cubature = material.CubatureAll,
                                 NameItem = name_wood,
-                                Warehouse = Warehouse 
+                                Warehouse = Warehouse,
+                                Price = material.Price
                             });
                         }
                     }
@@ -150,6 +178,7 @@ namespace RjProduction.XML
                                 OnePice = 0,
                                 Cubature = timbers.CubatureAll,
                                 TypeWood = TypeWoodEnum.Любой,
+                                Price= (timbers.Timbers .Sum(x=>x.Цена) / timbers.Timbers.Sum(x=>x.Количество)),
                                 Warehouse = Warehouse 
                             });
 
@@ -158,14 +187,15 @@ namespace RjProduction.XML
                 }
             }
 
-
             try
             {
-                // запуск сохранения в БД Products
+                // запуск сохранения в БД Products              
                 foreach (var item in products)
                 {
-                    Products? cl = SqlRequest.ReadData<Products>(new ISqlProfile.FieldSql("NameItem", "", item.NameItem));
-                    if (cl != null) cl.ConcurrentReqest( item.Cubature, Products.OperatonEnum.vsPlus);
+                    Products? cl = SqlRequest.ReadData<Products>([new ("NameItem",  item.NameItem), new("Warehouse", item.Warehouse.ID)] );
+                    // Меняет текущее в на этом складе и по этому названию 
+                    if (cl != null) SqlRequest.ConcurrentReqest(cl, new (nameof(item.Cubature), item.Cubature.ToString()), SqlRequest.OperatonEnum.vsPlus);
+                    // создает новое значение если не найдено 
                     else SqlRequest.SetData(item);
                 }
 
@@ -183,7 +213,7 @@ namespace RjProduction.XML
             }
             catch (Exception ex)
             {
-                MDL.LogError("Ошибка при попытки провести документ", ex.Message);
+                MDL.LogError("Ошибка при попытки провести документ " + DOC_CODE, ex.Message + ex.Source);
                 Status = StatusEnum.Ошибка;
                 XmlProtocol.SaveDocXml<DocArrival>(this);
                 return;

@@ -1,14 +1,16 @@
 ﻿
+
+using RjProduction.Sql;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using static RjProduction.Model.Products;
 
 namespace RjProduction.Model
 {
-    #region "Классы, структуры, enum"
+    
     public enum StatusEnum
     {
-        Не_Проведен = 0, Проведен = 1, Ошибка = 6
+        Не_Проведен = 0, Проведен = 1, Ошибка = 6, Частично =2
     }
 
     public interface IDoc
@@ -194,12 +196,15 @@ namespace RjProduction.Model
         /// <summary>
         /// true - означает вычитать из общего баланса
         /// </summary>
-        public OperatonEnum Operation;
+        public SqlRequest.OperatonEnum Operation;
         /// <summary>
         /// Строка id которая  к этому псевдониму для изменении
         /// </summary>
         public required long ID_Prod;
-
+        /// <summary>
+        /// Была ошибка при синхронизации
+        /// </summary>
+        public bool SyncError = false;
     }
 
     public enum TypeWoodEnum
@@ -225,14 +230,27 @@ namespace RjProduction.Model
     }
         
     public struct DocCode {
+        public const string Общий_Тип = "";
         public const string Производство_склад = "01А02";
         public const string ВыравниваниеОстатков = "03A01";
 
         public static string[] ToArray() => 
-            typeof(DocCode).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).Select(x => x.Name).ToArray();
+            typeof(DocCode).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).Select(x => x.Name.Replace("_"," " )).ToArray();
 
-
+        public static string ToCode(string const_code) {
+            FieldInfo[] codes = typeof(DocCode).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            foreach (var code in codes)
+            {
+                if (code.Name == const_code.Replace(" ","_"))
+                {
+                    object? obj = code.GetValue(null);
+                    if (obj is not null) return obj.ToString() ?? string.Empty;
+                    else break;
+                }
+            }
+            return string.Empty;
+        }
     }
 
-    #endregion
+    
 }

@@ -56,7 +56,7 @@
                 </ListBox>
             </Grid>
         </GroupBox>
-        <Button Content="&#xE105;" HorizontalAlignment="Left" Margin="660,5,0,0" VerticalAlignment="Top" Height="31" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="СохранитьXML" Grid.Row="1"/>
+        <Button Content="&#xE105;" HorizontalAlignment="Left" Margin="660,5,0,0" VerticalAlignment="Top" Height="31" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="СохранитьXML" Grid.Row="1" ToolTip="Сохранить документ"/>
         <GroupBox Header="Группа" Margin="10,133,0,0" Width="190" Height="286" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" FontFamily="Corbel" Foreground="#FF565656" BorderBrush="#FF7C99FF" Background="#FFFAFAFA">
             <Grid>
                 <Grid.RowDefinitions>
@@ -106,7 +106,7 @@
             <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="White" VerticalAlignment="Center" Height="158"/>
 
         </Grid>
-        <Button Content="&#xE149;" HorizontalAlignment="Left" Margin="660,38,0,0" VerticalAlignment="Top" Height="30" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="ВыполнитьЛокумент" Grid.Row="1"/>
+        <Button Content="&#xE149;" HorizontalAlignment="Left" Margin="660,38,0,0" VerticalAlignment="Top" Height="30" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="ВыполнитьЛокумент" Grid.Row="1" ToolTip="Провести документ сразу"/>
 
     </Grid>
 </Page>

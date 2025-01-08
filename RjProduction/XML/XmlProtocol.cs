@@ -40,9 +40,10 @@ namespace RjProduction.XML
         /// <summary>
         /// Тип документа
         /// </summary>
-        public string TypeDoc { get;  set; } = "NaN";
+        [SqlIgnore] public string TypeDoc { get;  set; } = "NaN";
 
         [SqlIgnore, XmlIgnore] public string FileName { get => $"{TypeDoc.Split(':', StringSplitOptions.RemoveEmptyEntries)[0]}_{DataCreate}_{Number}.xml"; }
+        
 
         [SqlIgnore, XmlElement]
         public GrupClass[] Grups

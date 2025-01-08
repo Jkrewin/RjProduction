@@ -82,8 +82,9 @@ namespace RjProduction.Pages
                 return new Pseudonym() { CubAll = Selected_Cubature,
                     Name = NameItem,
                     OnePice = OnePice, 
-                    Operation = IsMunus ? OperatonEnum.vsMunis : OperatonEnum.vsPlus , 
-                    ID_Prod = this.ID
+                    Operation = IsMunus ? SqlRequest.OperatonEnum.vsMunis : SqlRequest.OperatonEnum.vsPlus , 
+                    ID_Prod = this.ID,
+                    Price =Price
                 };
             }
 
@@ -102,9 +103,9 @@ namespace RjProduction.Pages
 
             private void NotifyPropertyChanged([CallerMemberName] String propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        }       
+        }
 
-        #region "Для изменения кнопок в таблице"
+        #region "Ридер строк таблици по UI"
         private DataGridCell? GetCell(int row, int column)
         {
             DataGridRow? rowContainer = GetRow(row);
@@ -132,7 +133,7 @@ namespace RjProduction.Pages
             {
                 Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
                 child = v as T;
-                child ??= GetVisualChild<T>(v);
+                if (child == null) child = GetVisualChild<T>(v);
                 if (child != null) break;
             }
             return child;
@@ -228,7 +229,6 @@ namespace RjProduction.Pages
 
         }
 
-
         private void СоздатьДокумент(object sender, RoutedEventArgs e)
         {
             SelectWarehouse.Visibility = Visibility.Hidden;
@@ -240,6 +240,8 @@ namespace RjProduction.Pages
 
         private void ТекстОбновлен(object sender, TextChangedEventArgs e)
         {
+            const int TEXTCUBS = 4; // индекс контрола
+
             if (!_swither) return;
             if (DG_Main.SelectedItem is MyCollection my)
             {
@@ -254,7 +256,7 @@ namespace RjProduction.Pages
                 {
                     if (uint.TryParse(text.Text, out uint q))
                     {
-                        var cell = GetCell(DG_Main.SelectedIndex, 5);
+                        var cell = GetCell(DG_Main.SelectedIndex, TEXTCUBS);
                         if (GetVisualChild<TextBox>(cell!) is TextBox b)
                         {
                             my.Selected_Cubature = my.OnePice * q;
@@ -288,7 +290,6 @@ namespace RjProduction.Pages
                 }
             }
 
-
             List<GrupObj> tabel = [];
             foreach (var item in Db_selected)
             {
@@ -308,15 +309,13 @@ namespace RjProduction.Pages
             {
                 // выполнить после закрытия действия обновить таблицу
                 DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
-                _db.Clear();
-                DG_Main.Items.Refresh();
-
+                ProdData = SqlRequest.GetDataTable(nameof(Products)); // обновить данные
+                ВыбраннаСтрока(null!, null!);
             }
           
             var page = new Pages.Doc.PageShipments(new XML.DocShipments() { DocTitle = "Отгрузка материалов", MainTabel = tabel }, DockPanel_РамкаДокумента, sysEnd);
             DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
-            FrameDisplay.Navigate(page);
-           
+            FrameDisplay.Navigate(page);           
            
             Скрыть_Меню(null!, null!);
         }

@@ -85,7 +85,8 @@ namespace RjProduction
 
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight-8;
 
-
+            var test = new Test_circut();
+           // test.ShowDialog();
         }
 
         private void ПриложениеЗакрыто(object sender, EventArgs e)

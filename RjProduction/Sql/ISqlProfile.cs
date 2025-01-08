@@ -27,8 +27,14 @@ namespace RjProduction.Sql
         public string QuotSql(string str);
 
 
-
-
+        /// <summary>
+        /// Получает выражение типов FieldSql из строки 
+        /// </summary>
+        /// <param name="tabelName"></param>
+        /// <param name="where"></param>
+        /// <param name="_select"></param>
+        /// <returns></returns>
+        public List<FieldSql> GetDataFieldSql(string tabelName, string where, string _select = "*");
         /// <summary>
         /// Указывает какой тип подключения сейчас
         /// </summary>
@@ -71,12 +77,15 @@ namespace RjProduction.Sql
         /// <param name="TabelName"></param>
         /// <returns></returns>
         public FieldSql[] GetDate(long ID, string TabelName);
+        public FieldSql[] GetDate(string where, string TabelName);
         /// <summary>
         /// Получает List объектов по запросу или с параметрами поиска
         /// </summary>
         /// <param name="tabelName">Нзавание таблици</param>        
         /// <param name="where">Необязателен. Можно составить запрос после WHERE с поиском строк </param>
         public List<object[]> AdapterSql(string tabelName, out long id, string where = "");
+
+        public object? AdapterSql(string tabelName, FieldSql selectField, string where = "");
         /// <summary>
         /// Подключиться к базе данных
         /// </summary>
@@ -114,7 +123,9 @@ namespace RjProduction.Sql
         /// <param name="where_sql">where выборка если нужна  </param>
         /// <returns>DataTable</returns>
         public DataTable GetDataTable(string tabelName, string select_sql ="*", string where_sql="");
-
+        /// <summary>
+        /// Являеться структурой полей базы данный улучшая поиск по ним
+        /// </summary>
         public readonly struct FieldSql
         {
             public readonly string NameField ;
@@ -127,6 +138,13 @@ namespace RjProduction.Sql
                 TypeField = string.Empty;
             }
 
+            public FieldSql(string name, double value)
+            {
+                NameField = name;
+                Value = value.ToString();
+                TypeField = string.Empty;
+            }
+
             public FieldSql(string name, string type, string value) {
                 NameField = name;
                 TypeField = type;
@@ -135,6 +153,15 @@ namespace RjProduction.Sql
 
             public override readonly string ToString() => $"{NameField}; {TypeField} {Value}";
 
+            public static string ValueFieldSql(FieldSql[] fields, string nameField) {
+                for (int i = fields.Length-1; i >= 0; i--)
+                {
+                    if (fields[i].NameField.Equals(nameField)) { 
+                        return fields[i].Value ;
+                    }
+                }
+                return string.Empty ;   
+            }
         }
     }
 }

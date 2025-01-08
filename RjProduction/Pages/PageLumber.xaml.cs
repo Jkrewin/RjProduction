@@ -1,5 +1,6 @@
 ﻿using RjProduction.Model;
 using RjProduction.WpfFrm;
+using System;
 using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Controls;
@@ -68,6 +69,10 @@ namespace RjProduction.Pages
                 return;
             }
 
+            if (TypeWood.SelectedValue is not null)           
+                _Material.TypeWood = (TypeWoodEnum)Enum.Parse(typeof(Model.TypeWoodEnum), TypeWood.SelectedValue.ToString() ?? nameof(Model.TypeWoodEnum.Любой));            
+            else _Material.TypeWood = TypeWoodEnum.Любой;
+
             // добавить в справочник только п/м
             if (SelectorQ2.IsChecked == false)
             {
@@ -76,8 +81,7 @@ namespace RjProduction.Pages
                     MDL.MyDataBase.MaterialsDic.Add(_Material);
                 }
             }
-            if (TypeWood.Text == "") _Material.TypeWood = TypeWoodEnum.Любой;
-            else _Material.TypeWood = (TypeWoodEnum)Enum.Parse(typeof(TypeWoodEnum), TypeWood.Text);
+           
 
             ActionOne?.Invoke(_Material);
             ЗакрытьФорму(null!, null!);
@@ -173,6 +177,16 @@ namespace RjProduction.Pages
             ChangeField(ref _Material.HeightMaterial, TBoxВысота, x.HeightMaterial.ToString());
             ChangeField(ref _Material.LongMaterial, TBoxДлинна, x.LongMaterial.ToString());
             ChangeField(ref _Material.Price, TBoxPrice, x.Price.ToString());
+            int i = 0;
+            foreach (var item in Enum.GetNames(typeof(Model.TypeWoodEnum)))
+            {
+                if (item == x.TypeWood.ToString())
+                {
+                    TypeWood.SelectedIndex = i;
+                    break;
+                }
+                i++;
+            }
             TBoxКоличество.Focus();
         }
 

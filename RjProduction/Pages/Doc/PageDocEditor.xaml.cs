@@ -1,5 +1,6 @@
 ﻿using RjProduction.Model;
 using RjProduction.XML;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -296,6 +297,15 @@ namespace RjProduction.Pages
 
             MyDoc.Warehouse = (WarehouseClass)Cbox_warehouses.SelectedItem;
             MDL.MyDataBase.WarehouseDef = (Model.WarehouseClass?)Cbox_warehouses.SelectedItem;
+
+            if (SavedDoc == false)
+            {
+                string sFile = $"{MDL.XmlPatch(MyDoc.DataCreate)}\\{MyDoc.FileName}";
+                if (File.Exists(sFile))
+                {
+                    if (MessageBox.Show("Перезаписать ранее созданный файл с такой датой и номером ?", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
+                }
+            }
 
             XmlProtocol.SaveDocXml<DocArrival>(MyDoc);
             SavedDoc = true;

@@ -1,5 +1,6 @@
 ﻿using RjProduction.Sql;
 using System.Data;
+using System.Xml.Serialization;
 
 namespace RjProduction.Model
 {
@@ -19,6 +20,8 @@ namespace RjProduction.Model
         /// Синхронизирует справочники если были изменения с общей БД, так как локально могут храниться эта инфа
         /// </summary>
         public string SyncData { get => _SyncData; set => _SyncData = value; }
+        [SqlIgnore, XmlElement] public long ID_XML { get => IDField; set { IDField = value; } }
+
 
         public WarehouseClass() { }
 
@@ -31,5 +34,12 @@ namespace RjProduction.Model
         }
 
         public override string ToString() => _NameWarehouse;
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj is WarehouseClass w) return w.NameWarehouse == NameWarehouse & w.SyncData == SyncData;
+            else return false;
+        }
+        public override int GetHashCode()=> base.GetHashCode();
     }
 }

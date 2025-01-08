@@ -26,7 +26,7 @@
         <Label Content="&#xE7BA;" HorizontalAlignment="Right" Height="54" Margin="0,5,594,0" Grid.Row="1" VerticalAlignment="Top" Width="48" FontSize="36" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFBE3838"/>
         <Rectangle HorizontalAlignment="Center" Height="40" Grid.Row="2" VerticalAlignment="Center" Width="652" Stroke="#FF5D6B99" Fill="#FF7182B9"/>
         <Button Content="Отправить" HorizontalAlignment="Left" Margin="360,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial"/>
-        <Button Content="Закрыть Окно" HorizontalAlignment="Left" Margin="514,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial"/>
+        <Button Content="Закрыть Окно" HorizontalAlignment="Left" Margin="514,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Закрыть"/>
 
     </Grid>
 </Window>

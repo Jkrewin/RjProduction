@@ -46,13 +46,13 @@
 
 
         </Grid>
-        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,0" Grid.Row="2" >
+        <DataGrid x:Name="DG_Main" Visibility="Hidden"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,0" Grid.Row="2" >
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                    Color="#FFAACAFE"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Наименование" Width="200"   >
+                <DataGridTemplateColumn Header="Наименование" Width="300"   >
                     <DataGridColumn.HeaderStyle>
                         <Style TargetType="DataGridColumnHeader">
                             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -88,18 +88,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-               <!-- <DataGridTemplateColumn Header="Кол-во" Width="100">
-                    <DataGridColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                        </Style>
-                    </DataGridColumn.HeaderStyle>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Quantity}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
+               <!-- Индекс контрола нужно поменять если меняеться структура порядок контролов тут-->
                 <DataGridTemplateColumn Header="Значение" Width="70" CanUserResize="False">
                     <DataGridColumn.HeaderStyle>
                         <Style TargetType="DataGridColumnHeader">
@@ -156,17 +145,18 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Collapsed"  Grid.Row="2">
+       
+        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Visible"  Grid.Row="2">
             <Grid Height="80">
                 <Label Content="Выравнивание остатков" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
                 <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
-                <TextBlock TextWrapping="Wrap" Text="Этот тип документа следует использовать при начальных остатках. Начитывает доставку или перемещение. Допускает отрицательные и положительные данные.  " HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="16" Width="682" Height="38"/>
+                <TextBlock TextWrapping="Wrap" Text="Этот тип документа следует использовать при начальных остатках. Допускает отрицательные и положительные данные. Цена по умолчанию, это цена которая была установленна в начале производства как оплата рабочим. " HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="14" Width="682" Height="57"/>
 
             </Grid>
             <Grid Height="80">
                 <Label Content="Со склада на склад" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
                 <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
-                <TextBlock TextWrapping="Wrap" Text="Переместить материалы со склада на склад, можно указать автотранспорт по вывозу материалов, не является обязательным" HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="16" Width="682" Height="38"/>
+                <TextBlock TextWrapping="Wrap" Text="Переместить материалы со склада на склад, можно указать автотранспорт по вывозу материалов, не является обязательным" HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="14" Width="682" Height="38"/>
 
             </Grid>
             <Grid Height="54">

@@ -29,8 +29,8 @@ namespace RjProduction.Pages.Additions
                 NameItem = dataRow["DocTitle"].ToString() ?? "NaN";
                 DateDoc = dataRow["DataCreate"].ToString() ?? "NaN";
                 Num = dataRow["Number"].ToString() ?? "NaN";
-                Summ = "NaN";
-                Cubs = "NaN";
+                Summ = dataRow["Amount"].ToString() ?? "NaN";
+                Cubs = dataRow["Cubs"].ToString() ??  "NaN";
             }
         }
 
@@ -54,7 +54,7 @@ namespace RjProduction.Pages.Additions
         }
 
         private void ВыбраннаСтрока(object sender, SelectionChangedEventArgs e)
-        {
+        {            
             switch (MainComboBox.SelectedValue.ToString())
             {
                 case nameof(Model.DocCode.Производство_склад):

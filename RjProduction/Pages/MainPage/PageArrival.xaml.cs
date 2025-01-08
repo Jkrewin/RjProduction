@@ -1,21 +1,20 @@
 ﻿using RjProduction.Model;
-using System.Data;
-using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static RjProduction.Model.IDocMain;
-using System.Reflection;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using RjProduction.XML;
+using RjProduction.Pages.Doc;
 
 namespace RjProduction.Pages
 {
     public partial class PageArrival : Page
     {
         private List<IDocMain> Docs = [];
+        private DateOnly? SelectDate = null;
+        private string ItemStringDoc = string.Empty;
 
         public PageArrival()
         {
@@ -23,10 +22,12 @@ namespace RjProduction.Pages
         }
 
         private void Загрузка(object sender, RoutedEventArgs e)
-        {           
-            Refreh_DataG_Main();        
+        {
+            Refreh_DataG_Main();
+            MainComboBox.ItemsSource = Model.DocCode.ToArray();
         }
 
+        #region "Ридер строк таблици по UI"
         private DataGridCell? GetCell(int row, int column)
         {
             DataGridRow? rowContainer = GetRow(row);
@@ -45,7 +46,6 @@ namespace RjProduction.Pages
             }
             return null;
         }
-
         public static T? GetVisualChild<T>(Visual parent) where T : Visual
         {
             T? child = default;
@@ -59,7 +59,6 @@ namespace RjProduction.Pages
             }
             return child;
         }
-
         private DataGridRow? GetRow(int index)
         {
             DataGridRow row = (DataGridRow)DataG_Main.ItemContainerGenerator.ContainerFromIndex(index);
@@ -71,11 +70,14 @@ namespace RjProduction.Pages
             }
             return row;
         }
+        #endregion
 
         private void Refreh_DataG_Main()
-        {          
-            Docs = MDL.GetDocuments("") ?? [];
-             DataG_Main.ItemsSource = Docs;
+        {
+            if (SelectDate is null) Docs = MDL.GetDocuments(ItemStringDoc) ?? [];
+            else Docs = MDL.GetDocuments(SelectDate.Value.Year, SelectDate.Value.Month, ItemStringDoc) ?? [];
+
+            DataG_Main.ItemsSource = Docs;
             for (int i = 5; i < DataG_Main.Columns.Count; i++) DataG_Main.Columns[i].Visibility = Visibility.Collapsed;
 
             const int StatusColums = 3; // колонка м кнопкой         
@@ -100,6 +102,10 @@ namespace RjProduction.Pages
                     b.Background = MDL.BrushConv("#FF48C0DE");
                     b.Content = "Проведен";
                     break;
+                case StatusEnum.Частично:
+                    b.Background = Brushes.Yellow;
+                    b.Content = "Проведен частично";
+                    break;
                 case StatusEnum.Ошибка:
                 default:
                     b.Background = MDL.BrushConv("#FFDE4848");
@@ -111,18 +117,28 @@ namespace RjProduction.Pages
         private void ДвойноеНажатие(object sender, MouseButtonEventArgs e)
         {
             if (DataG_Main.SelectedItem == null) return;
-            if (((DocArrival)DataG_Main.SelectedItem).Status == StatusEnum.Ошибка) {
+            if (((IDocMain)DataG_Main.SelectedItem).Status == StatusEnum.Ошибка) {
                 MessageBox.Show("Документ с ошибкой нельзя открыть ");
                 return;
             }
 
             DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
-            FrameDisplay.Navigate(new PageDocEditor((DocArrival)DataG_Main.SelectedItem, (Action)(() => {
-                DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
-                Refreh_DataG_Main();
-            })));
+            if (DataG_Main.SelectedItem is DocArrival arrival)
+            {
+                FrameDisplay.Navigate(new PageDocEditor(arrival, DockPanel_РамкаДокумента,(Action)(() =>
+                {
+                    DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
+                    Refreh_DataG_Main();
+                })));
+            }
+            else if (DataG_Main.SelectedItem is DocShipments shipments) {
+                FrameDisplay.Navigate(new PageShipments(shipments, DockPanel_РамкаДокумента,(Action)(() =>
+                {
+                    DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
+                    Refreh_DataG_Main();
+                })));
+            }
         }
-
 
         private void ОткрытьОкноОбъектов(object sender, RoutedEventArgs e)
         {
@@ -140,7 +156,7 @@ namespace RjProduction.Pages
         private void ПровестиДок(object sender, RoutedEventArgs e)
         {            
             Button b = (Button)sender;
-            DocArrival? document = DataG_Main.SelectedItem as DocArrival;
+            IDocMain? document = DataG_Main.SelectedItem as IDocMain;
             if (document == null) {
                 MessageBox.Show("Документ невозможно провести сейчас.");
                 return;
@@ -151,7 +167,7 @@ namespace RjProduction.Pages
 
         private void УдалитьОбъект(object sender, RoutedEventArgs e)
         {
-            DocArrival d = (DocArrival)DataG_Main.SelectedItem;
+            XmlProtocol d = (XmlProtocol)DataG_Main.SelectedItem;
             string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\";
             sFile += d.DataCreate.Year.ToString() +"\\"+ d.DataCreate.Month.ToString() +"\\" +d.FileName;
             
@@ -169,7 +185,32 @@ namespace RjProduction.Pages
             Refreh_DataG_Main();
         }
 
-        
+        private void ВыборТекущаяДата(object sender, RoutedEventArgs e)
+        {
+            if (DP_DataNow is not null)
+            {
+                DP_DataNow.IsEnabled = false;
+                Refreh_DataG_Main();
+            }
+        }
+
+        private void ВыборДата(object sender, RoutedEventArgs e)
+        {
+            DP_DataNow.IsEnabled = true;
+            Refreh_DataG_Main();
+        }
+
+        private void ВыходИзДаты(object sender, RoutedEventArgs e)
+        {
+            SelectDate = DateOnly.FromDateTime(DP_DataNow.SelectedDate!.Value);
+            Refreh_DataG_Main();
+        }
+
+        private void ВыбраннаСтрока(object sender, SelectionChangedEventArgs e)
+        {
+            ItemStringDoc = DocCode.ToCode(MainComboBox.SelectedValue.ToString() ?? string.Empty);
+            Refreh_DataG_Main();
+        }
     }
 
 

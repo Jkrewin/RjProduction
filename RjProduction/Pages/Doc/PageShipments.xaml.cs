@@ -1,5 +1,7 @@
 ﻿using RjProduction.Model;
+using RjProduction.Sql;
 using RjProduction.XML;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -53,7 +55,7 @@ namespace RjProduction.Pages.Doc
         }
 
         private void AddItemEmp(Pseudonym obj) {
-            string cub = (obj.Operation == Products.OperatonEnum.vsMunis ? "-" : "+") + obj.CubAll.ToString();
+            string cub = (obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "-" : "+") + Math.Round(obj.CubAll,2).ToString();
             /// добавление новых элементов изменить Text_TextChanged структуру
             StackPanel sp = new() { Orientation = Orientation.Horizontal, Height = 20 };
             Label l1 = new()
@@ -67,8 +69,8 @@ namespace RjProduction.Pages.Doc
             {
                 Width = 50,
                 Padding = new(5, 1, 5, 5),
-                Foreground = MDL.BrushConv(obj.Operation == Products.OperatonEnum.vsMunis ? "#FFD39B9B" : "#FF029E88"),
-                Content =  cub
+                Foreground = MDL.BrushConv(obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "#FFD39B9B" : "#FF029E88"),
+                Content = cub
             };
             sp.Children.Add(l0);
             TextBox text1 = new()
@@ -120,6 +122,7 @@ namespace RjProduction.Pages.Doc
                     label.Content = pseudonym.Amount;
                 }
             }
+            Label_SumDown.Content = _Shipments.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
         }
 
         private void Загруженно(object sender, System.Windows.RoutedEventArgs e)
@@ -239,6 +242,13 @@ namespace RjProduction.Pages.Doc
 
         private void СохранитьXML(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (SavedDoc == false)
+            {
+                string sFile = $"{MDL.XmlPatch(_Shipments.DataCreate)}\\{_Shipments.FileName}";
+                if (File.Exists(sFile)) { 
+                    if (MessageBox.Show("Перезаписать ранее созданный файл с такой датой и номером ?", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
+                }
+            }
             XmlProtocol.SaveDocXml<DocShipments>(_Shipments);
             SavedDoc = true;
         }
@@ -272,6 +282,11 @@ namespace RjProduction.Pages.Doc
 
         private void ВыполнитьЛокумент(object sender, RoutedEventArgs e)
         {
+            if (_Shipments.Status == StatusEnum.Проведен) {
+                MessageBox.Show("Документ был уже ранее проведен");
+                return;
+            }
+
             if (SavedDoc == false)
             {
                 MessageBox.Show("Сначало нужно сохранить документ. Чтобы его провести ");

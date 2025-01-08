@@ -29,6 +29,8 @@ namespace RjProduction.Pages
                 Sql.SqlRequest.CreateTabel<Model.Products>();
                 Sql.SqlRequest.CreateTabel<Model.WarehouseClass>();
                 Sql.SqlRequest.CreateTabel<Model.DocRow>();
+                Sql.SqlRequest.CreateStartBaseTabel();                
+
             }
             catch (Exception ex)
             {

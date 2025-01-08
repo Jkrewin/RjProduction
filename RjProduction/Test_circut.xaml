@@ -1,0 +1,16 @@
+﻿<Window x:Class="RjProduction.Test_circut"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RjProduction"
+        mc:Ignorable="d"
+        Title="Test_circut" Height="450" Width="800">
+    <Grid>
+        <Button Content="Lock" HorizontalAlignment="Left" Margin="139,76,0,0" VerticalAlignment="Top" Width="165" Height="58" Click="ТестА"/>
+        <Button Content="Test" HorizontalAlignment="Left" Margin="139,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестБ"/>
+        <Button Content="unlock
+                " HorizontalAlignment="Left" Margin="400,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестC"/>
+
+    </Grid>
+</Window>
