@@ -31,7 +31,7 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Label Content="Документы" HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
+            <Label Content="Документы из общей Базы Данных" HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
             <Label x:Name="Label_NotDB" Visibility="Collapsed" Content=" Нет подключения к БД. Проверте настройки." Background="Red" Foreground="White" Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,1,5,5"  />
         </Grid>
 
@@ -39,11 +39,15 @@
             <Grid x:Name="G_SelectDocs">
                 <Label Content="Тип документа:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Bottom" Width="152" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
                 <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="167,0,0,2" VerticalAlignment="Bottom" Width="283" FontFamily="Arial Black" FontSize="14" Height="25" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
+                <StackPanel Orientation="Horizontal"  Margin="0,0,0,72" MaxHeight="30" VerticalAlignment="Top" Height="30">
+                    <Button Content="&#xE28F;" Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ОткрытьСведения"/>
+                    <Button Content="&#xE107;" Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ПометитьНаУдаление"/>
+                </StackPanel>
             </Grid>
 
         </Grid>
 
-        <DataGrid x:Name="DG_Main"  Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,0" Grid.Row="2" >
+        <DataGrid x:Name="DG_Main"  Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="10,5,10,0" Grid.Row="2" PreviewMouseDoubleClick="ОткрытьСведения" >
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                    Color="#FFAACAFE"/>
@@ -106,6 +110,18 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label  Content="{Binding Cubs}" FontFamily="Arial" VerticalContentAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Статус" Width="50">
+                    <DataGridColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataGridColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label  Content="{Binding IsDel}" FontFamily="Segoe MDL2 Assets" VerticalContentAlignment="Center" Foreground="#FFBA0404" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -9,11 +9,11 @@ namespace RjProduction.Pages
     public partial class PageTimbers : Page
     {
         private double LongWood = 0;
-        private Timber? TmpTimber;
-        private Timber? DelTimber;
+        private Tabel_Timbers.Timber? TmpTimber;
+        private Tabel_Timbers.Timber? DelTimber;
         private readonly List<CubGude> DicCubs = [];
         private Action? InputBoxAction;
-        private Timber? EndEdit;
+        private Tabel_Timbers.Timber? EndEdit;
         private readonly Tabel_Timbers _TabelTimbers;
         private readonly Action<Tabel_Timbers> ActionOne;
         private readonly Action CloseAction;
@@ -132,14 +132,14 @@ namespace RjProduction.Pages
         {
             if (DelTimber != null)
             {
-                _TabelTimbers.Timbers.Remove((Timber)DelTimber);
+                _TabelTimbers.Timbers.Remove((Tabel_Timbers.Timber)DelTimber);
                 Refreh_DG_Cubs();
             }
         }
 
         private void ВыборОбъекта(object sender, SelectedCellsChangedEventArgs e)
         {
-            if (e.AddedCells.Count != 0) if (e.AddedCells[0].Item is Timber cl) DelTimber = cl;
+            if (e.AddedCells.Count != 0) if (e.AddedCells[0].Item is Tabel_Timbers.Timber cl) DelTimber = cl;
         }
 
         private void НовыйЭлемент(object sender, RoutedEventArgs e)
@@ -221,7 +221,7 @@ namespace RjProduction.Pages
 
         private void ИзмененияВнесены(object? sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit) EndEdit = (Timber?)e.Row.Item;
+            if (e.EditAction == DataGridEditAction.Commit) EndEdit = (Tabel_Timbers.Timber?)e.Row.Item;
         }
     }
 }

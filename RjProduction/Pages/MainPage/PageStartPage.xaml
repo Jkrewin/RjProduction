@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RjProduction.Pages"
       mc:Ignorable="d"
-      Title="PageStartPage"  >
+      Title="PageStartPage" Loaded="ЗагрузкаПрограммы"  >
 
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -31,6 +31,7 @@
             </Rectangle>
             <Label Content="Стартовая страница " HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
         </Grid>
+
         <Grid Margin="0,10,0,0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="600"/>
@@ -55,12 +56,24 @@
             </Grid>
             </Grid>
             <StackPanel>
+                <Grid x:Name="G_db_Error"  Visibility="Collapsed" Height="59" Background="#FFFFCECA">
+                    <Label FontFamily="Calibri" Margin="20,0,0,0" FontSize="14" Content="Ошибка в базе данных " FontWeight="Bold" HorizontalAlignment="Center" Foreground="#FFA90202"></Label>
+                    <Label FontFamily="Calibri" Margin="18,22,18,0" FontSize="14" Content="Структура базы данных отличаеться от структуры программы следует обновить БД. " Foreground="#FF4C0404"/>
+
+                </Grid>
+
+                <Grid x:Name="G_Updater"  Visibility="Collapsed" Height="105" Background="#FFD6FFCA">
+                    <Label FontFamily="Calibri" Margin="20,0,0,0" FontSize="14" Content="Обнаруженно обновление. Изменения в базе данных " FontWeight="Bold" HorizontalAlignment="Center"></Label>
+                    <Label FontFamily="Calibri" Margin="20,21,0,52" FontSize="14" Content="Рекомендуеться обновить базу данных сейчас " HorizontalAlignment="Left"></Label>
+                    <Button x:Name="Button_Обновление" Margin="182,70,162,10" Background="#FF96E442" Content="Начать обновление" Click="ОбновлениеПрограммы"></Button>
+                </Grid>
+
                 <Label FontFamily="Calibri" Margin="20,0,0,0" FontSize="18" Content="О программе" FontWeight="Bold"></Label>
                 <TextBlock MaxHeight="600" TextWrapping ="WrapWithOverflow"   FontFamily="Calibri" Margin="20,0,0,0" FontSize="14" Text="   Добро пожаловать в тестовый дизайн проект программы. Цель создать программу по управлению производственными процессами, включающее себе бухгалтерию учет и склад. В качестве примера выходит деревообрабатывающая промышленность. Вам доступен только функционал поступления продукции на склад." Height="89" Foreground="#FF3C3C3C"/>
                 <Label FontFamily="Calibri" Margin="20,0,0,0" FontSize="18" Content="Особенности программы" FontWeight="Bold"></Label>
                 <TextBlock MaxHeight="600" TextWrapping ="WrapWithOverflow"   FontFamily="Calibri" Margin="20,0,0,0" FontSize="14" Text="   В общей таблице вы можете создавать объекты, которые включают в себя пиломатериалы, бревна, добавлять сотрудников в эту же таблицу. Между собой эти объекты будут взаимодействовать. К примеру, добавите рабочих к пиломатериалу, установите цену. Это будет считаться как оплата труда сдельная эти рабочим. В будущем будет функционал добавит автомобиль это будет означать что была перевозка.  Ранее пользователь заполнял все данные в разных полях и таблицах. Теперь чтобы установить вывоз круглого леса, в одной таблице может содержаться бревна и грузовой автомобиль. " Height="129" Foreground="#FF3C3C3C"/>
                 <Label FontFamily="Calibri" Margin="20,0,0,0" FontSize="18" Content="Дополнительно" FontWeight="Bold"></Label>
-                <TextBlock MaxHeight="600" TextWrapping ="WrapWithOverflow"   FontFamily="Calibri" Margin="20,0,0,0" FontSize="14" Text="   База данных SQL в этом проекте отсутствует.  Функционал только добавление на склад продукции " Height="89" Foreground="#FF3C3C3C"/>
+                <TextBlock MaxHeight="600" TextWrapping ="WrapWithOverflow"   FontFamily="Calibri" Margin="20,0,0,0" FontSize="14" Text="   База данных SQL в этом проекте присутствует только Sqlite.  Функционал только добавление на склад продукции " Height="89" Foreground="#FF3C3C3C"/>
                 <Label FontFamily="Calibri" Margin="20,0,0,0" FontSize="16" Content="ОБЗОР" FontWeight="Bold" Foreground="#FF6F6F6F"></Label>
                 <Grid Height="100">
                     <Grid Width="240" Height="100" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="350,0,0,0" >

@@ -247,11 +247,26 @@ namespace RjProduction.Pages
 
         private void Добавить_изменить(object sender, RoutedEventArgs e)
         {            
-            if (DG_Main.ItemsSource is List<Model.WarehouseClass>) {
+           
                 // Редактор складов
-                var wpf = new WpfFrm.WpfWarehouse(() => DG_Main.Items.Refresh());
+                var wpf = new WpfFrm.WpfWarehouse((w) =>
+                {
+
+                    МоиСклады();
+
+                    if (w is null) return;
+                    for (global::System.Int32 i = 0; i < MDL.MyDataBase.Warehouses.Count; i++)
+                    {
+                        if (w.Equals(MDL.MyDataBase.Warehouses[i]))
+                        {
+                            DG_Main.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                );
                 wpf.ShowDialog();
-            }
+            
 
         }
 

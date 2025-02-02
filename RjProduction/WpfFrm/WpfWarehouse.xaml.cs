@@ -2,7 +2,6 @@
 using RjProduction.Model;
 using System.Windows;
 using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RjProduction.WpfFrm
 {
@@ -10,10 +9,11 @@ namespace RjProduction.WpfFrm
     {
         const string _TEXT = "<<Создать новый>>";
         readonly List<DeliveredStruct> _warehouses = [];
-        readonly Action _action_exit;
+        readonly Action<WarehouseClass?> _action_exit;
+        WarehouseClass? selectedW;
 
 
-        public WpfWarehouse(Action action_exit)
+        public WpfWarehouse(Action<WarehouseClass?> action_exit)
         {
             InitializeComponent();
             _action_exit = action_exit;
@@ -21,9 +21,8 @@ namespace RjProduction.WpfFrm
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {
-            _warehouses.Add(new DeliveredStruct ( _TEXT,-1,_TEXT,new Model.WarehouseClass()));
-            foreach (var item in MDL.MyDataBase.Warehouses) _warehouses.Add(new DeliveredStruct(item.NameWarehouse , (int)item.ID, item.DescriptionWarehouse, item));
-                       
+            Refreh_DB();
+
             MainComboBox.ItemsSource = _warehouses;
             MainComboBox.DisplayMemberPath = "Name";
 
@@ -31,7 +30,18 @@ namespace RjProduction.WpfFrm
 
             NameWarehouse.Focus();
         }
-             
+
+        private void Refreh_DB() {
+
+            _warehouses.Clear();
+            _warehouses.Add(new DeliveredStruct(_TEXT, -1, _TEXT, new Model.WarehouseClass()));           
+            for (int i = 0; i < MDL.MyDataBase.Warehouses.Count; i++)
+            {
+                _warehouses.Add(new DeliveredStruct(MDL.MyDataBase.Warehouses[i].NameWarehouse, i, MDL.MyDataBase.Warehouses[i].DescriptionWarehouse, MDL.MyDataBase.Warehouses[i]));
+            }
+            MainComboBox.Items.Refresh();
+        }
+
         private void НажитиеЗакрыть(object sender, RoutedEventArgs e)
         {
 
@@ -39,19 +49,24 @@ namespace RjProduction.WpfFrm
 
         private void ВыбраннаСтрока(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
+            if (MainComboBox.SelectedItem is null) return;
             NameWarehouse.Text = "";
             DescriptionWarehouse.Text = "";
             AddressWarehouse.Text = "";
+
+           selectedW = ((WarehouseClass)((DeliveredStruct)MainComboBox.SelectedItem).Obj!);
 
             string s = ((DeliveredStruct)MainComboBox.SelectedItem).Name;
             if (s == _TEXT)
             {
                 MainButton.Content = "Добавить и закрыть форму";
+                ButtonSelect.Visibility = Visibility.Hidden;
             }
             else
             {
                 MDL.ImportToWpf(this, ((WarehouseClass)((DeliveredStruct)MainComboBox.SelectedItem).Obj!));
                 MainButton.Content = "Внести изменения";
+                ButtonSelect.Visibility = Visibility.Visible;
             }
         }
 
@@ -63,30 +78,67 @@ namespace RjProduction.WpfFrm
                 return;
             }
 
-            string s = ((DeliveredStruct)MainComboBox.SelectedItem).Name;
-            if (s == _TEXT)
+            if (MainComboBox.SelectedItem is null) return;
+           
+            DeliveredStruct dv= (DeliveredStruct)MainComboBox.SelectedItem;
+
+            if (dv.Name == _TEXT)
             {
-                MDL.MyDataBase.Warehouses.Add(MDL.ExportFromWpf<Model.WarehouseClass>(this));
+                if (MDL.MyDataBase.Warehouses.Any(x => x.NameWarehouse.Equals(NameWarehouse.Text, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    MessageBox.Show("Склад с таким названием уже существует!");
+                    return;
+                }
+                MDL.MyDataBase.Warehouses.Add(MDL.ExportFromWpf<WarehouseClass>(this,new WarehouseClass()));
                 MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
                 this.Close();
                 return;
             }
 
-            var r = MDL.MyDataBase.Warehouses.FindAll(x => x.NameWarehouse.Equals(s, StringComparison.CurrentCultureIgnoreCase));
-            if (r.Count >= 2)
-            {
-                MessageBox.Show("Склад с таким названием уже существует!");
-                return;
+            // Если нужно изменить строку    
+            WarehouseClass warehouse = (WarehouseClass)MDL.ExportFromWpf(this, (Sql.SqlParam)dv.Obj!);
+            MDL.MyDataBase.Warehouses[dv.ID] = warehouse;
+            if (MessageBox.Show("Обновить данные так же в общей БД ? ", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
+                Sql.SqlRequest.SetData(warehouse);
             }
-            var index = MDL.MyDataBase.Warehouses.FindIndex(x => x == r[0]);
-            MDL.MyDataBase.Warehouses[index] = MDL.ExportFromWpf<Model.WarehouseClass>(this);
 
             MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+            Refreh_DB();
         }
 
         private void ФормаЗакрыта(object sender, EventArgs e)
-        {
-            _action_exit.Invoke();
+        {           
+            _action_exit(selectedW);
         }
+
+        private void ВыборБД(object sender, RoutedEventArgs e)
+        {
+            Refreh_DB();
+        }
+
+        private void Синхронизация(object sender, RoutedEventArgs e)
+        {           
+            var ls = Sql.SqlRequest.ReadСollection<WarehouseClass>(nameof(WarehouseClass), nameof(WarehouseClass.ActiveObjIsDelete) + "='0'");
+            if (ls is null) return;
+            foreach (var item in ls)
+            {
+                var l = MDL.MyDataBase.Warehouses.FindIndex(x => x.Equals(item));
+                if (l == -1)
+                {
+                    //добавить если нет в локальной базе 
+                    MDL.MyDataBase.Warehouses.Add(item);
+                }
+                else
+                {
+                    // если есть то обновить 
+                   if (  MDL.MyDataBase.Warehouses[l].SyncData != item.SyncData) MDL.MyDataBase.Warehouses[l]= item;
+                }
+            }
+
+            Refreh_DB();
+            MainButton_Синхрон.Visibility = Visibility.Collapsed;
+        }
+
+        private void ВыборОбъекта(object sender, RoutedEventArgs e) => Close();
     }
 }

@@ -23,6 +23,7 @@ namespace RjProduction.Pages
             InitializeComponent();
             MyDoc = doc;
             ClosePage = closePage;
+            Title = doc.Number + "/" + doc.DataCreate.ToString();
         }
         public PageDocEditor(DocArrival doc, UIElement framePanel, Action closePage)
         {
@@ -30,6 +31,7 @@ namespace RjProduction.Pages
             MyDoc = doc;
             ClosePage = closePage;
             MainFramePanel = framePanel;
+            Title = doc.Number + "/" + doc.DataCreate.ToString();
         }
 
         /// <summary>
@@ -295,6 +297,8 @@ namespace RjProduction.Pages
                 return;
             }
 
+
+            MyDoc.DataCreate = DateOnly.FromDateTime(DataCreate.SelectedDate.Value);
             MyDoc.Warehouse = (WarehouseClass)Cbox_warehouses.SelectedItem;
             MDL.MyDataBase.WarehouseDef = (Model.WarehouseClass?)Cbox_warehouses.SelectedItem;
 
@@ -337,7 +341,7 @@ namespace RjProduction.Pages
             {
                 if (item is Tabel_Timbers timbers) {
                    Tabel_Timbers tabel_ = new();
-                    foreach (var item2 in timbers.Timbers) tabel_.Timbers.Add((Timber)item2.Clone());
+                    foreach (var item2 in timbers.Timbers) tabel_.Timbers.Add((Tabel_Timbers.Timber)item2.Clone());
                 }
                 else grup.Tabels.Add(item);
             }
@@ -414,10 +418,17 @@ namespace RjProduction.Pages
         private void СоздатьСклад(object sender, RoutedEventArgs e)
         {
             WpfFrm.WpfWarehouse wpf = new(
-                () =>
+                (w ) =>
                 {
                     Cbox_warehouses.Items.Refresh();
-                    if (Cbox_warehouses.Items.Count >= 1) Cbox_warehouses.SelectedIndex = Cbox_warehouses.Items.Count - 1;
+                    if (w is null) return;
+                    for (global::System.Int32 i = 0; i < MDL.MyDataBase.Warehouses.Count; i++)
+                    {
+                        if (w.Equals(MDL.MyDataBase.Warehouses[i])) { 
+                            Cbox_warehouses.SelectedIndex = i;
+                            break;
+                        }
+                    }
                 });
             wpf.ShowDialog();
 
@@ -435,7 +446,7 @@ namespace RjProduction.Pages
             CloseWpf.Visibility = Visibility.Collapsed;
             ((Button)sender).Visibility = Visibility.Collapsed;
             if (MainFramePanel is not null) MainFramePanel.Visibility = Visibility.Collapsed;
-            var wpf =new WpfFrm.WpfView(this,ClosePage);
+            var wpf =new WpfFrm.WpfView(this,this.Title, ClosePage);
             wpf.Show();
         }
     }

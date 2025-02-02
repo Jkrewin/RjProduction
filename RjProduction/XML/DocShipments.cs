@@ -4,9 +4,12 @@ using System.Windows;
 
 namespace RjProduction.XML
 {
-   public class DocShipments: XmlProtocol, IDocMain
+    /// <summary>
+    /// Выравнивание Остатков
+    /// </summary>
+    public class DocShipments: XmlProtocol, IDocMain
     {
-        public static readonly string DOC_CODE = DocCode.ВыравниваниеОстатков;
+        public static readonly string DOC_CODE = DocCode.Выравнивание_Остатков;
 
         /// <summary>
         /// Необходимый индификатор для общей бд бля быстрого поиска этого документа
@@ -23,11 +26,7 @@ namespace RjProduction.XML
         /// Заголовок документа
         /// </summary>
         public string DocTitle { get; set; } = "Выравнивание Остатков";
-        /// <summary>
-        /// Статус документа
-        /// </summary>
-        [SqlIgnore] public StatusEnum Status { get; set; } = StatusEnum.Не_Проведен;
-
+       
         public DocShipments() {
             TypeDoc =   $"{DOC_CODE}:{DocTitle}";
         }
@@ -49,10 +48,9 @@ namespace RjProduction.XML
                 goto final;
             }
 
-            // Получаем название поля для изменений
-            var o = new Products();
-            string fild = nameof(o.Cubature);
+            // Получаем название поля для изменений          
             bool error = false;
+           
 
             // Проводим по остаткам документ 
             foreach (var item in MainTabel)
@@ -60,11 +58,8 @@ namespace RjProduction.XML
                 foreach (var tv in item.Tabels)
                 {
                     if (tv is Pseudonym pseudonym) {
-                        if (Sql.SqlRequest.ConcurrentReqest(o.TabelName, pseudonym.ID_Prod, new (fild, pseudonym.CubAll.ToString()), pseudonym.Operation) )
-                        {
-                            pseudonym.SyncError = true;
-                           error = true;
-                        }
+                        pseudonym.Product.ConcurrentReqest(MDL.SqlProfile, pseudonym.Operation, pseudonym.SelectedCub);
+                        if (pseudonym.Product.SyncError == true) error = true;
                     }
                 }
             }
@@ -77,8 +72,20 @@ namespace RjProduction.XML
                 return;
             }
 
+
             // Сохраним документ
-            SqlRequest.SetData(this);
+               SqlRequest.SetData(this);
+            //соберем список строк
+            List<DocRow> ls = [];
+            foreach (var item in MainTabel)
+            {
+                foreach (var tv in item.Tabels)
+                {                  
+                    ls.Add(new(tv, item.NameGrup, ID_Doc));
+                }
+            }
+            // сохраним их
+            SqlRequest.SetData([.. ls]);
 
         final:
             Status = StatusEnum.Проведен;

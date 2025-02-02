@@ -11,6 +11,49 @@
         <Button Content="Test" HorizontalAlignment="Left" Margin="139,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестБ"/>
         <Button Content="unlock
                 " HorizontalAlignment="Left" Margin="400,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестC"/>
+        <ToolBarTray Background="#FFC75A5A" Margin="0,0,235,329">
+            <ToolBar Band="1" BandIndex="1">
+                <Button>
+                    <Image Source="/Res/Icon/app_draw.ico" />
+                </Button>
+                <Button>
+                    <Image Source="/Res/Icon/app_draw.ico" />
+                </Button>
+                <Button>
+                    <Image Source="/Res/Icon/app_draw.ico" />
+                </Button>
+            </ToolBar>
+            <ToolBar Band="2" BandIndex="1">
+                <Button>
+                    <Image Source="/Res/Icon/app_draw.ico" />
+                </Button>
+                <Button>
+                    <Image Source="/Res/images/configuration.png" />
+                </Button>
+            </ToolBar>
+            <ToolBar Band="2" BandIndex="2">
+                <Button>
+                    <Image Source="/Res/images/analytics_report.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Res/images/coin_icon.png" />
+                </Button>
+                <Separator/>
+                <Button>
+                    <Image Source="/Res/images/diagram_.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Res/images/handshake_partnership.png" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <ToolBarPanel Margin="0,389,0,0" Background="#FFBE6E6E" VerticalAlignment="Top" Height="20">
+            <Button Content="Test" Width="164" Height="18" Click="ТестБ"/>
+        </ToolBarPanel>
+        <ToolBar HorizontalAlignment="Left" Height="36" Margin="28,348,0,0" VerticalAlignment="Top" Width="636">
+            <Button Content="Test" Width="165" Height="31" Click="ТестБ" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </ToolBar>
+        <Button Content="Test" HorizontalAlignment="Left" Margin="139,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестБ"/>
 
     </Grid>
 </Window>

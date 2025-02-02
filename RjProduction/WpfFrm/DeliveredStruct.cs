@@ -10,7 +10,7 @@ namespace RjProduction.WpfFrm
         public string Comment { get; }
         public object? Obj { get; }
         public bool IsEmpty { get => ID == -1 || (string.IsNullOrEmpty(Name) & string.IsNullOrEmpty(Comment) & ID == 0); }
-        public Func<object>? GetAct { get; }
+        public Action? GetAct { get; }
 
 
         public DeliveredStruct(string name)
@@ -40,7 +40,7 @@ namespace RjProduction.WpfFrm
             GetAct = null;
         }
 
-        public DeliveredStruct(string name, int id, string comment, Func<object> act)
+        public DeliveredStruct(string name, int id, string comment, Action act)
         {
             Name = name;
             ID = id;

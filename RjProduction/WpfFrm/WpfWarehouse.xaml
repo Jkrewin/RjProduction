@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RjProduction.WpfFrm"
         mc:Ignorable="d"
         WindowStyle="ToolWindow"   
-        Title="" Height="283" Width="530" Loaded="Загруженно" WindowStartupLocation="CenterScreen" Closed="ФормаЗакрыта">
+        Title="" Height="335" Width="530" Loaded="Загруженно" WindowStartupLocation="CenterScreen" Closed="ФормаЗакрыта">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -16,7 +16,7 @@
         <Grid MinHeight="40" VerticalAlignment="Top" Height="40">
             <Rectangle Height="3" Fill="#FFD4D4D4" VerticalAlignment="Bottom"></Rectangle>
             <Label Content="Склады" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Center" FontFamily="Arial Black" FontWeight="Bold" FontSize="18"/>
-            
+
         </Grid>
         <Label Content="Название склада:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
         <Label Content="Описание склада:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
@@ -27,12 +27,29 @@
         <Label Content="Склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,11,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
         <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="169,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="283" FontFamily="Arial Black" FontSize="14" Height="31" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
 
-        <Button x:Name="MainButton"  HorizontalAlignment="Left" Margin="252,161,0,0" VerticalAlignment="Top" Height="30" Width="200" Background="{x:Null}" Content="Добавить и закрыть форму" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="ОбработкаОбъекта" FontSize="14" BorderBrush="#FFFF6434" Grid.Row="1">
+        <Button x:Name="MainButton"  HorizontalAlignment="Left" Margin="252,186,0,0" VerticalAlignment="Top" Height="30" Width="200" Background="{x:Null}" Content="Добавить и закрыть форму" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="ОбработкаОбъекта" FontSize="14" BorderBrush="#FFFF6434" Grid.Row="1">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3"/>
                 </Style>
             </Button.Resources>
         </Button>
+        <Button x:Name="MainButton_Синхрон"  HorizontalAlignment="Left" Margin="15,205,0,0" VerticalAlignment="Top" Height="22" Width="187" Background="{x:Null}" Content="Синхронизировать с общей Базой" FontFamily="Trebuchet MS" Foreground="Black" Click="Синхронизация" BorderBrush="Black" Grid.Row="1" FontSize="11">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="ButtonSelect"  HorizontalAlignment="Left" Margin="457,10,0,0" VerticalAlignment="Top" Height="31" Width="33" Background="{x:Null}" Content="&#xE008;" FontFamily="Segoe MDL2 Assets" Foreground="#FF0FBE76" Click="ВыборОбъекта" BorderBrush="#FF0FBE76" Grid.Row="1" FontSize="11" ToolTip="Выбрать этот склад">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Label Content="ID в базе" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,146,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
+        <TextBox x:Name="ID" HorizontalAlignment="Left" Margin="170,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5" Grid.Row="1" IsEnabled="False" Background="#FFE0E0E0"/>
+
     </Grid>
 </Window>

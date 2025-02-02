@@ -1,10 +1,9 @@
 ﻿
 using System.Data;
-using System.Xml.Serialization;
 
 namespace RjProduction.Sql
 {
-    public interface ISqlProfile
+    public interface ISqlProfile: IDisposable
     {
         /// <summary>
         /// База Данных
@@ -18,6 +17,11 @@ namespace RjProduction.Sql
         /// Текущее состояние БД
         /// </summary>
         public bool ConnectIs { get; }
+        /// <summary>
+        /// Строка последнего запроса для поиска ошибок
+        /// </summary>
+        public string SqlLogString { get; set; }
+
 
         /// <summary>
         /// Объект помещает в кавычки для некоторых версий sql кавычки бывают разный
@@ -26,15 +30,11 @@ namespace RjProduction.Sql
         /// <returns>преобразованный текст в кавычках</returns>
         public string QuotSql(string str);
 
-
         /// <summary>
-        /// Получает выражение типов FieldSql из строки 
+        /// Управляет транзакцией
         /// </summary>
-        /// <param name="tabelName"></param>
-        /// <param name="where"></param>
-        /// <param name="_select"></param>
-        /// <returns></returns>
-        public List<FieldSql> GetDataFieldSql(string tabelName, string where, string _select = "*");
+        public void Transaction(TypeTransaction transaction);
+       
         /// <summary>
         /// Указывает какой тип подключения сейчас
         /// </summary>
@@ -70,26 +70,29 @@ namespace RjProduction.Sql
         /// Проверка на существоание таблици
         /// </summary>
         public bool ExistTabel(string tabelName);
+
         /// <summary>
         /// Полученние данных по id
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="TabelName"></param>
         /// <returns></returns>
-        public FieldSql[] GetDate(long ID, string TabelName);
-        public FieldSql[] GetDate(string where, string TabelName);
+        public FieldSql[] GetFieldSql(long ID, string TabelName);
+        public FieldSql[] GetFieldSql(string where, string TabelName);
+        public List<FieldSql[]> GetFieldSql(string where, string tabelName, string select ="*");
+
         /// <summary>
         /// Получает List объектов по запросу или с параметрами поиска
         /// </summary>
         /// <param name="tabelName">Нзавание таблици</param>        
         /// <param name="where">Необязателен. Можно составить запрос после WHERE с поиском строк </param>
         public List<object[]> AdapterSql(string tabelName, out long id, string where = "");
+        public object? AdapterSql(string tabelName, string nameField, string where = "");       
 
-        public object? AdapterSql(string tabelName, FieldSql selectField, string where = "");
         /// <summary>
         /// Подключиться к базе данных
         /// </summary>
-        public void Conection();
+        public void Conection(bool startTransaction = false);
         /// <summary>
         /// Отключиться от БД
         /// </summary>
@@ -110,7 +113,7 @@ namespace RjProduction.Sql
                 SqlParam? param = field.GetValue(obj) as SqlParam;
 
                 if (param is not null) ls.Add(new(field.Name, TypeSQL("Int32")));
-                else if (field.Name == "ID") ls.Insert(0, new("ID", TypeSQL("KEY_ID")));
+                else if (field.Name == nameof(SqlParam.ID)) ls.Insert(0, new("ID", TypeSQL("KEY_ID")));
                 else ls.Add(new(field.Name, TypeSQL(field.PropertyType.Name)));
             }
             return ls;
@@ -131,17 +134,19 @@ namespace RjProduction.Sql
             public readonly string NameField ;
             public readonly string TypeField ;
             public readonly string Value ;
-
-            public FieldSql(string name, string value) {
-                NameField = name;
-                Value = value;
-                TypeField = string.Empty;
-            }
+            public readonly double ValueDbl;
 
             public FieldSql(string name, double value)
             {
                 NameField = name;
                 Value = value.ToString();
+                ValueDbl = value;
+                TypeField = string.Empty;
+            }
+
+            public FieldSql(string name, string value) {
+                NameField = name;
+                Value = value;
                 TypeField = string.Empty;
             }
 
@@ -153,6 +158,9 @@ namespace RjProduction.Sql
 
             public override readonly string ToString() => $"{NameField}; {TypeField} {Value}";
 
+            /// <summary>
+            /// посик значения в массиве по названию NameField
+            /// </summary>
             public static string ValueFieldSql(FieldSql[] fields, string nameField) {
                 for (int i = fields.Length-1; i >= 0; i--)
                 {
@@ -162,6 +170,11 @@ namespace RjProduction.Sql
                 }
                 return string.Empty ;   
             }
+        }
+
+        public enum TypeTransaction
+        {
+            commit, roolback        
         }
     }
 }

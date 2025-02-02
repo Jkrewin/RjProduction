@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace RjProduction.Pages.Doc
@@ -12,30 +13,40 @@ namespace RjProduction.Pages.Doc
     
     public partial class PageShipments : Page
     {
-        private readonly DocShipments _Shipments;
+        private readonly IDocMain _Shipments;
         private bool RenameGrup = false;    //Режим переименование группы
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
         private readonly UIElement? MainFramePanel;
 
-        public PageShipments(DocShipments shipments, Action closePage)
-        {
-            InitializeComponent();
-            _Shipments = shipments;
-            ClosePage = closePage;
-        }
-
+       
         public PageShipments(DocShipments doc, UIElement framePanel, Action closePage)
         {
             InitializeComponent();
             _Shipments = doc;
             ClosePage = closePage;
             MainFramePanel = framePanel;
+            Title = doc.Number + "/" + doc.DataCreate.ToString();
+            WarehouseSelector.Visibility = Visibility.Collapsed;
+        }
+
+        public PageShipments(DocMoving doc, UIElement framePanel, Action closePage)
+        {
+            InitializeComponent();
+            _Shipments = doc;
+            ClosePage = closePage;
+            MainFramePanel = framePanel;
+            Title = doc.Number + "/" + doc.DataCreate.ToString();
+            WarehouseSelector.Visibility = Visibility.Visible;
+            Cbox_warehouses_From.Content = doc.Warehouse_From.NameWarehouse;
+            Cbox_warehouses_To.DisplayMemberPath = "NameWarehouse";
+            Cbox_warehouses_To.ItemsSource = MDL.MyDataBase.Warehouses;
         }
 
         private void Refreh_ListGrup() {
             ListGrup.Items.Clear();
             ListBoxEmp.Items.Clear();
+            
             foreach (var item in _Shipments.MainTabel)
             {
                 ListGrup.Items.Add(item.NameGrup);
@@ -55,28 +66,29 @@ namespace RjProduction.Pages.Doc
         }
 
         private void AddItemEmp(Pseudonym obj) {
-            string cub = (obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "-" : "+") + Math.Round(obj.CubAll,2).ToString();
+            string cub = (obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "-" : "+") + Math.Round(obj.CubatureAll,2).ToString();
             /// добавление новых элементов изменить Text_TextChanged структуру
             StackPanel sp = new() { Orientation = Orientation.Horizontal, Height = 20 };
             Label l1 = new()
             {
                 Width = 250,
                 Padding = new(5, 1, 5, 5),
-                Content = obj.Name
+                Content = obj.Product.NameItem + " !"+ Math.Round( obj.CubatureAll,2)
             };
+            if (obj.Product.SyncError) l1.Foreground = Brushes.Red;
             sp.Children.Add(l1);
             Label l0 = new()
             {
                 Width = 50,
                 Padding = new(5, 1, 5, 5),
                 Foreground = MDL.BrushConv(obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "#FFD39B9B" : "#FF029E88"),
-                Content = cub
+                Content = (obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "-" : "+") + Math.Round(obj.SelectedCub, 2)
             };
             sp.Children.Add(l0);
             TextBox text1 = new()
             {
                 Width = 80,
-                Text = obj.Price.ToString(),
+                Text = obj.PriceCng.ToString(),
                 BorderBrush = null,
                 Background = MDL.BrushConv("#FFD2D9F3"),
                 Tag = sp
@@ -100,7 +112,7 @@ namespace RjProduction.Pages.Doc
             if (sender is TextBox text_box)
             {
                 var tag = (StackPanel)text_box.Tag;
-                if (tag.Tag is Pseudonym pseudonym) ((TextBox)sender).Text = pseudonym.Price.ToString();
+                if (tag.Tag is Pseudonym pseudonym) ((TextBox)sender).Text = pseudonym.PriceCng.ToString();
             }
         }
 
@@ -118,7 +130,7 @@ namespace RjProduction.Pages.Doc
                 var label = (tag.Children[LABEL_INT_AMOUNT] as Label) ?? new Label();
                 if (tag.Tag is Pseudonym pseudonym)
                 {
-                    if (double.TryParse(((TextBox)sender).Text, out double d)) pseudonym.Price = d;
+                    if (double.TryParse(((TextBox)sender).Text, out double d)) pseudonym.PriceCng = d;
                     label.Content = pseudonym.Amount;
                 }
             }
@@ -207,7 +219,7 @@ namespace RjProduction.Pages.Doc
                 RenameGrup = false;
             }
             else _Shipments.MainTabel.Add(new GrupObj() { NameGrup = TBox_GrupName.Text });
-            _Shipments.MainTabel[ListGrup.SelectedIndex] = _Shipments.MainTabel[^1];
+            //_Shipments.MainTabel[ListGrup.SelectedIndex] = _Shipments.MainTabel[^1];
             Refreh_ListGrup();
             ЗакрытьОкноГруппы(null!, null!);
         }
@@ -240,16 +252,19 @@ namespace RjProduction.Pages.Doc
 
         }
 
-        private void СохранитьXML(object sender, System.Windows.RoutedEventArgs e)
+       [DependentCode] private void СохранитьXML(object sender, System.Windows.RoutedEventArgs e)
         {
             if (SavedDoc == false)
             {
-                string sFile = $"{MDL.XmlPatch(_Shipments.DataCreate)}\\{_Shipments.FileName}";
-                if (File.Exists(sFile)) { 
+                string sFile = $"{MDL.XmlPatch(_Shipments.DataCreate)}\\{((XmlProtocol)_Shipments).FileName}";
+                if (File.Exists(sFile))
+                {
                     if (MessageBox.Show("Перезаписать ранее созданный файл с такой датой и номером ?", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
-                }
+                }                
             }
-            XmlProtocol.SaveDocXml<DocShipments>(_Shipments);
+             if (uint.TryParse(Number.Text, out uint u))            MDL.MyDataBase.NumberDef = u;
+            if (_Shipments is DocShipments) XmlProtocol.SaveDocXml<DocShipments>(_Shipments);
+           else if (_Shipments is DocMoving) XmlProtocol.SaveDocXml<DocMoving>(_Shipments);
             SavedDoc = true;
         }
 
@@ -302,8 +317,33 @@ namespace RjProduction.Pages.Doc
             CloseWpf.Visibility = Visibility.Collapsed;
             ((Button)sender).Visibility = Visibility.Collapsed;
             if (MainFramePanel is not null) MainFramePanel.Visibility = Visibility.Collapsed;
-            var wpf = new WpfFrm.WpfView(this, ClosePage);
+            var wpf = new WpfFrm.WpfView(this,Title ,ClosePage);
             wpf.Show();
+        }
+
+        private void СоздатьСкладB(object sender, RoutedEventArgs e)
+        {
+            WpfFrm.WpfWarehouse wpf = new(
+                (w) =>
+                {
+                    Cbox_warehouses_To.Items.Refresh();
+                    if (w is null) return;
+                    for (global::System.Int32 i = 0; i < MDL.MyDataBase.Warehouses.Count; i++)
+                    {
+                        if (w.Equals(MDL.MyDataBase.Warehouses[i]))
+                        {
+                            Cbox_warehouses_To.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                });
+            wpf.ShowDialog();
+        }
+        
+        private void ВыбранСкладTo(object sender, SelectionChangedEventArgs e)
+        {
+            var w = MDL.MyDataBase.Warehouses.Find(x => x.Equals(Cbox_warehouses_To.SelectedValue)) ; 
+            ((DocMoving)_Shipments).Warehouse_To = w ?? new WarehouseClass() { NameWarehouse = "NaN" };
         }
     }
 }

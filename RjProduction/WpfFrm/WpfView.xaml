@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RjProduction.WpfFrm"
         mc:Ignorable="d"
-        Title="" Height="675" Width="850" Loaded="Загруженно" Icon="/Res/Icon/docs-document-file.ico" Closed="ФормаЗакрыта" WindowStartupLocation="CenterScreen">
+        Title="" Height="675" Width="850" Loaded="Загруженно" Icon="/Res/Icon/docs-document-file.ico" Closed="ФормаЗакрыта" WindowStartupLocation="CenterScreen" LostFocus="ФокусФормыПотерян">
     <Grid>
-        <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="White" Margin="10,10,10,10" MinWidth="750" MaxWidth="950"/>
-
+       
+            <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="White" Margin="10,0,10,10" MinWidth="750" MaxWidth="950"/>
+        
     </Grid>
 </Window>

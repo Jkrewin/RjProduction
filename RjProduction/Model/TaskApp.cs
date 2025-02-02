@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RjProduction.Model
 {
+    /// <summary>
+    /// Оперативные внешние задачи 
+    /// </summary>
     public class TaskApp
     {
         public required object SenderDoc;

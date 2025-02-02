@@ -1,11 +1,12 @@
 ﻿using RjProduction.Model;
 using RjProduction.Sql;
-using RjProduction.XML;
+using RjProduction.WpfFrm;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Xml.Serialization;
 using static RjProduction.Sql.ISqlProfile;
 
@@ -13,6 +14,14 @@ namespace RjProduction
 {
     static public class MDL
     {
+        /// <summary>
+        /// Основное окно получает стандартное оформление, верхнаяя часть панели меняеться на системную
+        /// </summary>
+        static public bool WindowsStandart { get; set; } = false;
+       /// <summary>
+       /// Основная форма
+       /// </summary>
+       static public MainWindow? MainWindow { get; set; }
         /// <summary>
         /// Текущий каталог где справочник
         /// </summary>
@@ -29,7 +38,10 @@ namespace RjProduction
         /// Профиль  для sql подключения
         /// </summary>            
         [XmlIgnore] static public ISqlProfile? SqlProfile { get; set; }
-
+        /// <summary>
+        /// Управляет открытими окнами для все открытых WpfView
+        /// </summary>
+        [XmlIgnore] static public List<WpfView> AllWpfViewWin { get; set; } = [];
 
         public static void LogError(string mess, string error_text="") {
             var t = new WpfFrm.ErrorLog(mess, error_text);
@@ -137,7 +149,7 @@ namespace RjProduction
         /// <param name="year">год</param>
         /// <param name="month">месяц</param>
         /// <returns></returns>
-        static public List<IDocMain>? GetDocuments(int year, int month, string doc_code )
+        [DependentCode]static public List<IDocMain>? GetDocuments(int year, int month, string doc_code )
         {
             bool allset = doc_code == "";
             List<IDocMain> docs = [];
@@ -150,14 +162,19 @@ namespace RjProduction
                     string tag = fileInfo.Name.Split('_', StringSplitOptions.RemoveEmptyEntries)[0];
                     if (allset) doc_code = tag;
                     IDocMain? idoc;
-                    if (tag == DocCode.Производство_склад & doc_code == tag)
+                    if (tag == DocCode.Производство_Cклад & doc_code == tag)
                     {
                         idoc = XML.XmlProtocol.LoadDocXML<XML.DocArrival>(file);
                         if (idoc is not null) docs.Add(idoc);
                     }
-                    else if (tag == DocCode.ВыравниваниеОстатков & doc_code == tag)
+                    else if (tag == DocCode.Выравнивание_Остатков & doc_code == tag)
                     {
                         idoc = XML.XmlProtocol.LoadDocXML<XML.DocShipments>(file);
+                        if (idoc is not null) docs.Add(idoc);
+                    }
+                    else if (tag == DocCode.Перемещение_По_Складам & doc_code == tag)
+                    {
+                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocMoving>(file);
                         if (idoc is not null) docs.Add(idoc);
                     }
                 }
@@ -194,15 +211,15 @@ namespace RjProduction
                     else checkBox.IsChecked = false;
                 }
             }
-        }
+        }       
         /// <summary>
-        /// Выгружает страницу или форму на нужный класс заполняе его
+        /// Выгружает страницу или форму на нужный класс заполняе его. Выгружает страницу или форму на нужный класс заполняе только для SqlParam наслединков 
         /// </summary>
-        static public T ExportFromWpf<T>(FrameworkElement page) where T : class
-        {
-            T obj = Activator.CreateInstance<T>();
+        static public T ExportFromWpf<T>(FrameworkElement page, T obj)  where T : SqlParam
+        {          
             foreach (var property in obj!.GetType().GetProperties())
             {
+                if (property.CanWrite == false) continue;
                 var t = page.FindName(property.Name);
                 if (t is null) continue;
                 string refObj = "";
@@ -252,8 +269,9 @@ namespace RjProduction
                         break;
                 }
             }
-            return obj;
+            return (T)obj;
         }
+
         /// <summary>
         /// Создает путь к файлу с учетом создания каталогов по месяцам
         /// </summary>
@@ -268,21 +286,90 @@ namespace RjProduction
             if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
             return sFile;
         }
+        /// <summary>
+        /// обновить список окон и показать UI какие окна используються
+        /// </summary>
+        public static void Refreh_AllWpfView()
+        {
+            if (MainWindow is null) return;
+            if (AllWpfViewWin.Count == 0)
+            {
+                MainWindow.StBar.Visibility = Visibility.Collapsed;
+                MainWindow.MainGrind.RowDefinitions[1].Height = new GridLength(1);
+                return;
+            }
+            else
+            {
+                MainWindow.MainGrind.RowDefinitions[1].Height = new GridLength(24);
+                MainWindow.StBar.Visibility = Visibility.Visible;
+            }
+
+            MainWindow.StBar.Children.Clear();
+            foreach (var item in AllWpfViewWin)
+            {
+                var b = new Button()
+                {
+                    Content = item.Title,
+                    Width = 100,
+                    Height=25,
+                    MaxWidth = 100,
+                    Tag = item,
+                    FontSize = 10,
+                    FontFamily = new FontFamily("Arial"),
+                    FontWeight = FontWeights.Normal
+                };
+                b.Click += B_Click;
+                item.Activated += Item_Activated;
+                MainWindow.StBar.Children.Add(b);
+            }
+
+            foreach (var item in MainWindow.StBar.Children)
+            {
+                if (item is Button button)
+                {
+                    if (((WpfView)button.Tag).Focus()) {
+                        button .FontWeight = FontWeights.Bold;
+                    }
+                }
+            }
+        }
+
+        private static void Item_Activated(object? sender, EventArgs e)
+        {
+            if (MainWindow is null) return;
+            foreach (var item in MainWindow.StBar.Children)
+            {
+                if (item is Button button)
+                {
+                    if (((WpfView)button.Tag).Equals(sender)) button.FontWeight = FontWeights.Bold;
+                    else button.FontWeight = FontWeights.Normal;
+                }
+            }
+        }
+
+        private static void B_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button b)
+            {
+                ((Window)b.Tag).Focus();
+            }
+        }
 
         /// <summary>
         /// Сохрание файла xml с полной очисткой файла
         /// </summary>
-        static public void SaveXml<T>(T cl, string sFile) {
+        static public void SaveXml<T>(T cl, string sFile)
+        {
             XmlSerializer xmlSerializer = new(typeof(T));
             try
-           {
+            {
                 FileStream fs = new(sFile, FileMode.Create, FileAccess.Write, FileShare.None);
                 try
-               {
+                {
                     fs.SetLength(0);
                     xmlSerializer.Serialize(fs, cl);
                 }
-                catch 
+                catch
                 {
                     throw;
                 }
@@ -293,8 +380,8 @@ namespace RjProduction
             }
             catch (Exception ex)
             {
-                MDL.LogError($"Ошибка при сохрании в файл {cl}" ,ex.Message + ex.Source + ex.StackTrace);
-            }            
+                MDL.LogError($"Ошибка при сохрании в файл {cl}", sFile + "\n   " + ex.Message + "\n" + ex.Source + "\n" + ex.InnerException);
+            }
         }
         /// <summary>
         /// Сохранить настройки приложения
@@ -418,10 +505,7 @@ namespace RjProduction
             /// Прошлый номер документа 
             /// </summary>
             public uint NumberDef = 0;
-            /// <summary>
-            /// Статус главного окна по умолчанию
-            /// </summary>
-            public WindowState WindowStateDef = WindowState.Normal;
+          
             /// <summary>
             /// Склад по умолчанию выбран
             /// </summary>
@@ -439,6 +523,14 @@ namespace RjProduction
             public string DataBaseFile ;
             public int SqlType = (int)ISqlProfile.TypeSqlConnection.none;
 
+            /// <summary>
+            /// Статус главного окна по умолчанию
+            /// </summary>
+            public WindowState WindowStateDef = WindowState.Normal;
+
+            /// <summary>
+            /// Установить профиль
+            /// </summary>
             public void SetProfile()
             {
                 switch (SqlType)

@@ -42,7 +42,7 @@ namespace RjProduction.Pages
         /// отчет за все дни
         /// </summary>
         private void ReportAllDay() {
-            _docs = MDL.GetDocuments(DateTime.Now.Year, SetMonth(),DocCode.Производство_склад)!;
+            _docs = MDL.GetDocuments(DateTime.Now.Year, SetMonth(),DocCode.Производство_Cклад)!;
             if (_docs == null || _docs.Count == 0)
             {
                 Label_Error.Visibility = Visibility.Visible;
@@ -111,7 +111,7 @@ namespace RjProduction.Pages
         /// зарплатный отчет
         /// </summary>
         private void Report_01() {
-             _docs= MDL.GetDocuments(DateTime.Now.Year, SetMonth(), DocCode.Производство_склад)!;
+             _docs= MDL.GetDocuments(DateTime.Now.Year, SetMonth(), DocCode.Производство_Cклад)!;
             if (_docs == null || _docs.Count == 0)
             {
                 Label_Error.Visibility = Visibility.Visible;

@@ -59,7 +59,7 @@ namespace RjProduction.Sql
                         {
                             // Проверим если кто то уже успел заблокировать 
                             //var pr = MDL.SqlProfile.GetDate(IDField, TabelName);
-                            var str = ISqlProfile.FieldSql.ValueFieldSql(MDL.SqlProfile.GetDate(IDField, TabelName), nameof(LockInfo));
+                            var str = ISqlProfile.FieldSql.ValueFieldSql(MDL.SqlProfile.GetFieldSql(IDField, TabelName), nameof(LockInfo));
                             if (string.IsNullOrEmpty(str) || str == "0")
                             {
                                 MDL.SqlProfile.SqlCommand(sql);
@@ -109,12 +109,7 @@ namespace RjProduction.Sql
             if (dataRow[nameof(ActiveObjIsDelete)] is bool b) ActiveObjIsDelete = b;
             if (bool.TryParse(dataRow[nameof(LockInfo)].ToString(), out bool bb)) LockInfo = bb;
         }
-        /// <summary>
-        /// Обозначит как новый, новая строка, скопирует если такая уже есть или создаст новую. После этого метода вызвать запрос на sql  
-        /// <code>public void Rebild() => IDField = -1;</code>
-        /// </summary>
-        public void Rebild() => IDField = -1;
-
+       
         private void CallBack(object? obj)
         {
             if (ID != -1) return;

@@ -1,0 +1,73 @@
+﻿<Page x:Class="RjProduction.Pages.Additions.PageViewDoc"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RjProduction.Pages.Additions"
+      xmlns:Model="clr-namespace:RjProduction.Model"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageView" Loaded="Загруженно">
+    
+    <Grid Background="White">       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="41"/>
+            <RowDefinition Height="162"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="187*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Rectangle VerticalAlignment="Bottom" Height="5">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FF2304FF" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.321"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label x:Name="DocTitle" Content="--" HorizontalAlignment="Left" Margin="85,0,0,0" VerticalAlignment="Center" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF2A2A2A"/>
+            <Label x:Name="Label_NotDB" Visibility="Collapsed" Content=" Нет подключения к БД. Проверте настройки." Background="Red" Foreground="White" Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,1,5,5"  />
+        </Grid>
+        <Grid Grid.Row="1" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="343*"/>
+                <ColumnDefinition Width="457*"/>
+            </Grid.ColumnDefinitions>
+            <Label  Content="Дата документа:" HorizontalAlignment="Right" Margin="0,10,193,0" VerticalAlignment="Top" FontSize="14" FontFamily="Corbel" Width="140" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}" FontWeight="Bold"/>
+            <Label x:Name="DataCreate" Content="--" HorizontalAlignment="Right" Margin="0,10,26,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Width="167" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}"/>
+
+            <Label  Content="Номер документа:" HorizontalAlignment="Right" Margin="0,38,193,0" VerticalAlignment="Top" FontSize="14" FontFamily="Corbel" Width="140" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}" FontWeight="Bold"/>
+            <Label x:Name="Number" Content="--" HorizontalAlignment="Right" Margin="0,38,26,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Width="167" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}"/>
+
+            <Label  Content="Сумма:" HorizontalAlignment="Right" Margin="0,66,193,0" VerticalAlignment="Top" FontSize="14" FontFamily="Corbel" Width="140" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}" FontWeight="Bold"/>
+            <Label x:Name="Amount" Content="--" HorizontalAlignment="Right" Margin="0,66,26,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Width="167" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}"/>
+
+            <Label  Content="Всего кубов:" HorizontalAlignment="Right" Margin="0,94,193,0" VerticalAlignment="Top" FontSize="14" FontFamily="Corbel" Width="140" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}" FontWeight="Bold"/>
+            <Label x:Name="Cubs" Content="--" HorizontalAlignment="Right" Margin="0,94,26,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Width="167" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}"/>
+
+            <Button Content="&#xE2F6;" HorizontalAlignment="Left" Margin="405,10,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="Печать_документа" BorderBrush="Black" ToolTip="Печать" Grid.Column="1"/>
+            <Label Content="Общая таблица" Grid.Row="2" VerticalAlignment="Top"  Margin="0,161,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Height="30" Background="#FFE8F6F9" Foreground="#FF514040" Grid.ColumnSpan="2"/>
+            <!-- 2  -->
+            <Label  Content="На склад:" HorizontalAlignment="Right" Margin="0,12,307,0" VerticalAlignment="Top" FontSize="14" FontFamily="Corbel" Width="140" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}" FontWeight="Bold" Grid.Column="1"/>
+            <Label x:Name="Warehouse" Content="--" HorizontalAlignment="Center" Margin="0,11,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Width="167" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581" Height="28" Background="{x:Null}" Grid.Column="1"/>
+
+
+
+        </Grid>
+        <DataGrid x:Name="MainDataGrid" CanUserAddRows="False" IsReadOnly="True"  Grid.Row="4" AutoGenerateColumns="True" GridLinesVisibility="Horizontal" Margin="10,0,10,0" />
+        <StackPanel  x:Name="SP_Buttons" Grid.Row="3" Orientation="Horizontal" MinHeight="25" MaxHeight="26">
+            <Button x:Name="ButtonFirst" Uid="{x:Static Model:DocRow.Пиломатериалы}" Width="100" Content="Материалы" Margin="10,0,0,0" FontSize="14" FontFamily="Arial" Background="#FFF8DAC1" Foreground="#FF21556F" Click="ВыборГруппы" Height="25" MinHeight="25" MaxHeight="25" BorderBrush="{x:Null}"></Button>
+            <Button Uid="{x:Static Model:DocRow.Сотрудники}" Width="100" Content="Персонал" Margin="5,0,0,0" FontSize="14" FontFamily="Arial" Background="#FFF0F3EF" Foreground="#FF21556F" Click="ВыборГруппы" MinHeight="25" MaxHeight="25" BorderBrush="{x:Null}"/>
+
+        </StackPanel>
+    </Grid>
+</Page>

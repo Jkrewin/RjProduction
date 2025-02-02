@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RjProduction.Pages.Doc"
       mc:Ignorable="d" 
-      Title="PageDocEditor"  Loaded="Загруженно" MaxWidth="800" MinWidth="750" HorizontalAlignment="Right"  >
+      Title="DocShipments"  Loaded="Загруженно" MaxWidth="800" MinWidth="750" HorizontalAlignment="Right"  >
 
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -16,13 +16,27 @@
         <DatePicker x:Name="DataCreate" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="189" Background="White" Height="28" BorderBrush="#FFD5D5D5" FontSize="16" CalendarClosed="ВыходИзДаты_" Grid.Row="1" FontFamily="Corbel" Foreground="#FF565656" />
         <Label Content="Номер:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
         <TextBox x:Name="Number" HorizontalAlignment="Left" Margin="157,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontFamily="Arial" BorderBrush="#FFD5D5D5" LostFocus="ВодНомера" GotFocus="ВходВПоле_" Grid.Row="1"/>
-        <GroupBox x:Name="GrupBox_Emp" Header="Тип объекта" Margin="200,133,0,0" Width="492" Height="286" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" FontFamily="Corbel" Foreground="#FF565656" BorderBrush="#FF7C99FF" Background="#FFFAFAFA">
+
+        <Grid x:Name="WarehouseSelector" Background="White" Margin="10,80,365,381" Grid.Row="1">
+            <Label Content="С этого склада:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold"/>
+            <Border BorderBrush="#FFD5D5D5" BorderThickness="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="188" Height="31" Margin="148,0,0,0">
+                <Label x:Name="Cbox_warehouses_From" HorizontalAlignment="Center" VerticalAlignment="Center" Width="188" FontFamily="Arial" FontSize="14" Height="31" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF631E1E" BorderBrush="Black" />
+            </Border>
+            <ComboBox x:Name="Cbox_warehouses_To" HorizontalAlignment="Left" Margin="148,33,0,0" VerticalAlignment="Top" Width="188" FontFamily="Arial" FontSize="14" Height="31" VerticalContentAlignment="Center" SelectionChanged="ВыбранСкладTo"/>
+            <Label Content="На этот склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="1,34,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold"/>
+            <Button Content="&#xED11;" HorizontalAlignment="Left" Margin="341,33,0,0" VerticalAlignment="Top" Height="30" Width="30" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="СоздатьСкладB" BorderBrush="#FFACACAC"/>
+        </Grid>
+
+
+        <GroupBox x:Name="GrupBox_Emp" Header="Тип объекта" Margin="200,218,0,0" Width="492" Height="286" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" FontFamily="Corbel" Foreground="#FF565656" BorderBrush="#FF7C99FF" Background="#FFFAFAFA">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
-                    <RowDefinition Height="126"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="100*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Grid.RowSpan="1" >
+                
+                <StackPanel Orientation="Horizontal"  >
                     <Button x:Name="ButtonAdd" Content="Ë" Margin="10,0,0,0" FontFamily="Wingdings 2" Width="23" Background="#FFA4D47A" Foreground="#FF195603" Click="ДобавитьОбъект" BorderBrush="#FF056A00" IsEnabled="False">
                         <Button.ContextMenu>
                             <ContextMenu>
@@ -32,7 +46,6 @@
                                 <MenuItem Header="F8 Доплата сотрудникам" Click="ДобавитьДоплата"/>
                             </ContextMenu>
                         </Button.ContextMenu>
-
                     </Button>
                     <Button Content="Ò" FontFamily="Wingdings 2" Margin="5,0,0,0" Width="23" Background="#FFD39B9B" Foreground="#FF770707" Click="УдалитьОбъект" BorderBrush="#FF7A0000" IsEnabled="False" />
                     <Label x:Name="Label_SumDown" FontFamily="Bahnschrift" FontSize="13"  Margin="55,0,0,0" Content="00" Width="71" Padding="5,3,5,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FFFFC5C5" BorderBrush="Black" Foreground="#FF660000" ToolTip="Сумма зарплат рабочим">
@@ -45,19 +58,19 @@
 
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal"  Height="20" VerticalAlignment="Top" Grid.Row="1">
+                <StackPanel  Orientation="Horizontal"  Height="20" VerticalAlignment="Top" Grid.Row="1">
                     <Label Width="300" Padding="5,1,5,5" HorizontalContentAlignment="Center" FontWeight="Bold" Background="#FFEDEDED">Наименование</Label>
                     <Label Content="Цена" Width="60" BorderBrush="{x:Null}" Background="#FFEDEDED" Padding="5,1,5,5" HorizontalContentAlignment="Center" FontWeight="Bold" />
                     <Label  Padding="5,1,5,5" HorizontalContentAlignment="Center" Width="118" FontWeight="Bold" Background="#FFEDEDED">Сумма</Label>
                 </StackPanel>
-                <ListBox x:Name="ListBoxEmp" FontSize="14" FontFamily="Calibri" Grid.Row="1" Margin="0,20,0,0" PreviewMouseDoubleClick="РедактированиеОбъекта" BorderBrush="{x:Null}" Background="{x:Null}" VerticalAlignment="Top" Height="224" >
 
+                <ListBox x:Name="ListBoxEmp" FontSize="14" FontFamily="Calibri" Grid.Row="2" Margin="0,0,0,0" PreviewMouseDoubleClick="РедактированиеОбъекта" BorderBrush="{x:Null}" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="224" />
 
-                </ListBox>
             </Grid>
         </GroupBox>
+        
         <Button Content="&#xE105;" HorizontalAlignment="Left" Margin="660,5,0,0" VerticalAlignment="Top" Height="31" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="СохранитьXML" Grid.Row="1" ToolTip="Сохранить документ"/>
-        <GroupBox Header="Группа" Margin="10,133,0,0" Width="190" Height="286" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" FontFamily="Corbel" Foreground="#FF565656" BorderBrush="#FF7C99FF" Background="#FFFAFAFA">
+        <GroupBox Header="Группа"  Margin="10,218,0,0" Width="190" Height="286" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" FontFamily="Corbel" Foreground="#FF565656" BorderBrush="#FF7C99FF" Background="#FFFAFAFA">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="26*"/>
@@ -83,7 +96,8 @@
 
         <Grid x:Name="Curtain" Visibility="Collapsed" Background="Black" Opacity="0.5" Grid.RowSpan="2"/>
 
-        <Grid MinHeight="40" VerticalAlignment="Top" Height="40">
+
+        <Grid MinHeight="40" VerticalAlignment="Top" Height="40" >
             <Rectangle Height="3" Fill="#FFD4D4D4" VerticalAlignment="Bottom"></Rectangle>
             <Image HorizontalAlignment="Left" Height="30" Margin="10,3,0,0" VerticalAlignment="Top" Width="30" MinWidth="30" MinHeight="30" Source="/Res/images/document_icon-icons.png"/>
             <Label x:Name="DocTitle" Content="---" HorizontalAlignment="Left" Margin="86,0,0,0" VerticalAlignment="Center" FontFamily="Corbel" FontWeight="Bold" FontSize="16"/>

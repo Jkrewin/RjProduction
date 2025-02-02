@@ -6,17 +6,23 @@ using System.Xml.Serialization;
 
 namespace RjProduction.XML
 {
+    /// <summary>
+    /// Создает среду переменных понятную для файла xml обходя интерфейсы также типы данных которые не потдерживаються
+    /// Винмание Dependent code зависиит от новых Idoc объектов нужно дополнить  
+    /// </summary>
     public abstract class XmlProtocol : SqlParam
-    {
-        //01А02:Производство на склад
-        //03A01:Выравнивание остатков 
+    {        
         private uint _number = 0;
 
         /// <summary>
         /// Только для xml сохраняет дату / DateOnly тут не работает
         /// </summary>
-        [SqlIgnore, XmlElement]public DateTime XmlDate { get=> DataCreate.ToDateTime(TimeOnly.MinValue); set {DataCreate = DateOnly.FromDateTime(value); } }
-       
+        [SqlIgnore, XmlElement] public DateTime XmlDate { get => DataCreate.ToDateTime(TimeOnly.MinValue); set { DataCreate = DateOnly.FromDateTime(value); } }
+
+        /// <summary>
+        /// Статус документа
+        /// </summary>
+        [SqlIgnore] public StatusEnum Status { get; set; } = StatusEnum.НеСохранен;
         /// <summary>
         /// Дата создания документа
         /// </summary>
@@ -40,12 +46,12 @@ namespace RjProduction.XML
         /// <summary>
         /// Тип документа
         /// </summary>
-        [SqlIgnore] public string TypeDoc { get;  set; } = "NaN";
+        [SqlIgnore] public string TypeDoc { get; set; } = "NaN";
 
         [SqlIgnore, XmlIgnore] public string FileName { get => $"{TypeDoc.Split(':', StringSplitOptions.RemoveEmptyEntries)[0]}_{DataCreate}_{Number}.xml"; }
-        
 
-        [SqlIgnore, XmlElement]
+
+        [SqlIgnore, XmlElement, DependentCode]
         public GrupClass[] Grups
         {
             get
@@ -62,6 +68,7 @@ namespace RjProduction.XML
                         else if (tv is Surcharges s) grup.Surcharges.Add(s);
                         else if (tv is Pseudonym p) grup.Pseudonyms.Add(p);
                         else if (tv is Track t) grup.Tracks.Add(t);
+                        else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString());
                     }
                     g.Add(grup);
                 }
@@ -116,7 +123,7 @@ namespace RjProduction.XML
 
         static public T? LoadDocXML<T>(string sFile) where T : IDocMain
         {
-            XmlSerializer xmlSerializer = new(typeof(T));           
+            XmlSerializer xmlSerializer = new(typeof(T));
             try
             {
                 using FileStream fs = new(sFile, FileMode.OpenOrCreate);
@@ -131,13 +138,16 @@ namespace RjProduction.XML
             }
         }
         static public void SaveDocXml<T>(IDocMain doc) where T : XmlProtocol
-        {         
-                string sFile = MDL.XmlPatch(doc.DataCreate); 
-                MDL.SaveXml<T>((T)doc, $"{sFile}\\{((XmlProtocol)doc).FileName}");
+        {
+            string sFile = MDL.XmlPatch(doc.DataCreate);
+            if (doc.Status == StatusEnum.НеСохранен) doc.Status = StatusEnum.Не_Проведен;
+            MDL.SaveXml<T>((T)doc, $"{sFile}\\{((XmlProtocol)doc).FileName}");
         }
 
-
-        public class GrupClass
+        /// <summary>
+        /// Реформирует интерфейс 
+        /// </summary>
+       [DependentCode] public class GrupClass
         {
             public required string NameGrup { get; set; } = "";
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RjProduction.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,28 +17,32 @@ namespace RjProduction
 {
     public partial class Test_circut : Window
     {
-        Model.Products testCl;
-       
+      
 
         public Test_circut()
         {
             InitializeComponent();
+           
         }
 
         private void ТестА(object sender, RoutedEventArgs e)
         {
-            testCl =  Sql.SqlRequest.ReadData<Model.Products>(1,true);
            
+           /* var y = Sql.SqlRequest.ReadData<DocRow>(1);
+            y.Price = 777;
+            Sql.SqlRequest.SetData(y);*/
+
+           //t.Rollback();
         }
 
         private void ТестБ(object sender, RoutedEventArgs e)
         {
-            Sql.SqlRequest.SetData(testCl);
+         
         }
 
         private void ТестC(object sender, RoutedEventArgs e)
         {
-            testCl.LockInfo = false;
+           
         }
     }
 }

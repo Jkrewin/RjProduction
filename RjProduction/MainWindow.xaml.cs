@@ -8,8 +8,6 @@ using System.Xml.Serialization;
 using RjProduction.WpfFrm;
 using System.Diagnostics;
 using RjProduction.Pages;
-using RjProduction.Model;
-using RjProduction.Sql;
 
 namespace RjProduction
 {
@@ -55,10 +53,41 @@ namespace RjProduction
 
         private void Загрузка(object sender, RoutedEventArgs e)
         {
+            MDL.MainWindow = this;
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("<< Start programm Debug >>");
 #endif
-            XmlSerializer xmlSerializer;
+
+            LoadValues();   //Загрузка справочников и настроек
+
+            FrameDisplay.Navigate(new Pages.PageStartPage()); // Стартовая страница
+
+            string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\"; //Создание каталогов под файлы документов
+
+            try
+            {
+                if (!File.Exists(sFile)) Directory.CreateDirectory(sFile); // Создание директории            
+                if (Directory.Exists(AppContext.BaseDirectory + "Data") == false) Directory.CreateDirectory(AppContext.BaseDirectory + "Data");
+                if (Directory.Exists(AppContext.BaseDirectory + "Update") == false) Directory.CreateDirectory(AppContext.BaseDirectory + "Update");
+            }
+            catch
+            {
+                MessageBox.Show("У программы нет прав на создание каталогов и файлов в рабочй папке. Это приложение должно быть установлено установщиком программы или изменить права доступа в данной папке.");
+                ПриложениеЗакрыто(null!, null!);
+            }
+
+            ScreenRegulator(); // Управление основным окном (размеры и положение)          
+
+            MDL.Refreh_AllWpfView(); // Обновить нижнаяя панель
+
+            var test = new Test_circut();
+            // test.ShowDialog();
+
+           
+        }
+
+        static private void LoadValues() { 
+         XmlSerializer xmlSerializer;
             if (File.Exists(SFile_DB))
             {
                 xmlSerializer = new(typeof(Reference));
@@ -72,26 +101,35 @@ namespace RjProduction
                 MDL.SetApp = xmlSerializer.Deserialize(fss) as SettingAppClass ?? new SettingAppClass();
                 MDL.SetApp.SetProfile();
             }
+        }
+                
+        private void ScreenRegulator()
+        {
+            if (MDL.WindowsStandart)
+            {
+                UpPanel.Visibility = Visibility.Collapsed;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+            else
+            {
+                UpPanel.Visibility = Visibility.Visible;
+                this.WindowStyle = WindowStyle.None;
+            }
+           
 
-            FrameDisplay.Navigate(new Pages.PageStartPage());
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
 
-            //Создание каталогов под файлы документов
-            string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\";
-
-            if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
-            WindowState =MDL.MyDataBase.WindowStateDef;
-
-            if (Directory.Exists(AppContext.BaseDirectory + "Data") == false) Directory.CreateDirectory(AppContext.BaseDirectory + "Data");
-
-            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight-8;
-
-            var test = new Test_circut();
-           // test.ShowDialog();
+            if (this.Top < 0) this.Top = 0;
+            if (this.Left < 0) this.Left = 0;
+             WindowState = MDL.SetApp.WindowStateDef;
         }
 
         private void ПриложениеЗакрыто(object sender, EventArgs e)
         {
             MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+            MDL.SaveSettingApp();
+            MDL.SqlProfile?.Dispose();
             Application.Current.Shutdown();
         }
 
@@ -221,7 +259,7 @@ namespace RjProduction
         {
             if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
             else WindowState = WindowState.Maximized;
-            MDL.MyDataBase.WindowStateDef = this.WindowState;
+            MDL.SetApp.WindowStateDef = this.WindowState;
         }
 
         private void ОткрытьСотрудники(object sender, RoutedEventArgs e)
@@ -276,6 +314,12 @@ namespace RjProduction
             System.Diagnostics.Process p = System.Diagnostics.Process.Start("calc.exe");
             p.WaitForInputIdle();
            
+        }
+
+        private void НастройкиАкка(object sender, KeyEventArgs e)
+        {
+            var wpf = new MyAcc();
+            wpf.Show();
         }
     }
 }

@@ -4,356 +4,364 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RjProduction"
-        mc:Ignorable="d"
-        AllowsTransparency="True"
-        WindowStyle="None"      
-        Title="" Height="900" Width="1000" Loaded="Загрузка" Closed="ПриложениеЗакрыто" Icon="/Res/Icon/app_draw.ico" WindowStartupLocation="CenterScreen">
-    <DockPanel>
-        <Grid DockPanel.Dock="Top" Height="29" PreviewMouseDown="Перетаскивание" Background="#FF6071AF" >
-            <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,10,0"  Stroke="White" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" PreviewMouseLeftButtonDown="КружокЗакрытьПрограмму">
-                <Ellipse.Fill>
-                    <SolidColorBrush Color="#FFFF1200" Opacity="0.5"/>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,35,0"  Stroke="White" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" PreviewMouseLeftButtonDown="КружокРазвернутьПрограмму">
-                <Ellipse.Fill>
-                    <SolidColorBrush Color="#FF00FF91" Opacity="0.5"/>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,60,0" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" Stroke="White" PreviewMouseLeftButtonDown="КружокТрейПрограмму">
-                <Ellipse.Fill>
-                    <SolidColorBrush Color="#FF97BCFD" Opacity="0.5"/>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Rectangle Height="2" Fill="White"  VerticalAlignment="Bottom" Stroke="White"  />
-            <Button Content="&#xE1D0;" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Height="20" Width="20" FontSize="14" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="Калькулятор" Foreground="#FFF3F3F3" BorderBrush="White" ToolTip="Калькулятор"/>
-        </Grid>
-
-        <Grid DockPanel.Dock="Left" Width="59" Background="#FF1C359A">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="68"/>
-                <RowDefinition/>
-                <RowDefinition Height="112"/>
-            </Grid.RowDefinitions>
-            <Grid Height="64" VerticalAlignment="Center"/>
-            <StackPanel x:Name="StackP_Buttons" Grid.Row="1">
-                <Button HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="#FFCC1717" Click="ПереходПроизводство" ToolTip="Производство на склад" PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
-                    </Button.Background>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-
-                        </Style>
-                    </Button.Style>
-
-                    <Image Source="/Res/images/handshake_partnership.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>
-                <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="СправочникОткрыть" ToolTip="Справочник">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
-                    </Button.Background>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-
-                        </Style>
-                    </Button.Style>
-                    <Image Source="/Res/images/analytics_report.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>
-                <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьОтчеты" ToolTip="Отчеты">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
-                    </Button.Background>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-
-                        </Style>
-                    </Button.Style>
-                    <Image Source="/Res/images/graph_business_chart.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>
-                <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ФинансыОткрыть" ToolTip="Продажи">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
-                    </Button.Background>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-
-                        </Style>
-                    </Button.Style>
-                    <Image Source="/Res/images/marketing_financial.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>
-                <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьЗадачи" ToolTip="Выполняемые задачи">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
-                    </Button.Background>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-
-                        </Style>
-                    </Button.Style>
-                    <Image Source="/Res/images/teamwork_management.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>
-                <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьНастройки" ToolTip="Настройки программы">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
-                    </Button.Background>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-
-                        </Style>
-                    </Button.Style>
-                    <Image Source="/Res/images/configuration.png"  Stretch="Fill" Height="32" Width="32"/>
-                </Button>
-
-            </StackPanel>
-            <Grid Height="130" VerticalAlignment="Center" Grid.Row="2">
-                <Ellipse x:Name="ElipsAva" Width="48" Height="48" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0" ToolTip="Ваш аккаунт" Stroke="White">
+        mc:Ignorable="d"      
+        Title="" Height="900" Width="1000" Loaded="Загрузка" Closed="ПриложениеЗакрыто" Icon="/Res/Icon/app_draw.ico" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="#FF6071AF">
+    <Grid x:Name="MainGrind" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="73*"/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <DockPanel Background="#FF060505" >
+            <Grid x:Name="UpPanel"  DockPanel.Dock="Top" Height="29" PreviewMouseDown="Перетаскивание" Background="#FF6071AF" >
+                <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,10,0"  Stroke="White" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" PreviewMouseLeftButtonDown="КружокЗакрытьПрограмму">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="/Res/images/24b.jpg" Stretch="Fill"/>
+                        <SolidColorBrush Color="#FFFF1200" Opacity="0.5"/>
                     </Ellipse.Fill>
                 </Ellipse>
+                <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,35,0"  Stroke="White" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" PreviewMouseLeftButtonDown="КружокРазвернутьПрограмму">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="#FF00FF91" Opacity="0.5"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Ellipse HorizontalAlignment="Right" Height="18" Margin="0,3,60,0" VerticalAlignment="Center" Width="18" MouseEnter="КурсорНадКружком" MouseLeave="КурсорСошелКружка" Stroke="White" PreviewMouseLeftButtonDown="КружокТрейПрограмму">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="#FF97BCFD" Opacity="0.5"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Rectangle Height="2" Fill="White"  VerticalAlignment="Bottom" Stroke="White"  />
+                <Button Content="&#xE1D0;" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Height="20" Width="20" FontSize="14" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="Калькулятор" Foreground="#FFF3F3F3" BorderBrush="White" ToolTip="Калькулятор"/>
+            </Grid>
+
+            <Grid DockPanel.Dock="Left" Width="59" Background="#FF1C359A">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="68"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="112"/>
+                </Grid.RowDefinitions>
+                <Grid Height="64" VerticalAlignment="Center"/>
+                <StackPanel x:Name="StackP_Buttons" Grid.Row="1">
+                    <Button HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="#FFCC1717" Click="ПереходПроизводство" ToolTip="Производство на склад" PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
+                        </Button.Background>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </Style>
+                        </Button.Style>
+
+                        <Image Source="/Res/images/handshake_partnership.png"  Stretch="Fill" Height="32" Width="32"/>
+                    </Button>
+                    <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="СправочникОткрыть" ToolTip="Справочник">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
+                        </Button.Background>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </Style>
+                        </Button.Style>
+                        <Image Source="/Res/images/analytics_report.png"  Stretch="Fill" Height="32" Width="32"/>
+                    </Button>
+                    <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьОтчеты" ToolTip="Отчеты">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
+                        </Button.Background>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </Style>
+                        </Button.Style>
+                        <Image Source="/Res/images/graph_business_chart.png"  Stretch="Fill" Height="32" Width="32"/>
+                    </Button>
+                    <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ФинансыОткрыть" ToolTip="Продажи">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
+                        </Button.Background>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </Style>
+                        </Button.Style>
+                        <Image Source="/Res/images/marketing_financial.png"  Stretch="Fill" Height="32" Width="32"/>
+                    </Button>
+                    <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьЗадачи" ToolTip="Выполняемые задачи">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
+                        </Button.Background>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </Style>
+                        </Button.Style>
+                        <Image Source="/Res/images/teamwork_management.png"  Stretch="Fill" Height="32" Width="32"/>
+                    </Button>
+                    <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьНастройки" ToolTip="Настройки программы">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFFF6434" Opacity="0"/>
+                        </Button.Background>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </Style>
+                        </Button.Style>
+                        <Image Source="/Res/images/configuration.png"  Stretch="Fill" Height="32" Width="32"/>
+                    </Button>
+
+                </StackPanel>
+                <Grid Height="130" VerticalAlignment="Center" Grid.Row="2" PreviewKeyDown="НастройкиАкка">
+                    <Ellipse x:Name="ElipsAva" Width="48" Height="48" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0" ToolTip="Ваш аккаунт" Stroke="White">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="/Res/images/24b.jpg" Stretch="Fill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                </Grid>
+                <Label Content="Rj" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="59" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Lucida Handwriting" Foreground="White" FontSize="24" Padding="0,0,5,5" FontWeight="Bold" PreviewMouseLeftButtonDown="СтартоваяСтраница"/>
+                <Label Content="&#xE13A;" Margin="0,71,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="White" Height="31" Width="38" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="Служба потдержки"/>
 
             </Grid>
-            <Label Content="Rj" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="59" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Lucida Handwriting" Foreground="White" FontSize="24" Padding="0,0,5,5" FontWeight="Bold" PreviewMouseLeftButtonDown="СтартоваяСтраница"/>
-            <Label Content="&#xE13A;" Margin="0,71,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="White" Height="31" Width="38" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="Служба потдержки"/>
 
-        </Grid>
+            <Grid x:Name="Grid_Reports" Visibility="Collapsed" DockPanel.Dock="Left" Width="253" Background="#FFF2F2F2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="41*"/>
+                    <RowDefinition Height="823*"/>
+                </Grid.RowDefinitions>
+                <Label Content="ОТЧЕТЫ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
+                <StackPanel x:Name="StackP_Report" Grid.Row="1" Margin="0,10,0,0">
 
-        <Grid x:Name="Grid_Reports" Visibility="Collapsed" DockPanel.Dock="Left" Width="253" Background="#FFF2F2F2" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="41*"/>
-                <RowDefinition Height="823*"/>
-            </Grid.RowDefinitions>
-            <Label Content="ОТЧЕТЫ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
-            <StackPanel x:Name="StackP_Report" Grid.Row="1" Margin="0,10,0,0">
+                    <Grid Height="59" PreviewMouseMove="КурсорВыбралЭлемент" PreviewMouseLeftButtonDown="ВыборОтчет1" MouseLeave="ВыходИзФокуса">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition Width="225*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="&#xEDE3;" HorizontalAlignment="Center" Height="59" VerticalAlignment="Center" Width="28" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="#FFFF6434"/>
+                        <Label Grid.Column="1" Content="Отчет по зарплатам" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="225" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="Включает в себя, разбивку по дня каждого рабочего и зарплату за месяц" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" FontFamily="Calibri"/>
+                    </Grid>
 
-                <Grid Height="59" PreviewMouseMove="КурсорВыбралЭлемент" PreviewMouseLeftButtonDown="ВыборОтчет1" MouseLeave="ВыходИзФокуса">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="28"/>
-                        <ColumnDefinition Width="225*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Content="&#xEDE3;" HorizontalAlignment="Center" Height="59" VerticalAlignment="Center" Width="28" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="#FFFF6434"/>
-                    <Label Grid.Column="1" Content="Отчет по зарплатам" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="225" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
-                    <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="Включает в себя, разбивку по дня каждого рабочего и зарплату за месяц" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" FontFamily="Calibri"/>
-                </Grid>
+                    <Grid Height="59" PreviewMouseMove="КурсорВыбралЭлемент" PreviewMouseLeftButtonDown="ВыборОтчет2" MouseLeave="ВыходИзФокуса">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition Width="225*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="&#xEDE3;" HorizontalAlignment="Center" Height="59" VerticalAlignment="Center" Width="28" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="#FFFF6434"/>
+                        <Label Grid.Column="1" Content="Подробный отчет" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="225" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="Подробный отчет за месяц с полной разбивкой с именем сотрудника" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" FontFamily="Calibri"/>
+                    </Grid>
 
-                <Grid Height="59" PreviewMouseMove="КурсорВыбралЭлемент" PreviewMouseLeftButtonDown="ВыборОтчет2" MouseLeave="ВыходИзФокуса">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="28"/>
-                        <ColumnDefinition Width="225*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Content="&#xEDE3;" HorizontalAlignment="Center" Height="59" VerticalAlignment="Center" Width="28" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="#FFFF6434"/>
-                    <Label Grid.Column="1" Content="Подробный отчет" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="225" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
-                    <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="Подробный отчет за месяц с полной разбивкой с именем сотрудника" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" FontFamily="Calibri"/>
-                </Grid>
-
-            </StackPanel>
-
-
-        </Grid>
-
-        <Grid x:Name="Grid_Task" Visibility="Collapsed" DockPanel.Dock="Left" Width="253" Background="#FFF2F2F2" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="41*"/>
-                <RowDefinition Height="823*"/>
-            </Grid.RowDefinitions>
-            <Label Content="ЗАДАЧИ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
-            <StackPanel x:Name="StackP_Task" Grid.Row="1" Margin="0,10,0,0">
-                <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="1">
-                    <Rectangle Width="5" Fill="#FFCE0000" />
-                    <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFCE0000"/>
-                    <Label Content="Отправка документа" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFCE0000"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="2">
-                    <Rectangle Width="5" Fill="#FFFF6434"/>
-                    <Label Content="&#xE78B;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFFF6434"/>
-                    <Label Content="Выполняеться задача" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFFF6434"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="3">
-                    <Rectangle Width="5" Fill="#FFC7C7C7"/>
-                    <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
-                    <Label Content="Получение документа" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="4">
-                    <Rectangle Width="5" Fill="#FFC7C7C7"/>
-                    <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
-                    <Label Content="Отправка документа" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
                 </StackPanel>
 
-            </StackPanel>
-        </Grid>
 
-        <Grid x:Name="Grid_Arrival" Visibility="Collapsed" DockPanel.Dock="Left" Width="218" Background="#FFF2F2F2" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="41*"/>
-                <RowDefinition Height="823*"/>
-            </Grid.RowDefinitions>
-            <Label Content="ДОКУМЕНТЫ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
-            <StackPanel x:Name="Sp_leftPanel" Grid.Row="1" Margin="0,10,0,0">
-                <Button Height="37" Background="{x:Null}" BorderBrush="{x:Null}" Click="ОткрытьПапку">
-                    <DockPanel>
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE138;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Открыть папку с файлами" FontSize="16"/>
-                    </DockPanel>
-                </Button>
-                <Grid x:Name="Grid_AntiVirus" Visibility="Collapsed" Height="71" Background="#FFFFFCD2">
-                    <Label FontSize="16" FontFamily="Segoe MDL2 Assets" Content="&#xE1DE;" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFB84040" />
-                    <TextBlock FontFamily="Corbel" TextWrapping="Wrap" Text="Некоторые антивирусы могут блокировать открытие из этой программы проводник.Следует разрешить открыть папку с документами." Margin="24,0,0,0" Foreground="#FF7C3030"/>
-                </Grid>
-                <Button Height="37" Background="#FFB6D4D1" BorderBrush="{x:Null}" Click="ПереходПроизводство2">
-                    <StackPanel Orientation="Horizontal" Width="211" >
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Документы XML" FontSize="16"/>
+            </Grid>
+
+            <Grid x:Name="Grid_Task" Visibility="Collapsed" DockPanel.Dock="Left" Width="253" Background="#FFF2F2F2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="41*"/>
+                    <RowDefinition Height="823*"/>
+                </Grid.RowDefinitions>
+                <Label Content="ЗАДАЧИ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
+                <StackPanel x:Name="StackP_Task" Grid.Row="1" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="1">
+                        <Rectangle Width="5" Fill="#FFCE0000" />
+                        <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFCE0000"/>
+                        <Label Content="Отправка документа" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFCE0000"/>
                     </StackPanel>
-                </Button>
-                <Button Height="37" Background="{x:Null}" BorderBrush="{x:Null}" Click="ДокументыБД">
-                    <StackPanel Orientation="Horizontal" Width="211" >
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Документы в БД" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="2">
+                        <Rectangle Width="5" Fill="#FFFF6434"/>
+                        <Label Content="&#xE78B;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFFF6434"/>
+                        <Label Content="Выполняеться задача" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFFF6434"/>
                     </StackPanel>
-                </Button>
-                <Button Height="37"  BorderBrush="{x:Null}" Click="СмотретьОстаткиСклада" Background="{x:Null}">
-                    <StackPanel Orientation="Horizontal" Width="211" >
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Остатки на складе" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="3">
+                        <Rectangle Width="5" Fill="#FFC7C7C7"/>
+                        <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
+                        <Label Content="Получение документа" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
                     </StackPanel>
-                </Button>
-            </StackPanel>
-        </Grid>
+                    <StackPanel Orientation="Horizontal"  Height="30" PreviewMouseLeftButtonDown="ВыборЗадачи" Uid="4">
+                        <Rectangle Width="5" Fill="#FFC7C7C7"/>
+                        <Label Content="" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
+                        <Label Content="Отправка документа" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC7C7C7"/>
+                    </StackPanel>
 
-        <Grid x:Name="Grid_Reference" Visibility="Collapsed" DockPanel.Dock="Left" Width="253" Background="#FFF2F2F2" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="41*"/>
-                <RowDefinition Height="823*"/>
-            </Grid.RowDefinitions>
-            <Label Content="СПРАВОЧНИК" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
-            <StackPanel Grid.Row="1" Margin="0,10,0,0">
-                <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьСотрудники" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
-                    </Button.Background>
-                    <DockPanel Width="243">
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Сотрудники" FontSize="16" HorizontalContentAlignment="Center" Background="{x:Null}"/>
-                    </DockPanel>
-                </Button>
-                <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьМатериалы" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
-                    </Button.Background>
-                    <DockPanel Width="243">
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Материалы" FontSize="16" HorizontalContentAlignment="Center"/>
-                    </DockPanel>
-                </Button>
-                <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьГруппы" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
-                    </Button.Background>
-                    <DockPanel Width="243">
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Группы" FontSize="16" HorizontalContentAlignment="Center"/>
-                    </DockPanel>
-                </Button>
-                <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьСклады" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
-                    </Button.Background>
-                    <DockPanel Width="243">
-                        <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
-                        <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Склады" FontSize="16" HorizontalContentAlignment="Center"/>
-                    </DockPanel>
-                </Button>
-            </StackPanel>
-        </Grid>
+                </StackPanel>
+            </Grid>
 
-        <Grid DockPanel.Dock="Bottom" Background="#FFFAFAFA">
-            <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+            <Grid x:Name="Grid_Arrival" Visibility="Collapsed" DockPanel.Dock="Left" Width="218" Background="#FFF2F2F2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="41*"/>
+                    <RowDefinition Height="823*"/>
+                </Grid.RowDefinitions>
+                <Label Content="ДОКУМЕНТЫ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
+                <StackPanel x:Name="Sp_leftPanel" Grid.Row="1" Margin="0,10,0,0">
+                   
+                    <Button Height="37" Background="#FFB6D4D1" BorderBrush="{x:Null}" Click="ПереходПроизводство2">
+                        <StackPanel Orientation="Horizontal" Width="211" >
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Документы XML" FontSize="16"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Height="37" Background="{x:Null}" BorderBrush="{x:Null}" Click="ДокументыБД">
+                        <StackPanel Orientation="Horizontal" Width="211" >
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Документы в БД" FontSize="16"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Height="37"  BorderBrush="{x:Null}" Click="СмотретьОстаткиСклада" Background="{x:Null}">
+                        <StackPanel Orientation="Horizontal" Width="211" >
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Остатки на складе" FontSize="16"/>
+                        </StackPanel>
+                    </Button>
+                    <Grid  Visibility="Visible" Height="37" />
+                    <Button Height="37" Background="{x:Null}" BorderBrush="{x:Null}" Click="ОткрытьПапку">
+                        <DockPanel>
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE138;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Открыть папку с файлами" FontSize="16"/>
+                        </DockPanel>
+                    </Button>
+                    <Grid x:Name="Grid_AntiVirus" Visibility="Collapsed" Height="71" Background="#FFFFFCD2">
+                        <Label FontSize="16" FontFamily="Segoe MDL2 Assets" Content="&#xE1DE;" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFB84040" />
+                        <TextBlock FontFamily="Corbel" TextWrapping="Wrap" Text="Некоторые антивирусы могут блокировать открытие из этой программы проводник.Следует разрешить открыть папку с документами." Margin="24,0,0,0" Foreground="#FF7C3030"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
 
-        </Grid>
-    </DockPanel>
+            <Grid x:Name="Grid_Reference" Visibility="Collapsed" DockPanel.Dock="Left" Width="253" Background="#FFF2F2F2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="41*"/>
+                    <RowDefinition Height="823*"/>
+                </Grid.RowDefinitions>
+                <Label Content="СПРАВОЧНИК" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
+                <StackPanel Grid.Row="1" Margin="0,10,0,0">
+                    <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьСотрудники" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
+                        </Button.Background>
+                        <DockPanel Width="243">
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Сотрудники" FontSize="16" HorizontalContentAlignment="Center" Background="{x:Null}"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьМатериалы" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
+                        </Button.Background>
+                        <DockPanel Width="243">
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Материалы" FontSize="16" HorizontalContentAlignment="Center"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьГруппы" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
+                        </Button.Background>
+                        <DockPanel Width="243">
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Группы" FontSize="16" HorizontalContentAlignment="Center"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьСклады" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
+                        </Button.Background>
+                        <DockPanel Width="243">
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Склады" FontSize="16" HorizontalContentAlignment="Center"/>
+                        </DockPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Grid DockPanel.Dock="Bottom" Background="#FFFAFAFA">
+                <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+            </Grid>
+
+        </DockPanel>
+        <WrapPanel  x:Name="StBar" Background="#FFECECEC" VerticalAlignment="Center" Height="25" Grid.Row="1"/>
+    </Grid>
 </Window>

@@ -1,6 +1,9 @@
 ﻿
 namespace RjProduction.Model
 {
+    /// <summary>
+    /// Структура документа
+    /// </summary>
    public interface IDocMain
     {
         public StatusEnum Status { get; set; }
@@ -26,9 +29,17 @@ namespace RjProduction.Model
         /// </summary>
         public List<GrupObj> MainTabel { get; set; }
 
-        public void CarryOut();
-       
+        /// <summary>
+        /// Провести документ
+        /// </summary>
+        public void CarryOut();       
+    }
 
-    }   
+    /// <summary>
+    /// Helper в конвертации
+    /// </summary>
+    public interface IConvertDoc {
+        public Products ToProducts();
 
+    }
 }

@@ -155,7 +155,7 @@
             </Grid>
             <Grid Height="80">
                 <Label Content="Со склада на склад" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
-                <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
+                <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументПеремещение" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
                 <TextBlock TextWrapping="Wrap" Text="Переместить материалы со склада на склад, можно указать автотранспорт по вывозу материалов, не является обязательным" HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="14" Width="682" Height="38"/>
 
             </Grid>
