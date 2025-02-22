@@ -25,8 +25,11 @@ namespace RjProduction.Pages
         {
             MainComboBox.ItemsSource = Model.DocCode.ToArray();
             MainComboBox.SelectedIndex = 1;
+            // Перехват нажатий
+            Window.GetWindow(this).KeyDown += (object sender, KeyEventArgs e) => MDL.HandleKey?.HandleKeyPress(sender, e);
         }
 
+      
         #region "Ридер строк таблици по UI"
         private DataGridCell? GetCell(int row, int column)
         {
@@ -106,8 +109,12 @@ namespace RjProduction.Pages
                     b.Content = "Проведен";
                     break;
                 case StatusEnum.Частично:
-                    b.Background = Brushes.Yellow;
+                    b.Background = Brushes.Brown;
                     b.Content = "Проведен частично";
+                    break;
+                case StatusEnum.Изменён:
+                    b.Background = Brushes.Blue;
+                    b.Content = "Изменения";
                     break;
                 case StatusEnum.Ошибка:
                 default:
@@ -117,7 +124,7 @@ namespace RjProduction.Pages
             }
         }
 
-       [DependentCode] private void ДвойноеНажатие(object sender, MouseButtonEventArgs e)
+       private void ДвойноеНажатие(object sender, MouseButtonEventArgs e)
         {
             if (DataG_Main.SelectedItem == null) return;
             if (((IDocMain)DataG_Main.SelectedItem).Status == StatusEnum.Ошибка) {
@@ -128,14 +135,15 @@ namespace RjProduction.Pages
             DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
             if (DataG_Main.SelectedItem is DocArrival arrival)
             {
-                FrameDisplay.Navigate(new PageDocEditor(arrival, DockPanel_РамкаДокумента,(Action)(() =>
+                FrameDisplay.Navigate(new PageDocEditor(arrival, DockPanel_РамкаДокумента, (Action)(() =>
                 {
                     DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
                     Refreh_DataG_Main();
                 })));
             }
-            else if (DataG_Main.SelectedItem is DocShipments shipments) {
-                FrameDisplay.Navigate(new PageShipments(shipments, DockPanel_РамкаДокумента,(Action)(() =>
+            else if (DataG_Main.SelectedItem is DocShipments shipments)
+            {
+                FrameDisplay.Navigate(new PageShipments(shipments, DockPanel_РамкаДокумента, (Action)(() =>
                 {
                     DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
                     Refreh_DataG_Main();
@@ -149,6 +157,7 @@ namespace RjProduction.Pages
                     Refreh_DataG_Main();
                 })));
             }
+            else throw new Exception("Отсутсвует такой тип документа");
         }
 
         private void ОткрытьОкноОбъектов(object sender, RoutedEventArgs e)
@@ -178,9 +187,9 @@ namespace RjProduction.Pages
 
         private void УдалитьОбъект(object sender, RoutedEventArgs e)
         {
-            XmlProtocol d = (XmlProtocol)DataG_Main.SelectedItem;
+            IDocMain d = (IDocMain)DataG_Main.SelectedItem;
             string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\";
-            sFile += d.DataCreate.Year.ToString() +"\\"+ d.DataCreate.Month.ToString() +"\\" +d.FileName;
+            sFile += d.DataCreate.Year.ToString() +"\\"+ d.DataCreate.Month.ToString() +"\\" +((XmlProtocol)DataG_Main.SelectedItem).FileName(d.Doc_Code);
             
             if (File.Exists(sFile))
             {
@@ -229,12 +238,13 @@ namespace RjProduction.Pages
         {
 
         }
-
-        private void DataG_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            
+        private void ПолучениеСтраници(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-
+            if (((Frame)sender).Content is IKeyControl control) {
+                                   MDL.HandleKey = control;       
+            }
         }
-
     }
 
 

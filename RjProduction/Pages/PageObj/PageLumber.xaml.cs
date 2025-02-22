@@ -1,17 +1,13 @@
 ﻿using RjProduction.Model;
 using RjProduction.WpfFrm;
-using System;
-using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Media3D;
-using static RjProduction.XML.DocArrival;
 
 namespace RjProduction.Pages
 {
 
-    public partial class PageLumber : Page
+    public partial class PageLumber : Page, IKeyControl
     {
         private readonly Action CloseAction;
         private readonly Action<Model.IDoc> ActionOne;
@@ -161,12 +157,15 @@ namespace RjProduction.Pages
             }
             TBoxPrice.Text = _Material.Price.ToString();
 
-            PreviewKeyUp += (object sender, KeyEventArgs e) =>
-            {
-                if (e.Key == Key.F1) ОК_Согласие(null!, null!);
-                else if (e.Key == Key.Escape) CloseAction?.Invoke();
-            };
-
+            if (_Material.TypeWood != TypeWoodEnum.Любой) {
+                for (int i = 0; i < TypeWood.Items.Count; i++)
+                {
+                    if (TypeWood.Items[i].ToString() == _Material.TypeWood.ToString()) {
+                        TypeWood.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
 
         private void ВыполнитьВыбор(object sender, EventArgs e)
@@ -193,6 +192,12 @@ namespace RjProduction.Pages
         private void СохранитьКофф(object sender, RoutedEventArgs e)
         {
             ChangeField(ref _Material.Ratio, sender);            
+        }
+
+        public void HandleKeyPress(object sender, KeyEventArgs e)
+        {           
+                if (e.Key == Key.F1) ОК_Согласие(null!, null!);
+                else if (e.Key == Key.Escape) CloseAction?.Invoke();
         }
     }
 }

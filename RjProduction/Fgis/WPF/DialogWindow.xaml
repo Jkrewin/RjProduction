@@ -1,0 +1,68 @@
+﻿<Window x:Class="RjProduction.Fgis.WPF.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RjProduction.Fgis.WPF"
+        mc:Ignorable="d" Height="450" Width="800" WindowStyle="ToolWindow"  WindowStartupLocation="CenterScreen">
+    <Grid Loaded="Загруженно">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle Height="3" Margin="0,0,1,0" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Fill="#FF0A7093"/>
+        <StackPanel x:Name="MainPanel" Grid.Row="1" Background="White">
+
+            <Grid Height="24" Background="White" Width="800">
+                <Label Content="--Ю класс " HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Microsoft Sans Serif" Background="FloralWhite" Height="22" Padding="5,3,5,5" Width="430"/>
+                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="14" Background="#FFF87777" Margin="429,0,0,0" Height="22" Width="10" />
+                <Rectangle Stroke="#FF999999" Margin="0,0,361,0" Height="22"></Rectangle>
+                <Button HorizontalAlignment="Left" Margin="439,0,0,0"  VerticalAlignment="Top" Width="351" Height="22" FontFamily="Tahoma" FontSize="13" Padding="0,3,0,0" BorderBrush="{x:Null}" HorizontalContentAlignment="Center" Background="{x:Null}" Content="кнопка" VerticalContentAlignment="Top" Foreground="#FF000D70"/>
+
+            </Grid>
+
+            <Grid Height="24" Background="White" Width="800">
+                <Label Content="73 вления " HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Microsoft Sans Serif" Background="FloralWhite" Height="22" Padding="5,3,5,5" Width="430"/>
+                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="14" Background="#FFF87777" Margin="429,0,0,0" Height="22" Width="10" />
+                <Rectangle Stroke="#FF999999" Margin="0,0,361,0" Height="22"></Rectangle>
+                <TextBox HorizontalAlignment="Left" Margin="439,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="351" Height="22" FontFamily="Microsoft Sans Serif" FontSize="13" Padding="0,3,0,0" BorderBrush="#FF999999"/>
+            </Grid>
+
+            <Grid Height="24" Background="White" Width="800">
+                <Label Content="Цифровой " HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Microsoft Sans Serif" Background="FloralWhite" Height="22" Padding="5,3,5,5" Width="430"/>
+                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="14" Background="#FFAEC0B8" Margin="429,0,0,0" Height="22" Width="10" />
+                <Rectangle Stroke="#FF999999" Margin="0,0,361,0" Height="22"/>
+                <TextBox HorizontalAlignment="Left" Margin="439,0,0,0" TextWrapping="Wrap" Text="84844" VerticalAlignment="Center" Width="125" Height="22" FontFamily="Consolas" FontSize="13" Padding="0,3,0,0" BorderBrush="#FF999999" HorizontalContentAlignment="Center"/>
+            </Grid>
+
+            <Grid Height="127" Background="White" Width="800">
+                <Label Content="кнопка " HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Background="FloralWhite" Height="22" Padding="5,3,5,5" Width="800" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Background="#FFAEC0B8" Margin="120,23,0,0" Height="104" Width="10" />
+                <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="670" FontFamily="Arial" Height="104"/>
+                <Button Content="Добавить" HorizontalAlignment="Left" Margin="35,27,0,0" VerticalAlignment="Top" Width="80" Background="#FFDFFDF5" BorderBrush="#FF0008E3" Height="24" Foreground="#FF0008E3"/>
+                <Button Content="Удалить" HorizontalAlignment="Left" Margin="35,56,0,0" VerticalAlignment="Top" Width="80" Background="#FFFDE9DF" BorderBrush="#FF71012B" Height="24" Foreground="#FF71012B"/>
+
+            </Grid>
+
+            <Grid x:Name="Grind_End" Height="68">
+                
+                <Button Margin="0,28,10,0" VerticalAlignment="Top" Height="30" Background="{x:Null}" Content="Закрыть" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="Закрыть_документ" FontSize="14" BorderBrush="#FFFF6434" HorizontalAlignment="Right" Width="111">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Margin="0,28,126,0" VerticalAlignment="Top" Height="30" Background="{x:Null}" Content="ОК" FontFamily="Trebuchet MS" Foreground="#FFFF6434" Click="ПринятьИзменения" FontSize="14" BorderBrush="#FFFF6434" HorizontalAlignment="Right" Width="111">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </StackPanel>
+        <Label x:Name="Label_Title" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Calibri" FontSize="16" Width="524" Foreground="#FF0A7093"/>
+
+    </Grid>
+</Window>

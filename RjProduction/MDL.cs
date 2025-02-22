@@ -14,14 +14,19 @@ namespace RjProduction
 {
     static public class MDL
     {
+
+        /// <summary>
+        /// Необходим для перехвата клавишь для frame
+        /// </summary>
+        [XmlIgnore] static public Pages.IKeyControl? HandleKey { get; set; }
         /// <summary>
         /// Основное окно получает стандартное оформление, верхнаяя часть панели меняеться на системную
         /// </summary>
         static public bool WindowsStandart { get; set; } = false;
-       /// <summary>
-       /// Основная форма
-       /// </summary>
-       static public MainWindow? MainWindow { get; set; }
+        /// <summary>
+        /// Основная форма
+        /// </summary>
+        static public MainWindow? MainWindow { get; set; }
         /// <summary>
         /// Текущий каталог где справочник
         /// </summary>
@@ -33,7 +38,7 @@ namespace RjProduction
         /// <summary>
         /// Настройки программы
         /// </summary>
-        static public SettingAppClass SetApp {get;set;} =new ();
+        static public SettingAppClass SetApp { get; set; } = new();
         /// <summary>
         /// Профиль  для sql подключения
         /// </summary>            
@@ -43,7 +48,8 @@ namespace RjProduction
         /// </summary>
         [XmlIgnore] static public List<WpfView> AllWpfViewWin { get; set; } = [];
 
-        public static void LogError(string mess, string error_text="") {
+        public static void LogError(string mess, string error_text = "")
+        {
             var t = new WpfFrm.ErrorLog(mess, error_text);
             t.ShowDialog();
         }
@@ -65,34 +71,34 @@ namespace RjProduction
         /// <returns>Получает заполненая структура</returns>
         /// <exception cref="Exception">некоторые элемены типа данных нужно зарегистрировать если их нет</exception>
         static public T GetStruct<T>(Grid grid) where T : struct
-        {           
+        {
             object obj = default(T);
 
             void convers(string uid, string value)
             {
-                if (string.IsNullOrEmpty(value) | string.IsNullOrEmpty(uid)) return;               
+                if (string.IsNullOrEmpty(value) | string.IsNullOrEmpty(uid)) return;
                 var property = obj.GetType().GetProperty(uid);
-                    if (property!=null)
+                if (property != null)
+                {
+                    if (property.PropertyType.IsEnum)
                     {
-                        if (property.PropertyType.IsEnum)
-                        {
-                            property.SetValue(obj, Enum.Parse(property.PropertyType, value));
-                            return;
-                        }
-                        switch (property.PropertyType.Name)
-                        {
-                            case "Double":
-                                property.SetValue(obj, double.Parse(value)); break;
-                            case "String":
-                                property.SetValue(obj, value); break;
-                            case "Boolean":
+                        property.SetValue(obj, Enum.Parse(property.PropertyType, value));
+                        return;
+                    }
+                    switch (property.PropertyType.Name)
+                    {
+                        case "Double":
+                            property.SetValue(obj, double.Parse(value)); break;
+                        case "String":
+                            property.SetValue(obj, value); break;
+                        case "Boolean":
                             if (value != "False") property.SetValue(obj, true);
                             else property.SetValue(obj, false);
                             break;
                         default:
-                                throw new Exception("Такой тип не зарегестрирован " + property.PropertyType.ToString());
-                        }
-                    }               
+                            throw new Exception("Такой тип не зарегестрирован " + property.PropertyType.ToString());
+                    }
+                }
             }
 
             foreach (var item in grid.Children)
@@ -100,7 +106,7 @@ namespace RjProduction
                 if (item is TextBox box) convers(box.Uid, box.Text);
                 else if (item is ComboBox cbox) convers(cbox.Uid, cbox.Text);
                 else if (item is Label label) convers(label.Uid, label.Content.ToString()!);
-                else if (item is CheckBox checkBox) convers(checkBox.Uid,checkBox.IsChecked.ToString() ?? "False");
+                else if (item is CheckBox checkBox) convers(checkBox.Uid, checkBox.IsChecked.ToString() ?? "False");
             }
 
             return (T)obj;
@@ -111,31 +117,36 @@ namespace RjProduction
         /// <typeparam name="T">Тип структуры</typeparam>
         /// <param name="grid">Поиск только на этом гриде</param>
         /// <param name="st">сама структура по которой нужно заполнить </param>
-        static public void SetStruct<T>(Grid grid, T st) where T : struct {
-                 
+        static public void SetStruct<T>(Grid grid, T st) where T : struct
+        {
+
             foreach (var item in grid.Children)
             {
-                string? value="";
-                if (item is UIElement ui) {
+                string? value = "";
+                if (item is UIElement ui)
+                {
                     var fild = st.GetType().GetField(ui.Uid);
                     if (fild != null)
                     {
-                        if (fild.GetValue(st) != null) value = fild.GetValue(st)!.ToString() ;
+                        if (fild.GetValue(st) != null) value = fild.GetValue(st)!.ToString();
                     }
-                    else {
+                    else
+                    {
                         var pro = st.GetType().GetProperty(ui.Uid);
-                        if (pro != null) {
-                           if (pro.GetValue(st) !=null) value = pro.GetValue(st)!.ToString() ;
+                        if (pro != null)
+                        {
+                            if (pro.GetValue(st) != null) value = pro.GetValue(st)!.ToString();
                         }
                     }
                 }
 
-                if ( string.IsNullOrEmpty(value)==false) {
+                if (string.IsNullOrEmpty(value) == false)
+                {
                     if (item is TextBox box) box.Text = value;
                     else if (item is ComboBox cbox) cbox.Text = value;
                     else if (item is Label label) label.Content = value;
-                    else if (item is CheckBox checkBox)  checkBox.IsChecked = bool.Parse(value);
-                }   
+                    else if (item is CheckBox checkBox) checkBox.IsChecked = bool.Parse(value);
+                }
             }
         }
         /// <summary>
@@ -149,7 +160,8 @@ namespace RjProduction
         /// <param name="year">год</param>
         /// <param name="month">месяц</param>
         /// <returns></returns>
-        [DependentCode]static public List<IDocMain>? GetDocuments(int year, int month, string doc_code )
+        [DependentCode]
+        static public List<IDocMain>? GetDocuments(int year, int month, string doc_code)
         {
             bool allset = doc_code == "";
             List<IDocMain> docs = [];
@@ -175,6 +187,11 @@ namespace RjProduction
                     else if (tag == DocCode.Перемещение_По_Складам & doc_code == tag)
                     {
                         idoc = XML.XmlProtocol.LoadDocXML<XML.DocMoving>(file);
+                        if (idoc is not null) docs.Add(idoc);
+                    }
+                    else if (tag == DocCode.Списание_Продукции & doc_code == tag)
+                    {
+                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocWritedowns>(file);
                         if (idoc is not null) docs.Add(idoc);
                     }
                 }
@@ -493,13 +510,11 @@ namespace RjProduction
         {
             private List<string> _employeeDic = [];
 
+            public List<Company> Companies = [];
+            public List<Contract> Contracts = [];
             public List<Model.WarehouseClass> Warehouses = [];
             public List<Model.MaterialObj> MaterialsDic = [];
-            public List<string> EmployeeDic
-            {
-                get => _employeeDic;
-                set => _employeeDic = value;
-            }
+            public List<Model.Employee> EmployeeDic = [];
             public List<string> NamesGrup = [];
             /// <summary>
             /// Прошлый номер документа 
@@ -510,6 +525,8 @@ namespace RjProduction
             /// Склад по умолчанию выбран
             /// </summary>
             public Model.WarehouseClass? WarehouseDef;
+
+            public void SaveDB() => MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
         }
 
         /// <summary>

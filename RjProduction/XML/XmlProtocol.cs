@@ -48,7 +48,7 @@ namespace RjProduction.XML
         /// </summary>
         [SqlIgnore] public string TypeDoc { get; set; } = "NaN";
 
-        [SqlIgnore, XmlIgnore] public string FileName { get => $"{TypeDoc.Split(':', StringSplitOptions.RemoveEmptyEntries)[0]}_{DataCreate}_{Number}.xml"; }
+        public string FileName (string typedoc) => $"{typedoc}_{DataCreate}_{Number}.xml"; 
 
 
         [SqlIgnore, XmlElement, DependentCode]
@@ -141,7 +141,7 @@ namespace RjProduction.XML
         {
             string sFile = MDL.XmlPatch(doc.DataCreate);
             if (doc.Status == StatusEnum.НеСохранен) doc.Status = StatusEnum.Не_Проведен;
-            MDL.SaveXml<T>((T)doc, $"{sFile}\\{((XmlProtocol)doc).FileName}");
+            MDL.SaveXml<T>((T)doc, $"{sFile}\\{((XmlProtocol)doc).FileName(doc.Doc_Code)}");
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ using RjProduction.Model;
 
 namespace RjProduction.Pages
 {
-    public partial class PageTimbers : Page
+    public partial class PageTimbers : Page, IKeyControl
     {
         private double LongWood = 0;
         private Tabel_Timbers.Timber? TmpTimber;
@@ -18,13 +18,15 @@ namespace RjProduction.Pages
         private readonly Action<Tabel_Timbers> ActionOne;
         private readonly Action CloseAction;
 
+        
+
+
         public PageTimbers(Tabel_Timbers tabelTimbers, Action<Tabel_Timbers> actionOne, Action closeAction)
         {
             InitializeComponent();
             _TabelTimbers = tabelTimbers;
             ActionOne = actionOne;
-            CloseAction = closeAction;
-
+            CloseAction = closeAction;          
         }
 
         /// <summary>
@@ -52,12 +54,16 @@ namespace RjProduction.Pages
         /// Обновляет таблицу куботуры
         /// </summary>
         private void Refreh_DG_Cubs()
-        {
-            if (EndEdit == null)
-            {
-                LabelItog.Content = $"Количество: {_TabelTimbers.Timbers.Sum(x => x.Количество)} Куб/м: {Math.Round(_TabelTimbers.Timbers.Sum(x => x.Куб_М), 3)}";
-                DG_Cubs.Items.Refresh();
-            }
+        {           
+                try
+                {
+                    DG_Cubs.Items.Refresh();
+                    LabelItog.Content = $"Количество: {_TabelTimbers.Timbers.Sum(x => x.Количество)} Куб/м: {Math.Round(_TabelTimbers.Timbers.Sum(x => x.Куб_М), 3)}";
+                }
+                catch
+                {
+                    LabelItog.Content = $"Количество: потвердить Enter";
+                }            
         }
         /// <summary>
         /// Окно ввода аналог inputBox
@@ -93,20 +99,19 @@ namespace RjProduction.Pages
 
             DG_Cubs.ItemsSource = _TabelTimbers.Timbers;
             DG_Cubs.Columns[0].IsReadOnly = true;
+            DG_Cubs.Columns[3].IsReadOnly = true;
             DG_Cubs.Columns[5].IsReadOnly = true;
+            DG_Cubs.Columns[6].Header = "Доплата";
 
             DG_Cubs.CellEditEnding += ИзмененияВнесены;
             DG_Cubs.CurrentCellChanged += ЯчекаИзменена;
-
-            PreviewKeyUp += (object sender, KeyEventArgs e) =>
-            {
-                if (e.Key == Key.F1) Кубатурник_ОК(null!, null!);
-                else if (e.Key == Key.Escape) CloseAction?.Invoke();
-            };
+                        
+            var window = Window.GetWindow(this);
+          // window.KeyDown += HandleKeyPress;
 
             Refreh_DG_Cubs();
         }
-
+               
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
             InputBox.Visibility = Visibility.Collapsed;
@@ -126,7 +131,9 @@ namespace RjProduction.Pages
             ЗакрытьФорму(null!, null!);
         }
 
-        private void ЗакрытьФорму(object sender, RoutedEventArgs e) => CloseAction?.Invoke();
+        private void ЗакрытьФорму(object sender, RoutedEventArgs e) { 
+            CloseAction?.Invoke();
+        }
 
         private void УдалитьЗначение(object sender, RoutedEventArgs e)
         {
@@ -181,6 +188,7 @@ namespace RjProduction.Pages
                         {
                             InpubBoxOpen("Введите Длинну бревна", () =>
                             {
+                                InputTextBox.Text = InputTextBox.Text.Replace('.', ',');
                                 if (double.TryParse(InputTextBox.Text, out double d))
                                 {
                                     if (DicCubs.Find(x => x.Diameter == TmpTimber.Диаметр).Sizes.ContainsKey(d))
@@ -205,23 +213,37 @@ namespace RjProduction.Pages
         {
             if (EndEdit != null)
             {
-                var s = DicCubs.Find(x => x.Diameter == EndEdit.Диаметр);
-                if (s.Diameter != 0)
+                if (EndEdit != null)
                 {
-                    if (s.Sizes.TryGetValue(EndEdit.Длинна, out double value))
+                    var s = DicCubs.Find(x => x.Diameter == EndEdit.Диаметр);
+                    if (s.Diameter != 0)
                     {
-                        LongWood = EndEdit.Длинна;
-                        EndEdit.Куб_М = EndEdit.Количество * value;
+                        if (s.Sizes.TryGetValue(EndEdit.Длинна, out double value))
+                        {
+                            LongWood = EndEdit.Длинна;
+                            EndEdit.Куб_М = EndEdit.Количество * value;
+                        }
                     }
                 }
                 EndEdit = null;
                 Refreh_DG_Cubs();
-            }
+            }    
         }
 
         private void ИзмененияВнесены(object? sender, DataGridCellEditEndingEventArgs e)
+        {           
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                EndEdit = e.Row.Item as Tabel_Timbers.Timber;               
+            }
+        }
+
+        void IKeyControl.HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit) EndEdit = (Tabel_Timbers.Timber?)e.Row.Item;
+            if (e.Key == Key.F1) Кубатурник_ОК(null!, null!);
+            else if (e.Key == Key.Escape) ЗакрытьФорму(null!, null!);
+            else if (e.Key == Key.F2) НовыйЭлемент(null!, null!);
+            else if (e.Key == Key.F3) УдалитьЗначение(null!, null!);
         }
     }
 }

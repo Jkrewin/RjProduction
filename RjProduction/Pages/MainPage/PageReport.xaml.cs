@@ -121,7 +121,7 @@ namespace RjProduction.Pages
 
             // сборка сведений
             List<(DateOnly, string, decimal)> ls = [];
-            foreach (DocArrival s in _docs)
+            foreach (DocArrival s in _docs.Cast<DocArrival>())
             {
                 Dictionary<string, decimal> dic = []; // зарплата в течение всего дня у работника
                 foreach (var item in s.MainTabel)

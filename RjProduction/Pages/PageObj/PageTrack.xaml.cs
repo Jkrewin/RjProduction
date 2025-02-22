@@ -15,11 +15,14 @@ using System.Windows.Shapes;
 
 namespace RjProduction.Pages
 {
-    public partial class PageTrack : Page
+    public partial class PageTrack : Page, IKeyControl
     {
-        public PageTrack()
+        private readonly Action CloseAction;
+
+        public PageTrack(Action closeAction)
         {
             InitializeComponent();
+            this.CloseAction = closeAction;
         }
 
         private void ОК_Согласие(object sender, RoutedEventArgs e)
@@ -30,6 +33,12 @@ namespace RjProduction.Pages
         private void ЗакрытьФорму(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1) ОК_Согласие(null!, null!);
+            else if (e.Key == Key.Escape) CloseAction?.Invoke();
         }
     }
 }

@@ -6,6 +6,7 @@ namespace RjProduction.Model
     /// </summary>
    public interface IDocMain
     {
+        public string Doc_Code { get; }
         public StatusEnum Status { get; set; }
         /// <summary>
         /// Необходимый индификатор для общей бд бля быстрого поиска этого документа

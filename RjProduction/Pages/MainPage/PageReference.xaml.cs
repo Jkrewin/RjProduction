@@ -59,7 +59,7 @@ namespace RjProduction.Pages
         /// </summary>
         private class RowEmpl : MainRow
         {
-            public required string ФИО { get; set; }
+            public required Employee ФИО { get; set; }
 
             public override void CreateNew()
             {
@@ -131,6 +131,14 @@ namespace RjProduction.Pages
                 _list.Remove(DelObj.Obj);
                 ((IList)DG_Main.ItemsSource).Remove(DelObj);
                 DG_Main.Items.Refresh();
+
+                if (DelObj.Obj is WarehouseClass warehouse ) {
+                    if (warehouse.ID == -1) return;
+                    if (MessageBox.Show("Удалить этот склад из общей базы данных ? Важно, на этом складе продукция или товар должен быть нулевой", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
+                        warehouse.Delete();
+                    } 
+                }
+
                 DelObj = null;
             }
         }

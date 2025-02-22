@@ -1,10 +1,10 @@
 ﻿
 
+using RjProduction.Pages;
 using RjProduction.Sql;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Windows.Media.Media3D;
-using System.Xml.Serialization;
+using System.Windows.Input;
 
 namespace RjProduction.Model
 {
@@ -13,7 +13,7 @@ namespace RjProduction.Model
     /// </summary>
     public enum StatusEnum
     {
-        Не_Проведен = 0, Проведен = 1, Ошибка = 6, Частично = 2, НеСохранен = 4
+        Не_Проведен = 0, Проведен = 1, Ошибка = 6, Частично = 2, НеСохранен = 4, Изменён = 5
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ namespace RjProduction.Model
     /// Сотрудник
     /// </summary>
     public struct Employee : IDoc
-    {
+    {       
         public double UpRaise { get; set; }
         public string NameEmployee { get; set; }
         public string Note { get; set; }
@@ -125,6 +125,18 @@ namespace RjProduction.Model
         public bool Worker { get; set; }
         public readonly decimal Amount { get => (decimal)Payment + (decimal)UpRaise; }
         public readonly double CubatureAll => 0;
+
+        public string Name_last { get; set; }
+        public string Name_first { get; set; }
+        public string Name_middle { get; set; }
+
+        public void CreateFullName(string last, string first, string middle)
+        {
+            if (string.IsNullOrEmpty(Name_last) == false & string.IsNullOrEmpty(Name_first) == false & string.IsNullOrEmpty(Name_middle) == false)
+            {
+                NameEmployee = last + first.Substring(0, 1) + middle.Substring(0, 1);
+            }
+        }
 
         public override readonly string ToString() => NameEmployee + " / " + Amount.ToString() + "руб" + (Worker == false ? "." : "*") + (UpRaise == 0 ? "" : " +" + UpRaise.ToString() + "p.");
     }
@@ -329,6 +341,7 @@ namespace RjProduction.Model
         public const string Производство_Cклад = "01А02";
         public const string Выравнивание_Остатков = "03A01";
         public const string Перемещение_По_Складам = "03A02";
+        public const string Списание_Продукции = "03A03";
 
         /// <summary>
         /// Выгрущить все названия документов в массив

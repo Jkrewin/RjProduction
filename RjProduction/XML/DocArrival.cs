@@ -9,8 +9,7 @@ namespace RjProduction.XML
     /// </summary>
     public sealed class DocArrival : XmlProtocol, IDocMain
     {
-        public static readonly string DOC_CODE = DocCode.Производство_Cклад ;
-
+        [SqlIgnore]public string Doc_Code { get => DocCode.Производство_Cклад; }
 
         /// <summary>
         /// Необходимый индификатор для общей бд бля быстрого поиска этого документа
@@ -19,7 +18,7 @@ namespace RjProduction.XML
         {
             get
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes($"{DOC_CODE}{DataCreate}+{Number}");
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes($"{Doc_Code}{DataCreate}+{Number}");
                 return Convert.ToHexString(System.Security.Cryptography.MD5.HashData(inputBytes));
             }
         }
@@ -53,7 +52,7 @@ namespace RjProduction.XML
         public decimal AllSum { get => MainTabel.Sum(x => x.Amount); }
 
         public DocArrival() { 
-            TypeDoc = DOC_CODE + ":Производство на склад";
+            TypeDoc = Doc_Code + DocTitle;
             Warehouse = new WarehouseClass() { NameWarehouse = "n/a" };
         }
 
@@ -128,7 +127,7 @@ namespace RjProduction.XML
             }
             catch (Exception ex)
             {
-                MDL.LogError("Ошибка при попытки провести документ " + DOC_CODE, ex.Message +" "+ ex.Source);
+                MDL.LogError("Ошибка при попытки провести документ " + Doc_Code, ex.Message +" "+ ex.Source);
                 Status = StatusEnum.Ошибка;
                 XmlProtocol.SaveDocXml<DocArrival>(this);
                 return;

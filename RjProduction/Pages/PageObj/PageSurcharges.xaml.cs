@@ -6,7 +6,7 @@ using RjProduction.Model;
 
 namespace RjProduction.Pages
 {
-    public partial class PageSurcharges : Page
+    public partial class PageSurcharges : Page, IKeyControl
     {
         private readonly Action<IDoc> ActionOne;
         private readonly Action CloseAction;
@@ -92,5 +92,11 @@ namespace RjProduction.Pages
         }
 
         private void ВходВПоле(object sender, RoutedEventArgs e) => Number.Text = "";
+
+        public void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1) ОК_Согласие(null!, null!);
+            else if (e.Key == Key.Escape) CloseAction?.Invoke();
+        }
     }
 }

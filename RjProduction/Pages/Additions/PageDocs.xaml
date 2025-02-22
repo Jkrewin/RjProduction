@@ -36,13 +36,33 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <Grid x:Name="G_SelectDocs">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="26"/>
+                <RowDefinition Height="0*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" MaxHeight="30" VerticalAlignment="Center" Height="30">
+                <Button Content="&#xE28F;" Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ОткрытьСведения"/>
+                <Button Content="&#xE107;" Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ПометитьНаУдаление"/>
+            </StackPanel>
+            <Grid Grid.Row="2" MaxHeight="26" VerticalAlignment="Bottom" Height="26" Grid.RowSpan="2">
                 <Label Content="Тип документа:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Bottom" Width="152" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
-                <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="167,0,0,2" VerticalAlignment="Bottom" Width="283" FontFamily="Arial Black" FontSize="14" Height="25" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
-                <StackPanel Orientation="Horizontal"  Margin="0,0,0,72" MaxHeight="30" VerticalAlignment="Top" Height="30">
-                    <Button Content="&#xE28F;" Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ОткрытьСведения"/>
-                    <Button Content="&#xE107;" Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ПометитьНаУдаление"/>
-                </StackPanel>
+                <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="167,0,0,0" VerticalAlignment="Bottom" Width="283" FontFamily="Arial Black" FontSize="14" Height="25" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Label FontFamily="Arial">
+                    За период:
+                </Label>
+                <DatePicker x:Name="Date1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="79,0,0,0"/>
+                <DatePicker x:Name="Date2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="189,0,0,0"/>
+                <Button Content="" Margin="300,0,94,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF403A3A" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ФильтерДаты" HorizontalAlignment="Left"/>
+                <Button x:Name="FilterButton" Margin="338,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="20" MinWidth="25" MinHeight="25" Background="{x:Null}" Foreground="#FF951818" BorderBrush="#FF544D4D" MaxWidth="25" MaxHeight="25" Click="ФильтерДатыУдалить" HorizontalAlignment="Left">
+                    <Grid>
+                        <Label Foreground="#FF951818" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Padding="0,0,5,5"></Label>
+                        <Label Foreground="#FF951818" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,5,0,0" Width="19" HorizontalContentAlignment="Right">X</Label>
+                    </Grid>
+                </Button>
             </Grid>
 
         </Grid>
@@ -127,6 +147,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Grid Grid.Row="2"/>
 
     </Grid>
 </Page>

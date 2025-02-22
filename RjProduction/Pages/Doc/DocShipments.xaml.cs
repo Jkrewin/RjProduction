@@ -13,17 +13,16 @@ namespace RjProduction.Pages.Doc
     
     public partial class PageShipments : Page
     {
-        private readonly IDocMain _Shipments;
+        private readonly IDocMain _Doc;
         private bool RenameGrup = false;    //Режим переименование группы
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
         private readonly UIElement? MainFramePanel;
 
-       
         public PageShipments(DocShipments doc, UIElement framePanel, Action closePage)
         {
             InitializeComponent();
-            _Shipments = doc;
+            _Doc = doc;
             ClosePage = closePage;
             MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
@@ -33,7 +32,7 @@ namespace RjProduction.Pages.Doc
         public PageShipments(DocMoving doc, UIElement framePanel, Action closePage)
         {
             InitializeComponent();
-            _Shipments = doc;
+            _Doc = doc;
             ClosePage = closePage;
             MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
@@ -47,7 +46,7 @@ namespace RjProduction.Pages.Doc
             ListGrup.Items.Clear();
             ListBoxEmp.Items.Clear();
             
-            foreach (var item in _Shipments.MainTabel)
+            foreach (var item in _Doc.MainTabel)
             {
                 ListGrup.Items.Add(item.NameGrup);
             }
@@ -58,11 +57,11 @@ namespace RjProduction.Pages.Doc
             if (ListGrup.SelectedIndex == -1) return;
             ListBoxEmp.Items.Clear();
 
-            foreach (var item in _Shipments.MainTabel[ListGrup.SelectedIndex].Tabels)
+            foreach (var item in _Doc.MainTabel[ListGrup.SelectedIndex].Tabels)
             {
                 if (item is Pseudonym products) AddItemEmp(products);
             }
-            Label_SumDown.Content = _Shipments.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
+            Label_SumDown.Content = _Doc.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
         }
 
         private void AddItemEmp(Pseudonym obj) {
@@ -134,12 +133,12 @@ namespace RjProduction.Pages.Doc
                     label.Content = pseudonym.Amount;
                 }
             }
-            Label_SumDown.Content = _Shipments.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
+            Label_SumDown.Content = _Doc.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
         }
 
         private void Загруженно(object sender, System.Windows.RoutedEventArgs e)
         {
-            MDL.ImportToWpf(this, _Shipments);
+            MDL.ImportToWpf(this, _Doc);
             Refreh_ListGrup();
         }
 
@@ -150,8 +149,8 @@ namespace RjProduction.Pages.Doc
 
         private void ВодНомера(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (uint.TryParse(((TextBox)sender).Text, out uint u)) _Shipments.Number = u;
-            else ((TextBox)sender).Text = _Shipments.Number.ToString();
+            if (uint.TryParse(((TextBox)sender).Text, out uint u)) _Doc.Number = u;
+            else ((TextBox)sender).Text = _Doc.Number.ToString();
         }
 
         private void ВходВПоле_(object sender, System.Windows.RoutedEventArgs e) => ((TextBox)sender).Text = "";
@@ -200,7 +199,7 @@ namespace RjProduction.Pages.Doc
         private void ДобавитьГруппуСписок(object sender, System.Windows.RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(TBox_GrupName.Text)) return;
-            if (_Shipments.MainTabel.Any(x => x.NameGrup == TBox_GrupName.Text))
+            if (_Doc.MainTabel.Any(x => x.NameGrup == TBox_GrupName.Text))
             {
                 MessageBox.Show("Группа с таким названием уже существует ");
                 return;
@@ -215,10 +214,10 @@ namespace RjProduction.Pages.Doc
 
             if (RenameGrup == true & ListGrup.SelectedIndex != -1)
             {
-                _Shipments.MainTabel [ListGrup.SelectedIndex].NameGrup = TBox_GrupName.Text;
+                _Doc.MainTabel [ListGrup.SelectedIndex].NameGrup = TBox_GrupName.Text;
                 RenameGrup = false;
             }
-            else _Shipments.MainTabel.Add(new GrupObj() { NameGrup = TBox_GrupName.Text });
+            else _Doc.MainTabel.Add(new GrupObj() { NameGrup = TBox_GrupName.Text });
             //_Shipments.MainTabel[ListGrup.SelectedIndex] = _Shipments.MainTabel[^1];
             Refreh_ListGrup();
             ЗакрытьОкноГруппы(null!, null!);
@@ -238,7 +237,7 @@ namespace RjProduction.Pages.Doc
             }
             if (ListBoxEmp.SelectedIndex == -1)
             {
-                _Shipments.MainTabel[ListGrup.SelectedIndex].Tabels.RemoveAt(ListBoxEmp.SelectedIndex);
+                _Doc.MainTabel[ListGrup.SelectedIndex].Tabels.RemoveAt(ListBoxEmp.SelectedIndex);
                 Refreh_ListBoxEmp();
             }
             else
@@ -252,19 +251,21 @@ namespace RjProduction.Pages.Doc
 
         }
 
-       [DependentCode] private void СохранитьXML(object sender, System.Windows.RoutedEventArgs e)
+        [DependentCode]
+        private void СохранитьXML(object sender, System.Windows.RoutedEventArgs e)
         {
             if (SavedDoc == false)
             {
-                string sFile = $"{MDL.XmlPatch(_Shipments.DataCreate)}\\{((XmlProtocol)_Shipments).FileName}";
+                string sFile = $"{MDL.XmlPatch(_Doc.DataCreate)}\\{((XmlProtocol)_Doc).FileName(_Doc.Doc_Code)}";
                 if (File.Exists(sFile))
                 {
                     if (MessageBox.Show("Перезаписать ранее созданный файл с такой датой и номером ?", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
-                }                
+                }
             }
-             if (uint.TryParse(Number.Text, out uint u))            MDL.MyDataBase.NumberDef = u;
-            if (_Shipments is DocShipments) XmlProtocol.SaveDocXml<DocShipments>(_Shipments);
-           else if (_Shipments is DocMoving) XmlProtocol.SaveDocXml<DocMoving>(_Shipments);
+            if (uint.TryParse(Number.Text, out uint u)) MDL.MyDataBase.NumberDef = u;
+            if (_Doc is DocShipments) XmlProtocol.SaveDocXml<DocShipments>(_Doc);
+            else if (_Doc is DocMoving) XmlProtocol.SaveDocXml<DocMoving>(_Doc);
+            else if (_Doc is DocWritedowns) XmlProtocol.SaveDocXml<DocWritedowns>(_Doc);
             SavedDoc = true;
         }
 
@@ -277,7 +278,7 @@ namespace RjProduction.Pages.Doc
         private void УдалитьГруппу(object sender, System.Windows.RoutedEventArgs e)
         {
             if (ListGrup.SelectedIndex == -1) return;
-            _Shipments.MainTabel.RemoveAt(ListGrup.SelectedIndex);
+            _Doc.MainTabel.RemoveAt(ListGrup.SelectedIndex);
             Refreh_ListGrup();
         }
 
@@ -290,14 +291,14 @@ namespace RjProduction.Pages.Doc
         {
             if (ListGrup.SelectedIndex == -1) return;
             Grid_NameGrup.Visibility = Visibility.Visible;
-            TBox_GrupName.Text = _Shipments.MainTabel[ListGrup.SelectedIndex].NameGrup;
+            TBox_GrupName.Text = _Doc.MainTabel[ListGrup.SelectedIndex].NameGrup;
             TBox_GrupName.Focus();
             RenameGrup = true;
         }
 
         private void ВыполнитьЛокумент(object sender, RoutedEventArgs e)
         {
-            if (_Shipments.Status == StatusEnum.Проведен) {
+            if (_Doc.Status == StatusEnum.Проведен) {
                 MessageBox.Show("Документ был уже ранее проведен");
                 return;
             }
@@ -308,7 +309,7 @@ namespace RjProduction.Pages.Doc
             }
             else
             {
-                _Shipments.CarryOut();
+                _Doc.CarryOut();
             }
         }
 
@@ -343,7 +344,7 @@ namespace RjProduction.Pages.Doc
         private void ВыбранСкладTo(object sender, SelectionChangedEventArgs e)
         {
             var w = MDL.MyDataBase.Warehouses.Find(x => x.Equals(Cbox_warehouses_To.SelectedValue)) ; 
-            ((DocMoving)_Shipments).Warehouse_To = w ?? new WarehouseClass() { NameWarehouse = "NaN" };
+            ((DocMoving)_Doc).Warehouse_To = w ?? new WarehouseClass() { NameWarehouse = "NaN" };
         }
     }
 }

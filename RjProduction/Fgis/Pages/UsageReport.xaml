@@ -1,0 +1,197 @@
+﻿<Page x:Class="RjProduction.Fgis.Pages.UsageReport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RjProduction.Fgis.Pages"
+      mc:Ignorable="d" d:DesignWidth="800" 
+      Title="UsageReport" Height="1377" Loaded="Загруженно">
+
+    <Grid Background="White" Width="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="350"/>
+            <RowDefinition Height="26.619"/>
+            <RowDefinition Height="446.381"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Rectangle VerticalAlignment="Bottom" Height="2" Margin="0,0,0,0" Fill="#FF404DD7"/>
+            <Label  Content="ОТЧЕТА ОБ ИСПОЛЬЗОВАНИИ ЛЕСОВ" HorizontalAlignment="Left" Margin="37,0,0,0" VerticalAlignment="Top" FontFamily="Dubai" FontWeight="Bold" FontSize="16" Foreground="#FF1C4478"/>
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Label Content="Номер документа" BorderThickness=" 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="33" Foreground="Black" FontWeight="Bold" Margin="10,4,0,0"/>
+            <TextBox x:Name="TextBox_Number" MaxLength="128" HorizontalAlignment="Left" Margin="138,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" FontFamily="Consolas" FontSize="16" Uid="number"/>
+            <Label Content="Дата документа" BorderThickness=" 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="123" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="33" Foreground="Black" FontWeight="Bold" Margin="281,3,0,0"/>
+            <DatePicker x:Name="DateNow" HorizontalAlignment="Left" Margin="400,5,0,0" VerticalAlignment="Top" Width="119" FontFamily="Arial" FontSize="14" Uid="date"/>
+            <ComboBox x:Name="CBox_Countres" HorizontalAlignment="Left" Margin="210,42,0,0" VerticalAlignment="Top" Width="239" FontFamily="Arial" FontSize="14" Uid="subject" SelectionChanged="ВыбранаСтрока_"/>
+            <Label Content="Субъект РФ" BorderThickness=" 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="33" Foreground="Black" FontWeight="Bold" Margin="10,40,0,0"/>
+            <Button x:Name="Button_Company" Content="&lt;Отправитель документа&gt;" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="390" Background="#FFF3EFEF" Foreground="#FF433535" BorderBrush="#FFBDBDBD" Height="24" FontSize="14" FontFamily="Arial" Click="ОтправительДокументов"/>
+
+            <Button x:Name="Button_Contract" Content="&lt;Договор&gt;" HorizontalAlignment="Left" Margin="10,185,0,0" VerticalAlignment="Top" Width="390" Background="#FFF3EFEF" Foreground="#FF433535" BorderBrush="#FFBDBDBD" Height="24" FontSize="14" FontFamily="Arial" Click="ВыбратьДоговор" Uid="contract"/>
+            <Button x:Name="Button_MSU" Content="Выбрать Наименование ОГВ, органа МСУ " HorizontalAlignment="Left" Margin="405,156,0,0" VerticalAlignment="Top" Click="ВыбратьОрганизацию" FontFamily="Calibri" FontSize="14" Width="342" Background="#FFF3EFEF" BorderBrush="#FF927E7E" FontWeight="Bold" Height="24"/>
+            <TextBlock TextWrapping="Wrap" x:Name="Label_MSU" Margin="10,111,10,0" VerticalAlignment="Top" Uid="executiveAuthority"  FontFamily="Calibri" FontSize="16"  Padding="5,0,5,5" Foreground="#FF0B485A" Height="40"/>
+
+            <StackPanel  Margin="160,220,0,0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Content="Отчетный период" BorderThickness=" 1" Width="131" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="30" Foreground="Black" FontWeight="Bold" Padding="5,3,5,5"/>
+                <DatePicker  Margin="0,0,0,0" VerticalAlignment="Top" Width="119" FontFamily="Arial" FontSize="14" Uid="begin"/>
+                <Label Content="--" BorderThickness=" 1" Width="23" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="31" Foreground="Black" FontWeight="Bold" Padding="5,3,5,5"/>
+                <DatePicker HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="119" FontFamily="Arial" FontSize="14" Uid="end"/>
+            </StackPanel>
+            <RadioButton Content="Сведения об использовании лесов для заготовки древесины" HorizontalAlignment="Left" Margin="14,264,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначения"/>
+            <RadioButton Content="Использование лесов в целях, не связанных с заготовкой древесины" HorizontalAlignment="Left" Margin="14,282,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначения"/>
+            <RadioButton Content="Мероприятия, связанные с использованием лесов" HorizontalAlignment="Left" Margin="14,300,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначения"/>
+            <Label Content="Наименование лесничества" BorderThickness=" 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="270" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="33" Foreground="Black" FontWeight="Bold" Margin="10,66,0,0"/>
+            <ComboBox x:Name="CBox_Forest" HorizontalAlignment="Left" Margin="210,70,0,0" VerticalAlignment="Top" Width="537" FontFamily="Arial" FontSize="14" Uid="subject" IsEnabled="False"/>
+
+        </Grid>
+
+        <Grid x:Name="Grind_Tabel" Grid.Row="2" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="417*"/>
+
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="Button_Create" Margin="10,0,0,0" VerticalAlignment="Top" Height="30" Width="70" Background="#FF3A85FF" Content="Создать" FontFamily="Calibri" Foreground="White" Click="Создать" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Button_Edit" Margin="10,0,0,0" VerticalAlignment="Top" Height="30" Width="70" Background="#FF3A85FF" Content="Изменить" FontFamily="Calibri" Foreground="White" Click="Изменить" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Button_Del" Margin="10,0,0,0" VerticalAlignment="Top" Height="30" Width="70" Background="#FF3A85FF" Content="Удалить" FontFamily="Calibri" Foreground="White" Click="Удалить" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="Button_Dob" Margin="15,0,0,0" VerticalAlignment="Top" Height="30" Width="85" Background="#FF3A85FF" Content="Дублировать" FontFamily="Calibri" Foreground="White" Click="Дублировать" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Label x:Name="Label_Title" Grid.Row="1" Background="#FFDCF4F2" Content="asfadafaff" Padding="5,1,5,5" HorizontalContentAlignment="Center" FontFamily="Calibri" FontSize="14" FontWeight="Bold" />
+            <ListBox Grid.Row="3"  VerticalAlignment="Center" Height="400" FontFamily="Tahoma" FontSize="10"/>
+            <StackPanel x:Name="TitleStack"  Grid.Row="2">
+                <Label   />
+            </StackPanel>
+
+
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid x:Name="Cl_signerData"  Width="780" Height="221" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" >
+                <Border BorderThickness="1,1,1,1" CornerRadius="5,5,5,5" BorderBrush="#FF8C8CF0" Margin="0,0,0,-45">
+                    <Grid HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="313" VerticalAlignment="Bottom" Height="161">
+                        <Border BorderThickness="1,1,1,1" CornerRadius="0,5,5,5" BorderBrush="#FF8C8CF0" Uid="SignerDataType "/>
+                        <TextBox MaxLength="200" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Calibri" Uid="organization" Margin="130,34,5,0"/>
+                        <TextBox MaxLength="200" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Calibri" Uid="registerNumber" Margin="161,11,5,0"/>
+                        <Label Content="Дата подписания:" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,80,0,0"/>
+                        <Label Content="Номер реестра специалистов" BorderThickness=" 1" VerticalAlignment="Top" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="-1,5,0,0"/>
+                        <Label Content="Организация" BorderThickness=" 1" VerticalAlignment="Top" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="-1,27,0,0"/>
+
+                    </Grid>
+                </Border>
+                <Label Content="ПОДПИСАН" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="31" Foreground="Black" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+                <DatePicker  Margin="601,187,10,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="12" Uid="date" Height="24"/>
+
+
+                <Grid Margin="0,77,0,-45" HorizontalAlignment="Left">
+                    <Grid x:Name="Cl_EmployeeType" VerticalAlignment="Bottom" Height="164" Uid="EmployeeType">
+                        <Border BorderThickness="1,1,1,1" CornerRadius="0,5,5,5" BorderBrush="#FF8C8CF0" Margin="0,0,0,0">
+                        </Border>
+                        <TextBox MaxLength="200" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" FontFamily="Calibri" Uid="phone" Margin="299,52,0,0"/>
+                        <Label Content="Должность:" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="31" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="9,-2,0,0"/>
+                        <Label Content="Основание для полномочий:" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="9,19,0,0"/>
+                        <Label Content="Номер документа основания полномочий:" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="9,64,0,0"/>
+                        <Label Content="Дата документа основания полномочий:" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="9,90,0,0"/>
+                        <Label Content="Телефон:" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="9,42,0,0"/>
+                        <TextBox MaxLength="200" HorizontalAlignment="Left" Margin="299,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" FontFamily="Calibri" Uid="post"/>
+                        <Rectangle  Height="1" Margin="0,22,168,141" Fill="#FFA1A1A1" Width="294" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox MaxLength="200" HorizontalAlignment="Left" Margin="299,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" FontFamily="Calibri" Uid="basisAuthority"/>
+                        <Rectangle  Height="1" Margin="0,45,169,118" Fill="#FFA1A1A1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="293"/>
+                        <DatePicker  Margin="299,96,56,0" VerticalAlignment="Top" FontFamily="Arial" Uid="date" Height="23" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Rectangle  Height="1" Width="293" Margin="0,69,0,0" Fill="#FFA1A1A1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Rectangle  Height="1" Margin="0,91,169,72" Fill="#FFA1A1A1" Width="294" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox MaxLength="200" HorizontalAlignment="Left" Margin="299,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" FontFamily="Calibri" Uid="number"/>
+                        <Rectangle  Height="1" Margin="0,118,0,0" Fill="#FFA1A1A1" Width="293" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button x:Name="Button_Empl" Margin="0,132,0,0" VerticalAlignment="Top" Height="26" Background="{x:Null}" Content="&lt;Сотрудник&gt;" FontFamily="Calibri" Foreground="#FF3A85FF" Click="ВыбратьСотрудника" BorderBrush="#FF3A85FF" Uid="fullName" HorizontalAlignment="Center" Width="208">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="3"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Border BorderThickness="1,1,1,1" CornerRadius="5,20,0,0" BorderBrush="#FF8C8CF0" Margin="0,82,0,0" Background="#FF3A85FF" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="135"/>
+                <Border BorderThickness="1,1,1,1" CornerRadius="5,20,0,0" BorderBrush="#FF8C8CF0" Margin="466,84,0,0" Background="#FF3A85FF" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="121"/>
+                <Label Content="Дополнительно" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="White" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="468,79,0,0"/>
+
+                <Label Content="Сотрудник" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="White" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,77,0,0"/>
+
+            </Grid>
+
+
+            <Border BorderThickness="1,1,1,1" CornerRadius="5,20,0,0" BorderBrush="#FF8C8CF0" Margin="10,287,0,0" Background="#FF3A85FF" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="135"/>
+            <Label Content="Файлы" BorderThickness=" 1" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="32" Foreground="White" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,282,0,0"/>
+
+            <Grid HorizontalAlignment="Left" Height="159" Margin="10,307,0,0" VerticalAlignment="Top" Width="329" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="44*"/>
+                </Grid.RowDefinitions>
+                <Border BorderThickness="1,1,1,1" CornerRadius="0,5,5,5" BorderBrush="#FF8C8CF0" Grid.RowSpan="2">
+
+                </Border>
+                <StackPanel Orientation="Horizontal" >
+                    <Button Margin="10,2,0,0" VerticalAlignment="Top" Height="24" Background="{x:Null}" Content="&#xE1DA;" FontFamily="Segoe MDL2 Assets" Foreground="#FF3A85FF" Click="ДобавитьФайл" BorderBrush="#FF3A85FF" HorizontalAlignment="Center" Width="24" ToolTip="Добавить файл в список">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button Margin="5,2,0,0" VerticalAlignment="Top" Height="24" Background="{x:Null}" Content="&#xE106;" FontFamily="Segoe MDL2 Assets" Foreground="#FF3A85FF" Click="ВыбратьСотрудника" BorderBrush="#FF3A85FF" HorizontalAlignment="Center" Width="24" ToolTip="Удалить файл из спсика">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                </StackPanel>
+                <ListBox x:Name="ListBox_FileList"   Grid.Row="1" FontFamily="Arial Narrow"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Background="#FFE7EEF6" VerticalAlignment="Top" Height="35" Margin="0,484,0,0" RenderTransformOrigin="0.5,0.5">
+                <Button Margin="50,5,0,0" VerticalAlignment="Top" Height="26" Background="#FF3A85FF" Content="Создать XML файл" FontFamily="Calibri" Foreground="White" Click="СоздатьФайл"  BorderBrush="{x:Null}" HorizontalAlignment="Center" Width="208">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+
+    </Grid>
+</Page>

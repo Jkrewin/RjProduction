@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace RjProduction.Pages
 {
-    public partial class PageDocEditor : Page
+    public partial class PageDocEditor : Page, IKeyControl
     {
         private GrupObj? SelectGrup;        //Выбранная группа
         private readonly DocArrival MyDoc;    //Редактируемый документ
@@ -154,49 +154,54 @@ namespace RjProduction.Pages
 
         private void OpenWpfItem(IDoc doc, int edit = -1)
         {
-
             void actor (IDoc iDoc) {
                 if (edit == -1) SelectGrup!.Tabels.Add(iDoc);
                 else SelectGrup!.Tabels[edit] = iDoc;
                 Refreh_Tabels();
             }
 
+            void close() {
+                Grid_Curtain.Visibility = Visibility.Collapsed;
+                MDL.HandleKey = this;
+            }
+
             Grid_Curtain.Visibility = Visibility.Visible;
             FrameDisplay.NavigationService.RemoveBackEntry();
 
-            if (doc is MaterialObj mm) 
+            if (doc is MaterialObj mm)
             {
-                _obj = new PageLumber(mm, actor,  
-                    () => Grid_Curtain.Visibility = Visibility.Collapsed);
+                _obj = new PageLumber(mm, actor, close);
 
-                FrameDisplay.Height= ((Page)_obj).Height ;
-                FrameDisplay.Navigate(_obj);               
+                FrameDisplay.Height = ((Page)_obj).Height;
+                FrameDisplay.Navigate(_obj);
+                MDL.HandleKey = (IKeyControl?)_obj;
             }
-            else if (doc is Employee empl) {
-                _obj = new PageStaff(empl, actor,
-                      () => Grid_Curtain.Visibility = Visibility.Collapsed);
+            else if (doc is Employee empl)
+            {
+                _obj = new PageStaff(empl, actor, close);
 
                 FrameDisplay.Height = 229;
                 FrameDisplay.Navigate(_obj);
+                MDL.HandleKey = (IKeyControl?)_obj;
             }
             else if (doc is Tabel_Timbers tabel)
             {
-                _obj = new PageTimbers(tabel, actor,
-                   () => Grid_Curtain.Visibility = Visibility.Collapsed);
+                _obj = new PageTimbers(tabel, actor, close);
 
-                FrameDisplay.Height = 450 ;
+                FrameDisplay.Height = 450;
                 FrameDisplay.Navigate(_obj);
+                MDL.HandleKey = (IKeyControl?)_obj;
             }
             else if (doc is Surcharges sur)
             {
-                _obj = new PageSurcharges(sur, actor, () => Grid_Curtain.Visibility = Visibility.Collapsed)
+                _obj = new PageSurcharges(sur, actor, close)
                 {
                     Height = 177
                 };
                 FrameDisplay.Height = 180;
                 FrameDisplay.Navigate(_obj);
-
             }
+            else throw new Exception("Такой элемент не зарегистрирован для OpenWpfItem");
         }
 
         private void ДобавитьОбъект(object sender, RoutedEventArgs e)
@@ -304,12 +309,14 @@ namespace RjProduction.Pages
 
             if (SavedDoc == false)
             {
-                string sFile = $"{MDL.XmlPatch(MyDoc.DataCreate)}\\{MyDoc.FileName}";
+                string sFile = $"{MDL.XmlPatch(MyDoc.DataCreate)}\\{MyDoc.FileName(MyDoc.Doc_Code)}";
                 if (File.Exists(sFile))
                 {
                     if (MessageBox.Show("Перезаписать ранее созданный файл с такой датой и номером ?", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
                 }
             }
+
+            if (MyDoc.Status == StatusEnum.Проведен) MyDoc.Status = StatusEnum.Изменён;
 
             XmlProtocol.SaveDocXml<DocArrival>(MyDoc);
             SavedDoc = true;
@@ -348,15 +355,7 @@ namespace RjProduction.Pages
             MyDoc.MainTabel.Add(grup);
             Refreh_Tabels();
         }       
-
-        private void БыстриыеКлвиши(object sender, KeyEventArgs e)
-        {
-            if (SelectGrup == null) return;
-            if (e.Key == Key.F5) OpenWpfItem(new MaterialObj());
-            else if (e.Key == Key.F6) OpenWpfItem(new Employee());
-            else if (e.Key == Key.F7) OpenWpfItem(new Tabel_Timbers());
-        }
-
+               
         private void РедактированиеОбъекта(object sender, MouseButtonEventArgs e)
         {
             int idex = ListBoxEmp.SelectedIndex;
@@ -392,8 +391,7 @@ namespace RjProduction.Pages
                 i++;
             }
             TBox_GrupName.ItemsSource = MDL.MyDataBase.NamesGrup;
-            var window = Window.GetWindow(this);
-            window.KeyDown += БыстриыеКлвиши;
+            
 
             MDL.ImportToWpf(this, MyDoc);
             Refreh_Tabels();
@@ -448,6 +446,14 @@ namespace RjProduction.Pages
             if (MainFramePanel is not null) MainFramePanel.Visibility = Visibility.Collapsed;
             var wpf =new WpfFrm.WpfView(this,this.Title, ClosePage);
             wpf.Show();
+        }
+
+        public void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if (SelectGrup == null) return;
+            if (e.Key == Key.F6) OpenWpfItem(new MaterialObj());
+            else if (e.Key == Key.F7) OpenWpfItem(new Employee());
+            else if (e.Key == Key.F8) OpenWpfItem(new Tabel_Timbers());
         }
     }
 }

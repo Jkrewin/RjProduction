@@ -53,7 +53,7 @@ namespace RjProduction.WpfFrm
 
         private class RowEmpl : MainRow
         {
-            public required string ФИО { get; set; }
+            public required Employee ФИО { get; set; }
 
             public override void CreateNew() {
                 MDL.MyDataBase.EmployeeDic.Add(ФИО);

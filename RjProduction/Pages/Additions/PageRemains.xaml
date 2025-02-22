@@ -41,12 +41,25 @@
                 <Label Content="Склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,51,0,0" VerticalAlignment="Bottom" Width="147" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
                 <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="98,54,0,0" VerticalAlignment="Bottom" Width="283" FontFamily="Arial Black" FontSize="14" Height="25" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
             </Grid>
-            <Button Content="&#xE7C3;" HorizontalAlignment="Left" Margin="15,6,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="СоздатьДокумент" BorderBrush="Black"/>
+            <Button Content="&#xE7C3;" HorizontalAlignment="Left" Margin="15,6,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="СоздатьДокумент" BorderBrush="Black">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="" HorizontalAlignment="Left" Margin="52,6,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="Удалить_значение" BorderBrush="Black">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
 
 
 
         </Grid>
-        <DataGrid x:Name="DG_Main" Visibility="Hidden"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="ВыборОбъекта" Margin="10,5,10,0" Grid.Row="2" >
+        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="10,5,10,0" Grid.Row="2" >
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                    Color="#FFAACAFE"/>
@@ -115,7 +128,7 @@
                     </DataGridColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox x:Name="TextCubs" Text="" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновлен"   />
+                            <TextBox x:Name="TextCubs" GotFocus="ВходВполе" MaxLength="4" Text="{Binding Selected_Cubature}" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновленКубы"   />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -127,7 +140,7 @@
                     </DataGridColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox x:Name="TextQ" Text="" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновлен"  />
+                            <TextBox x:Name="TextQ" Text="{Binding Piece}"  MaxLength="5" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновленКоличест"  />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -146,7 +159,7 @@
             </DataGrid.Columns>
         </DataGrid>
        
-        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Visible"  Grid.Row="2">
+        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Collapsed"  Grid.Row="2">
             <Grid Height="80">
                 <Label Content="Выравнивание остатков" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
                 <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>

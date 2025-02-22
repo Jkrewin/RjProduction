@@ -87,7 +87,9 @@ namespace RjProduction.Sql
         /// <param name="tabelName">Нзавание таблици</param>        
         /// <param name="where">Необязателен. Можно составить запрос после WHERE с поиском строк </param>
         public List<object[]> AdapterSql(string tabelName, out long id, string where = "");
-        public object? AdapterSql(string tabelName, string nameField, string where = "");       
+        public object? AdapterSql(string tabelName, string nameField, string where = "");
+
+        public void Delete(string tabelName, string where);
 
         /// <summary>
         /// Подключиться к базе данных

@@ -6,7 +6,10 @@ using RjProduction.Model;
 
 namespace RjProduction.Pages
 {
-    public partial class PageStaff : Page
+    /// <summary>
+    /// 
+    /// </summary>
+    public partial class PageStaff : Page, IKeyControl
     {
         private readonly Action<IDoc> ActionOne;
         private readonly Action CloseAction;
@@ -26,10 +29,10 @@ namespace RjProduction.Pages
             if (string.IsNullOrEmpty(ComBoxEmpl.Text)) { ComBoxEmpl.Background = Brushes.OrangeRed; return; }
             if (CBox_IsWorker.IsChecked == false) if (string.IsNullOrEmpty(TextBoxMoneySpend.Text)) { TextBoxMoneySpend.Background = Brushes.OrangeRed; return; }
 
-            if (!MDL.MyDataBase.EmployeeDic.Any(x => x.Equals(ComBoxEmpl.Text, StringComparison.CurrentCultureIgnoreCase)))
+            if (!MDL.MyDataBase.EmployeeDic.Any(x => x.NameEmployee.Equals(ComBoxEmpl.Text, StringComparison.CurrentCultureIgnoreCase)))
             {               
-                MDL.MyDataBase.EmployeeDic.Add(ComBoxEmpl.Text);
-                MDL.MyDataBase.EmployeeDic = [.. MDL.MyDataBase.EmployeeDic.OrderBy(x => x)];
+                MDL.MyDataBase.EmployeeDic.Add(new Employee() { NameEmployee= ComBoxEmpl.Text });
+                MDL.MyDataBase.EmployeeDic = [.. MDL.MyDataBase.EmployeeDic.OrderBy(x => x.NameEmployee)];
             }
 
             ActionOne?.Invoke(MDL.GetStruct<Employee>(MainGrid));
@@ -54,12 +57,18 @@ namespace RjProduction.Pages
         {
             MDL.SetStruct(MainGrid, _Employe);
             ВыбранаПроизводстве(CBox_IsWorker, null!);
-            ComBoxEmpl.ItemsSource = MDL.MyDataBase.EmployeeDic;
+            ComBoxEmpl.ItemsSource = MDL.MyDataBase.EmployeeDic.Select(x => x.NameEmployee);
             PreviewKeyUp += (object sender, KeyEventArgs e) =>
             {
                 if (e.Key == Key.F1) ОК_СогласиеСотрудник(null!, null!);
                 else if (e.Key == Key.Escape) CloseAction?.Invoke();
             };
+        }
+
+        public void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1) ОК_СогласиеСотрудник(null!, null!);
+            else if (e.Key == Key.Escape) CloseAction?.Invoke();
         }
     }
 }

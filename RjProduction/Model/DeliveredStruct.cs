@@ -3,6 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace RjProduction.WpfFrm
 {
+    /// <summary>
+    /// Структура по обменну между контролами
+    /// </summary>
     public readonly struct DeliveredStruct
     {
         public string Name { get; }
@@ -48,8 +51,7 @@ namespace RjProduction.WpfFrm
             Obj = null;
             GetAct = act;
         }
-
-     
+             
         public override string ToString() => Name;
         public static bool operator ==(DeliveredStruct a1, DeliveredStruct a2)
         {

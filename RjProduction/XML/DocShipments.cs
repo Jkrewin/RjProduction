@@ -9,7 +9,10 @@ namespace RjProduction.XML
     /// </summary>
     public class DocShipments: XmlProtocol, IDocMain
     {
-        public static readonly string DOC_CODE = DocCode.Выравнивание_Остатков;
+        [SqlIgnore]        public string Doc_Code
+        {
+            get => DocCode.Выравнивание_Остатков;
+        }
 
         /// <summary>
         /// Необходимый индификатор для общей бд бля быстрого поиска этого документа
@@ -18,7 +21,7 @@ namespace RjProduction.XML
         {
             get
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes($"{DOC_CODE}{DataCreate}+{Number}");
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes($"{Doc_Code}{DataCreate}+{Number}");
                 return Convert.ToHexString(System.Security.Cryptography.MD5.HashData(inputBytes));
             }
         }
@@ -28,7 +31,7 @@ namespace RjProduction.XML
         public string DocTitle { get; set; } = "Выравнивание Остатков";
        
         public DocShipments() {
-            TypeDoc =   $"{DOC_CODE}:{DocTitle}";
+            TypeDoc =   $"{Doc_Code}:{DocTitle}";
         }
 
         public void CarryOut()

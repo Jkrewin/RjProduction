@@ -5,7 +5,7 @@ namespace RjProduction.Model
     /// <summary>
     /// Сохраняет в БД только информацию о строках из документа
     /// </summary>
-    public class DocRow: Sql.SqlParam, IDoc
+    public class DocRow : Sql.SqlParam, IDoc
     {
         // коды операций
         public const string Пиломатериалы = "A06";
@@ -25,7 +25,8 @@ namespace RjProduction.Model
         public double UpRaise { get; set; }
         public double CubatureAll { get; set; }
 
-        public DocRow() {
+        public DocRow()
+        {
             ID_Doc = string.Empty;
             NameObj = string.Empty;
             TypeObj = string.Empty;
@@ -33,10 +34,11 @@ namespace RjProduction.Model
             Comment = string.Empty;
         }
 
-        public DocRow(IDoc doc, string grupname, string id_document) {
+        public DocRow(IDoc doc, string grupname, string id_document)
+        {
             ID_Doc = id_document;
             GrupName = grupname;
-            Comment =string.Empty;
+            Comment = string.Empty;
             if (doc is MaterialObj material)
             {
                 NameObj = material.NameMaterial;
@@ -68,7 +70,8 @@ namespace RjProduction.Model
                 CubatureAll = 0;
                 Comment = "Оплата: " + (empl.Worker ? "Сдельная" : "Одной суммой") + "; " + empl.Note;
             }
-            else if (doc is Surcharges s) {
+            else if (doc is Surcharges s)
+            {
                 NameObj = "Для " + s.EmployeeName;
                 Price = 0;
                 Quantity = 0;
@@ -83,13 +86,13 @@ namespace RjProduction.Model
                 NameObj = p.Product.NameItem;
                 Price = p.PriceCng;
                 CubatureAll = p.CubatureAll;
-                Quantity = Math.Round( p.SelectedCub /p.Product.OnePice, 0);
+                Quantity = Math.Round(p.SelectedCub / p.Product.OnePice, 0);
                 Amount = p.Amount;
                 UpRaise = 0;
                 TypeObj = Пиломатериалы;
                 Comment = p.Operation.ToString();
             }
-            else  throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + doc.ToString());
+            else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + doc.ToString());
         }
 
     }

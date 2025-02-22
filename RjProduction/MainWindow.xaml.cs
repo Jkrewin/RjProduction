@@ -14,7 +14,7 @@ namespace RjProduction
     public partial class MainWindow : Window
     {
         private PageReport? ReportPage;
-        private PageReference? Reference;
+        private PageReference? Reference;        
 
         public MainWindow()
         {
@@ -81,7 +81,7 @@ namespace RjProduction
             MDL.Refreh_AllWpfView(); // Обновить нижнаяя панель
 
             var test = new Test_circut();
-            // test.ShowDialog();
+           // test.ShowDialog();
 
            
         }
@@ -127,7 +127,7 @@ namespace RjProduction
 
         private void ПриложениеЗакрыто(object sender, EventArgs e)
         {
-            MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+            MDL.MyDataBase.SaveDB();
             MDL.SaveSettingApp();
             MDL.SqlProfile?.Dispose();
             Application.Current.Shutdown();
@@ -172,8 +172,8 @@ namespace RjProduction
             ClearButtonSel();
             ((Button)sender).Background.Opacity = 1;
 
-            Grid_Task.Visibility = Visibility.Visible;
-            FrameDisplay.Navigate(new Pages.Page1());
+            //Grid_Task.Visibility = Visibility.Visible;
+            FrameDisplay.Navigate(new Pages.MainPage.PageFgis());
 
         }
 

@@ -233,5 +233,13 @@ namespace RjProduction.Sql
 #pragma warning restore CA1816
         }
 
+        public void Delete(string tabelName, string where)
+        {
+            SQLiteCommand command = SQLite.CreateCommand();
+            if (SqlTransaction is not null) command.Transaction = SqlTransaction;
+            command.CommandText = $"DELETE FROM [{tabelName}] WHERE {where}";
+            SqlLogString = "SqlCommand:" + DateTime.Now.ToString() + " " + command.CommandText;
+            command.ExecuteNonQuery();
+        }
     }
 }

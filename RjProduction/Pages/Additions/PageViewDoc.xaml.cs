@@ -1,15 +1,8 @@
 ﻿using RjProduction.Model;
-using RjProduction.Sql;
 using RjProduction.XML;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 
 namespace RjProduction.Pages.Additions
@@ -32,7 +25,53 @@ namespace RjProduction.Pages.Additions
 
         private void Печать_документа(object sender, RoutedEventArgs e)
         {
+            if (Doc is DocArrival arrival)
+            {
+                Report_Накладная("Производство", arrival.Warehouse.NameWarehouse + " " + arrival.Warehouse.AddressWarehouse);
+            }
+            else if (Doc is DocMoving moving)
+            {
+                Report_Накладная(moving.Warehouse_From.NameWarehouse + " " + moving.Warehouse_From.AddressWarehouse, moving.Warehouse_To!.NameWarehouse + " " + moving.Warehouse_To!.AddressWarehouse);
+            }
+            else if (Doc is DocShipments)
+            {
+                Report_Накладная("Выравнивание остатков", "");
+            }
+        }
 
+        private void Report_Накладная(string toOut, string toIn) {
+            var report = new HtmlReportDiv(AppDomain.CurrentDomain.BaseDirectory + @"Res\Div\Накладная.htm");
+            decimal dec = 0;
+
+            HtmlReportDiv.SetValue[] arr = [
+                new HtmlReportDiv.SetValue("numer", Doc.Number.ToString()),
+                new HtmlReportDiv.SetValue("date", Doc.DataCreate.ToString()),
+                new HtmlReportDiv.SetValue("To_out", toOut),
+                new HtmlReportDiv.SetValue("To_in", toIn)
+            ];
+            string header = report.GetDiv("header", arr).Replace("</table>", "");
+            string final = report.GetDiv("final") + "</table>";
+            string deep = "";
+
+            for (int i = 0; i < DocRows.Count; i++)
+            {
+                if (DocRows[i].TypeObj == DocRow.КруглыйЛес | DocRows[i].TypeObj == DocRow.Пиломатериалы)
+                {
+                    HtmlReportDiv.SetValue[] d = [
+                            new HtmlReportDiv.SetValue("#", (i+1).ToString()),
+                            new HtmlReportDiv.SetValue("Наименование",DocRows[i].NameObj),
+                            new HtmlReportDiv.SetValue("Ед","М3"),
+                            new HtmlReportDiv.SetValue("Количество",DocRows[i].CubatureAll),
+                            new HtmlReportDiv.SetValue("Цена",DocRows[i].Price),
+                            new HtmlReportDiv.SetValue("Сумма",DocRows[i].Amount)  ];
+                    dec += DocRows[i].Amount;
+                    deep += report.GetDiv("cell", d);
+                }
+            }
+
+            string end = report.GetDiv("end_table", [new HtmlReportDiv.SetValue("Итог", dec)]) + "</table>";
+
+            HtmlReportDiv.OpenReport(header + deep + end + final);
         }
 
         private void Загруженно(object sender, RoutedEventArgs e)

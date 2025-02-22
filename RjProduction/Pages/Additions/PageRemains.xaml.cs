@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using static RjProduction.Sql.SqlRequest;
 
 namespace RjProduction.Pages
 {
@@ -15,10 +16,10 @@ namespace RjProduction.Pages
     {
         const string PLUS_COLOR = "#FF3D8F18";
         const string MINUS_COLOR = "#FFAD2F2F";
+        const string EQUALLY_COLOR = "#FF2304FF";
         readonly Dictionary<long, WarehouseClass> WarehouseHub = []; // нужен для создания Products
         DataTable? ProdData;
-        bool _swither = true;
-
+      
         private readonly ObservableCollection<MyCollection> _db = [];
         private ObservableCollection<MyCollection> Db_selected
         {
@@ -33,8 +34,9 @@ namespace RjProduction.Pages
 
         private class MyCollection(DataRow row, Dictionary<long, WarehouseClass> warehouseHub) :  INotifyPropertyChanged
         {
+            private int _Piece = 0;
             private double _Selected_Cubature = 0;
-            private bool _IsMunus = false;
+            private OperatonEnum _IsOperation =  OperatonEnum.vsPlus;
             private double _Result = 0;
 
             public Model.Products Products = new (row, warehouseHub);
@@ -50,6 +52,7 @@ namespace RjProduction.Pages
                 get => _Selected_Cubature; set
                 {
                     _Selected_Cubature = value;
+                    RefrehResult();
                     NotifyPropertyChanged();
                 }
             }
@@ -64,12 +67,12 @@ namespace RjProduction.Pages
                 }
             }
 
-            public bool IsMunus
+            public OperatonEnum IsOperation
             {
-                get => _IsMunus;
+                get => _IsOperation;
                 set
                 {
-                    _IsMunus = value;
+                    _IsOperation = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -78,16 +81,32 @@ namespace RjProduction.Pages
             {
                 return new Pseudonym() { SelectedCub = Selected_Cubature,
                     Product = Products,
-                    Operation = IsMunus ? SqlRequest.OperatonEnum.vsMunis : SqlRequest.OperatonEnum.vsPlus ,                     
+                    Operation = IsOperation ,                     
                     PriceCng = Products.Price
                 };
             }
 
+            public int Piece
+            {
+                get => _Piece;
+                set
+                {
+                    _Piece = value;
+                    _Selected_Cubature = Products.OnePice * _Piece;
+                    RefrehResult();
+                    NotifyPropertyChanged();
+                }
+            }
+
             public void RefrehResult()
             {
-                if (IsMunus == true)
+                if (IsOperation == OperatonEnum.vsMunis)
                 {
-                    Result = Products. Cubature - Selected_Cubature;
+                    Result = Products.Cubature - Selected_Cubature;
+                    if (Result < 0) Result = 0;
+                }
+                else if (IsOperation == OperatonEnum.vsMutation) {
+                    Result = Selected_Cubature;
                     if (Result < 0) Result = 0;
                 }
                 else
@@ -165,7 +184,7 @@ namespace RjProduction.Pages
             // проверка на ноль элементов
             foreach (var item in Db_selected)
             {
-                if (item.IsMunus & (item.Products.Cubature - item.Selected_Cubature) < 0)
+                if (item.IsOperation == OperatonEnum.vsMunis & (item.Products.Cubature - item.Selected_Cubature) < 0)
                 {
                     MessageBox.Show($"{item.Products.NameItem} не может быть меньше нуля. Отрицательный остаток не допускаеться");
                     return false;
@@ -215,32 +234,31 @@ namespace RjProduction.Pages
             //for (int i = 7; i < DG_Main.Columns.Count; i++) { DG_Main.Columns[i].Visibility = Visibility.Collapsed; }
             Скрыть_Меню(null!, null!);
         }
-
-        private void ВыборОбъекта(object sender, SelectedCellsChangedEventArgs e)
-        {
-
-        }
-
+              
         private void ВыбратьЗнак(object sender, RoutedEventArgs e)
         {
             var b = ((Button)sender);
-            if (b.Content.Equals(""))
+            if (DG_Main.SelectedItem is MyCollection my)
             {
-                b.Content = "";
-                b.Background = MDL.BrushConv(MINUS_COLOR);
-                if (DG_Main.SelectedItem is MyCollection my)
+                if (b.Content.Equals(""))
                 {
-                    my.IsMunus = true;
+                    b.Content = "";
+                    b.Background = MDL.BrushConv(MINUS_COLOR);
+                    my.IsOperation = OperatonEnum.vsMunis;
                     my.RefrehResult();
                 }
-            }
-            else
-            {
-                b.Content = "";
-                b.Background = MDL.BrushConv(PLUS_COLOR);
-                if (DG_Main.SelectedItem is MyCollection my)
+                else if (b.Content.Equals(""))
                 {
-                    my.IsMunus = false;
+                    b.Content = "";
+                    b.Background = MDL.BrushConv(EQUALLY_COLOR);
+                    my.IsOperation = OperatonEnum.vsMutation;
+                    my.RefrehResult();
+                }
+                else if (b.Content.Equals(""))
+                {
+                    b.Content = "";
+                    b.Background = MDL.BrushConv(PLUS_COLOR);
+                    my.IsOperation = OperatonEnum.vsPlus;
                     my.RefrehResult();
                 }
             }
@@ -250,17 +268,12 @@ namespace RjProduction.Pages
         {
             if (MainComboBox.SelectedItem is not WarehouseClass warehouse) return;
             
-
             string id = warehouse.ID.ToString();
             _db.Clear();
             ProdData = SqlRequest.GetDataTable(nameof(Products),"*", "Warehouse='"+ id+"'"); // загрузить сюда весь список Products
             if (ProdData is null) return;
 
-            foreach (DataRow tv in ProdData.Rows)
-            {               
-                    _db.Add(new MyCollection(tv, WarehouseHub));                
-            }
-
+            foreach (DataRow tv in ProdData.Rows) _db.Add(new MyCollection(tv, WarehouseHub));
         }
 
         private void СоздатьДокумент(object sender, RoutedEventArgs e)
@@ -268,44 +281,11 @@ namespace RjProduction.Pages
             SelectWarehouse.Visibility = Visibility.Hidden;
             DG_Main.Visibility = Visibility.Hidden;
             SP_Select_Type_Doc.Visibility = Visibility.Visible;
-
-
         }
 
         private void ТекстОбновлен(object sender, TextChangedEventArgs e)
         {
-            const int TEXTCUBS = 4; // индекс контрола
-
-            if (!_swither) return;
-            if (DG_Main.SelectedItem is MyCollection my)
-            {
-                var text = (TextBox)sender;
-
-                if (text.Name == "TextCubs")
-                {
-                    if (text.Text.Length != 0)
-                    {
-                        if (double.TryParse(text.Text, out double d)) my.Selected_Cubature = d;
-                        else text.Text = my.Selected_Cubature.ToString();
-                    }
-                }
-                else if (text.Name == "TextQ")
-                {
-                    if (uint.TryParse(text.Text, out uint q))
-                    {
-                        var cell = GetCell(DG_Main.SelectedIndex, TEXTCUBS);
-                        if (GetVisualChild<TextBox>(cell!) is TextBox b)
-                        {
-                            my.Selected_Cubature = my.Products.OnePice * q;
-                            _swither = false;
-                            b.Text = my.Selected_Cubature.ToString();
-                            _swither = true;
-                        }
-                    }
-                    else text.Text = "0";
-                }
-                my.RefrehResult();
-            }
+           
         }
 
         private void Скрыть_Меню(object sender, RoutedEventArgs e)
@@ -353,9 +333,9 @@ namespace RjProduction.Pages
             // проверка чтобы были только -
             foreach (var item in Db_selected)
             {
-                if (item.IsMunus == false & item.Selected_Cubature != 0)
+                if ((item.IsOperation == OperatonEnum.vsPlus | item.IsOperation == OperatonEnum.vsMutation) & item.Selected_Cubature != 0)
                 {
-                    MessageBox.Show($"{item.Products.NameItem} не может быть +. Для категории [со склада на склад] все выбранные элементы могут быть только -");
+                    MessageBox.Show($"{item.Products.NameItem} не может быть + или =. Для категории [со склада на склад] все выбранные элементы могут быть только -");
                     return;
                 }
             }
@@ -385,6 +365,54 @@ namespace RjProduction.Pages
 
                     Скрыть_Меню(null!, null!);
                 } }
+        }
+
+        private void Удалить_значение(object sender, RoutedEventArgs e)
+        {
+            if (DG_Main.SelectedItem is MyCollection my)
+            {
+                if (MessageBox.Show("Удалить строку " + my.Products.NameItem + "? Будет удалена в случае если остатки равны нулю.", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+                if (MDL.SqlProfile is not null)
+                {
+                    try
+                    {
+                        MDL.SqlProfile.Conection();
+                        MDL.SqlProfile.Delete(nameof(Model.Products), $"ID ={my.Products.ID} AND {nameof(Products.Cubature)} =0");
+                    }
+                    catch (Exception ex)
+                    {
+                        MDL.LogError("Ошибка при удаление строки", ex.Message + ex.Source);
+                    }
+                    finally
+                    {
+                        MDL.SqlProfile.Disconnect();
+                    }
+                }
+                ВыбраннаСтрока(null!, null!);
+            }
+        }
+
+        private void ВходВполе(object sender, RoutedEventArgs e)
+        {
+          
+        }
+
+        private void ТекстОбновленКубы(object sender, TextChangedEventArgs e)
+        {
+            if (DG_Main.SelectedItem is MyCollection my)
+            {
+                if (double.TryParse(((TextBox)sender).Text, out double d))
+                    my.Selected_Cubature = d;
+            }
+        }
+
+        private void ТекстОбновленКоличест(object sender, TextChangedEventArgs e)
+        {
+            if (DG_Main.SelectedItem is MyCollection my)
+            {
+                if (int.TryParse(((TextBox)sender).Text, out int i))
+                    my.Piece = i;
+            }
         }
     }
 }

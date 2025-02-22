@@ -44,5 +44,10 @@ namespace RjProduction.WpfFrm
 
             Закрыть(null!,null!);
         }
+
+        private void КопированиеОшибки(object sender, RoutedEventArgs e)
+        {
+                Clipboard.SetText(ErrorText.Text);
+        }
     }
 }

@@ -28,5 +28,6 @@
         <Button Content="Отправить" HorizontalAlignment="Left" Margin="360,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Отправить"/>
         <Button Content="Закрыть Окно" HorizontalAlignment="Left" Margin="514,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Закрыть"/>
         <Button Content="Добавить информацию об подключении" Margin="27,265,375,38" Grid.Row="1"  Height="25"  MinHeight="25" Background="{x:Null}" Foreground="#FF3D0000" Click="ИнфПодключение"/>
+        <Button Content="Копировать ошибку" Margin="326,265,191,38" Grid.Row="1"  Height="25"  MinHeight="25" Background="{x:Null}" Foreground="#FF3D0000" Click="КопированиеОшибки"/>
     </Grid>
 </Window>

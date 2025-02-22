@@ -1,5 +1,6 @@
 ﻿using RjProduction.Sql;
 using System.Data;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace RjProduction.Model
@@ -79,6 +80,41 @@ namespace RjProduction.Model
                     MDL.MyDataBase.Warehouses[w] = ww;
                     MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Удаляет сведения из общей бд а также инфа о товаре которая хранилась на этом складе. Удаление будет отменено если товар не равен 0 
+        /// </summary>
+        public void Delete() {
+            if (ID == -1) return;
+            if (MDL.SqlProfile is null) { MessageBox.Show("Удаление склада в общей БД невозможно: профиль подключения к БД не выбран"); return; }
+
+            MDL.SqlProfile.Conection(true);
+            try
+            {
+                var tt = MDL.SqlProfile.GetFieldSql($"{nameof(Products.Cubature)}!=0 AND {nameof(Products.Warehouse)}={ID}", nameof(Products));
+                if (tt.Length != 0)
+                {
+                    MessageBox.Show("Удаление склада в общей БД невозможно: на складе остались остатки ");
+                }
+                else
+                {
+                    MDL.SqlProfile.Delete(nameof(Products), $"{nameof(Products.Warehouse)}={ID}");
+                    MDL.SqlProfile.Delete(nameof(WarehouseClass), nameof(WarehouseClass.ID) + "=" + ID.ToString());
+                    IDField = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MDL.SqlProfile.Transaction(ISqlProfile.TypeTransaction.roolback);
+                MDL.SqlProfile.Disconnect();
+                MDL.LogError(ex.Message, ex.Source ?? string.Empty);
+            }
+            finally
+            {
+                MDL.SqlProfile.Transaction(ISqlProfile.TypeTransaction.commit);
+                MDL.SqlProfile.Disconnect();
             }
         }
 

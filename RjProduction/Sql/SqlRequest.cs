@@ -1,9 +1,7 @@
 ﻿
 using RjProduction.XML;
-using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
-using System.Windows.Documents;
 using static RjProduction.Sql.ISqlProfile;
 
 namespace RjProduction.Sql
@@ -71,6 +69,7 @@ namespace RjProduction.Sql
                 if (actor<Model.Products>() == false) return false;
                 if (actor<Model.WarehouseClass>() == false) return false;
                 if (actor<Model.DocRow>() == false) return false;
+                if (actor<DocWritedowns>() == false) return false;
             }
             catch
             {
@@ -97,6 +96,7 @@ namespace RjProduction.Sql
             ForceCreateTabel< DocArrival > ();
             try
             {
+                ForceCreateTabel<DocWritedowns>();
                 ForceCreateTabel<DocArrival>();
                 ForceCreateTabel<DocMoving>();
                 ForceCreateTabel<DocShipments>();
@@ -266,8 +266,7 @@ namespace RjProduction.Sql
                             values += "'" + CastType(refl.GetValue(_obj) ?? "", refl) + "', "; 
                         }
                         else
-                        {
-                            var ttt = refl.GetValue(_obj);
+                        {                           
                             if (refl.GetValue(_obj) is SqlParam sql)
                             {
                                 if (sql.ID != -1) values += "'" + sql.ID + "', ";
@@ -367,16 +366,16 @@ namespace RjProduction.Sql
         /// <summary>
         /// Удалит объект
         /// </summary>      
-        public static void Delete(long id, string tabelName) {
+        public static void Delete(SqlParam obj) {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
 
-            if (id == -1) return;
+            if (obj.ID == -1) return;
 
             sqlProfile.Conection();
             try
             {
-                sqlProfile.SqlCommand($"DELETE FROM {sqlProfile.QuotSql(tabelName)} WHERE {nameof(SqlParam.ID)}={id} ");
+                sqlProfile.Delete(obj.TabelName, nameof(obj.ID)+ "="+ obj.ID.ToString());
             }
             catch (Exception)
             {
@@ -473,6 +472,15 @@ namespace RjProduction.Sql
             if (obj.GetType().IsEnum) { value = ((int)obj).ToString(); }
             else if (info.PropertyType.Name == "Boolean") { value = obj.ToString() == "True" ? "1" : "0"; }
             else if (info.PropertyType.Name == "Color") { value = ((System.Drawing.Color)obj).Name; }
+            else if (info.PropertyType.Name == "DateOnly") {
+                DateOnly t = (DateOnly)obj;
+                value = $"{t.Year}-{t.Month}-{t.Day}"; 
+            }
+            else if (info.PropertyType.Name == "DateTime")
+            {
+                DateTime t = (DateTime)obj;
+                value = $"{t.Year}-{t.Month}-{t.Day}";
+            }
             else { value = obj.ToString() ?? ""; }
             value = value.Replace("'", @"\'");
 
@@ -533,6 +541,7 @@ namespace RjProduction.Sql
                         else if (item.PropertyType.Name == "Double") { item.SetValue(obj, double.Parse(str==string.Empty ? "0" : str )); }
                         else if (item.PropertyType.Name == "Decimal") { item.SetValue(obj, decimal.Parse(str == string.Empty ? "0" : str)); }
                         else if (item.PropertyType.Name == "DateOnly") { item.SetValue(obj, DateOnly.Parse(str)); }
+                        else if (item.PropertyType.Name == "DateTime") { item.SetValue(obj, DateTime.Parse(str)); }
                         //else throw new NotImplementedException("Такой тип данных '"+ item.PropertyType.Name + "' отсутствует  ");
                     }
                     else if (item.Name == nameof(param.LockInfo) & string.IsNullOrEmpty(str2) & _lock == true)

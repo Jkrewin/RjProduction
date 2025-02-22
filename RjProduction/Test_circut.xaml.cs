@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HtmlAgilityPack;
+using System.IO;
 
 namespace RjProduction
 {
@@ -37,7 +39,12 @@ namespace RjProduction
 
         private void ТестБ(object sender, RoutedEventArgs e)
         {
-         
+            string sfile = "C:\\Users\\Макс\\Desktop\\Новая папка\\test.xml";
+            Fgis.XML.forestUsageReport forest = new Fgis.XML.forestUsageReport();
+            forest.SaveXml(sfile);
+
+           
+
         }
 
         private void ТестC(object sender, RoutedEventArgs e)

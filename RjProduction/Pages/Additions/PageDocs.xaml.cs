@@ -18,6 +18,8 @@ namespace RjProduction.Pages.Additions
         private string? TabelName;
         private DataTable? _TabelData;
         private Func<long,IDocMain>? GetFuncDoc;
+        private bool _DateFilter ;
+        private bool DateFilter { get => _DateFilter; set { _DateFilter = value; if (value) FilterButton.Visibility = Visibility.Visible; else FilterButton.Visibility = Visibility.Hidden; } }
 
         public PageDocs()
         {
@@ -28,33 +30,38 @@ namespace RjProduction.Pages.Additions
         private class MyItemProd : INotifyPropertyChanged
         {
             private double _cubs;
-            private string _isDel=" ";
-            
+            private string _isDel = " ";
+
             public event PropertyChangedEventHandler? PropertyChanged;
             public string NameItem { get; set; }
             public string DateDoc { get; set; }
             public string Num { get; set; }
             public string Summ { get; set; }
-            public string Cubs { get => Math.Round(_cubs,2).ToString(); 
-                set {
+            public string Cubs
+            {
+                get => Math.Round(_cubs, 2).ToString();
+                set
+                {
                     if (double.TryParse(value, out double d))
                     {
                         _cubs = d;
                     }
-                    else _cubs = 0;                
-                } }
+                    else _cubs = 0;
+                }
+            }
             public long ID;
-            public string IsDel { 
-                get=>_isDel; 
-                set { _isDel = value; NotifyPropertyChanged(); } 
+            public string IsDel
+            {
+                get => _isDel;
+                set { _isDel = value; NotifyPropertyChanged(); }
             }
 
             public MyItemProd(DataRow dataRow)
             {
-                if (long.TryParse(dataRow["ID"].ToString(), out long l)) ID = l;
-                NameItem = dataRow["DocTitle"].ToString() ?? "NaN";
-                DateDoc = dataRow["DataCreate"].ToString() ?? "NaN";
-                Num = dataRow["Number"].ToString() ?? "NaN";
+                if (long.TryParse(dataRow[nameof(Sql.SqlParam.ID)].ToString(), out long l)) ID = l;
+                NameItem = dataRow[nameof(IDocMain.DocTitle)].ToString() ?? "NaN";
+                DateDoc = DateOnly.Parse(dataRow[nameof(IDocMain.DataCreate)].ToString() ?? "01.01.2000").ToString("dd.MM.yyyy");
+                Num = dataRow[nameof(IDocMain.Number)].ToString() ?? "NaN";
                 Summ = dataRow["Amount"].ToString() ?? "NaN";
                 Cubs = dataRow["Cubs"].ToString() ?? "NaN";               
                 var s =  dataRow[nameof(Sql.SqlParam.ActiveObjIsDelete)].ToString() ?? "0";
@@ -68,30 +75,56 @@ namespace RjProduction.Pages.Additions
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {
+            DateFilter = false;
+
             List<DeliveredStruct> d=[];
             TabelName = "";
 
+            // Типы документов создаються тут
             d.Add(new DeliveredStruct("Поступление (производство)", 0,"", () => {
                 TabelName = nameof(DocArrival);
-                _TabelData = Sql.SqlRequest.GetDataTable(nameof(DocArrival));
+                Refreh__TabelData();
                 GetFuncDoc = (id) => Sql.SqlRequest.ReadData<DocArrival>(id);
             } ));
 
             d.Add(new DeliveredStruct("Выравнивание остатка", 0, "", () => {
                 TabelName = nameof(DocShipments);
-                _TabelData = Sql.SqlRequest.GetDataTable(nameof(DocShipments));
+                Refreh__TabelData();
                 GetFuncDoc = (id) => Sql.SqlRequest.ReadData<DocShipments>(id);
             }));
 
             d.Add(new DeliveredStruct("Со склада на склад", 0, "", () => {
                 TabelName = nameof(DocMoving);
-                _TabelData = Sql.SqlRequest.GetDataTable(nameof(DocMoving));
+                Refreh__TabelData();
                 GetFuncDoc = (id) => Sql.SqlRequest.ReadData<DocMoving>(id);
+            }));
+
+            d.Add(new DeliveredStruct("Списание продукции", 0, "", () => {
+                TabelName = nameof(DocWritedowns);
+                Refreh__TabelData();
+                GetFuncDoc = (id) => Sql.SqlRequest.ReadData<DocWritedowns>(id);
             }));
 
             MainComboBox.DisplayMemberPath = "Name";
             MainComboBox.ItemsSource = d;
             DG_Main.ItemsSource = _db;
+        }
+
+        private void Refreh__TabelData()
+        {
+            if (string.IsNullOrEmpty(TabelName)) return;
+
+            if (DateFilter ==false)
+            {
+                _TabelData = Sql.SqlRequest.GetDataTable(TabelName);
+            }
+            else
+            {
+                string d1 = Date1.SelectedDate!.Value.ToString("yyyy-M-d");
+                string d2 = Date2.SelectedDate!.Value.ToString("yyyy-M-d");
+                _TabelData = Sql.SqlRequest.GetDataTable(TabelName, "*", $"{nameof(IDocMain.DataCreate)}>='{d1}' AND {nameof(IDocMain.DataCreate)}<'{d2}'");
+            }
+            Refreh_Tabel();
         }
 
         public void Refreh_Tabel()
@@ -110,8 +143,7 @@ namespace RjProduction.Pages.Additions
              if (MainComboBox.SelectedValue is DeliveredStruct delivered) {
                 if (delivered.GetAct is not null) delivered.GetAct();
                 else MessageBox.Show($"0054# Ошибка {delivered.Name}, при чтении данных id={delivered.ID}");
-            }
-            Refreh_Tabel();
+            }            
         }
 
         private void ПометитьНаУдаление(object sender, RoutedEventArgs e)
@@ -148,6 +180,26 @@ namespace RjProduction.Pages.Additions
                     () => { });
                 w.Show();
             }
+        }
+
+        private void ФильтерДаты(object sender, RoutedEventArgs e)
+        {
+            
+            if (Date1.SelectedDate.HasValue == false | Date2.SelectedDate.HasValue == false)
+            {
+                MessageBox.Show("Укажите даты для поиска");
+            }
+            else
+            {
+                DateFilter = true;
+                Refreh__TabelData();
+            }
+        }
+
+        private void ФильтерДатыУдалить(object sender, RoutedEventArgs e)
+        {
+            DateFilter = false;
+            Refreh__TabelData();
         }
     }
 }

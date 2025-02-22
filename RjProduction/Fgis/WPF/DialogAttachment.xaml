@@ -1,0 +1,41 @@
+﻿<Window x:Class="RjProduction.Fgis.WPF.DialogAttachment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RjProduction.Fgis.WPF"
+         mc:Ignorable="d"  WindowStyle="ToolWindow"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="Файл" Height="300" Width="734" MinWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="395*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Описание файла" HorizontalAlignment="Left" Margin="14,34,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="14" Grid.Row="1" Height="27" Width="118"/>
+        <Label Content="Путь к файлу" HorizontalAlignment="Left" Margin="14,82,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="14" Grid.Row="1" Height="27" Width="96"/>
+        <Label Content="Приложенный файл " HorizontalContentAlignment="Center" FontSize="16" Padding="5,1,5,5" FontWeight="Bold" BorderBrush="#FF0F0F0F" Foreground="#FF081C63" Height="26" VerticalAlignment="Center"/>
+        <TextBox x:Name="TBox_desc" HorizontalAlignment="Left" MaxLength="255" Margin="151,39,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" FontFamily="Tahoma" FontSize="14"/>
+        <Label x:Name="File1s" Content="&lt;нет файла&gt;" HorizontalAlignment="Left" Margin="168,81,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="14" Grid.Row="1" Height="27" Width="556" Background="{x:Null}" Foreground="#FF206186"/>
+        <Button Content="&#xE104;" HorizontalAlignment="Left" Margin="133,82,0,0" VerticalAlignment="Top" Width="30" Height="25" FontFamily="Segoe MDL2 Assets" Background="#FFEEEAEA" FontSize="14" Click="Изменить_Путь" Grid.Row="1"/>
+        <Rectangle Height="1" Margin="0,24,0,0" Stroke="Black" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <Label Content="Подпись ЭПЦ" HorizontalAlignment="Left" Margin="14,124,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="14" Grid.Row="1" Height="27" Width="96"/>
+        <Button Content="&#xE104;" HorizontalAlignment="Left" Margin="133,126,0,0" VerticalAlignment="Top" Width="30" Height="25" FontFamily="Segoe MDL2 Assets" Background="#FFEEEAEA" FontSize="14" Click="Изменить_Путь2" Grid.Row="1"/>
+        <Label x:Name="File2s" Content="&lt;нет файла&gt;" HorizontalAlignment="Left" Margin="168,124,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="14" Grid.Row="1" Height="27" Width="556" Background="{x:Null}" Foreground="#FF206186"/>
+        <StackPanel  Orientation="Horizontal" Background="#FFE7EEF6" VerticalAlignment="Bottom" Height="35" Margin="0,0,0,0" Grid.Row="1">
+            <Button Margin="50,5,0,0" VerticalAlignment="Top" Height="26" Background="#FF3A85FF" Content="ОК" FontFamily="Calibri" Foreground="White" Click="ПринятьИзменения" BorderBrush="{x:Null}" Width="94">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Margin="50,5,0,0" VerticalAlignment="Top" Height="26" Background="#FF3A85FF" Content="Отмена" FontFamily="Calibri" Foreground="White" Click="ЗакрытьОкно" BorderBrush="{x:Null}" Width="94">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -10,9 +10,13 @@ namespace RjProduction.XML
     /// </summary>
     public class DocMoving : XmlProtocol, IDocMain
     {
-        public static readonly string DOC_CODE = DocCode.Перемещение_По_Складам;              
+        [SqlIgnore]
+        public string Doc_Code
+        {
+            get => DocCode.Перемещение_По_Складам;
+        }             
 
-        public string ID_Doc => Convert.ToHexString(System.Security.Cryptography.MD5.HashData(System.Text.Encoding.ASCII.GetBytes($"{DOC_CODE}{DataCreate}+{Number}")));
+        public string ID_Doc => Convert.ToHexString(System.Security.Cryptography.MD5.HashData(System.Text.Encoding.ASCII.GetBytes($"{Doc_Code}{DataCreate}+{Number}")));
 
         public string DocTitle { get; set; } = "Перемещение по складу";
 
@@ -22,7 +26,7 @@ namespace RjProduction.XML
 
         public DocMoving()
         {
-            TypeDoc = $"{DOC_CODE}:{DocTitle}";
+            TypeDoc = $"{Doc_Code}:{DocTitle}";
         }
 
 
@@ -119,7 +123,7 @@ namespace RjProduction.XML
             }
             catch (Exception ex)
             {
-                MDL.LogError("Ошибка при попытки провести документ " + DOC_CODE, ex.Message + " " + ex.Source);
+                MDL.LogError("Ошибка при попытки провести документ " + Doc_Code, ex.Message + " " + ex.Source);
                 Status = StatusEnum.Ошибка;
                 XmlProtocol.SaveDocXml<DocMoving>(this);
                 return;
