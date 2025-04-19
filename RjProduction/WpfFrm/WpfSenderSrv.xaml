@@ -1,0 +1,47 @@
+﻿<Window x:Class="RjProduction.WpfFrm.WpfSenderSrv"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RjProduction.WpfFrm"
+        mc:Ignorable="d"
+        Title="Отправка на сервер" Height="450" Width="800" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="188*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Button   Margin="0,0,12,5" Width="175" Height="26" Click="Отправить" Foreground="#FF404040" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+                <StackPanel Orientation="Horizontal">
+                    <Label FontFamily="Segoe MDL2 Assets" Foreground="#FF434242"></Label>
+                    <Label Padding="5,2,5,5" Foreground="#FF434242" Content="Отправить на сервер"/>
+                </StackPanel>
+            </Button>
+            <Button   Margin="0,0,205,5" Width="152" Height="26" Click="Закрыть" Foreground="#FF404040" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+                <StackPanel Orientation="Horizontal">
+                    <Label FontFamily="Segoe MDL2 Assets" Foreground="#FF434242"></Label>
+                    <Label Padding="5,2,5,5" Foreground="#FF434242" Content="Отменить отправку"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <StackPanel x:Name="MainListBox" Grid.Row="1" >
+            <Grid x:Name="ErrorList" Height="30">
+                                
+            </Grid>
+        </StackPanel>
+
+
+    </Grid>
+</Window>

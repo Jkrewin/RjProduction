@@ -25,6 +25,15 @@ namespace RjProduction.WpfFrm
             GetAct = null;
         }
 
+        public DeliveredStruct(string name, object obj )
+        {
+            Name = name;
+            ID = 0;
+            Comment = name;
+            Obj = obj;
+            GetAct = null;
+        }
+
         public DeliveredStruct(string name, int id, string comment)
         {
             Name = name;

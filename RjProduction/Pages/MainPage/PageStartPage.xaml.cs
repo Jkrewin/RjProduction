@@ -1,6 +1,8 @@
 ﻿
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,7 +31,9 @@ namespace RjProduction.Pages
 
 
         }
-
+        /// <summary>
+        /// <code>файл.txt должен содержать команды </code>
+        /// </summary>
         private void UpdateSoft() {
             string dir = AppContext.BaseDirectory + "Update";
 
@@ -120,6 +124,17 @@ namespace RjProduction.Pages
             System.IO.File.Move(str, str + ".old");
 
             G_Updater.Visibility = Visibility.Collapsed;
+        }
+
+        private void ПереходНаСайт(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true
+            };
+            e.Handled = true;
+            Process.Start(psi);
         }
     }
 }

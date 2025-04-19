@@ -5,13 +5,14 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
   xmlns:local="clr-namespace:RjProduction.Pages"
   mc:Ignorable="d"
-  Title="PageArrival" Loaded="Загрузка" MinHeight="800" d:DesignHeight="802.06" d:DesignWidth="1005.21">
+  Title="PageArrival" Loaded="Загрузка"  d:DesignWidth="800" >
 
-    <Grid Background="White">
+    <Grid x:Name="StartGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="97*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <Grid>
             <Image HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" VerticalAlignment="Top" Width="42" Source="/Res/images/configuration.png"/>
             <Rectangle VerticalAlignment="Bottom" Height="5">
@@ -39,15 +40,31 @@
                 <StackPanel>
                     <Grid Height="200" Background="White">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="9*"/>
+                            <RowDefinition Height="37"/>
                             <RowDefinition Height="41*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Общие настройки программы" HorizontalAlignment="Left" Margin="18,7,0,0" VerticalAlignment="Top" FontFamily="Corbel" FontWeight="Bold" FontSize="16" Grid.RowSpan="2"/>
                         <Rectangle Height="3" Fill="#FFD3E3F8" VerticalAlignment="Top" Margin="0,33,0,0"/>
-                        <CheckBox x:Name="RoundingAmountsEmpl" Content="Округлять зарплаты рабочим, без копеек" HorizontalAlignment="Left" Margin="75,15,0,0" VerticalAlignment="Top" Width="723" IsChecked="True" Height="21" Foreground="#FF3C3838" Grid.Row="1" FontSize="14" Checked="Округление_зарплат"/>
-                        <Label Content="Все расчеты будут округляться в выплатах сотрудниках. Если выше 50 копеек,  &#x0a;то будет прибавляться на рубль к сумме, а если ниже, то сумма без изменения будет." HorizontalAlignment="Left" Margin="92,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="459" FontFamily="Calibri" Height="51"/>
+                        <CheckBox x:Name="RoundingAmountsEmpl" Content="Округлять зарплаты рабочим, без копеек" HorizontalAlignment="Left" Margin="48,7,0,0" VerticalAlignment="Top" Width="723" IsChecked="True" Height="21" Foreground="#FF3C3838" Grid.Row="1" FontSize="14" Checked="Округление_зарплат"/>
+                        <Label Content="Все расчеты будут округляться в выплатах сотрудниках. Если выше 50 копеек,  &#x0a;то будет прибавляться на рубль к сумме, а если ниже, то сумма без изменения будет." HorizontalAlignment="Left" Margin="67,22,0,0" Grid.Row="1" VerticalAlignment="Top" Width="459" FontFamily="Calibri" Height="51"/>
+                        <CheckBox x:Name="SortSizeWood" Content="Сортировать размеры пиломатериала" HorizontalAlignment="Left" Margin="48,0,0,0" VerticalAlignment="Center" Width="723" IsChecked="True" Height="21" Foreground="#FF3C3838" Grid.Row="1" FontSize="14" Checked="СортировкаРазмеров"/>
+                        <TextBlock TextWrapping="Wrap" Text="Если вы устанавливаете размеры пиломатериала, эта сортировка чисел размера ширина и длинна будет начинаться с начало с меньшего размера. Это помогает избежать дубликаты размеров того-же пиломатериала " HorizontalAlignment="Left" Margin="73,92,0,0" Grid.Row="1" VerticalAlignment="Top" Width="459" FontFamily="Calibri" Height="52"/>
 
                     </Grid>
+                    <Grid Height="164" Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="37"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Организационные настройки программы" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Center" FontFamily="Corbel" FontWeight="Bold" FontSize="16" Height="30" Width="305"/>
+                        <Rectangle Height="3" Fill="#FFD3E3F8" VerticalAlignment="Top" Margin="0,33,0,0"/>
+                        <Label Content="Текущая организация" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="170" FontSize="14" FontFamily="Corbel" Background="{x:Null}" BorderBrush="#FFD5D5D5" Height="25" Grid.Row="1" Foreground="Black" FontWeight="Bold" Padding="5,2,5,5"/>
+                        <TextBox x:Name="TBox_Company" HorizontalAlignment="Left" Margin="179,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="497" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5" Grid.Row="1" IsEnabled="False"/>
+                        <Button  HorizontalAlignment="Left" Margin="675,10,0,0" VerticalAlignment="Top" Height="25" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборКомпании" BorderBrush="#FFD5D5D5" Grid.Row="1" FontSize="16"/>
+
+
+                    </Grid>
+
                     <Grid Height="38">
                         <RadioButton x:Name="Radio1" Content="Отключить доступ по SQL" HorizontalAlignment="Left" Margin="26,10,0,0" VerticalAlignment="Top" Width="305" FontSize="16" FontFamily="Arial" FontWeight="Bold" Foreground="#FF4E4848" IsChecked="True" Checked="ВыборТипаПодключения"/>
 

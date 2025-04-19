@@ -131,7 +131,10 @@ namespace RjProduction.Fgis.Pages
 
         private void Создать(object sender, RoutedEventArgs e)
         {
-            var test = new DialogWindow(new forestUsageReport.TreesInfoTypeList(), (cl) => { }, _KindTypes);
+            var test = new DialogWindow(new forestUsageReport.CuttingInfoRowType(), (cl) => {
+                _Document.forest.woodsHarvesting[0].harvestingWood.Add((CuttingInfoRowType)cl);
+                MainTabel.Items.Refresh();
+            }, _KindTypes);
             test.ShowDialog();
         }
 
@@ -226,6 +229,15 @@ namespace RjProduction.Fgis.Pages
 
             }
 
+
+        }
+
+        private void ВыборЗначенияА(object sender, RoutedEventArgs e)
+        {
+            Label_Title.Content = ((RadioButton)sender).Content;
+            Grind_Tabel.Visibility = Visibility.Visible;
+            if (_Document.forest.woodsHarvesting.Count == 0) _Document.forest.woodsHarvesting.Add(new());
+            MainTabel.ItemsSource = _Document.forest.woodsHarvesting[0].harvestingWood;
 
         }
     }

@@ -21,6 +21,32 @@ namespace RjProduction
             InitializeComponent();
         }
 
+        public void AddNotification(NotifMessage notif)
+        {
+            if (NotificationPanel.Visibility == Visibility.Collapsed) NotificationPanel.Visibility = Visibility.Visible;
+
+            notif.Close += Bag_Close;
+            NotificationPanel.Children.Add(notif.CreateInstance());
+            _ = notif.Start();
+
+        }
+
+        private void Bag_Close(NotifMessage b)
+        {
+            for (int i = 0; i < NotificationPanel.Children.Count; i++)
+            {
+                if (NotificationPanel.Children[i] is Button bi)
+                {
+                    if (((NotifMessage)bi.Tag) == b)
+                    {
+                        NotificationPanel.Children.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+            if (NotificationPanel.Children.Count == 0) NotificationPanel.Visibility = Visibility.Collapsed;
+        }
+
         /// <summary>
         /// Возврат в первоначальное значение визуальных элементов
         /// </summary>
@@ -127,7 +153,7 @@ namespace RjProduction
 
         private void ПриложениеЗакрыто(object sender, EventArgs e)
         {
-            MDL.MyDataBase.SaveDB();
+            MDL.Reference.SaveDB();
             MDL.SaveSettingApp();
             MDL.SqlProfile?.Dispose();
             Application.Current.Shutdown();
@@ -320,6 +346,14 @@ namespace RjProduction
         {
             var wpf = new MyAcc();
             wpf.Show();
+        }
+
+        private void ГорячиеКлавиши(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F12) {
+                MDL.AddNotification("test");
+            
+            }
         }
     }
 }

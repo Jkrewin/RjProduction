@@ -3,7 +3,7 @@ using RjProduction.XML;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages.Additions
 {
@@ -78,7 +78,7 @@ namespace RjProduction.Pages.Additions
         {
             Doc.MainTabel.Add(new GrupObj() { NameGrup = "main" });
             DocRows = Sql.SqlRequest.ReadСollection<DocRow>(nameof(DocRow), $"{nameof(DocRow.ID_Doc)}='{Doc.ID_Doc}'") ?? [];           
-            Doc.MainTabel[0].Tabels = new List<IDoc>(DocRows);
+            Doc.MainTabel[0].Tabels = [.. DocRows];
 
             MDL.ImportToWpf(this, Doc);
             Title = Doc.DataCreate.ToString();
@@ -98,7 +98,7 @@ namespace RjProduction.Pages.Additions
         }
         private void RenameColumns(string name_Header, string newName)
         {
-            _name_col ??= MainDataGrid.Columns.Select(x => x.Header.ToString() ?? string.Empty).ToArray<string>();
+            _name_col ??= [.. MainDataGrid.Columns.Select(x => x.Header.ToString() ?? string.Empty)];
             for (int i = 0; i < _name_col.Length; i++)
             {
                 if (_name_col[i] == name_Header)

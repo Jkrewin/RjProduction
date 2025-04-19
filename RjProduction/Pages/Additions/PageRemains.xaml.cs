@@ -6,9 +6,9 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
+using RjProduction.Model.DocElement;
 using static RjProduction.Sql.SqlRequest;
+
 
 namespace RjProduction.Pages
 {
@@ -25,8 +25,8 @@ namespace RjProduction.Pages
         {
             get
             {
-                var result = (from tv in _db where tv.Selected_Cubature != 0  select tv).ToArray();
-                return new ObservableCollection<MyCollection> (result);
+                var result = (from tv in _db where tv.Selected_Cubature != 0 | (tv.IsOperation ==  OperatonEnum.vsMutation & tv.Selected_Cubature == 0) select tv).ToArray();
+                return [.. result];
             }
         }
 
@@ -77,9 +77,9 @@ namespace RjProduction.Pages
                 }
             }
 
-            public Model.Pseudonym ToPseudonym()
+            public Model.DocElement.Pseudonym ToPseudonym()
             {
-                return new Pseudonym() { SelectedCub = Selected_Cubature,
+                return new Model.DocElement.Pseudonym() { SelectedCub = Selected_Cubature,
                     Product = Products,
                     Operation = IsOperation ,                     
                     PriceCng = Products.Price
@@ -120,52 +120,6 @@ namespace RjProduction.Pages
 
         }
 
-        #region "Ридер строк таблици по UI"
-        private DataGridCell? GetCell(int row, int column)
-        {
-            DataGridRow? rowContainer = GetRow(row);
-            if (rowContainer != null)
-            {
-                DataGridCellsPresenter? presenter = GetVisualChild<DataGridCellsPresenter>(rowContainer);
-                if (presenter == null)
-                {
-                    DG_Main.ScrollIntoView(rowContainer, DG_Main.Columns[column]);
-                    presenter = GetVisualChild<DataGridCellsPresenter>(rowContainer);
-                }
-                if (presenter is not null)
-                {
-                    DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
-                    return cell;
-                }
-            }
-            return null;
-        }
-        public static T? GetVisualChild<T>(Visual parent) where T : Visual
-        {
-            T? child = default;
-            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < numVisuals; i++)
-            {
-                Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
-                child = v as T;
-                child ??= GetVisualChild<T>(v);
-                if (child != null) break;
-            }
-            return child;
-        }
-        private DataGridRow? GetRow(int index)
-        {
-            DataGridRow row = (DataGridRow)DG_Main.ItemContainerGenerator.ContainerFromIndex(index);
-            if (row == null)
-            {
-                DG_Main.UpdateLayout();
-                DG_Main.ScrollIntoView(DG_Main.Items[index]);
-                row = (DataGridRow)DG_Main.ItemContainerGenerator.ContainerFromIndex(index);
-            }
-            return row;
-        }
-        #endregion
-
         /// <summary>
         /// Выполнить после закрытия формы к примеру действия обновить таблицу
         /// </summary>
@@ -190,7 +144,7 @@ namespace RjProduction.Pages
                     return false;
                 }
             }
-          
+            // Сборка превдонимов в таблицу
             foreach (var item in Db_selected)
             {
                 if (!grups.Any(x => x.NameGrup == item.Products.Warehouse.NameWarehouse))
@@ -208,7 +162,7 @@ namespace RjProduction.Pages
         }
 
         private void Загруженно(object sender, RoutedEventArgs e)
-        {
+        {           
             if (MDL.SqlProfile is null)
             {
                 Label_NotDB.Visibility = Visibility.Visible;
@@ -281,18 +235,15 @@ namespace RjProduction.Pages
             SelectWarehouse.Visibility = Visibility.Hidden;
             DG_Main.Visibility = Visibility.Hidden;
             SP_Select_Type_Doc.Visibility = Visibility.Visible;
+            StartGrid.RowDefinitions[1].Height = new GridLength(1);
         }
-
-        private void ТекстОбновлен(object sender, TextChangedEventArgs e)
-        {
-           
-        }
-
+                
         private void Скрыть_Меню(object sender, RoutedEventArgs e)
         {
             SelectWarehouse.Visibility = Visibility.Visible;
             DG_Main.Visibility = Visibility.Visible;
             SP_Select_Type_Doc.Visibility = Visibility.Hidden;
+            StartGrid.RowDefinitions[1].Height = new GridLength(100);
         }
 
         private void ДокументВыравнитьОстаток(object sender, RoutedEventArgs e)
@@ -327,18 +278,26 @@ namespace RjProduction.Pages
             }
             else ВыбраннаСтрока(null!, null!);
         }
-
-        private void ДокументПеремещение(object sender, RoutedEventArgs e)
-        {
+        /// <summary>
+        /// Проверка на наличие только минуса 
+        /// </summary>
+        /// <returns></returns>
+        private bool Only_Munis() {
             // проверка чтобы были только -
             foreach (var item in Db_selected)
             {
                 if ((item.IsOperation == OperatonEnum.vsPlus | item.IsOperation == OperatonEnum.vsMutation) & item.Selected_Cubature != 0)
                 {
                     MessageBox.Show($"{item.Products.NameItem} не может быть + или =. Для категории [со склада на склад] все выбранные элементы могут быть только -");
-                    return;
+                    return false;
                 }
             }
+            return true;
+        }
+
+        private void ДокументПеремещение(object sender, RoutedEventArgs e)
+        {
+            if (!Only_Munis()) return;
             // проверка на отрицательные числа выравнивает их до 0
             foreach (var item in Db_selected)
             {
@@ -392,18 +351,9 @@ namespace RjProduction.Pages
             }
         }
 
-        private void ВходВполе(object sender, RoutedEventArgs e)
-        {
-          
-        }
-
         private void ТекстОбновленКубы(object sender, TextChangedEventArgs e)
         {
-            if (DG_Main.SelectedItem is MyCollection my)
-            {
-                if (double.TryParse(((TextBox)sender).Text, out double d))
-                    my.Selected_Cubature = d;
-            }
+           
         }
 
         private void ТекстОбновленКоличест(object sender, TextChangedEventArgs e)
@@ -412,6 +362,46 @@ namespace RjProduction.Pages
             {
                 if (int.TryParse(((TextBox)sender).Text, out int i))
                     my.Piece = i;
+            }
+        }
+
+        private void Списание(object sender, RoutedEventArgs e)
+        {
+            if (First_Const(out List<GrupObj> tabel))
+            {
+                var page = new Pages.Doc.PageShipments(new XML.DocWriteDowns() { DocTitle = "Списание товара", Number = MDL.MyDataBase.NumberDef + 1, MainTabel = tabel }, DockPanel_РамкаДокумента, Close_action);
+                DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
+                FrameDisplay.Navigate(page);
+
+                Скрыть_Меню(null!, null!);
+            }
+        }
+
+        private void Продажи(object sender, RoutedEventArgs e)
+        {
+            if (!Only_Munis()) return;
+
+            if (First_Const(out List<GrupObj> tabel))
+            {
+                var page = new Pages.Doc.PageShipments(new XML.DocSales() { 
+                    Warehouse_From = (WarehouseClass)MainComboBox.SelectedItem,
+                    DocTitle = "Продажа продукции", 
+                    Number = MDL.MyDataBase.NumberDef + 1, 
+                    MainTabel = tabel 
+                }, DockPanel_РамкаДокумента, Close_action);
+                DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
+                FrameDisplay.Navigate(page);
+
+                Скрыть_Меню(null!, null!);
+            }
+        }
+
+        private void ОбновитьТекстКубах(object sender, RoutedEventArgs e)
+        {
+            string str = ((TextBox)sender).Text.Replace('.', ',');
+            if (double.TryParse(str, out double d))
+            {
+                ((MyCollection)DG_Main.SelectedItem).Selected_Cubature = d;
             }
         }
     }

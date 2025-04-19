@@ -28,6 +28,7 @@
     <None Remove="Res\images\diagram_.png" />
     <None Remove="Res\images\document_icon-icons.png" />
     <None Remove="Res\images\expandalt.png" />
+    <None Remove="Res\images\fgis.png" />
     <None Remove="Res\images\graph_business_chart.png" />
     <None Remove="Res\images\handshake_partnership.png" />
     <None Remove="Res\images\hand_document_list.png" />
@@ -88,6 +89,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\expandalt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\images\fgis.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\graph_business_chart.png">

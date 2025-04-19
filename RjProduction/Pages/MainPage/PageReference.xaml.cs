@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.DirectoryServices.ActiveDirectory;
+using RjProduction.Model.DocElement;
 using System.Windows;
 using System.Windows.Controls;
 using RjProduction.Model;

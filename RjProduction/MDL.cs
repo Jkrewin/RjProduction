@@ -1,11 +1,15 @@
 ﻿using RjProduction.Model;
+using RjProduction.Model.Catalog;
+using RjProduction.Model.DocElement;
 using RjProduction.Sql;
 using RjProduction.WpfFrm;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using static RjProduction.Sql.ISqlProfile;
@@ -191,7 +195,12 @@ namespace RjProduction
                     }
                     else if (tag == DocCode.Списание_Продукции & doc_code == tag)
                     {
-                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocWritedowns>(file);
+                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocWriteDowns>(file);
+                        if (idoc is not null) docs.Add(idoc);
+                    }
+                    else if (tag == DocCode.Продажи & doc_code == tag)
+                    {
+                        idoc = XML.XmlProtocol.LoadDocXML<XML.DocSales>(file);
                         if (idoc is not null) docs.Add(idoc);
                     }
                 }
@@ -351,6 +360,12 @@ namespace RjProduction
             }
         }
 
+        /// <summary>
+        /// Добавить сообщение нотификации 
+        /// </summary>
+        /// <param name="msg">Текст сообщения</param>
+        public static void AddNotification(string msg) => MainWindow?.AddNotification( new NotifMessage(msg));
+
         private static void Item_Activated(object? sender, EventArgs e)
         {
             if (MainWindow is null) return;
@@ -405,8 +420,9 @@ namespace RjProduction
         /// </summary>
         static public void SaveSettingApp() {
             MDL.SaveXml<MDL.SettingAppClass>(MDL.SetApp, MDL.SetApp.SetFile);
-        }
-                
+        }                
+
+
 
         /// <summary>
         /// Создает отчет на основе html страницы.
@@ -508,25 +524,66 @@ namespace RjProduction
         /// </summary>
         public class Reference
         {
-            private List<string> _employeeDic = [];
 
-            public List<Company> Companies = [];
             public List<Contract> Contracts = [];
             public List<Model.WarehouseClass> Warehouses = [];
-            public List<Model.MaterialObj> MaterialsDic = [];
-            public List<Model.Employee> EmployeeDic = [];
+            public List<MaterialObj> MaterialsDic = [];
+            public List<Employee> EmployeeDic = [];
             public List<string> NamesGrup = [];
             /// <summary>
             /// Прошлый номер документа 
             /// </summary>
             public uint NumberDef = 0;
-          
+            /// <summary>
+            /// Компания выбранная как наша компания  
+            /// </summary>
+            public Company? CompanyOwn;
             /// <summary>
             /// Склад по умолчанию выбран
             /// </summary>
             public Model.WarehouseClass? WarehouseDef;
 
-            public void SaveDB() => MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+            public static void SaveDB() => MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
+
+            /// <summary>
+            /// Доступ к отдельным файлам спискам данных
+            /// </summary>
+            public readonly struct Catalog<T>
+            {
+                private readonly string _sFile;
+                /// <summary>
+                /// Основный список из файла
+                /// </summary>
+                public readonly List<T> ListCatalog;
+
+                public Catalog()
+                {
+                    _sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\" + typeof(T).Name + ".xml";
+
+                    if (File.Exists(_sFile))
+                    {
+                        XmlSerializer xmlSerializer = new(typeof(List<T>));
+                        try
+                        {
+                            using FileStream fs = new(_sFile, FileMode.OpenOrCreate);
+                            object? obj = xmlSerializer.Deserialize(fs);
+                            if (obj is List<T> t) ListCatalog = t;
+                            else ListCatalog = [];
+                        }
+                        catch (InvalidOperationException ax)
+                        {
+                            MessageBox.Show("Ошибка чтения файла Xml (" + _sFile + ") причина : " + ax.Message);
+                            ListCatalog = [];
+                        }
+                    }
+                    else
+                    {
+                        ListCatalog = [];
+                    }
+                }
+
+                public void SaveData() => MDL.SaveXml<List<T>>(ListCatalog, _sFile);
+            }
         }
 
         /// <summary>
@@ -579,6 +636,10 @@ namespace RjProduction
 
 
             /// <summary>
+            /// Сортировать размеры пиломатериала в измежание дубликатов
+            /// </summary>
+            public bool SortSizeWood { get; set; } = true;
+            /// <summary>
             /// Округялет суммы рабочим без копеек
             /// </summary>
             public bool RoundingAmountsEmpl { get; set; } = true;
@@ -586,6 +647,80 @@ namespace RjProduction
             /// Имя пользователя 
             /// </summary>
             public string UserName { get; set; } = "TestApp";
+        }
+
+        /// <summary>
+        /// Иконка сообщения нотификации 
+        /// </summary>
+        public class NotifMessage {
+            private readonly Grid MyGrid;
+            private readonly Label TitelSimbol;
+            private readonly ProgressBar PBar;
+            private readonly string Msg;
+
+            public delegate void EventClose(NotifMessage grid);
+            public event EventClose? Close;
+
+            public NotifMessage(string msg)
+            {
+                Msg = msg;
+                MyGrid = new Grid();
+                PBar = new ProgressBar
+                {
+                    Value = 1,
+                    Orientation = Orientation.Vertical,
+                    Width = 34,
+                    Height = 34,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5D, 0x6B, 0x99)),
+                    Background = null,
+                    BorderBrush = null
+                };
+                TitelSimbol = new Label
+                {
+                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                    Content = "\uE134",
+                    FontSize = 20,
+                    Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x52, 0x2D, 0xAE)),
+                    Background = null
+                };
+                MyGrid.Children.Add(PBar);
+                MyGrid.Children.Add(TitelSimbol);
+            }
+
+            private void ButtonExit_Click(object sender, RoutedEventArgs e)
+            {
+                Close?.Invoke(this);
+            }
+
+            public Button CreateInstance()
+            {
+                return new Button
+                {
+                    Width = 34,
+                    Height = 34,
+                    Margin = new Thickness(5, 0, 0, 2),
+                    BorderBrush = null,
+                    Tag = this,
+                    Background = null,
+                    Content = MyGrid,
+                    ToolTip=Msg
+                };
+            }
+
+
+            public async Task Start()
+            {
+                while (PBar.Value < PBar.Maximum)
+                {
+                    await Task.Delay(150);
+                    Application.Current.Dispatcher.Invoke(() => PBar.Value += 1);
+                }
+                ButtonExit_Click(null!, null!);
+            }
+
+
         }
     }
 }

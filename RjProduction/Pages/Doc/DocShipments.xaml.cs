@@ -6,18 +6,24 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages.Doc
 {
     
     public partial class PageShipments : Page
     {
-        private readonly IDocMain _Doc;
-        private bool RenameGrup = false;    //Режим переименование группы
+       
+        private readonly IDocMain _Doc;       
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
         private readonly UIElement? MainFramePanel;
+        private Action? RenameFoo;
+
+        /// <summary>
+        /// Выбранная группа
+        /// </summary>
+        private GrupObj? SelectGrup { get => _Doc.MainTabel.Find(x=> x.NameGrup == ListGrup.SelectedValue.ToString()); }
 
         public PageShipments(DocShipments doc, UIElement framePanel, Action closePage)
         {
@@ -28,7 +34,25 @@ namespace RjProduction.Pages.Doc
             Title = doc.Number + "/" + doc.DataCreate.ToString();
             WarehouseSelector.Visibility = Visibility.Collapsed;
         }
+        /// <summary>
+        /// Оформляем продажи
+        /// </summary>
+        public PageShipments(DocSales doc, UIElement framePanel, Action closePage) 
+        {
+            InitializeComponent();
+            Clear_SPanel();
+            Grid_Buyer.Visibility = Visibility.Visible;
+            GridWarehouse.Visibility = Visibility.Visible;
+            Warehouse_From.Text = doc.Warehouse_From.ToString();
+            _Doc = doc;
+            ClosePage = closePage;
+            MainFramePanel = framePanel;
+            Title = doc.Number + "/" + doc.DataCreate.ToString();
 
+        }
+        /// <summary>
+        /// Оформляем перемещение
+        /// </summary>
         public PageShipments(DocMoving doc, UIElement framePanel, Action closePage)
         {
             InitializeComponent();
@@ -40,6 +64,27 @@ namespace RjProduction.Pages.Doc
             Cbox_warehouses_From.Content = doc.Warehouse_From.NameWarehouse;
             Cbox_warehouses_To.DisplayMemberPath = "NameWarehouse";
             Cbox_warehouses_To.ItemsSource = MDL.MyDataBase.Warehouses;
+        }
+        /// <summary>
+        /// Списание
+        /// </summary>
+        public PageShipments(DocWriteDowns doc, UIElement framePanel, Action closePage)
+        {
+            InitializeComponent();
+            _Doc = doc;
+            ClosePage = closePage;
+            MainFramePanel = framePanel;
+            Title = doc.Number + "/" + doc.DataCreate.ToString();
+            WarehouseSelector.Visibility = Visibility.Visible;
+            Cbox_warehouses_To.DisplayMemberPath = "NameWarehouse";
+            Cbox_warehouses_To.ItemsSource = MDL.MyDataBase.Warehouses;
+        }
+
+        private void Clear_SPanel() {
+            foreach (var item in Spanel_ones.Children)
+            {
+                ((UIElement)item).Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Refreh_ListGrup() {
@@ -71,69 +116,74 @@ namespace RjProduction.Pages.Doc
             Label l1 = new()
             {
                 Width = 250,
+                Padding = new(5, 0, 5, 5),
+                Content = obj.NamePseudonym
+            };
+            Label l3 = new()
+            {
+                Width = 60,
+                Height=30,
                 Padding = new(5, 1, 5, 5),
-                Content = obj.Product.NameItem + " !"+ Math.Round( obj.CubatureAll,2)
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                Background = MDL.BrushConv("#FFF4F7D0"),
+                Content =  Math.Round(obj.CubatureAll, 2)
             };
             if (obj.Product.SyncError) l1.Foreground = Brushes.Red;
             sp.Children.Add(l1);
+            Brush brush = obj.Operation switch
+            {
+                SqlRequest.OperatonEnum.vsPlus => MDL.BrushConv("#FF029E88")!,
+                SqlRequest.OperatonEnum.vsMunis => MDL.BrushConv("#FFD39B9B")!,
+                SqlRequest.OperatonEnum.vsMutation => Brushes.Blue,
+                _ => Brushes.Blue,
+            };
+            string sts_cont = obj.Operation switch
+            {
+                SqlRequest.OperatonEnum.vsMunis => "-",
+                SqlRequest.OperatonEnum.vsPlus => "+",
+                SqlRequest.OperatonEnum.vsMutation => "=",
+                _ => ""
+            };
             Label l0 = new()
             {
-                Width = 50,
+                Width = 43,
                 Padding = new(5, 1, 5, 5),
-                Foreground = MDL.BrushConv(obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "#FFD39B9B" : "#FF029E88"),
-                Content = (obj.Operation == SqlRequest.OperatonEnum.vsMunis ? "-" : "+") + Math.Round(obj.SelectedCub, 2)
+                Foreground = brush,
+                Content = sts_cont + Math.Round(obj.SelectedCub, 2)
             };
             sp.Children.Add(l0);
+            sp.Children.Add(l3);
             TextBox text1 = new()
             {
                 Width = 80,
                 Text = obj.PriceCng.ToString(),
-                BorderBrush = null,
-                Background = MDL.BrushConv("#FFD2D9F3"),
+                BorderBrush = MDL.BrushConv("#FFD2D9F3"),
                 Tag = sp
             };
-            text1.TextChanged += Text_TextChanged;
-            text1.GotFocus += Text_GotFocus;
-            text1.LostFocus += Text_LostFocus;
-            sp.Children.Add(text1);
-            Label l2 = new()
+                       
+            sp.Children.Add(text1);            
+            Label amount_label = new()
             {
                 Padding = new(5, 1, 5, 5),
                 Content = obj.Amount
             };
+            text1.TextChanged += (object sender, TextChangedEventArgs e) =>
+            {      
+                    if (double.TryParse(text1.Text, out double di) == false)
+                    {
+                        di = 0;
+                        text1.Text = "";
+                    }
+                    obj.PriceCng = di;
+                    amount_label.Content = obj.Amount;              
+                Label_SumDown.Content = _Doc.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
+            };
+            text1.GotFocus += (object sender, RoutedEventArgs e)=> text1.Text = "";
+            text1.LostFocus += (object sender, RoutedEventArgs e) => { if (text1.Text == "") { text1.Text = obj.Product.Price.ToString(); } };
+
             sp.Tag = obj;
-            sp.Children.Add(l2);
+            sp.Children.Add(amount_label);           
             ListBoxEmp.Items.Add(sp);
-        }
-
-        private void Text_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox text_box)
-            {
-                var tag = (StackPanel)text_box.Tag;
-                if (tag.Tag is Pseudonym pseudonym) ((TextBox)sender).Text = pseudonym.PriceCng.ToString();
-            }
-        }
-
-        private void Text_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox text_box) text_box.Text = "";
-        }
-
-        private void Text_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            const int LABEL_INT_AMOUNT = 3;
-            if (sender is TextBox text_box)
-            {
-                var tag = (StackPanel)text_box.Tag;
-                var label = (tag.Children[LABEL_INT_AMOUNT] as Label) ?? new Label();
-                if (tag.Tag is Pseudonym pseudonym)
-                {
-                    if (double.TryParse(((TextBox)sender).Text, out double d)) pseudonym.PriceCng = d;
-                    label.Content = pseudonym.Amount;
-                }
-            }
-            Label_SumDown.Content = _Doc.MainTabel[ListGrup.SelectedIndex].Tabels.Sum(x => x.Amount);
         }
 
         private void Загруженно(object sender, System.Windows.RoutedEventArgs e)
@@ -157,7 +207,13 @@ namespace RjProduction.Pages.Doc
 
         private void ДобавитьОбъект(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (SelectGrup == null)
+            {
+                MessageBox.Show("Сначало нужно выбрать группу");
+                return;
+            }
 
+            ButtonAdd.ContextMenu.IsOpen = true;
         }
 
         private void ДобавитьПМат(object sender, System.Windows.RoutedEventArgs e)
@@ -196,36 +252,42 @@ namespace RjProduction.Pages.Doc
              Grid_NameGrup.Visibility = Visibility.Collapsed;
         }
 
-        private void ДобавитьГруппуСписок(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(TBox_GrupName.Text)) return;
+        private bool ПроверитьВходныеДанныеНазванияГруппы() 
+        { 
+             if (string.IsNullOrEmpty(TBox_GrupName.Text)) return false;
             if (_Doc.MainTabel.Any(x => x.NameGrup == TBox_GrupName.Text))
             {
                 MessageBox.Show("Группа с таким названием уже существует ");
-                return;
+                return false;
             }
-
             // обновляет список MDL если нет значения в списке
             if (!MDL.MyDataBase.NamesGrup.Any(x => x == TBox_GrupName.Text))
             {
                 MDL.MyDataBase.NamesGrup.Add(TBox_GrupName.Text);
                 TBox_GrupName.Items.Refresh();
             }
+            return true;
+        }
 
-            if (RenameGrup == true & ListGrup.SelectedIndex != -1)
-            {
-                _Doc.MainTabel [ListGrup.SelectedIndex].NameGrup = TBox_GrupName.Text;
-                RenameGrup = false;
-            }
-            else _Doc.MainTabel.Add(new GrupObj() { NameGrup = TBox_GrupName.Text });
-            //_Shipments.MainTabel[ListGrup.SelectedIndex] = _Shipments.MainTabel[^1];
+        private void ДобавитьГруппуСписок()
+        {
+            if (ПроверитьВходныеДанныеНазванияГруппы() == false) return;
+            _Doc.MainTabel.Add(new GrupObj() { NameGrup = TBox_GrupName.Text });
+            Refreh_ListGrup();
+            ЗакрытьОкноГруппы(null!, null!);
+        }
+
+        private void ИзменитьНазаниеГруппы()
+        {
+            if (ПроверитьВходныеДанныеНазванияГруппы() == false) return;
+            if (ListGrup.SelectedIndex != -1) _Doc.MainTabel[ListGrup.SelectedIndex].NameGrup = TBox_GrupName.Text;
             Refreh_ListGrup();
             ЗакрытьОкноГруппы(null!, null!);
         }
 
         private void КлавишаДобовитьГруппу(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) ДобавитьГруппуСписок(null!, null!);
+            if (e.Key == Key.Enter) ДобавитьГруппуСписок();
         }
 
         private void УдалитьОбъект(object sender, System.Windows.RoutedEventArgs e)
@@ -235,7 +297,7 @@ namespace RjProduction.Pages.Doc
                 MessageBox.Show("Сначало нужно выбрать группу");
                 return;
             }
-            if (ListBoxEmp.SelectedIndex == -1)
+            if (ListBoxEmp.SelectedIndex != -1)
             {
                 _Doc.MainTabel[ListGrup.SelectedIndex].Tabels.RemoveAt(ListBoxEmp.SelectedIndex);
                 Refreh_ListBoxEmp();
@@ -265,12 +327,14 @@ namespace RjProduction.Pages.Doc
             if (uint.TryParse(Number.Text, out uint u)) MDL.MyDataBase.NumberDef = u;
             if (_Doc is DocShipments) XmlProtocol.SaveDocXml<DocShipments>(_Doc);
             else if (_Doc is DocMoving) XmlProtocol.SaveDocXml<DocMoving>(_Doc);
-            else if (_Doc is DocWritedowns) XmlProtocol.SaveDocXml<DocWritedowns>(_Doc);
+            else if (_Doc is DocWriteDowns) XmlProtocol.SaveDocXml<DocWriteDowns>(_Doc);
+            else if (_Doc is DocSales) XmlProtocol.SaveDocXml<DocSales>(_Doc);
             SavedDoc = true;
         }
 
         private void ДобавитьГруппу(object sender, System.Windows.RoutedEventArgs e)
         {
+            RenameFoo = ДобавитьГруппуСписок;
             Grid_NameGrup.Visibility = Visibility.Visible;
             TBox_GrupName.Focus();
         }
@@ -290,10 +354,11 @@ namespace RjProduction.Pages.Doc
         private void ПереименоватьГруппу(object sender, System.Windows.RoutedEventArgs e)
         {
             if (ListGrup.SelectedIndex == -1) return;
+            RenameFoo = ИзменитьНазаниеГруппы;
             Grid_NameGrup.Visibility = Visibility.Visible;
             TBox_GrupName.Text = _Doc.MainTabel[ListGrup.SelectedIndex].NameGrup;
             TBox_GrupName.Focus();
-            RenameGrup = true;
+            
         }
 
         private void ВыполнитьЛокумент(object sender, RoutedEventArgs e)
@@ -345,6 +410,41 @@ namespace RjProduction.Pages.Doc
         {
             var w = MDL.MyDataBase.Warehouses.Find(x => x.Equals(Cbox_warehouses_To.SelectedValue)) ; 
             ((DocMoving)_Doc).Warehouse_To = w ?? new WarehouseClass() { NameWarehouse = "NaN" };
+        }
+
+        private void ИзменитьКомпанию(object sender, RoutedEventArgs e)
+        {           
+            ToolList<Model.Catalog.Company> toolList = new  (MainGrid,  (obj) => {
+                if (obj is Model.Catalog.Company comp) {
+                    TBox_Buyer.Text =comp.ToString();
+                    if (_Doc is DocSales doc) doc.Buyer = comp;                   
+                }            
+            });
+        }
+
+        private void ИзменитьНазваниеСтроки() {
+            if (_Doc.MainTabel[ListGrup.SelectedIndex].Tabels[ListBoxEmp.SelectedIndex] is Pseudonym pseudonym)
+            { 
+                pseudonym.NamePseudonym = TBox_GrupName.Text;
+                ЗакрытьОкноГруппы(null!, null!);
+                Refreh_ListBoxEmp();
+            }
+         }
+        
+        private void ПереименоватьСтроку(object sender, RoutedEventArgs e)
+        {
+            if (_Doc.MainTabel[ListGrup.SelectedIndex].Tabels[ListBoxEmp.SelectedIndex] is Pseudonym pseudonym)
+            {
+                RenameFoo = ИзменитьНазваниеСтроки;
+                Grid_NameGrup.Visibility = Visibility.Visible;
+                TBox_GrupName.Text = pseudonym.NamePseudonym;
+                TBox_GrupName.Focus();
+            }
+        }
+
+        private void ДействиГруппой(object sender, RoutedEventArgs e)
+        {
+            RenameFoo?.Invoke();
         }
     }
 }

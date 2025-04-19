@@ -60,16 +60,12 @@ namespace RjProduction.Pages.MainPage
                     {
                         string nameType = "_" + item.Split('=')[0];       // Название переменной
                         string param = item.Split('=')[1];  // Значение истинное или нет
-                        p = typeof(KindTypes).GetField(nameType, System.Reflection.BindingFlags.Instance |
-
+                        p = typeof(Config_fgis).GetField(nameType, System.Reflection.BindingFlags.Instance |
                                                             System.Reflection.BindingFlags.Public |
-
-                                                            System.Reflection.BindingFlags.NonPublic |
-
-                                                            System.Reflection.BindingFlags.Static);
+                                                            System.Reflection.BindingFlags.NonPublic );
                         p?.SetValue(this, param);
                     }
-                    _status = true;
+                   _status= _Common != string.Empty ;
                 }
                 catch
                 {
@@ -81,10 +77,14 @@ namespace RjProduction.Pages.MainPage
 
         private void Загрузка(object sender, RoutedEventArgs e)
         {
-            /// проверка на ошибки или отсутствие  справочника
-            if (Directory.Exists(Config.Common) == false) return;
+            /// проверка на ошибки или отсутствие  справочника           
             if (Config.Status == true ) ErrorUpdate.Visibility= Visibility.Collapsed;
 
+        }
+
+        private void ВыборССылки(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //https://rosleshoz.gov.ru/doc/common_fgis_lk
         }
     }
 }

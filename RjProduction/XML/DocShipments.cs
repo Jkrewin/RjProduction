@@ -1,6 +1,7 @@
 ﻿using RjProduction.Model;
 using RjProduction.Sql;
 using System.Windows;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.XML
 {
@@ -52,22 +53,22 @@ namespace RjProduction.XML
             }
 
             // Получаем название поля для изменений          
-            bool error = false;
-           
-
+            bool error = false; 
             // Проводим по остаткам документ 
             foreach (var item in MainTabel)
             {
                 foreach (var tv in item.Tabels)
                 {
-                    if (tv is Pseudonym pseudonym) {
+                    if (tv is Pseudonym pseudonym) 
+                    {
                         pseudonym.Product.ConcurrentReqest(MDL.SqlProfile, pseudonym.Operation, pseudonym.SelectedCub);
                         if (pseudonym.Product.SyncError == true) error = true;
                     }
                 }
             }
 
-            if (error) {
+            if (error)
+            {
                 MessageBox.Show("У вас возникли проблемы при синхронизации, так как данные были ранее изменены другим пользователем. Поэтому документ проведен частично ");
                 SqlRequest.SetData(this);
                 Status = StatusEnum.Частично;

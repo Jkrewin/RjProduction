@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using RjProduction.XML;
 using RjProduction.Pages.Doc;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages
 {

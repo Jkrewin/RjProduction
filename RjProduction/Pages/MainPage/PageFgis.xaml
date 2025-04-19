@@ -40,7 +40,7 @@
             <Grid x:Name="ErrorUpdate" Background="#FFFDEAEA" Height="164">
                 <TextBlock TextWrapping="Wrap" Text="Необходимо выполнить обновление и загрузку из сети данных справочника и схем. Необходимых для работы   с документом. Без этих данных невозможно будет создать документ" Margin="10,10,10,0" VerticalAlignment="Top" Height="44" FontFamily="Arial" FontSize="14"></TextBlock>
                 <Label Margin="10,59,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Foreground="#FF122FC0" FontWeight="Normal">
-                    <TextBlock TextDecorations="Underline">Посетить сайт и обновить вручную</TextBlock>
+                    <TextBlock TextDecorations="Underline" PreviewMouseLeftButtonDown="ВыборССылки">Посетить сайт и обновить вручную</TextBlock>
                 </Label>
                 <Button x:Name="Button_Empl_Копировать1" Margin="10,117,0,0" VerticalAlignment="Top" Height="26" Background="{x:Null}" Content="Начать загрузку" FontFamily="Calibri" Foreground="#FFE37171" Click="ОткрытьОт" BorderBrush="#FFE37171"  HorizontalAlignment="Left" Width="208" FontSize="14">
                     <Button.Resources>

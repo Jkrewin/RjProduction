@@ -1,7 +1,7 @@
 ﻿using RjProduction.Model;
 using RjProduction.Sql;
 using System.Windows;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.XML
 {

@@ -1,15 +1,15 @@
 ﻿using RjProduction.Model;
 using RjProduction.Sql;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
+using RjProduction.Model.DocElement;
 using System.Text;
 using System.Windows;
 
 namespace RjProduction.XML
 {
-    public class DocWritedowns : XmlProtocol, IDocMain
+    /// <summary>
+    /// Списание продукции
+    /// </summary>
+    public class DocWriteDowns : XmlProtocol, IDocMain
     {
         [SqlIgnore]
         public string Doc_Code
@@ -54,7 +54,7 @@ namespace RjProduction.XML
         }
         public decimal AllSum { get => MainTabel.Sum(x => x.Amount); }
 
-        public DocWritedowns()
+        public DocWriteDowns()
         {
             TypeDoc = Doc_Code + DocTitle;
             Warehouse = new WarehouseClass() { NameWarehouse = "n/a" };
@@ -75,7 +75,7 @@ namespace RjProduction.XML
                 MessageBox.Show("Нет активного подключения к БД, создайте новое подключение к БД.");
                 return;
             }
-            var id_doc = SqlRequest.ExistRecord<DocWritedowns>(new ISqlProfile.FieldSql("ID_Doc", ID_Doc));
+            var id_doc = SqlRequest.ExistRecord<DocWriteDowns>(new ISqlProfile.FieldSql("ID_Doc", ID_Doc));
             if (id_doc != -1)
             {
                 MessageBox.Show("Этот документ был ранее проведен или произошла ошибка. С такой датой и номером уже ранее сохранен в БД. ");

@@ -30,6 +30,7 @@
                                 <MenuItem Header="F6 Сотрудник (рабочии)" Click="ДобавитьСотрудника"></MenuItem>
                                 <MenuItem Header="F7 Круглый лес (брена)" Click="ДобавитьКруглыйЛес"/>
                                 <MenuItem Header="F8 Доплата сотрудникам" Click="ДобавитьДоплата"/>
+                                <MenuItem Header="F9 Траспорт" Click="ДобавитьТранспорт"/>
                             </ContextMenu>
                         </Button.ContextMenu>
 

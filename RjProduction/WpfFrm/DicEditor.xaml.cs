@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using RjProduction.Model;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.WpfFrm
 {

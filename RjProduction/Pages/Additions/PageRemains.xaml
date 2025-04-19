@@ -8,11 +8,12 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PageRemains" Loaded="Загруженно">
 
-    <Grid Background="White">
+    <Grid x:Name="StartGrid" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="26"/>
         </Grid.RowDefinitions>
         <Grid>
             <Rectangle VerticalAlignment="Bottom" Height="5">
@@ -59,7 +60,7 @@
 
 
         </Grid>
-        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="10,5,10,0" Grid.Row="2" >
+        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="10,5,10,0" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                    Color="#FFAACAFE"/>
@@ -101,7 +102,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-               <!-- Индекс контрола нужно поменять если меняеться структура порядок контролов тут-->
+
                 <DataGridTemplateColumn Header="Значение" Width="70" CanUserResize="False">
                     <DataGridColumn.HeaderStyle>
                         <Style TargetType="DataGridColumnHeader">
@@ -128,7 +129,7 @@
                     </DataGridColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox x:Name="TextCubs" GotFocus="ВходВполе" MaxLength="4" Text="{Binding Selected_Cubature}" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновленКубы"   />
+                            <TextBox x:Name="TextCubs" MaxLength="4" Text="{Binding Selected_Cubature}" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновленКубы" LostFocus="ОбновитьТекстКубах"    />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -144,7 +145,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Итог" Width="80">
+                <DataGridTemplateColumn Header="Остаток" Width="80">
                     <DataGridColumn.HeaderStyle>
                         <Style TargetType="DataGridColumnHeader">
                             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -158,8 +159,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-       
-        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Collapsed"  Grid.Row="2">
+
+        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Hidden"  Grid.Row="2" Grid.RowSpan="2">
             <Grid Height="80">
                 <Label Content="Выравнивание остатков" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
                 <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
@@ -172,14 +173,27 @@
                 <TextBlock TextWrapping="Wrap" Text="Переместить материалы со склада на склад, можно указать автотранспорт по вывозу материалов, не является обязательным" HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="14" Width="682" Height="38"/>
 
             </Grid>
+            <Grid Height="80">
+                <Label Content="Списание продукции" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+                <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="Списание" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
+                <TextBlock TextWrapping="Wrap" Text="Списать продукцию вы можете после указания причин списания. В выборе из таблице принимается только “минус” из общего количества  " HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="14" Width="682" Height="38"/>
+
+            </Grid>
+            <Grid Height="80">
+                <Label Content="Продажи" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
+                <Button Content="" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="Продажи" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
+                <TextBlock TextWrapping="Wrap" Text="Продажа продукции из выбранного склада. Вы можете добавить транспорт, выписать документы на продажу" HorizontalAlignment="Left" Margin="112,25,0,0" VerticalAlignment="Top" FontFamily="Calibri" FontSize="14" Width="682" Height="38"/>
+
+            </Grid>
+
             <Grid Height="54">
                 <Button Content="Закрыть меню" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="32" Width="186" FontSize="14" Background="#FFDCF8C5" FontFamily="Arial" Click="Скрыть_Меню" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>
 
             </Grid>
         </StackPanel>
-        
-        
-        <Grid x:Name="DockPanel_РамкаДокумента"  Visibility="Collapsed" Grid.RowSpan="3" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False"  >
+
+
+        <Grid x:Name="DockPanel_РамкаДокумента"  Visibility="Collapsed" Grid.RowSpan="4" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="750"/>
@@ -195,8 +209,9 @@
 
             </Grid>
         </Grid>
+        <Grid Grid.Row="3" Background="#FFD2CECE"/>
 
     </Grid>
-    
-    
+
+
 </Page>

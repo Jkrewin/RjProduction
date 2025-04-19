@@ -29,7 +29,7 @@ namespace RjProduction.Fgis
             _kinds.Add(TypesEnum.dForestNonInfrastruct, "dForestNonInfrastructKindTypes-");
             _kinds.Add(TypesEnum.dFellingForest, "dFellingForestKindTypes-");
             _kinds.Add(TypesEnum.dCuttingGroupCategory, "dCuttingGroupCategoryKindTypes-");
-           // _kinds.Add(TypesEnum.dFarmsKind, "dFarmsKindTypes-");
+            _kinds.Add(TypesEnum.dFarmsKind, "dFarmsKindTypes-");
             _kinds.Add(TypesEnum.dOkpd2, "dOkpd2KindTypes-");
             _kinds.Add(TypesEnum.dTreeNewKind, "dTreeNewKindTypes-");
             _kinds.Add(TypesEnum.dUnitMeasurement, "dUnitMeasurementKindTypes-");

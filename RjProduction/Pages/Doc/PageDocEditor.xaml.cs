@@ -1,10 +1,12 @@
 ﻿using RjProduction.Model;
+using RjProduction.Model.Catalog;
 using RjProduction.XML;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages
 {
@@ -17,6 +19,9 @@ namespace RjProduction.Pages
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private object? _obj;               //Page с доб и изм строк
         private readonly UIElement? MainFramePanel;
+
+       
+
 
         public PageDocEditor(DocArrival doc, Action closePage)
         {
@@ -201,6 +206,12 @@ namespace RjProduction.Pages
                 FrameDisplay.Height = 180;
                 FrameDisplay.Navigate(_obj);
             }
+            else if (doc is TransportPart track)
+            {
+                _obj = new PageTrack(track, actor, close);
+                FrameDisplay.Height = 450;
+                FrameDisplay.Navigate(_obj);
+            }
             else throw new Exception("Такой элемент не зарегистрирован для OpenWpfItem");
         }
 
@@ -383,7 +394,7 @@ namespace RjProduction.Pages
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {
-            string[] arr = ["Res/images/masonry_view.png", "Res/images/worker.png", "Res/images/wood_icon.png", "Res/images/coin_icon.png"];
+            string[] arr = ["Res/images/masonry_view.png", "Res/images/worker.png", "Res/images/wood_icon.png", "Res/images/coin_icon.png", "Res/images/coin_icon.png"];
             int i = 0;
             foreach (MenuItem item in ButtonAdd.ContextMenu.Items)
             {
@@ -455,5 +466,7 @@ namespace RjProduction.Pages
             else if (e.Key == Key.F7) OpenWpfItem(new Employee());
             else if (e.Key == Key.F8) OpenWpfItem(new Tabel_Timbers());
         }
+
+        private void ДобавитьТранспорт(object sender, RoutedEventArgs e) => OpenWpfItem(new TransportPart());
     }
 }

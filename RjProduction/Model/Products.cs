@@ -13,7 +13,7 @@ namespace RjProduction.Model
         bool _SyncError = false;
 
         /// <summary>
-        /// Название пиломатериала. Для круглого леса есть переменная NameKB
+        /// Название пиломатериала.
         /// </summary>
         public string NameItem { get; set; } = "def name";
         /// <summary>
@@ -22,13 +22,7 @@ namespace RjProduction.Model
         public double Cubature
         {
             get => _Cubature;
-            set
-            {
-                unchecked
-                {
-                    _Cubature = value;
-                }
-            }
+            set => _Cubature = value;            
         }
         /// <summary>
         /// На этом складе продукция
@@ -93,5 +87,7 @@ namespace RjProduction.Model
             _SyncError = d == -1;
             if (_SyncError == false) _Cubature = d;
         }
+
+
     }
 }

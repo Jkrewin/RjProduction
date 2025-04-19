@@ -367,11 +367,14 @@ namespace RjProduction.Fgis.XML
             public List<NotesType>? notes;
         }
 
+        
+        [Mod(ui: " Информация о рубке")]
         public class CuttingInfoRowType
         {
-            public CuttingType cutting = new();
+            [Mod(ui: "Рубка лесных насаждений")]
+            public CuttingType cutting { get; set; } = new();
 
-            [Mod(MTypeEnum.Required, FormatEnum.Text)]
+            [Mod(MTypeEnum.Required, FormatEnum.Text, ui: "Ссылка на выдел лесосеки"), XmlAttribute]
             public string taxUnitClearcutIdRef { get; set; } = string.Empty;
         }
 
@@ -390,6 +393,7 @@ namespace RjProduction.Fgis.XML
             }
         }
 
+        [Mod(ui: "Рубка лесных насаждений")]
         public class CuttingType
         {
             [Mod(MTypeEnum.Optional, dic: KindTypes.TypesEnum.dFellingForest, ui:"Форма рубки")]
@@ -406,6 +410,8 @@ namespace RjProduction.Fgis.XML
 
             [Mod(ui: "Информация о породах")]
             public TreesInfoTypeList? treesInfo { get; set; }
+
+            public override string ToString()=> cuttingArea == string.Empty ? "<Необходимо заполнить форму>" : "Рубка лесных насаждений";
         }
 
         [Mod(ui: "Информация о породе"), XmlType(TypeName = "TreesInfoType")]
@@ -414,8 +420,21 @@ namespace RjProduction.Fgis.XML
             [Mod(MTypeEnum.Required, FormatEnum.List,ui: "Информация о породе")]
             public List<TreeInfoType> treeInfo { get; set; } = [];
             [Mod(ui: "Информация о породе")]
-            public class TreeInfoType
+            public class TreeInfoType : IDefault
             {
+                public void Default(KindTypes kindTypes)
+                {
+                    var dl = kindTypes.GetDate(KindTypes.TypesEnum.dUnitMeasurement).ToList().Find(x => x.Comment == "113");
+                    if (string.IsNullOrEmpty(dl.Comment) == false)
+                    {
+                        unitType = new UnitTypeType()
+                        {
+                            abbreviation = dl.Name,
+                            unitType = dl.Comment
+                        };
+                    }
+                }
+
                 /// <summary>
                 /// Справочник «Общероссийский классификатор продукции по видам экономической деятельности (ОКПД2)»(Okpd2KindEType) dOkpd2KindTypes-
                 /// </summary>
@@ -455,18 +474,19 @@ namespace RjProduction.Fgis.XML
                     return $"{volume} {unitType.abbreviation }  {s} ";
                 }
             }
+
+            public override string ToString()=> "Всего в списке:" + treeInfo.Count;
         }
 
         [XmlTypeAttribute(Namespace = comR), Mod(ui: "Единица измерения")]
         public class UnitTypeType
-        {
+        {          
             [Mod(MTypeEnum.Required, dic: KindTypes.TypesEnum.dUnitMeasurement, ui: "Единица измерения")]
             public string unitType { get; set; } = string.Empty;
 
             [Mod(MTypeEnum.Optional, FormatEnum.Hide, ui: "Сокращение")]
             public string abbreviation { get; set; } = string.Empty;
-
-            // public DeliveredStruct Default_() => new("113", 0, "[\"Кубический метр\"]");
+                        
             public void Act_abbreviation(DeliveredStruct delivered) => abbreviation = delivered.Name;
             public override string ToString() => abbreviation;
         }
@@ -869,6 +889,19 @@ namespace RjProduction.Fgis.XML
             public string middle { get; set; } = string.Empty;
         }
         #endregion
+
+        /// <summary>
+        /// Значение по умолчанию
+        /// </summary>
+        public interface IDefault {
+            /// <summary>
+            /// Значение по умолчанию
+            /// </summary>
+            /// <param name="ls">Список занчений для списка поиск</param>
+            /// <param name="name">Название переменной</param>
+            /// <returns>true - значение по умолчанию использованно следует обновить ui</returns>
+            public void Default(KindTypes kindTypes);
+        }
     }
 #pragma warning restore IDE1006 // Стили именования
 }

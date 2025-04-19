@@ -1,4 +1,5 @@
 ﻿
+using RjProduction.Model.Catalog;
 using RjProduction.XML;
 using System.Data;
 using System.Reflection;
@@ -46,7 +47,7 @@ namespace RjProduction.Sql
                         List<(string, string)> direct = sqlProfile.TitleDB(sql);
                         foreach (var d in sqlProfile.GetFieldSql("ID>0", sql.TabelName))
                         {
-                            if (direct.Any(x => x.Item1 == d.NameField) == false)
+                            if (direct.Any(x => x.Item1.Equals( d.NameField, StringComparison.CurrentCultureIgnoreCase) ) == false)
                             {
                                 return false;
                             }
@@ -69,7 +70,9 @@ namespace RjProduction.Sql
                 if (actor<Model.Products>() == false) return false;
                 if (actor<Model.WarehouseClass>() == false) return false;
                 if (actor<Model.DocRow>() == false) return false;
-                if (actor<DocWritedowns>() == false) return false;
+                if (actor<DocWriteDowns>() == false) return false;
+                if (actor<DocSales>() == false) return false;
+                if (actor<Company>() == false) return false;
             }
             catch
             {
@@ -96,13 +99,15 @@ namespace RjProduction.Sql
             ForceCreateTabel< DocArrival > ();
             try
             {
-                ForceCreateTabel<DocWritedowns>();
+                ForceCreateTabel<DocWriteDowns>();
                 ForceCreateTabel<DocArrival>();
                 ForceCreateTabel<DocMoving>();
                 ForceCreateTabel<DocShipments>();
                 ForceCreateTabel<Model.Products>();
                 ForceCreateTabel<Model.WarehouseClass>();
                 ForceCreateTabel<Model.DocRow>();
+                ForceCreateTabel<DocSales>();
+                ForceCreateTabel<Company>();
             }
             catch
             {
@@ -132,10 +137,6 @@ namespace RjProduction.Sql
                 if (ls.Count == 0) return -1;
                 else return id;
             }
-            catch (Exception)
-            {
-                throw;
-            }
             finally
             {
                 sqlProfile.Disconnect();
@@ -162,10 +163,6 @@ namespace RjProduction.Sql
                 {
                     list.Add((T)Integrator(Activator.CreateInstance<T>()!, item, _lock));
                 }
-            }
-            catch
-            {
-                throw;
             }
             finally { sqlProfile.Disconnect(); }
 

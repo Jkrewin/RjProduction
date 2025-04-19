@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RjProduction"
         mc:Ignorable="d"      
-        Title="" Height="900" Width="1000" Loaded="Загрузка" Closed="ПриложениеЗакрыто" Icon="/Res/Icon/app_draw.ico" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="#FF6071AF">
+        Title="" Height="900" Width="1000" Loaded="Загрузка" Closed="ПриложениеЗакрыто" Icon="/Res/Icon/app_draw.ico" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="#FF6071AF" KeyDown="ГорячиеКлавиши">
     <Grid x:Name="MainGrind" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="73*"/>
@@ -164,7 +164,7 @@
 
                             </Style>
                         </Button.Style>
-                        <Image Source="/Res/images/teamwork_management.png"  Stretch="Fill" Height="32" Width="32"/>
+                        <Image Source="/Res/images/fgis.png"  Stretch="Fill" Height="32" Width="32"/>
                     </Button>
                     <Button PreviewMouseMove="КурсорНадИконКнопкой" MouseLeave="КурсорПокинулИконКнопкой" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Width="45" MinWidth="40" MinHeight="40" Height="45" BorderBrush="{x:Null}" Click="ОткрытьНастройки" ToolTip="Настройки программы">
                         <Button.Resources>
@@ -360,6 +360,9 @@
                 <ScrollViewer Grid.Row="1" Foreground="#FF0494B1" >
                 <Frame ScrollViewer.CanContentScroll="True" NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Загрузка..." ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                 </ScrollViewer>
+                <WrapPanel Visibility="Collapsed" x:Name="NotificationPanel" VerticalAlignment="Bottom"  Height="36 ">
+                    <!--тут будет нотификация сообщения генерируеться програмно -->
+                </WrapPanel>
             </Grid>
 
         </DockPanel>

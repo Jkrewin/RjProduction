@@ -1,8 +1,10 @@
 ﻿using RjProduction.Model;
+using RjProduction.Model.Catalog;
 using RjProduction.Sql;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.XML
 {
@@ -67,7 +69,7 @@ namespace RjProduction.XML
                         else if (tv is MaterialObj m) grup.Materials.Add(m);
                         else if (tv is Surcharges s) grup.Surcharges.Add(s);
                         else if (tv is Pseudonym p) grup.Pseudonyms.Add(p);
-                        else if (tv is Track t) grup.Tracks.Add(t);
+                        else if (tv is TransportPart t) grup.Tracks.Add(t);
                         else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString());
                     }
                     g.Add(grup);
@@ -78,7 +80,7 @@ namespace RjProduction.XML
             {
                 foreach (var item in value)
                 {
-                    Model.GrupObj grup = new() { NameGrup = item.NameGrup ?? "" };
+                    GrupObj grup = new() { NameGrup = item.NameGrup ?? "" };
                     foreach (var tv in item.Employees) grup.Tabels.Add(tv);
                     foreach (var tv in item.Materials) grup.Tabels.Add(tv);
                     foreach (var tv in item.Timbers) grup.Tabels.Add(tv);
@@ -156,7 +158,7 @@ namespace RjProduction.XML
             public List<MaterialObj> Materials = [];
             public List<Surcharges> Surcharges = [];
             public List<Pseudonym> Pseudonyms = [];
-            public List<Track> Tracks = [];
+            public List<Model.Catalog.TransportPart> Tracks = [];
 
         }
     }

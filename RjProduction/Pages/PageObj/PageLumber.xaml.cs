@@ -3,6 +3,7 @@ using RjProduction.WpfFrm;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages
 {
@@ -10,12 +11,12 @@ namespace RjProduction.Pages
     public partial class PageLumber : Page, IKeyControl
     {
         private readonly Action CloseAction;
-        private readonly Action<Model.IDoc> ActionOne;
+        private readonly Action<Model.DocElement.IDoc> ActionOne;
         private MaterialObj _Material;
 
 
 
-        public PageLumber(MaterialObj material, Action<IDoc> act, Action closeAction)
+        public PageLumber(MaterialObj material, Action<Model.DocElement.IDoc> act, Action closeAction)
         {
             InitializeComponent();
             CloseAction = closeAction;
@@ -65,19 +66,23 @@ namespace RjProduction.Pages
                 return;
             }
 
-            if (TypeWood.SelectedValue is not null)           
-                _Material.TypeWood = (TypeWoodEnum)Enum.Parse(typeof(Model.TypeWoodEnum), TypeWood.SelectedValue.ToString() ?? nameof(Model.TypeWoodEnum.Любой));            
+            if (TypeWood.SelectedValue is not null)
+                _Material.TypeWood = (TypeWoodEnum)Enum.Parse(typeof(Model.TypeWoodEnum), TypeWood.SelectedValue.ToString() ?? nameof(Model.TypeWoodEnum.Любой));
             else _Material.TypeWood = TypeWoodEnum.Любой;
+
+            if (_Material.HeightMaterial < _Material.WidthMaterial & MDL.SetApp.SortSizeWood == true)
+            {
+                (_Material.HeightMaterial, _Material.WidthMaterial) = (_Material.WidthMaterial, _Material.HeightMaterial);
+            }
 
             // добавить в справочник только п/м
             if (SelectorQ2.IsChecked == false)
             {
-                if (!MDL.MyDataBase.MaterialsDic.Any(x => x == _Material))
+                if (!MDL.MyDataBase.MaterialsDic.Any(x => x.NameMaterial == _Material.NameMaterial))
                 {
                     MDL.MyDataBase.MaterialsDic.Add(_Material);
                 }
             }
-           
 
             ActionOne?.Invoke(_Material);
             ЗакрытьФорму(null!, null!);

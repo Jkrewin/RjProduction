@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:RjProduction.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PageTrack">
+      Title="PageTrack" Loaded="Загруженно">
 
     <DockPanel>
         <Grid DockPanel.Dock="Top" Background="White" Height="47">
@@ -26,21 +26,29 @@
             </Button>
 
             <Rectangle Height="3" Fill="#FFD3E3F8" VerticalAlignment="Bottom"/>
-            <Label Content="Автотранспрот" HorizontalAlignment="Left" Margin="18,7,0,0" VerticalAlignment="Top" FontFamily="Corbel" FontWeight="Bold" FontSize="16"/>
+            <Label Content="Автотранспорт" HorizontalAlignment="Left" Margin="18,7,0,0" VerticalAlignment="Top" FontFamily="Corbel" FontWeight="Bold" FontSize="16"/>
         </Grid>
 
-        <Grid DockPanel.Dock="Bottom" Background="White" >
-            <Label Content="Сумма доплаты:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,10,0,0" VerticalAlignment="Top" Width="147" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
-            <TextBox x:Name="Number" HorizontalAlignment="Left" Margin="129,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Height="19" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFA47E7E"  FontSize="14"/>
-            <RadioButton Content="Доплата к цене продукции" HorizontalAlignment="Left" Margin="374,16,0,0" VerticalAlignment="Top" FontFamily="Corbel" FontSize="14" FontWeight="Bold" Background="White" BorderBrush="#FFAB9595" Foreground="#FF525252" IsChecked="True"/>
-            <RadioButton Content="Доплата к зарплате" HorizontalAlignment="Left" Margin="374,37,0,0" VerticalAlignment="Top" FontFamily="Corbel" FontSize="14" FontWeight="Bold" Background="White" BorderBrush="#FFAB9595" Foreground="#FF525252"/>
-            <Label Content="Основание:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,35,0,0" VerticalAlignment="Top" Width="147" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
-            <TextBox x:Name="Number_Копировать" HorizontalAlignment="Left" Margin="129,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Height="19" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14"/>
-            <Label Content="Грузовик (тягач):" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,97,0,0" VerticalAlignment="Top" Width="147" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
-            <Label Content="Прицеп:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,126,0,0" VerticalAlignment="Top" Width="147" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
-            <Label Content="От куда:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,155,0,0" VerticalAlignment="Top" Width="147" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
-            <Label Content="Куда:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,185,0,0" VerticalAlignment="Top" Width="147" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="White" Height="29" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
-
+        <Grid x:Name="StartGrid" DockPanel.Dock="Bottom" Background="White" >
+            <TextBox x:Name="CarLabel" HorizontalAlignment="Left" Margin="405,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14"/>
+            <TextBox x:Name="CarNumber" MaxLength="9" HorizontalAlignment="Left" Margin="158,97,0,0" VerticalAlignment="Top" Width="96" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" BorderBrush="#FFD5D5D5"  FontSize="14" LostFocus="ВыходИзПоля"/>
+            <Label Content="Грузовик (тягач):" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,97,0,0" VerticalAlignment="Top" Width="147" FontFamily="Corbel" Background="{x:Null}" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            <Label Content="От куда:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="13,202,0,0" VerticalAlignment="Top" Width="74" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
+            <Label Content="Куда:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="13,235,0,0" VerticalAlignment="Top" Width="74" FontSize="14" FontFamily="Corbel" Background="White" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5"/>
+            <Button  HorizontalAlignment="Left" Margin="405,155,0,0" VerticalAlignment="Top" Height="24" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборКомпании" BorderBrush="#FFD5D5D5" FontSize="16"/>
+            <Label Content="Прицеп:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,126,0,0" VerticalAlignment="Top" Width="147" FontFamily="Corbel" Background="{x:Null}" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            <TextBox x:Name="TrailerNumber" MaxLength="9" HorizontalAlignment="Left" Margin="158,126,0,0" VerticalAlignment="Top" Width="96" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" BorderBrush="#FFD5D5D5"  FontSize="14" LostFocus="ВыходПоля"/>
+            <Label Content="Марка прицепа:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="259,126,0,0" VerticalAlignment="Top" Width="147" FontFamily="Corbel" Background="{x:Null}" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            <Label Content="Марка машины:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="259,97,0,0" VerticalAlignment="Top" Width="147" FontFamily="Corbel" Background="{x:Null}" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            <TextBox x:Name="TrailerLabel" HorizontalAlignment="Left" Margin="405,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14"/>
+            <ComboBox x:Name="CarList" HorizontalAlignment="Left" Margin="259,70,0,0" VerticalAlignment="Top" Width="334" SelectionChanged="ВыборОбъекта"/>
+            <Label Content="Владелец транспорта:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="12,155,0,0" VerticalAlignment="Top" Width="147" FontFamily="Corbel" Background="{x:Null}" BorderBrush="#FFD5D5D5" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            <TextBox x:Name="TBox_Company" HorizontalAlignment="Left" Margin="158,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14"/>
+            <TextBox x:Name="Tbox_AddresFrom" HorizontalAlignment="Left" Margin="86,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14" IsEnabled="False"/>
+            <TextBox x:Name="Tbox_AddresTo" HorizontalAlignment="Left" Margin="86,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14" IsEnabled="False"/>
+            <Button  HorizontalAlignment="Left" Margin="534,202,0,0" VerticalAlignment="Top" Height="24" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборОтКуда" BorderBrush="#FFD5D5D5" FontSize="16"/>
+            <Button  HorizontalAlignment="Left" Margin="534,235,0,0" VerticalAlignment="Top" Height="24" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборКуда" BorderBrush="#FFD5D5D5" FontSize="16"/>
+            <Label x:Name="ErrorLabel" Content="Label" Margin="0,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FFEE5959" Foreground="#FFF9F9F9" FontSize="16" Height="29" Padding="5,1,5,5"/>
 
         </Grid>
     </DockPanel>

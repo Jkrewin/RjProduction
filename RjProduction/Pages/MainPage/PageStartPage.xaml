@@ -54,6 +54,9 @@
                     </Border>
                     <Label Margin="10,32,10,0" xml:space="preserve" VerticalAlignment="Top" FontFamily="Calibri" Height="97" Content="Текущая версия: 00.000&#xA;Обновление было: 00.00.0000&#xA;Лицензия ПО: id000-65441                   &#xA;                    " />
             </Grid>
+                <TextBlock Margin="38,331,104,177">           
+                     <Hyperlink NavigateUri="https://github.com/Jkrewin/RjProduction" RequestNavigate="ПереходНаСайт">        Перейти на сайт проекта    </Hyperlink>
+                </TextBlock>
             </Grid>
             <StackPanel>
                 <Grid x:Name="G_db_Error"  Visibility="Collapsed" Height="59" Background="#FFFFCECA">

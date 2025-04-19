@@ -5,35 +5,40 @@ using System.Text.RegularExpressions;
 
 namespace RjProduction.Fgis
 {
-    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Class )]
+    /// <summary>
+    /// Дает описание, помогает установить обязательные поля также проверяет на ошибки и форматирование строк. + Генерация ui
+    /// </summary>
+    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Class)]
     public class Mod : System.Attribute
     {
         /// <summary>
         /// Тип данных
         /// </summary>
-        public MTypeEnum MType { get; set; }
+        public MTypeEnum MType { get; }
         /// <summary>
         /// Формат данных
         /// </summary>
-        public FormatEnum Format { get; set; }
+        public FormatEnum Format { get; }
         /// <summary>
         /// Максимум символов 0- без ограничение на символы
         /// </summary>
-        public int Max { get; set; } = 0;
+        public int Max { get; } = 0;
         /// <summary>
         /// Минимум символы  0- без ограничение на минимум символы
         /// </summary>
-        public int Min { get; set; } = 0;
+        public int Min { get; } = 0;
         /// <summary>
         /// Это значит что тут справочник 
         /// </summary>
-        public KindTypes.TypesEnum Dic { get; set; } 
+        public KindTypes.TypesEnum Dic { get; }
         /// <summary>
         /// Необходим название текста поля UI
         /// </summary>
-        public string Comment { get; set; } = string.Empty;
+        public string Comment { get; } = string.Empty;
+        
 
-        public Mod(MTypeEnum mType, FormatEnum format) { 
+        public Mod(MTypeEnum mType, FormatEnum format)
+        {
             MType = mType;
             Format = format;
         }
@@ -45,10 +50,10 @@ namespace RjProduction.Fgis
         }
         public Mod(MTypeEnum mType, FormatEnum format, int min, int max)
         {
-            MType =mType;
-            Format =format;
-            Min =min;
-            Max =max;
+            MType = mType;
+            Format = format;
+            Min = min;
+            Max = max;
         }
         public Mod(MTypeEnum mType, FormatEnum format, int min, int max, string ui)
         {
@@ -61,7 +66,7 @@ namespace RjProduction.Fgis
         public Mod(MTypeEnum mType, KindTypes.TypesEnum dic)
         {
             MType = mType;
-            Format =  FormatEnum.dictionary;
+            Format = FormatEnum.dictionary;
             Dic = dic;
         }
         public Mod(MTypeEnum mType, KindTypes.TypesEnum dic, string ui)
@@ -69,10 +74,10 @@ namespace RjProduction.Fgis
             MType = mType;
             Format = FormatEnum.dictionary;
             Dic = dic;
-            Comment=ui;
-        }
+            Comment = ui;
+        }      
         public Mod(string ui)
-        {           
+        {
             Comment = ui;
             Format = FormatEnum.winClass;
         }
@@ -81,10 +86,10 @@ namespace RjProduction.Fgis
         /// Извлекает mod
         /// </summary>
         static public Mod? Extract_Mod(PropertyInfo property)
-        {            
+        {
             foreach (var m in property.GetCustomAttributes(false))
             {
-                if (m is Mod) return (Mod)m;
+                if (m is Mod mod) return mod;
             }
             return null;
         }
@@ -96,15 +101,16 @@ namespace RjProduction.Fgis
         /// <param name="text">текст</param>
         /// <param name="mod">мод в полю</param>
         /// <returns>false - не соотвествует</returns>
-        static public bool CheckRule(DeliveredStruct dl, Mod mod) {
+        static public bool CheckRule(DeliveredStruct dl, Mod mod)
+        {
             string text = dl.Comment;
-            if (string.IsNullOrEmpty(text)) 
-            { 
+            if (string.IsNullOrEmpty(text))
+            {
                 if (mod.MType == MTypeEnum.Required || mod.MType == MTypeEnum.Select) return false;
                 return true;
             }
 
-            if (mod.Min !=0 & text.Length <= mod.Min) return false;
+            if (mod.Min != 0 & text.Length <= mod.Min) return false;
             if (mod.Max != 0 & text.Length >= mod.Max) return false;
 
             switch (mod.Format)
@@ -149,21 +155,23 @@ namespace RjProduction.Fgis
                 case FormatEnum.Cadastr:
                     return Regex.IsMatch(text, @"^\d+:\d+:\d+:\d+$");
                 case FormatEnum.winClass:
-                    if (mod.MType == MTypeEnum.Required || mod.MType == MTypeEnum.Select) { 
+                    if (mod.MType == MTypeEnum.Required || mod.MType == MTypeEnum.Select)
+                    {
                         if (dl.Obj is null) return false;
                     }
-                       return true;
+                    return true;
                 case FormatEnum.dictionary:
                     break;
                 case FormatEnum.RegisterNumber:
-                    return Regex.IsMatch(text,@"^\d{1}-\d{2}-\d{2}-\d{6}-\d{2}/\d{2}-\d{6}$");
-                  
+                    return Regex.IsMatch(text, @"^\d{1}-\d{2}-\d{2}-\d{6}-\d{2}/\d{2}-\d{6}$");
+
             }
 
             return true;
         }
 
-        public enum FormatEnum { 
+        public enum FormatEnum
+        {
             /// <summary>
             /// Любой текст и цифры
             /// </summary>
@@ -219,9 +227,10 @@ namespace RjProduction.Fgis
 
 
 
-
         }
-        public enum MTypeEnum {
+
+        public enum MTypeEnum
+        {
             /// <summary>
             /// О – обязательный элемент, должен обязательно присутствовать в XML-документе
             /// </summary>

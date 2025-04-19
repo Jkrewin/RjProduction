@@ -41,7 +41,7 @@
                 <Label Content="--" BorderThickness=" 1" Width="23" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="31" Foreground="Black" FontWeight="Bold" Padding="5,3,5,5"/>
                 <DatePicker HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="119" FontFamily="Arial" FontSize="14" Uid="end"/>
             </StackPanel>
-            <RadioButton Content="Сведения об использовании лесов для заготовки древесины" HorizontalAlignment="Left" Margin="14,264,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначения"/>
+            <RadioButton Content="Сведения об использовании лесов для заготовки древесины" HorizontalAlignment="Left" Margin="14,264,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначенияА"/>
             <RadioButton Content="Использование лесов в целях, не связанных с заготовкой древесины" HorizontalAlignment="Left" Margin="14,282,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначения"/>
             <RadioButton Content="Мероприятия, связанные с использованием лесов" HorizontalAlignment="Left" Margin="14,300,0,0" VerticalAlignment="Top" FontFamily="Cambria" Checked="ВыборЗначения"/>
             <Label Content="Наименование лесничества" BorderThickness=" 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="270" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="33" Foreground="Black" FontWeight="Bold" Margin="10,66,0,0"/>
@@ -88,7 +88,7 @@
                 </Button>
             </StackPanel>
             <Label x:Name="Label_Title" Grid.Row="1" Background="#FFDCF4F2" Content="asfadafaff" Padding="5,1,5,5" HorizontalContentAlignment="Center" FontFamily="Calibri" FontSize="14" FontWeight="Bold" />
-            <ListBox Grid.Row="3"  VerticalAlignment="Center" Height="400" FontFamily="Tahoma" FontSize="10"/>
+            <ListBox x:Name="MainTabel" Grid.Row="3"  VerticalAlignment="Center" Height="400" FontFamily="Tahoma" FontSize="10"/>
             <StackPanel x:Name="TitleStack"  Grid.Row="2">
                 <Label   />
             </StackPanel>

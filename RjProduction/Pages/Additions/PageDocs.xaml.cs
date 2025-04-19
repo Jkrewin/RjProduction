@@ -100,9 +100,9 @@ namespace RjProduction.Pages.Additions
             }));
 
             d.Add(new DeliveredStruct("Списание продукции", 0, "", () => {
-                TabelName = nameof(DocWritedowns);
+                TabelName = nameof(DocWriteDowns);
                 Refreh__TabelData();
-                GetFuncDoc = (id) => Sql.SqlRequest.ReadData<DocWritedowns>(id);
+                GetFuncDoc = (id) => Sql.SqlRequest.ReadData<DocWriteDowns>(id);
             }));
 
             MainComboBox.DisplayMemberPath = "Name";

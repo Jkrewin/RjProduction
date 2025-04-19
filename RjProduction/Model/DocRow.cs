@@ -1,4 +1,5 @@
 ﻿
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Model
 {
@@ -34,7 +35,7 @@ namespace RjProduction.Model
             Comment = string.Empty;
         }
 
-        public DocRow(IDoc doc, string grupname, string id_document)
+        public DocRow(DocElement.IDoc doc, string grupname, string id_document)
         {
             ID_Doc = id_document;
             GrupName = grupname;

@@ -1,4 +1,5 @@
 ﻿using RjProduction.Model;
+using RjProduction.Model.DocElement;
 using RjProduction.XML;
 using System.Windows;
 using System.Windows.Controls;
@@ -76,20 +77,20 @@ namespace RjProduction.Pages
                         HtmlReport.SetValue("text_sum", tv2.Amount.ToString(), ref str);
 
                         string text = "";
-                        if (tv2 is Model.Employee eml)
+                        if (tv2 is Employee eml)
                         {
                             string r = eml.Worker == false ? eml.Note : "Cдельная";
                             text = $"{eml.NameEmployee} / {eml.Payment}p. {r}";
                         }
-                        else if (tv2 is Model.MaterialObj m)
+                        else if (tv2 is MaterialObj m)
                         {
                             sum += m.CubatureAll;
                             text = $"{m.HeightMaterial}x{m.WidthMaterial}x{m.LongMaterial} кол-во: {m.Quantity} = {Math.Round(m.CubatureAll, 3)} * {m.Price}p; {m.Amount}p.";
                         }
-                        else if (tv2 is Model.Tabel_Timbers tt)
+                        else if (tv2 is Tabel_Timbers tt)
                         {
                             sum += tt.CubatureAll;
-                            text = tt.ToString();
+                            text = "н/о " + tt.ToString();
                         }
                         else text = tv2.ToString() ?? "n/a";
 

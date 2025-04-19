@@ -28,12 +28,13 @@ namespace RjProduction.Model
         /// <summary>
         /// Главная  таблица
         /// </summary>
-        public List<GrupObj> MainTabel { get; set; }
+        public List<Model.DocElement.GrupObj> MainTabel { get; set; }
 
         /// <summary>
         /// Провести документ
         /// </summary>
-        public void CarryOut();       
+        public void CarryOut();
+
     }
 
     /// <summary>

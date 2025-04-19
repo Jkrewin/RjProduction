@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using RjProduction.Model;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages
 {
@@ -54,7 +54,7 @@ namespace RjProduction.Pages
         /// Обновляет таблицу куботуры
         /// </summary>
         private void Refreh_DG_Cubs()
-        {           
+        {     
                 try
                 {
                     DG_Cubs.Items.Refresh();
@@ -152,17 +152,17 @@ namespace RjProduction.Pages
         private void НовыйЭлемент(object sender, RoutedEventArgs e)
         {
             TmpTimber = new() { Длинна = LongWood };
-
+                       
             void act()
             {
                 InpubBoxOpen("Введите Колличество бревен", () =>
                 {
                     if (int.TryParse(InputTextBox.Text, out int d))
                     {
-                        TmpTimber.Количество = d;
+                        TmpTimber.Количество += d;
                         double dd = DicCubs.Find(x => x.Diameter == TmpTimber.Диаметр).Sizes[LongWood];
                         TmpTimber.Куб_М = dd * d;
-                        _TabelTimbers.Timbers.Add(TmpTimber);
+                        if (_TabelTimbers.Timbers.Any(x=>x.Диаметр== TmpTimber.Диаметр)==false) _TabelTimbers.Timbers.Add(TmpTimber);
                         Refreh_DG_Cubs();
                     }
                     else MessageBox.Show("Неверно указано количество.");
@@ -175,10 +175,11 @@ namespace RjProduction.Pages
             {
                 if (int.TryParse(InputTextBox.Text, out int d))
                 {
-                    if (_TabelTimbers.Timbers.Find(x => x.Диаметр == d) != null)
+                    var f = _TabelTimbers.Timbers.Find(x => x.Диаметр == d);
+                    if (f != null)
                     {
-                        MessageBox.Show("Такой диаметор бревна уже в списке");
-                        return;
+                        // нужно добавить в общему количеству бревен 
+                        TmpTimber = f;
                     }
                     if (DicCubs.Any(x => x.Diameter == d))
                     {

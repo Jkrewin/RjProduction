@@ -20,7 +20,7 @@ namespace RjProduction.Sql
         /// <summary>
         /// Локальное размещение папки для базы данных
         /// </summary>
-        public string LocalDir { get; set; } = AppContext.BaseDirectory + "Data\\";
+        public string LocalDir { get; set; } = Path.Combine(AppContext.BaseDirectory, "Data");
         /// <summary>
         /// База данных по умолчанию
         /// </summary>
@@ -28,82 +28,71 @@ namespace RjProduction.Sql
         /// <summary>
         /// Есть коннект или нет
         /// </summary>
-        public bool ConnectIs => SQLite.State == System.Data.ConnectionState.Open;
+        public bool ConnectIs => SQLite.State == ConnectionState.Open;
         // <summary>
         /// Строка последнего запроса для поиска ошибок
         /// </summary>
         public string SqlLogString { get; set; } = string.Empty;
 
-
         public string QuotSql(string str) => $"[{str}]";
 
         public void Transaction(TypeTransaction transaction)
         {
-            if (transaction == TypeTransaction.commit) SqlTransaction!.Commit();
-            else if (transaction == TypeTransaction.roolback) SqlTransaction!.Rollback();
+            if (transaction == TypeTransaction.commit) SqlTransaction?.Commit();
+            else if (transaction == TypeTransaction.roolback) SqlTransaction?.Rollback();
         }
 
         public ISqlProfile.FieldSql[] GetFieldSql(string where, string TabelName)
         {
-
-            List<FieldSql> ls = [];
+            List<FieldSql> ls = new();
             SqlLogString = $"SELECT * FROM [{TabelName}] WHERE {where} LIMIT 1";
-            SQLiteCommand command = new(SqlLogString, SQLite);
+            using SQLiteCommand command = new(SqlLogString, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
-            SQLiteDataReader sqReader = command.ExecuteReader();
+            using SQLiteDataReader sqReader = command.ExecuteReader();
             if (sqReader.HasRows)
             {
-                using (sqReader)
+                sqReader.Read();
+                for (int i = 0; i < sqReader.FieldCount; i++)
                 {
-                    sqReader.Read();
-                    for (int i = 0; i < sqReader.FieldCount; i++)
-                    {
-                        ls.Add(new ISqlProfile.FieldSql(sqReader.GetName(i), sqReader.GetFieldType(i).Name, sqReader.GetValue(i).ToString() ?? string.Empty));
-                    }
+                    ls.Add(new ISqlProfile.FieldSql(sqReader.GetName(i), sqReader.GetFieldType(i).Name, sqReader.GetValue(i).ToString() ?? string.Empty));
                 }
             }
-            return [.. ls];
+            return ls.ToArray();
         }
+
         public ISqlProfile.FieldSql[] GetFieldSql(long ID, string TabelName)
         {
             return GetFieldSql($"ID = {ID}", TabelName);
         }
+
         public List<FieldSql[]> GetFieldSql(string where, string tabelName, string select = "*")
         {
-            List<FieldSql[]> ls = [];
+            List<FieldSql[]> ls = new();
             SqlLogString = $"SELECT {select} FROM [{tabelName}] WHERE {where}";
-            SQLiteCommand command = new(SqlLogString, SQLite);
+            using SQLiteCommand command = new(SqlLogString, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
-            using (SQLiteDataReader sqReader = command.ExecuteReader())
+            using SQLiteDataReader sqReader = command.ExecuteReader();
+            while (sqReader.Read())
             {
-                while (sqReader.Read())
+                FieldSql[] obj = new FieldSql[sqReader.FieldCount];
+                for (int i = sqReader.FieldCount - 1; i >= 0; i--)
                 {
-                    FieldSql[] obj = new FieldSql[sqReader.FieldCount];
-                    for (global::System.Int32 i = sqReader.FieldCount - 1; i >= 0; i--)
-                    {
-                        obj[i] = new ISqlProfile.FieldSql(sqReader.GetName(i), sqReader.GetFieldType(i).Name, sqReader.GetValue(i).ToString() ?? string.Empty);
-                    }
-                    ls.Add(obj);
+                    obj[i] = new ISqlProfile.FieldSql(sqReader.GetName(i), sqReader.GetFieldType(i).Name, sqReader.GetValue(i).ToString() ?? string.Empty);
                 }
+                ls.Add(obj);
             }
             return ls;
         }
 
-
         public bool ExistTabel(string tabelName)
         {
-            bool d;
-            if (ConnectIs == false) throw new Exception("Не выполнено подключение к бд");
-            SqlLogString = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tabelName + "'";
-            SQLiteCommand command = new(SqlLogString, SQLite);
-            using (SQLiteDataReader sqReader = command.ExecuteReader())
-            {
-                sqReader.Read();
-                d = sqReader.HasRows;
-                sqReader.Close();
-            }
-            return d;
+            if (!ConnectIs) throw new Exception("Не выполнено подключение к бд");
+            SqlLogString = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tabelName}'";
+            using SQLiteCommand command = new(SqlLogString, SQLite);
+            using SQLiteDataReader sqReader = command.ExecuteReader();
+            return sqReader.Read() && sqReader.HasRows;
         }
+
         public string TypeSQL(string info) => info switch
         {
             "Decimal" => "TEXT",
@@ -117,27 +106,19 @@ namespace RjProduction.Sql
             "KEY_ID" => "INTEGER primary key AUTOINCREMENT",
             _ => "TEXT"
         };
+
         public long SqlCommand(string sql)
         {
-            SQLiteCommand command = SQLite.CreateCommand();
+            using SQLiteCommand command = SQLite.CreateCommand();
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
-            command.CommandText = sql + "; SELECT last_insert_rowid();";
-            SqlLogString = "SqlCommand:" + DateTime.Now.ToString() + " " + sql;
+            command.CommandText = $"{sql}; SELECT last_insert_rowid();";
+            SqlLogString = $"SqlCommand: {DateTime.Now} {sql}";
             return (long)command.ExecuteScalar();
         }
 
         public object? AdapterSql(string tabelName, string nameField, string where = "")
         {
-            string pol;
-            if (where != "")
-            {
-                pol = $"SELECT {nameField} FROM [{tabelName}] WHERE " + where + " LIMIT 1";
-            }
-            else
-            {
-                pol = $"SELECT {nameField} FROM [{tabelName}]" + " LIMIT 1";
-            }
-
+            string pol = where != "" ? $"SELECT {nameField} FROM [{tabelName}] WHERE {where} LIMIT 1" : $"SELECT {nameField} FROM [{tabelName}] LIMIT 1";
             SqlLogString = pol;
             using SQLiteCommand command = new(pol, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
@@ -147,44 +128,34 @@ namespace RjProduction.Sql
         public List<object[]> AdapterSql(string tabelName, out long id, string where = "")
         {
             id = -1;
-            string pol;
-            if (where != "")
-            {
-                pol = $"SELECT * FROM [{tabelName}] WHERE " + where;
-            }
-            else
-            {
-                pol = $"SELECT * FROM [{tabelName}]";
-            }
+            string pol = where != "" ? $"SELECT * FROM [{tabelName}] WHERE {where}" : $"SELECT * FROM [{tabelName}]";
             SqlLogString = pol;
-            List<object[]> ls = [];
-            SQLiteCommand command = new(pol, SQLite);
+            List<object[]> ls = new();
+            using SQLiteCommand command = new(pol, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
-            using (SQLiteDataReader sqReader = command.ExecuteReader())
+            using SQLiteDataReader sqReader = command.ExecuteReader();
+            while (sqReader.Read())
             {
-                while (sqReader.Read())
+                object[] obj = new object[sqReader.FieldCount];
+                for (int i = sqReader.FieldCount - 1; i >= 0; i--)
                 {
-                    object[] obj = new object[sqReader.FieldCount];
-                    for (global::System.Int32 i = sqReader.FieldCount - 1; i >= 0; i--)
-                    {
-                        if (sqReader.GetName(i) == "ID") id = (long)sqReader.GetValue(i);
-                        obj[i] = sqReader.GetValue(i);
-                    }
-                    ls.Add(obj);
+                    if (sqReader.GetName(i) == "ID") id = (long)sqReader.GetValue(i);
+                    obj[i] = sqReader.GetValue(i);
                 }
+                ls.Add(obj);
             }
             return ls;
         }
+
         public DataTable GetDataTable(string tabelName, string select_sql = "*", string where_sql = "")
         {
             DataTable dataTable = new();
             try
             {
-                SQLiteCommand cmd = SQLite.CreateCommand();
+                using SQLiteCommand cmd = SQLite.CreateCommand();
                 if (where_sql != "") where_sql = " WHERE " + where_sql;
                 cmd.CommandText = $"SELECT {select_sql} FROM {tabelName}{where_sql}";
                 SqlLogString = cmd.CommandText;
-
                 using SQLiteDataAdapter dataAdapter = new(cmd.CommandText, SQLite);
                 dataAdapter.Fill(dataTable);
             }
@@ -200,13 +171,14 @@ namespace RjProduction.Sql
             SqlTransaction?.Dispose();
             SQLite.Close();
         }
+
         public void Conection(bool startTransaction = false)
         {
-            string sFile = LocalDir + DataBaseFile + ".db";
-            SQLiteConnectionStringBuilder stringBuilder = new() { DataSource = sFile + "" };
+            string sFile = Path.Combine(LocalDir, $"{DataBaseFile}.db");
+            SQLiteConnectionStringBuilder stringBuilder = new() { DataSource = sFile };
             SQLite.ConnectionString = stringBuilder.ToString();
 
-            if (File.Exists(sFile) == false)
+            if (!File.Exists(sFile))
             {
                 MessageBox.Show("Необходимо перезапусить профиль подключения. Так как путь к базе данных не найден.");
                 MDL.LogError("БД не не найдена.", "Указанный путь " + sFile);
@@ -215,15 +187,13 @@ namespace RjProduction.Sql
             try
             {
                 SQLite.Open();
-                if (startTransaction) SqlTransaction = SQLite.BeginTransaction();
-                else SqlTransaction = null;
+                SqlTransaction = startTransaction ? SQLite.BeginTransaction() : null;
             }
             catch
             {
                 throw;
             }
         }
-
 
 #pragma warning disable CA1816
         public void Dispose()
@@ -235,10 +205,10 @@ namespace RjProduction.Sql
 
         public void Delete(string tabelName, string where)
         {
-            SQLiteCommand command = SQLite.CreateCommand();
+            using SQLiteCommand command = SQLite.CreateCommand();
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             command.CommandText = $"DELETE FROM [{tabelName}] WHERE {where}";
-            SqlLogString = "SqlCommand:" + DateTime.Now.ToString() + " " + command.CommandText;
+            SqlLogString = $"SqlCommand: {DateTime.Now} {command.CommandText}";
             command.ExecuteNonQuery();
         }
     }

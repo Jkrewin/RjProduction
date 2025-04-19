@@ -1,4 +1,5 @@
-﻿using RjProduction.WpfFrm;
+﻿using RjProduction.Fgis.XML;
+using RjProduction.WpfFrm;
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,12 +15,12 @@ namespace RjProduction.Fgis.WPF
         private const string Optional_Color = "#FF999999";
 
         private readonly KindTypes _kindTypes;
-        private Action<object> _action;
+        private readonly Action<object> _action;
         private readonly object _cl;
         private readonly Dictionary<string, DeliveredStruct> _Dic = [];
 
 
-        public DialogWindow(object cl, Action<object> action, KindTypes kindTypes )
+        public DialogWindow(object cl, Action<object> action, KindTypes kindTypes)
         {
             InitializeComponent();
             _cl = cl;
@@ -33,14 +34,19 @@ namespace RjProduction.Fgis.WPF
             Label_Title.Content = _cl.GetType().Name;
             foreach (var m in _cl.GetType().GetCustomAttributes(false))
             {
-                if (m is Mod mod )
+                if (m is Mod mod)
                 {
-                    Label_Title.Content =mod.Comment;
+                    Label_Title.Content = mod.Comment;
                 }
             }
 
             Grid obj_ui = (Grid)this.FindName("Grind_End");
             MainPanel.Children.Clear();
+
+            if (_cl is forestUsageReport.IDefault def)
+            {
+                def.Default(_kindTypes);
+            }
 
             foreach (var item in _cl.GetType().GetProperties())
             {
@@ -50,7 +56,7 @@ namespace RjProduction.Fgis.WPF
                 if (mod is not null)
                 {
                     DeliveredStruct dl = new("", 0, "");
-                    string s = string.Empty;
+                    string s;
                     switch (mod.Format)
                     {
                         case Mod.FormatEnum.Email:
@@ -74,22 +80,27 @@ namespace RjProduction.Fgis.WPF
                             break;
                         case Mod.FormatEnum.Cadastr:
 
-                            dl = new DeliveredStruct(s, 0, s, s);
+                            dl = new DeliveredStruct("rflfcnh", 0, "изменить", "0");
                             break;
                         case Mod.FormatEnum.List:
-                            object? open_obj_cl = Activator.CreateInstance(item.PropertyType);
-                            if (open_obj_cl is not null)
+                            if (value is not null)
                             {
-                                AddList(mod, item.Name, open_obj_cl);
-                                dl = new DeliveredStruct(s, 0, s, open_obj_cl);
+                                AddList(mod, item.Name, value);
+                                dl = new DeliveredStruct("list", 0, "список", value);
+                                break;
                             }
-                            break;
+                            else throw new Exception("open_obj_cl пустой элемент ");
                         case Mod.FormatEnum.winClass:
-                            object? open_obj = Activator.CreateInstance(item.PropertyType);
-                            if (open_obj is not null)
+                            if (value is not null)
                             {
+                                AddOpenClass(mod, item.Name, value);
+                                dl = new DeliveredStruct("class", 0, "тип", value);
+                            }
+                            else
+                            {
+                                object? open_obj = Activator.CreateInstance(item.PropertyType) ?? throw new Exception("Невозможно создать значение");
                                 AddOpenClass(mod, item.Name, open_obj);
-                                dl = new DeliveredStruct(s, 0, s, open_obj);
+                                dl = new DeliveredStruct("class", 0, "тип", open_obj);
                             }
                             break;
                         case Mod.FormatEnum.dictionary:
@@ -108,7 +119,8 @@ namespace RjProduction.Fgis.WPF
         private bool FullClass(object cl)
         {
             bool error = true;
-            void col(Brush brush, string name) {
+            void col(Brush brush, string name)
+            {
                 foreach (Grid g in MainPanel.Children)
                 {
                     foreach (var ff in g.Children)
@@ -132,18 +144,18 @@ namespace RjProduction.Fgis.WPF
                 if (mod is not null)
                 {
                     if (mod.Format == Mod.FormatEnum.Hide) continue;
-                    if (_Dic.ContainsKey(item.Name))
-                    {                       
-                            if (Mod.CheckRule(_Dic[item.Name], mod))
-                            {
-                                item.SetValue(cl, _Dic[item.Name].Obj);
-                                col(MDL.BrushConv("#FFFFFAF0")!, item.Name);
-                            }
-                            else
-                            {
-                                error = false;
-                                col(Brushes.MistyRose, item.Name);
-                            }                        
+                    if (_Dic.TryGetValue(item.Name, out DeliveredStruct value))
+                    {
+                        if (Mod.CheckRule(value, mod))
+                        {
+                            item.SetValue(cl, value.Obj);
+                            col(MDL.BrushConv("#FFFFFAF0")!, item.Name);
+                        }
+                        else
+                        {
+                            error = false;
+                            col(Brushes.MistyRose, item.Name);
+                        }
                     }
                 }
             }
@@ -162,7 +174,8 @@ namespace RjProduction.Fgis.WPF
         private void AddList(Mod m, string nameObj, object obj)
         {
             Height += 127;
-            Grid grid = new ()
+
+            Grid grid = new()
             {
                 Height = 127,
                 Background = Brushes.White,
@@ -177,7 +190,7 @@ namespace RjProduction.Fgis.WPF
                 FontFamily = new("Microsoft Sans Serif"),
                 Background = Brushes.FloralWhite,
                 Height = 22,
-                Padding =new( 5,3,5,5),
+                Padding = new(5, 3, 5, 5),
                 Width = 800,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center
@@ -191,7 +204,7 @@ namespace RjProduction.Fgis.WPF
                 FontFamily = new("Arial"),
                 FontSize = 14,
                 Background = ColorSet(m.MType),
-                Margin = new(120,23,0,0),
+                Margin = new(120, 23, 0, 0),
                 Height = 104,
                 Width = 10
             };
@@ -203,14 +216,14 @@ namespace RjProduction.Fgis.WPF
                 Width = 670,
                 FontFamily = new("Arial"),
                 Height = 104,
-                Tag= obj
+                Tag = obj
             };
 
             Button buttonA = new()
             {
                 Content = "Добавить",
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new(35,27,0,0),
+                Margin = new(35, 27, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 Width = 80,
                 Background = MDL.BrushConv("#FFDFFDF5"),
@@ -223,13 +236,23 @@ namespace RjProduction.Fgis.WPF
             {
                 Content = "Удалить",
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new(35,56,0,0),
+                Margin = new(35, 56, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 Width = 80,
-                Background =MDL.BrushConv( "#FFFDE9DF"),
-                BorderBrush  = MDL.BrushConv("#FF71012B"),
+                Background = MDL.BrushConv("#FFFDE9DF"),
+                BorderBrush = MDL.BrushConv("#FF71012B"),
                 Height = 24,
                 Foreground = MDL.BrushConv("#FF71012B")
+            };
+
+            lbox.ItemsSource = (IList)obj;
+
+            buttonB.Click += (object sender, RoutedEventArgs e) =>
+            {
+                if (lbox.SelectedIndex == -1) return;
+                IList ls = (IList)_Dic[nameObj].Obj!;
+                ls.RemoveAt(lbox.SelectedIndex);
+                lbox.Items.Refresh();
             };
 
             buttonA.Click += (object sender, RoutedEventArgs e) =>
@@ -238,9 +261,9 @@ namespace RjProduction.Fgis.WPF
                 if (o == null) return;
                 var wpf = new DialogWindow(o, (cl) =>
                 {
-                    IList ls = (IList)lbox.Tag;
+                    IList ls = (IList)_Dic[nameObj].Obj!;
                     ls.Add(cl);
-                    lbox.Items.Add(cl.ToString());
+                    lbox.Items.Refresh();
                 }, _kindTypes);
                 wpf.ShowDialog();
             };
@@ -252,8 +275,8 @@ namespace RjProduction.Fgis.WPF
             grid.Children.Add(buttonB);
 
             MainPanel.Children.Add(grid);
+
         }
-               
         private void AddOpenClass(Mod m, string nameObj, object obj)
         {
             Grid grid = new()
@@ -298,7 +321,6 @@ namespace RjProduction.Fgis.WPF
 
             Button button = new()
             {
-                Tag = obj,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = new(439, 0, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
@@ -311,20 +333,19 @@ namespace RjProduction.Fgis.WPF
                 VerticalContentAlignment = VerticalAlignment.Center,
                 Foreground = MDL.BrushConv("#FF000D70"),
                 Background = Brushes.White,
-                Content = "<Пусто>"
+                Content = obj is null ? "<Пусто>" : obj.ToString() ?? ""
             };
 
-           
             void _set(object ob)
             {
                 string s = ob.ToString() ?? "";
                 button.Content = s;
-                _Dic[nameObj] = new DeliveredStruct(s,0, s,obj);
+                _Dic[nameObj] = new DeliveredStruct(s, 0, s, obj!);
             }
 
             button.Click += (object sender, RoutedEventArgs e) =>
             {
-                var wpf = new DialogWindow(obj, _set, _kindTypes);
+                var wpf = new DialogWindow(obj!, _set, _kindTypes);
                 wpf.ShowDialog();
             };
 
@@ -335,7 +356,6 @@ namespace RjProduction.Fgis.WPF
 
             MainPanel.Children.Add(grid);
         }
-
         private void AddButton(Mod m, string nameObj, Fgis.KindTypes.TypesEnum types, string text)
         {
             const double WP = 176; // размер раскрытого окна
@@ -466,7 +486,7 @@ namespace RjProduction.Fgis.WPF
                     _Dic[nameObj] = delivered;
 
                     //Act_abbreviation
-                    var  m = _cl.GetType().GetMethod("Act_abbreviation");
+                    var m = _cl.GetType().GetMethod("Act_abbreviation");
                     m?.Invoke(_cl, [delivered]);
                 }
             };
@@ -481,7 +501,6 @@ namespace RjProduction.Fgis.WPF
 
             MainPanel.Children.Add(grid);
         }
-
         private void AddIntsBox(Mod m, string nameObj, string text)
         {
             Grid grid = new()
@@ -546,7 +565,7 @@ namespace RjProduction.Fgis.WPF
             textBox.LostFocus += (object sender, RoutedEventArgs e) =>
             {
                 string s = ((TextBox)sender).Text;
-                _Dic[nameObj] = new DeliveredStruct(s,0,s,s);
+                _Dic[nameObj] = new DeliveredStruct(s, 0, s, s);
             };
 
             grid.Children.Add(labelA);
@@ -556,7 +575,6 @@ namespace RjProduction.Fgis.WPF
 
             MainPanel.Children.Add(grid);
         }
-
         private void AddTextBox(Mod m, string nameObj, string text)
         {
             Grid grid = new()
@@ -620,7 +638,7 @@ namespace RjProduction.Fgis.WPF
             textBox.LostFocus += (object sender, RoutedEventArgs e) =>
             {
                 string s = ((TextBox)sender).Text;
-                _Dic[nameObj] = new DeliveredStruct(s, 0, s, s); 
+                _Dic[nameObj] = new DeliveredStruct(s, 0, s, s);
             };
 
             grid.Children.Add(labelA);
@@ -630,7 +648,6 @@ namespace RjProduction.Fgis.WPF
 
             MainPanel.Children.Add(grid);
         }
-
         private void AddDateBox(Mod m, string nameObj, string text)
         {
             Grid grid = new()
@@ -697,7 +714,7 @@ namespace RjProduction.Fgis.WPF
             {
                 var t = ((DatePicker)picker).SelectedDate;
                 var s = t!.Value.ToString("yyyy-MM-dd");
-                if (t != null) _Dic[nameObj] = new DeliveredStruct(s, 0, s, s); 
+                if (t != null) _Dic[nameObj] = new DeliveredStruct(s, 0, s, s);
             };
 
             grid.Children.Add(labelA);
@@ -708,7 +725,7 @@ namespace RjProduction.Fgis.WPF
             MainPanel.Children.Add(grid);
         }
 
-        private void Закрыть_документ(object sender, RoutedEventArgs e)=> Close();
+        private void Закрыть_документ(object sender, RoutedEventArgs e) => Close();
 
         private void ПринятьИзменения(object sender, RoutedEventArgs e)
         {

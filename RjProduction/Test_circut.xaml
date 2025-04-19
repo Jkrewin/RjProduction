@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RjProduction"
         mc:Ignorable="d"
-        Title="Test_circut" Height="450" Width="800">
+        Title="Test_circut" Height="554" Width="800">
     <Grid>
         <Button Content="Lock" HorizontalAlignment="Left" Margin="139,76,0,0" VerticalAlignment="Top" Width="165" Height="58" Click="ТестА"/>
         <Button Content="Test" HorizontalAlignment="Left" Margin="139,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестБ"/>
@@ -55,5 +55,52 @@
         </ToolBar>
         <Button Content="Test" HorizontalAlignment="Left" Margin="139,0,0,0" VerticalAlignment="Center" Width="165" Height="58" Click="ТестБ"/>
 
+
+
+        <Grid>
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.2"/>
+            </Grid.Background>
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Height="5" Fill="#FFF6CD0B" Stroke="#FFF6CA00"/>
+                <StackPanel Orientation="Horizontal" Height="32" Background="#FFF6CA00" >
+                    <Button Margin="10,0,0,0" Width="24" FontFamily="Segoe MDL2 Assets" Content="&#xE160;" Height="24" BorderBrush="#FF806200">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFC69E06" Opacity="0.2"/>
+                        </Button.Background>
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Margin="10,0,0,0" Width="24" Height="24" Content="&#xE1C2;" FontFamily="Segoe MDL2 Assets">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFC69E06" Opacity="0.2"/>
+                        </Button.Background>
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Margin="10,0,0,0" Width="24" FontFamily="Segoe MDL2 Assets" Content="&#xE107;" Height="24">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFC69E06" Opacity="0.2"/>
+                        </Button.Background>
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <TextBox TextWrapping="Wrap" Text="поиск" Width="207" Height="18" Margin="10,0,0,0" Background="#FFE1DEAF" Foreground="#FF864700" BorderBrush="#FF4F4F4F"/>
+                </StackPanel>
+                <Rectangle Height="5" Fill="#FFF6CA00" Stroke="#FFF6CA00"/>
+                <ListBox Width="350" Height="400" Background="White" BorderBrush="#FF756000" Foreground="#FF00175C"></ListBox>
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </Window>

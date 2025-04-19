@@ -1,6 +1,7 @@
 ﻿using RjProduction.Model;
 using RjProduction.Sql;
 using System.Windows;
+using RjProduction.Model.DocElement;
 
 namespace RjProduction.XML
 {

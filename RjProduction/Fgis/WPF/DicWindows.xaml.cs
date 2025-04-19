@@ -1,4 +1,6 @@
-﻿using RjProduction.WpfFrm;
+﻿using RjProduction.Model.Catalog;
+using RjProduction.Model.DocElement;
+using RjProduction.WpfFrm;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,9 +12,11 @@ namespace RjProduction.Fgis.WPF
     public partial class DicWindows : Window
     {
         private DeliveredStruct[] _dl;
-        private Action<DeliveredStruct> _action;
+        private readonly Action<DeliveredStruct> _action;
         private TypeElementFgis _TypeElementFgis = TypeElementFgis.none;
-        private KindTypes _kind;
+        private readonly KindTypes _kind;
+        private MDL.Reference.Catalog<Model.Catalog.Company> Catalog_Company;
+
 
         public enum TypeElementFgis
         {
@@ -40,19 +44,21 @@ namespace RjProduction.Fgis.WPF
         }
 
         private void Refreh(TypeElementFgis fgis) {
+            if (Catalog_Company.ListCatalog is null) Catalog_Company = new MDL.Reference.Catalog < Model.Catalog.Company > ();
+
             switch (fgis)
             {
                 case TypeElementFgis.Contract:
                     _TypeElementFgis = TypeElementFgis.Contract;
-                    _dl = (from tv in MDL.MyDataBase.Contracts where tv.FgisElement is not null select new DeliveredStruct("Договор №"+tv.FgisElement!.number.ToString() + " от " + tv.FgisElement.date.ToString(), Convert.ToInt32(tv.ID), tv.FgisElement.registrationNumber, tv)).ToArray();
+                    _dl = [.. (from tv in MDL.MyDataBase.Contracts where tv.FgisElement is not null select new DeliveredStruct("Договор №" + tv.FgisElement!.number.ToString() + " от " + tv.FgisElement.date.ToString(), Convert.ToInt32(tv.ID), tv.FgisElement.registrationNumber, tv))];
                     break;
                 case TypeElementFgis.Company:
                     _TypeElementFgis = TypeElementFgis.Company;
-                    _dl = (from tv in MDL.MyDataBase.Companies let w= tv.ToTypeiiOrganizationType  select new DeliveredStruct(w.nameFull + " инн:" + w.inn, Convert.ToInt32(tv.ID), w.nameFull, tv)).ToArray();
+                    _dl = [.. (from tv in Catalog_Company.ListCatalog let w= tv.ToTypeiiOrganizationType  select new DeliveredStruct(w.nameFull + " инн:" + w.inn, Convert.ToInt32(tv.ID), w.nameFull, tv))];
                     break;
                 case TypeElementFgis.Employee:
                     _TypeElementFgis = TypeElementFgis.Employee;
-                    _dl = (from tv in MDL.MyDataBase.EmployeeDic where string.IsNullOrEmpty(tv.Name_first) ==false & string.IsNullOrEmpty(tv.Name_last) == false select new DeliveredStruct(tv.NameEmployee, 0, tv.ToString(), tv)).ToArray();
+                    _dl = [.. (from tv in MDL.MyDataBase.EmployeeDic where string.IsNullOrEmpty(tv.Name_first) ==false & string.IsNullOrEmpty(tv.Name_last) == false select new DeliveredStruct(tv.NameEmployee, 0, tv.ToString(), tv))];
                     break;
                 default:
                     _dl = [];
@@ -69,7 +75,7 @@ namespace RjProduction.Fgis.WPF
                 case TypeElementFgis.Contract:
                     var w = new DialogWindow(new Fgis.XML.forestUsageReport.headerClass.ContractType(), (ob) =>
                     {
-                        var c = new Model.Contract();
+                        var c = new Contract();
                         c.FgisElement = (XML.forestUsageReport.headerClass.ContractType?)ob;
                         MDL.MyDataBase.Contracts.Add(c);
                         Refreh(_TypeElementFgis);
@@ -78,10 +84,11 @@ namespace RjProduction.Fgis.WPF
                     w.ShowDialog();
                     break;
                 case TypeElementFgis.Company:
-                    var cc = new DialogWindow(new TypeiiOrganizationType(), (ob) => {
-                        var c = new Model.Company();
-                        c.ToTypeiiOrganizationType = (TypeiiOrganizationType)ob;
-                        MDL.MyDataBase.Companies.Add(c);
+                    var cc = new DialogWindow(new TypeiiOrganizationType(), (ob) =>
+                    {
+                        var c = new Company { ToTypeiiOrganizationType = (TypeiiOrganizationType)ob };
+                        Catalog_Company.ListCatalog.Add(c);
+                        Catalog_Company.SaveData();
                         Refreh(_TypeElementFgis);
                         MainList.Items.Refresh();
                     }, _kind);
@@ -89,7 +96,7 @@ namespace RjProduction.Fgis.WPF
                     break;
                 case TypeElementFgis.Employee:
                     var em = new DialogWindow(new PersonNameType(), (ob) => {
-                        var c = new Model.Employee();
+                        var c = new Employee();
                         PersonNameType person = (PersonNameType)ob; 
                         c.CreateFullName(person.last, person.first, person.middle);
                         MDL.MyDataBase.EmployeeDic.Add(c);
@@ -103,7 +110,7 @@ namespace RjProduction.Fgis.WPF
                 default:
                     break;
             }
-           MDL.MyDataBase.SaveDB();
+            MDL.Reference.SaveDB();
         }
 
         private void Удалить(object sender, RoutedEventArgs e)
@@ -115,7 +122,8 @@ namespace RjProduction.Fgis.WPF
                         MDL.MyDataBase.Contracts.RemoveAt(MainList.SelectedIndex);                       
                     break;
                 case TypeElementFgis.Company:
-                    MDL.MyDataBase.Companies.RemoveAt(MainList.SelectedIndex);
+                    Catalog_Company.ListCatalog.RemoveAt(MainList.SelectedIndex);
+                    Catalog_Company.SaveData();
                     break;
                 case TypeElementFgis.Employee:
                     MDL.MyDataBase.EmployeeDic.RemoveAt(MainList.SelectedIndex);
@@ -141,7 +149,7 @@ namespace RjProduction.Fgis.WPF
                 case TypeElementFgis.Contract:
                     var w = new DialogWindow(new Fgis.XML.forestUsageReport.headerClass.ContractType(), (ob) =>
                     {
-                        var c = new Model.Contract();
+                        var c = new Contract();
                         c.FgisElement = (XML.forestUsageReport.headerClass.ContractType?)ob;
                         MDL.MyDataBase.Contracts.Add(c);
                         Refreh(_TypeElementFgis);
@@ -150,8 +158,8 @@ namespace RjProduction.Fgis.WPF
                     w.ShowDialog();
                     break;
                 case TypeElementFgis.Company:
-                    var cc = new DialogWindow(((Model.Company)obj).ToTypeiiOrganizationType, (ob) => {
-                        ((Model.Company)obj).ToTypeiiOrganizationType = (TypeiiOrganizationType)ob;
+                    var cc = new DialogWindow(((Company)obj).ToTypeiiOrganizationType, (ob) => {
+                        ((Company)obj).ToTypeiiOrganizationType = (TypeiiOrganizationType)ob;
                         
                         Refreh(_TypeElementFgis);
                         MainList.Items.Refresh();
@@ -159,7 +167,7 @@ namespace RjProduction.Fgis.WPF
                     cc.ShowDialog();
                     break;
                 case TypeElementFgis.Employee:
-                    Model.Employee empl = (Model.Employee)obj;
+                    Employee empl = (Employee)obj;
                     var p = new PersonNameType()
                     {
                         last = empl.Name_last,
@@ -197,7 +205,7 @@ namespace RjProduction.Fgis.WPF
         private void ИзменениеТекста(object sender, TextChangedEventArgs e)
         {
             string str = ((TextBox)sender).Text;
-            MainList.ItemsSource = _dl.ToList().FindAll(x => x.Name.IndexOf(str, StringComparison.OrdinalIgnoreCase) != -1);
+            MainList.ItemsSource = _dl.ToList().FindAll(x => x.Name.Contains(str, StringComparison.OrdinalIgnoreCase));
             MainList.Items.Refresh();
         }
 

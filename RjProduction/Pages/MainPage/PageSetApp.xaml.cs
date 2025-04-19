@@ -75,9 +75,12 @@ namespace RjProduction.Pages
                 Grind_msSql.Background = MDL.BrushConv(SELECT_FORM);
             }
 
+            if (MDL.MyDataBase.CompanyOwn is not null) TBox_Company.Text = MDL.MyDataBase.CompanyOwn.ShortName;
+
             // sqlite
             Tbox_Filename.Text = MDL.SetApp.DataBaseFile;
             Label_local_base.Content = MDL.SetApp.LocalDir;
+
 
           
         }
@@ -143,6 +146,30 @@ namespace RjProduction.Pages
         private void Создать_профиль_msSql(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void СортировкаРазмеров(object sender, RoutedEventArgs e)
+        {
+            if (first_start)
+            {
+                if (sender is RadioButton radio)
+                {
+                    MDL.SetApp.SortSizeWood = radio.IsChecked != false;
+                    MDL.SaveSettingApp();
+                }
+            }
+        }
+
+        private void ВыборКомпании(object sender, RoutedEventArgs e)
+        {
+            Pages.ToolList <Model.Catalog.Company> toolList = new(StartGrid, (obj) =>
+            {
+                if (obj is Model.Catalog.Company comp)
+                {
+                    TBox_Company.Text = comp.ShortName;
+                    MDL.MyDataBase.CompanyOwn = comp;
+                }
+            });
         }
     }
 }

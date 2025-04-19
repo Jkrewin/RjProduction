@@ -1,4 +1,5 @@
-﻿using RjProduction.Sql;
+﻿using RjProduction.Model.Catalog;
+using RjProduction.Sql;
 using System.Data;
 using System.Windows;
 using System.Xml.Serialization;
@@ -13,19 +14,22 @@ namespace RjProduction.Model
         private string _SyncData = "";
         private string _NameWarehouse = "Новый склад";
         private string _DescriptionWarehouse = string.Empty;
-        private string _AddressWarehouse = string.Empty;
+        private AddresStruct _InfoWarehouse = new ();
 
         private static string GetDate() => DateTime.Now.TimeOfDay.ToString();
 
         public string NameWarehouse { get => _NameWarehouse; set { _NameWarehouse = value; _SyncData = GetDate(); } }
         public string DescriptionWarehouse { get => _DescriptionWarehouse; set { _DescriptionWarehouse = value; SyncData = GetDate(); } }
-        public string AddressWarehouse { get => _AddressWarehouse; set { _AddressWarehouse = value; SyncData = GetDate(); } }
+        [SqlIgnore]public AddresStruct InfoWarehouse { get => _InfoWarehouse; set { _InfoWarehouse = value; SyncData = GetDate(); } }
         /// <summary>
         /// Синхронизирует справочники если были изменения с общей БД, так как локально могут храниться эта инфа
         /// </summary>
         public string SyncData { get => _SyncData; set => _SyncData = value; }
         [SqlIgnore, XmlElement] public long ID_XML { get => IDField; set { IDField = value; } }
 
+        public string AddressWarehouse { get => _InfoWarehouse.Address; set => _InfoWarehouse.Address = value; }
+        public string EMailWarehouse { get => _InfoWarehouse.Email; set => _InfoWarehouse.Email = value; }
+        public string PhoneWarehouse { get => _InfoWarehouse.Phone; set => _InfoWarehouse.Phone = value; }
 
         public WarehouseClass() { }
 
@@ -33,8 +37,10 @@ namespace RjProduction.Model
             FullSet(dataRow);
             if (dataRow[nameof(NameWarehouse)] is string s) _NameWarehouse = s;
             if (dataRow[nameof(DescriptionWarehouse)] is string s1) _DescriptionWarehouse = s1;
-            if (dataRow[nameof(AddressWarehouse)] is string s2) _AddressWarehouse = s2;
+            if (dataRow[nameof(AddressWarehouse)] is string s2) AddressWarehouse =  s2;            
             if (dataRow[nameof(SyncData)] is string s3) _SyncData = s3;
+            if (dataRow[nameof(EMailWarehouse)] is string s4) EMailWarehouse = s4;
+            if (dataRow[nameof(PhoneWarehouse)] is string s5) PhoneWarehouse = s5;
         }
 
         /// <summary>
