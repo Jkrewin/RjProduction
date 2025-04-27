@@ -319,8 +319,8 @@ namespace RjProduction
         private void СмотретьОстаткиСклада(object sender, RoutedEventArgs e)
         {
             SelectButton((Button)sender);
-            FrameDisplay.Navigate(new Pages.PageRemains());
-
+            // FrameDisplay.Navigate(new Pages.PageRemains());
+            FrameDisplay.Navigate(new Pages.Additions.PageRemProduct());
         }
 
         private void ПереходПроизводство2(object sender, RoutedEventArgs e)

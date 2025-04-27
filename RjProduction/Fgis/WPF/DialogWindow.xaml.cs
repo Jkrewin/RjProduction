@@ -705,15 +705,12 @@ namespace RjProduction.Fgis.WPF
                 BorderBrush = MDL.BrushConv("#FF999999")
             };
 
-            if (DateTime.TryParse(text, out DateTime date))
-            {
-                picker.SelectedDate = date;
-            }
+            if (DateTime.TryParse(text, out DateTime date)) picker.SelectedDate = date;
 
             picker.LostFocus += (object sender, RoutedEventArgs e) =>
             {
-                var t = ((DatePicker)picker).SelectedDate;
-                var s = t!.Value.ToString("yyyy-MM-dd");
+                DateTime? t = ((DatePicker)picker).SelectedDate ?? DateTime.Now;
+                var s = t.Value.ToString("yyyy-MM-dd");
                 if (t != null) _Dic[nameObj] = new DeliveredStruct(s, 0, s, s);
             };
 

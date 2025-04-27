@@ -4,9 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RjProduction.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="PageRemains" Loaded="Загруженно">
+      mc:Ignorable="d"
+      Title="PageRemains" Loaded="Загруженно" Height="559" Width="832">
 
     <Grid x:Name="StartGrid" Background="White">
         <Grid.RowDefinitions>
@@ -36,7 +35,7 @@
             <Label x:Name="Label_NotDB" Visibility="Collapsed" Content=" Нет подключения к БД. Проверте настройки." Background="Red" Foreground="White" Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,1,5,5"  />
         </Grid>
         <Grid Grid.Row="1">
-            <Label x:Name="Lab_Title_Копировать1" Content="Поиск:" HorizontalAlignment="Right" Margin="0,0,330,0" VerticalAlignment="Top" FontSize="16" FontFamily="Corbel" Width="60" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581"/>
+            <Label Content="Поиск:" HorizontalAlignment="Right" Margin="0,0,330,0" VerticalAlignment="Top" FontSize="16" FontFamily="Corbel" Width="60" Foreground="#FF434343" RenderTransformOrigin="0.972,0.581"/>
             <TextBox HorizontalAlignment="Right" Margin="0,5,79,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="246" FontSize="16" Background="#FFFFFCE9" FontFamily="Calibri" Uid="Note" TextChanged="Поиск"/>
             <Grid x:Name="SelectWarehouse">
                 <Label Content="Склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="15,51,0,0" VerticalAlignment="Bottom" Width="147" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
@@ -60,7 +59,7 @@
 
 
         </Grid>
-        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="10,5,10,0" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+        <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="130,0,-110,5" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Visible" >
             <DataGrid.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                    Color="#FFAACAFE"/>
@@ -160,7 +159,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Hidden"  Grid.Row="2" Grid.RowSpan="2">
+        <StackPanel x:Name="SP_Select_Type_Doc" Visibility="Visible"  Grid.Row="2" Grid.RowSpan="2">
             <Grid Height="80">
                 <Label Content="Выравнивание остатков" HorizontalAlignment="Left" Margin="66,3,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16"/>
                 <Button Content="&#xE208;" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="#FFDCF8C5" FontFamily="Segoe MDL2 Assets" Click="ДокументВыравнитьОстаток" BorderBrush="#FF047757" Foreground="#FF1D7C5A"/>

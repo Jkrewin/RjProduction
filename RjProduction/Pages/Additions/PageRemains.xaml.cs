@@ -12,6 +12,7 @@ using static RjProduction.Sql.SqlRequest;
 
 namespace RjProduction.Pages
 {
+    [Obsolete]
     public partial class PageRemains : Page
     {
         const string PLUS_COLOR = "#FF3D8F18";

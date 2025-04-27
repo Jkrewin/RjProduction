@@ -45,7 +45,7 @@ namespace RjProduction.Model
     /// </summary>
     public struct DocCode
     {
-        public const string Общий_Тип = "";
+        public const string Просмотор_остатков = "";
         public const string Производство_Cклад = "01А02";
         public const string Выравнивание_Остатков = "03A01";
         public const string Перемещение_По_Складам = "03A02";
