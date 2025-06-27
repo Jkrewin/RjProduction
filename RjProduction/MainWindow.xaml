@@ -193,8 +193,8 @@
                     </Button>
 
                 </StackPanel>
-                <Grid Height="130" VerticalAlignment="Center" Grid.Row="2" PreviewKeyDown="НастройкиАкка">
-                    <Ellipse x:Name="ElipsAva" Width="48" Height="48" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0" ToolTip="Ваш аккаунт" Stroke="White">
+                <Grid Height="130" VerticalAlignment="Center" Grid.Row="2" PreviewKeyDown="НастройкиАкка" >
+                    <Ellipse x:Name="ElipsAva" Width="48" Height="48" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0" ToolTip="Ваш аккаунт" Stroke="White" MouseMove="КурсорНадАвой" MouseLeave="КурсорПокинулАву" StrokeThickness="2" PreviewMouseDown="НажатьАккаунт">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="/Res/images/24b.jpg" Stretch="Fill"/>
                         </Ellipse.Fill>
@@ -202,7 +202,7 @@
 
                 </Grid>
                 <Label Content="Rj" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="59" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Lucida Handwriting" Foreground="White" FontSize="24" Padding="0,0,5,5" FontWeight="Bold" PreviewMouseLeftButtonDown="СтартоваяСтраница"/>
-                <Label Content="&#xE13A;" Margin="0,71,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="White" Height="31" Width="38" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="Служба потдержки"/>
+                <Label x:Name="Support" Content="&#xE13A;" Margin="0,71,0,0" Grid.Row="2" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="White" Height="31" Width="38" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="Служба потдержки" MouseMove="КурсорСуппорт" MouseLeave="КурсорВышелСуппорт"/>
 
             </Grid>
 
@@ -232,6 +232,16 @@
                         <Label Content="&#xEDE3;" HorizontalAlignment="Center" Height="59" VerticalAlignment="Center" Width="28" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="#FFFF6434"/>
                         <Label Grid.Column="1" Content="Подробный отчет" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="225" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
                         <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="Подробный отчет за месяц с полной разбивкой с именем сотрудника" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" FontFamily="Calibri"/>
+                    </Grid>
+
+                    <Grid Height="59" PreviewMouseMove="КурсорВыбралЭлемент" PreviewMouseLeftButtonDown="ВыборОтчетПоступление" MouseLeave="ВыходИзФокуса">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition Width="225*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="&#xEDE3;" HorizontalAlignment="Center" Height="59" VerticalAlignment="Center" Width="28" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="#FFFF6434"/>
+                        <Label Grid.Column="1" Content="Поступление продукции" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="225" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock TextWrapping="Wrap" Grid.Column="1" Text="Поступление продукции, доставленные любым транспортом" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" FontFamily="Calibri"/>
                     </Grid>
 
                 </StackPanel>
@@ -351,6 +361,15 @@
                         <DockPanel Width="243">
                             <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
                             <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Склады" FontSize="16" HorizontalContentAlignment="Center"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Height="37" BorderBrush="{x:Null}" Click="ОткрытьАдреса" MouseMove="СправочникКнопкаВыдел" MouseLeave="СправочникКнопкаВыход">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FFEAFEFF" Opacity="0"/>
+                        </Button.Background>
+                        <DockPanel Width="243">
+                            <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="&#xE292;" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                            <Label DockPanel.Dock="Bottom"  FontFamily="Calibri" Content="Адреса" FontSize="16" HorizontalContentAlignment="Center"/>
                         </DockPanel>
                     </Button>
                 </StackPanel>

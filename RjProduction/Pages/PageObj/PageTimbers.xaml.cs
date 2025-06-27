@@ -1,23 +1,34 @@
-﻿using System.IO;
+﻿
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages
 {
     public partial class PageTimbers : Page, IKeyControl
     {
-        private double LongWood = 0;
+        double _LongWood = 0;
+
+        private double LongWood { get => _LongWood; 
+            set 
+            {
+                if (LSCubs.Any(x => x.Long == value)) {
+                    _LongWood=value;
+                    LongWoods.Text = value.ToString();
+                }
+                else LongWoods.Text = value.ToString();
+            } 
+        }
         private Tabel_Timbers.Timber? TmpTimber;
         private Tabel_Timbers.Timber? DelTimber;
-        private readonly List<CubGude> DicCubs = [];
         private Action? InputBoxAction;
         private Tabel_Timbers.Timber? EndEdit;
         private readonly Tabel_Timbers _TabelTimbers;
         private readonly Action<Tabel_Timbers> ActionOne;
         private readonly Action CloseAction;
-
+        private List<Model.Classifier.RoundTimberCub> LSCubs = [];
         
 
 
@@ -29,27 +40,7 @@ namespace RjProduction.Pages
             CloseAction = closeAction;          
         }
 
-        /// <summary>
-        /// Справочник структура строк
-        /// </summary>
-        private readonly struct CubGude
-        {
-            public readonly int Diameter;
-            public readonly Dictionary<double, double> Sizes;
-
-            public CubGude(int diameter, double[] sizes)
-            {
-                Diameter = diameter;
-                double d = 3.5;
-                Sizes = [];
-
-                foreach (var item in sizes)
-                {
-                    Sizes.Add(d, item);
-                    d += 0.5;
-                }
-            }
-        }
+      
         /// <summary>
         /// Обновляет таблицу куботуры
         /// </summary>
@@ -79,28 +70,24 @@ namespace RjProduction.Pages
         }
 
         private void Загруженно(object sender, RoutedEventArgs e)
-        {
-            string s = AppDomain.CurrentDomain.BaseDirectory + "Res\\Кубатурники\\GOST2078-75B.txt";
-            if (File.Exists(s))
-            {
-                var t = File.ReadAllLines(s);
-                for (int i = 1; i < t.Length; i++)
-                {
-                    var arr = t[i].Split('\t');
-                    int start = int.Parse(arr[0]);
-                    List<double> queue = [];
-                    for (int j = 1; j < arr.Length; j++) queue.Add(double.Parse(arr[j]));
-                    DicCubs.Add(new CubGude(start, [.. queue]));
-                }
-            }
-            else MessageBox.Show("Кубатурник не был найден +" + s);
+        {           
+            LSCubs = Model.Classifier.RoundTimberCub.LoadList(MDL.Dir_Resources + "RoundTimberCub.xml");
 
             InputTextBox.KeyDown += (s, e) => { if (e.Key == Key.Enter) Yes_Click(null!, null!); };
 
+
+            Style cellStyle = new (typeof(DataGridCell));
+            cellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, MDL.BrushConv("#FFF6E8E8")));
+            cellStyle.Setters.Add(new Setter(DataGridCell.FontWeightProperty, FontWeights.Normal));
+
+
             DG_Cubs.ItemsSource = _TabelTimbers.Timbers;
             DG_Cubs.Columns[0].IsReadOnly = true;
+            DG_Cubs.Columns[0].CellStyle = cellStyle;
             DG_Cubs.Columns[3].IsReadOnly = true;
+            DG_Cubs.Columns[3].CellStyle = cellStyle;
             DG_Cubs.Columns[5].IsReadOnly = true;
+            DG_Cubs.Columns[5].CellStyle = cellStyle;
             DG_Cubs.Columns[6].Header = "Доплата";
 
             DG_Cubs.CellEditEnding += ИзмененияВнесены;
@@ -160,75 +147,95 @@ namespace RjProduction.Pages
                     if (int.TryParse(InputTextBox.Text, out int d))
                     {
                         TmpTimber.Количество += d;
-                        double dd = DicCubs.Find(x => x.Diameter == TmpTimber.Диаметр).Sizes[LongWood];
-                        TmpTimber.Куб_М = dd * d;
-                        if (_TabelTimbers.Timbers.Any(x=>x.Диаметр== TmpTimber.Диаметр)==false) _TabelTimbers.Timbers.Add(TmpTimber);
+                        var cubs = LSCubs.Find(x => x.Long == LongWood); // получем список всех диаметров
+                        double dd = cubs.DictionarySize (TmpTimber.Диаметр.ToString());
+                        // подборка похожего диаметра для нечетного числа
+                        if (d % 2 != 0 & dd==0)
+                        {
+                            var d1 = cubs.DictionarySize((TmpTimber.Диаметр - 1).ToString());
+                            var d2 = cubs.DictionarySize((TmpTimber.Диаметр + 1).ToString());
+                            if (d1 == 0 | d2 == 0) 
+                            {
+                                MessageBox.Show("Справочник не содержит такого диаметра " + TmpTimber.Диаметр);
+                                return;
+                            }
+                            dd = (d1 + d2) / 2; // формула среднего куба
+                        }
+                        TmpTimber.Куб_М = dd * TmpTimber.Количество;
+                        // добавить если нет в списке 
+                        if (_TabelTimbers.Timbers.Any(x=>x.Диаметр== TmpTimber.Диаметр & x.Длинна==LongWood)==false) _TabelTimbers.Timbers.Add(TmpTimber);
                         Refreh_DG_Cubs();
                     }
                     else MessageBox.Show("Неверно указано количество.");
                 });
             };
 
-
-            InpubBoxOpen("Введите Диаметр бревна",
-            () =>
+            void actII()
             {
-                if (int.TryParse(InputTextBox.Text, out int d))
+                InpubBoxOpen("Введите Диаметр бревна",
+                  () =>
+             {
+               InputTextBox.Text = InputTextBox.Text.Trim();
+               if (int.TryParse(InputTextBox.Text, out int d))
+               {                    
+                     var f = _TabelTimbers.Timbers.Find(x => x.Диаметр == d & x.Длинна == LongWood);
+                     if (f != null)
+                     {
+                         // нужно добавить в общему количеству бревен 
+                         TmpTimber = f;
+                     }
+                     else {
+                         TmpTimber.Диаметр = d;
+                     }
+                    act();
+               }
+               else MessageBox.Show("Справочник не содержит такого диаметра");
+              });
+            }
+
+            if (LongWood == 0) // Если ранее на был введен длинна бревна
+            {
+                InpubBoxOpen("Введите Длинну бревна", () =>
                 {
-                    var f = _TabelTimbers.Timbers.Find(x => x.Диаметр == d);
-                    if (f != null)
+                    InputTextBox.Text = InputTextBox.Text.Replace('.', ',');
+                    if (double.TryParse(InputTextBox.Text, out double d))
                     {
-                        // нужно добавить в общему количеству бревен 
-                        TmpTimber = f;
-                    }
-                    if (DicCubs.Any(x => x.Diameter == d))
-                    {
-                        TmpTimber.Диаметр = d;
-                        // Если ранее на был введен длинна бревна
-                        if (LongWood == 0)
+                        if (LSCubs.Any(x => x.Long == d))
                         {
-                            InpubBoxOpen("Введите Длинну бревна", () =>
-                            {
-                                InputTextBox.Text = InputTextBox.Text.Replace('.', ',');
-                                if (double.TryParse(InputTextBox.Text, out double d))
-                                {
-                                    if (DicCubs.Find(x => x.Diameter == TmpTimber.Диаметр).Sizes.ContainsKey(d))
-                                    {
-                                        LongWood = d;
-                                        TmpTimber.Длинна = d;
-                                        act();
-                                    }
-                                    else MessageBox.Show("Справочник не содержит такой длинны");
-                                }
-                            });
+                            LongWood = d;
+                            TmpTimber.Длинна = d;
+                            actII();
                         }
-                        // Запрос количества если ранее был введено длинна бревна
-                        else act();
+                        else { MessageBox.Show("Справочник не содержит такой длинны"); }
                     }
-                    else MessageBox.Show("Справочник не содержит такого диаметра");
-                }
-            });
+                });
+            }
+            else actII();
         }
 
         private void ЯчекаИзменена(object? sender, EventArgs e)
         {
             if (EndEdit != null)
-            {
-                if (EndEdit != null)
+            {               
+                if (LSCubs.Any(x => x.Long == EndEdit.Длинна) == false)
                 {
-                    var s = DicCubs.Find(x => x.Diameter == EndEdit.Диаметр);
-                    if (s.Diameter != 0)
-                    {
-                        if (s.Sizes.TryGetValue(EndEdit.Длинна, out double value))
-                        {
-                            LongWood = EndEdit.Длинна;
-                            EndEdit.Куб_М = EndEdit.Количество * value;
-                        }
-                    }
+                    MessageBox.Show("Справочник не содержит такой длинны");
+                    goto end;
                 }
+                var s = LSCubs.Find(x => x.Long == LongWood).DictionarySize(EndEdit.Диаметр.ToString());
+                if (s == 0)
+                {
+                    MessageBox.Show("Справочник не содержит такого диаметра");
+                }
+                else
+                {
+                    LongWood = EndEdit.Длинна;
+                    EndEdit.Куб_М = EndEdit.Количество * s;
+                }
+            end:;
                 EndEdit = null;
                 Refreh_DG_Cubs();
-            }    
+            }
         }
 
         private void ИзмененияВнесены(object? sender, DataGridCellEditEndingEventArgs e)
@@ -243,8 +250,36 @@ namespace RjProduction.Pages
         {
             if (e.Key == Key.F1) Кубатурник_ОК(null!, null!);
             else if (e.Key == Key.Escape) ЗакрытьФорму(null!, null!);
-            else if (e.Key == Key.F2) НовыйЭлемент(null!, null!);
+            else if (e.Key == Key.Add ) НовыйЭлемент(null!, null!);
             else if (e.Key == Key.F3) УдалитьЗначение(null!, null!);
+        }
+
+        private void ЦенаДляВсех(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in _TabelTimbers.Timbers)
+            {
+                if (double.TryParse ( TBox_AllPrice.Text, out double d )){ 
+                    item.Цена = d;                     
+                }                
+            }
+            Refreh_DG_Cubs();
+        }
+
+        private void ИзменитьДлинну(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(LongWoods.Text, out double d))
+            {
+                LongWood = d;
+            }
+            else
+            {
+                LongWoods.Text = LongWood.ToString();
+            }
+        }
+
+        private void ИзменениеТекстаПоле(object sender, TextChangedEventArgs e)
+        {
+            if (InputTextBox.Text =="+") InputTextBox.Text = "";
         }
     }
 }

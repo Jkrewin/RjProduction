@@ -4,16 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RjProduction.Pages.Additions"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Наличие остатков на складе" Loaded="Загрузка" >
+      mc:Ignorable="d"
+      Title="Наличие остатков на складе" Loaded="Загрузка"  d:DesignHeight="450" d:DesignWidth="800" >
 
     <Grid x:Name="StartGrid" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="80"/>
             <RowDefinition Height="33"/>
-            <RowDefinition/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
         <Grid>
             <Rectangle VerticalAlignment="Bottom" Height="5">
@@ -34,7 +33,7 @@
             </Rectangle>
             <Label Content="Наличие остатков на складе" HorizontalAlignment="Left" Margin="31,-2,0,0" VerticalAlignment="Top" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF0013A7"/>
         </Grid>
-        <Grid Grid.Row="1" Background="White">
+        <Grid Grid.Row="1" Background="White" HorizontalAlignment="Left">
             <Label Content="Создать документ:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,0,0,46" VerticalAlignment="Bottom" Width="202" FontSize="14" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
             <ComboBox x:Name="ComboBox_Doc" HorizontalAlignment="Left" Margin="175,0,0,50" VerticalAlignment="Bottom" Width="283" FontFamily="Arial" FontSize="14" Height="24" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"></ComboBox>
             <Label Content="Выбранно строк:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,0,0,22" VerticalAlignment="Bottom" Width="145" FontFamily="Arial" Background="White" BorderBrush="White" Height="25" Foreground="#FF565656" FontWeight="Bold" FontSize="11" Padding="5,2,5,5"/>
@@ -49,12 +48,24 @@
                 </Button.Resources>
             </Button>
 
-            <Label x:Name="RpSimv_1" Content="+" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="White" Foreground="#FF219493" FontSize="18" Padding="5,1,5,5" Height="27" Width="27" HorizontalContentAlignment="Center" Margin="532,4,0,0" FontFamily="Arial Black" ToolTip="В документе допускаеться добавление количества/м3"/>
-            <Label x:Name="RpSimv_2" Content="-" HorizontalAlignment="Left"  VerticalAlignment="Top"  Foreground="#FF901919" FontSize="18" Padding="5,1,5,5" Height="27" Width="27" HorizontalContentAlignment="Center" Margin="558,3,0,0" FontFamily="Arial Black" ToolTip="В документе допускаеться вычитать количество/м3" Background="{x:Null}"/>
-            <Label x:Name="RpSimv_3" Content="=" HorizontalAlignment="Left"  VerticalAlignment="Top"  Foreground="#FF080EB1" FontSize="18" Padding="5,1,5,5" Height="27" Width="27" HorizontalContentAlignment="Center" Margin="584,4,0,0" FontFamily="Arial Black" ToolTip="Можно указать точное количество/м3" Background="{x:Null}"/>
-
+            <Border  x:Name="RpSimv_1" CornerRadius="5" BorderThickness="1" BorderBrush="#FF8AC899"  Height="27" Width="27"   Margin="526,4,247,48" Background="#FF8AC899">
+                <Label  Content="+"  HorizontalAlignment="Left"  VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Padding="2,2,5,5" Height="27" Width="27"   FontFamily="Arial Black" ToolTip="В документе допускаеться добавление количества/м3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            </Border>
+            <Border x:Name="RpSimv_2" CornerRadius="5" BorderThickness="1" BorderBrush="#FFB46363"  Height="27" Width="27"   Margin="557,4,216,48" Background="#FFB46363">
+                <Label  Content="-" HorizontalAlignment="Left"  VerticalAlignment="Top"  Foreground="White" FontSize="18" Padding="2,1,5,5" Height="27" Width="27" HorizontalContentAlignment="Center"  FontFamily="Arial Black" ToolTip="В документе допускаеться вычитать количество/м3" Background="{x:Null}"/>
+            </Border>
+            <Border x:Name="RpSimv_3" CornerRadius="5" BorderThickness="1" BorderBrush="#FF5F62B4"  Height="27" Width="27"   Margin="589,5,184,48" Background="#FF5F62B4">
+                <Label  Content="=" HorizontalAlignment="Left"  VerticalAlignment="Top"  Foreground="White" FontSize="18" Padding="2,2,5,5" Height="27" Width="27" HorizontalContentAlignment="Center"  FontFamily="Arial Black" ToolTip="Можно указать точное количество/м3" Background="{x:Null}"/>
+            </Border>
         </Grid>
         <Grid Grid.Row="2">
+            <Button Content="" HorizontalAlignment="Left" Margin="414,-43,0,0" VerticalAlignment="Top" Height="32" Width="32" FontSize="24" Background="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="Удалить_значение" BorderBrush="Black" HorizontalContentAlignment="Center">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Label Content="Склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
             <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="94,0,0,0" VerticalAlignment="Center" Width="283" FontFamily="Arial Black" FontSize="14" Height="24" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрокаДляСклада"/>
             <Grid HorizontalAlignment="Right" Margin="481,0,0,0" Width="319">
@@ -68,7 +79,7 @@
                 <RowDefinition Height="19*"/>
             </Grid.RowDefinitions>
             <Grid>
-                <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  Margin="10,0,10,0" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+                <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" ScrollViewer.VerticalScrollBarVisibility="Hidden" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,0,0,-26" >
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                             Color="#FFAACAFE"/>
@@ -168,9 +179,6 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            <Grid Grid.Row="1">
-                <Label x:Name="Label_NotDB" Visibility="Collapsed" Content=" Нет подключения к БД. Проверте настройки." Background="Red" Foreground="White" Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" Padding="5,1,5,5"  />
-            </Grid>
 
 
         </Grid>
@@ -193,6 +201,7 @@
 
             </Grid>
         </Grid>
+        <Label x:Name="Label_NotDB" Visibility="Hidden" Content="   (!) Нет подключения к БД. Проверте настройки" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="525" Background="#FFCB0C0C" Foreground="White" VerticalContentAlignment="Center" FontSize="14" BorderBrush="#FF710606"/>
 
 
     </Grid>

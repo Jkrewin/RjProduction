@@ -95,6 +95,28 @@ namespace RjProduction.XML
         /// Главная  таблица
         /// </summary>
         [SqlIgnore, XmlIgnore] public List<GrupObj> MainTabel { get; set; } = [];
+        /// <summary>
+        /// Представляет список всех значений Pseudonym из всех групп
+        /// </summary>
+        [SqlIgnore, XmlIgnore]
+        public List<Pseudonym> ListPseudonym
+        {
+            get
+            {
+                List<Pseudonym> ls = [];
+                foreach (var item in MainTabel)
+                {
+                    foreach (var tv in item.Tabels)
+                    {
+                        if (tv is Pseudonym pseudonym)
+                        {
+                            ls.Add(pseudonym);
+                        }
+                    }
+                }
+                return ls;
+            }
+        }
 
         [XmlIgnore]
         public decimal Amount

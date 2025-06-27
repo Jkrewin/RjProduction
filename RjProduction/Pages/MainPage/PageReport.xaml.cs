@@ -15,10 +15,7 @@ namespace RjProduction.Pages
         public Action Report_Gen_ВсеДниРабочих { get => () => ReportAllDay(); }
         public Action? SelectReport;
 
-        public PageReport()
-        {
-            InitializeComponent();
-        }
+        public PageReport() => InitializeComponent();
         /// <summary>
         /// Выбор нужного месяца
         /// </summary>
@@ -35,6 +32,8 @@ namespace RjProduction.Pages
             }
             return mon;
         }
+
+
 
         private void ГенерироватьОтчет(object sender, RoutedEventArgs e)=> SelectReport?.Invoke();
         private void ФокусМесяца(object sender, RoutedEventArgs e)=> RB_AllMon.IsChecked = true; 

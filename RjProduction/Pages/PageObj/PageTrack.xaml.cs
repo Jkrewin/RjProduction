@@ -14,6 +14,7 @@ namespace RjProduction.Pages
         private readonly TransportPart _transport;
         private Action<TransportPart> ActionOne;
         private MDL.Reference.Catalog<TruckClass> Catalog = new ();
+        private AddresStruct? Adress_From;
 
         public PageTrack(TransportPart transport, Action<TransportPart> actionOne, Action closeAction)
         {
@@ -21,6 +22,15 @@ namespace RjProduction.Pages
             this.CloseAction = closeAction;
             _transport = transport;
             ActionOne = actionOne;
+        }
+
+        public PageTrack(TransportPart transport, Action<TransportPart> actionOne, Action closeAction, AddresStruct from_addres )
+        {
+            InitializeComponent();
+            this.CloseAction = closeAction;
+            _transport = transport;
+            ActionOne = actionOne;
+            Adress_From = from_addres;
         }
 
         private void ОК_Согласие(object sender, RoutedEventArgs e)
@@ -121,7 +131,7 @@ namespace RjProduction.Pages
                 if (obj is Model.Catalog.Company comp)
                 {
                     TBox_Company.Text = comp.ShortName;
-                    MDL.MyDataBase.CompanyOwn = comp;
+                    _transport.Truck.CargoCarriers = comp;
                 }
             });
         }
@@ -152,6 +162,13 @@ namespace RjProduction.Pages
         {
             ErrorLabel.Visibility = Visibility.Collapsed;
             Refreh_Carlist();
+            if (Adress_From.HasValue) // по умолчанию куда 
+            {
+                _transport.AddresTo = Adress_From.Value;
+                Tbox_AddresTo.Text = _transport.AddresTo.ToString();
+                Tbox_AddresTo.ToolTip = "Телефон: " + _transport.AddresTo.Phone + " Почта: " + _transport.AddresTo.Email;
+                ButtonTo.Visibility = Visibility.Hidden;
+            }
         }
 
         private void ВыходИзПоля(object sender, RoutedEventArgs e)

@@ -2,7 +2,7 @@
 namespace RjProduction.Pages
 {
     /// <summary>
-    /// Списко для меню 
+    /// Списка для меню 
     /// </summary>
     public interface IToolFind
     {

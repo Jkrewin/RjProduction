@@ -1,0 +1,2099 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>classifikators.ru</Author>
+  <LastAuthor>Зенин Максим</LastAuthor>
+  <LastPrinted>2025-05-17T13:50:08Z</LastPrinted>
+  <Created>2020-07-08T07:50:08Z</Created>
+  <LastSaved>2020-07-08T20:55:19Z</LastSaved>
+  <Version>16.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>14417</WindowHeight>
+  <WindowWidth>32767</WindowWidth>
+  <WindowTopX>32767</WindowTopX>
+  <WindowTopY>32767</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s16">
+   <Font ss:FontName="Calibri" x:CharSet="204" x:Family="Swiss" ss:Size="11"
+    ss:Color="#0000FF" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s17">
+   <Font ss:FontName="Calibri" x:CharSet="204" x:Family="Swiss" ss:Size="18"
+    ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s18">
+   <Font ss:FontName="Calibri" x:CharSet="204" x:Family="Swiss" ss:Size="14"
+    ss:Color="#000000"/>
+   <Interior ss:Color="#92D050" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Лист1">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="260" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="51.428571428571431"
+   ss:DefaultRowHeight="14.571428571428571">
+   <Column ss:AutoFitWidth="0" ss:Width="24.428571428571431"/>
+   <Column ss:AutoFitWidth="0" ss:Width="57.857142857142861"/>
+   <Column ss:AutoFitWidth="0" ss:Width="122.57142857142857"/>
+   <Column ss:AutoFitWidth="0" ss:Width="119.14285714285714"/>
+   <Column ss:AutoFitWidth="0" ss:Width="60.428571428571431" ss:Span="1"/>
+   <Row ss:AutoFitHeight="0" ss:Height="23.25">
+    <Cell ss:StyleID="s17"><Data ss:Type="String">ОКСМ — Общероссийский классификатор стран мира</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Классификатор ОК (МК (ИСО 3166) 004-97) 025-2001 с изменением № 33/2024. Введено 01.08.2024 с правом досрочного применения в правоотношениях, возникших с 29.02.2024. Приказ Росстандарта от 05.06.2024 №700-ст.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Всего записей — 253.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Подготовлено сайтом classifikators.ru</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s16" ss:HRef="https://classifikators.ru/oksm"><Data
+      ss:Type="String">ОКСМ онлайн</Data></Cell>
+   </Row>
+   <Row ss:Index="7" ss:AutoFitHeight="0" ss:Height="18.75">
+    <Cell ss:StyleID="s18"><Data ss:Type="String">№</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="String">Код</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="String">Краткое название</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="String">Полное название</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="String">Альфа-2</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="String">Альфа-3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">004</Data></Cell>
+    <Cell><Data ss:Type="String">АФГАНИСТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Переходное Исламское Государство Афганистан</Data></Cell>
+    <Cell><Data ss:Type="String">AF</Data></Cell>
+    <Cell><Data ss:Type="String">AFG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">008</Data></Cell>
+    <Cell><Data ss:Type="String">АЛБАНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Албания</Data></Cell>
+    <Cell><Data ss:Type="String">AL</Data></Cell>
+    <Cell><Data ss:Type="String">ALB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell><Data ss:Type="String">010</Data></Cell>
+    <Cell><Data ss:Type="String">АНТАРКТИДА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AQ</Data></Cell>
+    <Cell><Data ss:Type="String">ATA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">012</Data></Cell>
+    <Cell><Data ss:Type="String">АЛЖИР</Data></Cell>
+    <Cell><Data ss:Type="String">Алжирская Народная Демократическая Республика</Data></Cell>
+    <Cell><Data ss:Type="String">DZ</Data></Cell>
+    <Cell><Data ss:Type="String">DZA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell><Data ss:Type="String">016</Data></Cell>
+    <Cell><Data ss:Type="String">АМЕРИКАНСКОЕ САМОА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AS</Data></Cell>
+    <Cell><Data ss:Type="String">ASM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">020</Data></Cell>
+    <Cell><Data ss:Type="String">АНДОРРА</Data></Cell>
+    <Cell><Data ss:Type="String">Княжество Андорра</Data></Cell>
+    <Cell><Data ss:Type="String">AD</Data></Cell>
+    <Cell><Data ss:Type="String">AND</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell><Data ss:Type="String">024</Data></Cell>
+    <Cell><Data ss:Type="String">АНГОЛА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Ангола</Data></Cell>
+    <Cell><Data ss:Type="String">AO</Data></Cell>
+    <Cell><Data ss:Type="String">AGO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell><Data ss:Type="String">028</Data></Cell>
+    <Cell><Data ss:Type="String">АНТИГУА И БАРБУДА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AG</Data></Cell>
+    <Cell><Data ss:Type="String">ATG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell><Data ss:Type="String">031</Data></Cell>
+    <Cell><Data ss:Type="String">АЗЕРБАЙДЖАН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Азербайджан</Data></Cell>
+    <Cell><Data ss:Type="String">AZ</Data></Cell>
+    <Cell><Data ss:Type="String">AZE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell><Data ss:Type="String">032</Data></Cell>
+    <Cell><Data ss:Type="String">АРГЕНТИНА</Data></Cell>
+    <Cell><Data ss:Type="String">Аргентинская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">AR</Data></Cell>
+    <Cell><Data ss:Type="String">ARG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell><Data ss:Type="String">036</Data></Cell>
+    <Cell><Data ss:Type="String">АВСТРАЛИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AU</Data></Cell>
+    <Cell><Data ss:Type="String">AUS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell><Data ss:Type="String">040</Data></Cell>
+    <Cell><Data ss:Type="String">АВСТРИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Австрийская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">AT</Data></Cell>
+    <Cell><Data ss:Type="String">AUT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">13</Data></Cell>
+    <Cell><Data ss:Type="String">044</Data></Cell>
+    <Cell><Data ss:Type="String">БАГАМЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Содружество Багамы</Data></Cell>
+    <Cell><Data ss:Type="String">BS</Data></Cell>
+    <Cell><Data ss:Type="String">BHS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">14</Data></Cell>
+    <Cell><Data ss:Type="String">048</Data></Cell>
+    <Cell><Data ss:Type="String">БАХРЕЙН</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Бахрейн</Data></Cell>
+    <Cell><Data ss:Type="String">BH</Data></Cell>
+    <Cell><Data ss:Type="String">BHR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">15</Data></Cell>
+    <Cell><Data ss:Type="String">050</Data></Cell>
+    <Cell><Data ss:Type="String">БАНГЛАДЕШ</Data></Cell>
+    <Cell><Data ss:Type="String">Народная Республика Бангладеш</Data></Cell>
+    <Cell><Data ss:Type="String">BD</Data></Cell>
+    <Cell><Data ss:Type="String">BGD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">16</Data></Cell>
+    <Cell><Data ss:Type="String">051</Data></Cell>
+    <Cell><Data ss:Type="String">АРМЕНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Армения</Data></Cell>
+    <Cell><Data ss:Type="String">AM</Data></Cell>
+    <Cell><Data ss:Type="String">ARM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">17</Data></Cell>
+    <Cell><Data ss:Type="String">052</Data></Cell>
+    <Cell><Data ss:Type="String">БАРБАДОС</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BB</Data></Cell>
+    <Cell><Data ss:Type="String">BRB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">18</Data></Cell>
+    <Cell><Data ss:Type="String">056</Data></Cell>
+    <Cell><Data ss:Type="String">БЕЛЬГИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Бельгия</Data></Cell>
+    <Cell><Data ss:Type="String">BE</Data></Cell>
+    <Cell><Data ss:Type="String">BEL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">19</Data></Cell>
+    <Cell><Data ss:Type="String">060</Data></Cell>
+    <Cell><Data ss:Type="String">БЕРМУДЫ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BM</Data></Cell>
+    <Cell><Data ss:Type="String">BMU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="String">064</Data></Cell>
+    <Cell><Data ss:Type="String">БУТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Бутан</Data></Cell>
+    <Cell><Data ss:Type="String">BT</Data></Cell>
+    <Cell><Data ss:Type="String">BTN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">21</Data></Cell>
+    <Cell><Data ss:Type="String">068</Data></Cell>
+    <Cell><Data ss:Type="String">БОЛИВИЯ, МНОГОНАЦИОНАЛЬНОЕ ГОСУДАРСТВО</Data></Cell>
+    <Cell><Data ss:Type="String">Многонациональное Государство Боливия</Data></Cell>
+    <Cell><Data ss:Type="String">BO</Data></Cell>
+    <Cell><Data ss:Type="String">BOL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">22</Data></Cell>
+    <Cell><Data ss:Type="String">070</Data></Cell>
+    <Cell><Data ss:Type="String">БОСНИЯ И ГЕРЦЕГОВИНА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BA</Data></Cell>
+    <Cell><Data ss:Type="String">BIH</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">23</Data></Cell>
+    <Cell><Data ss:Type="String">072</Data></Cell>
+    <Cell><Data ss:Type="String">БОТСВАНА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Ботсвана</Data></Cell>
+    <Cell><Data ss:Type="String">BW</Data></Cell>
+    <Cell><Data ss:Type="String">BWA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">24</Data></Cell>
+    <Cell><Data ss:Type="String">074</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВ БУВЕ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BV</Data></Cell>
+    <Cell><Data ss:Type="String">BVT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">25</Data></Cell>
+    <Cell><Data ss:Type="String">076</Data></Cell>
+    <Cell><Data ss:Type="String">БРАЗИЛИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Федеративная Республика Бразилия</Data></Cell>
+    <Cell><Data ss:Type="String">BR</Data></Cell>
+    <Cell><Data ss:Type="String">BRA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">26</Data></Cell>
+    <Cell><Data ss:Type="String">084</Data></Cell>
+    <Cell><Data ss:Type="String">БЕЛИЗ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BZ</Data></Cell>
+    <Cell><Data ss:Type="String">BLZ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">27</Data></Cell>
+    <Cell><Data ss:Type="String">086</Data></Cell>
+    <Cell><Data ss:Type="String">БРИТАНСКАЯ ТЕРРИТОРИЯ В ИНДИЙСКОМ ОКЕАНЕ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">IO</Data></Cell>
+    <Cell><Data ss:Type="String">IOT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">28</Data></Cell>
+    <Cell><Data ss:Type="String">090</Data></Cell>
+    <Cell><Data ss:Type="String">СОЛОМОНОВЫ ОСТРОВА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">SB</Data></Cell>
+    <Cell><Data ss:Type="String">SLB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">29</Data></Cell>
+    <Cell><Data ss:Type="String">092</Data></Cell>
+    <Cell><Data ss:Type="String">ВИРГИНСКИЕ ОСТРОВА (БРИТАНСКИЕ)</Data></Cell>
+    <Cell><Data ss:Type="String">Британские Виргинские острова</Data></Cell>
+    <Cell><Data ss:Type="String">VG</Data></Cell>
+    <Cell><Data ss:Type="String">VGB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+    <Cell><Data ss:Type="String">096</Data></Cell>
+    <Cell><Data ss:Type="String">БРУНЕЙ-ДАРУССАЛАМ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BN</Data></Cell>
+    <Cell><Data ss:Type="String">BRN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">31</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="String">БОЛГАРИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Болгария</Data></Cell>
+    <Cell><Data ss:Type="String">BG</Data></Cell>
+    <Cell><Data ss:Type="String">BGR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">32</Data></Cell>
+    <Cell><Data ss:Type="Number">104</Data></Cell>
+    <Cell><Data ss:Type="String">МЬЯНМА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Союза Мьянма</Data></Cell>
+    <Cell><Data ss:Type="String">MM</Data></Cell>
+    <Cell><Data ss:Type="String">MMR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">33</Data></Cell>
+    <Cell><Data ss:Type="Number">108</Data></Cell>
+    <Cell><Data ss:Type="String">БУРУНДИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Бурунди</Data></Cell>
+    <Cell><Data ss:Type="String">BI</Data></Cell>
+    <Cell><Data ss:Type="String">BDI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">34</Data></Cell>
+    <Cell><Data ss:Type="Number">112</Data></Cell>
+    <Cell><Data ss:Type="String">БЕЛАРУСЬ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Беларусь</Data></Cell>
+    <Cell><Data ss:Type="String">BY</Data></Cell>
+    <Cell><Data ss:Type="String">BLR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">35</Data></Cell>
+    <Cell><Data ss:Type="Number">116</Data></Cell>
+    <Cell><Data ss:Type="String">КАМБОДЖА</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Камбоджа</Data></Cell>
+    <Cell><Data ss:Type="String">KH</Data></Cell>
+    <Cell><Data ss:Type="String">KHM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">36</Data></Cell>
+    <Cell><Data ss:Type="Number">120</Data></Cell>
+    <Cell><Data ss:Type="String">КАМЕРУН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Камерун</Data></Cell>
+    <Cell><Data ss:Type="String">CM</Data></Cell>
+    <Cell><Data ss:Type="String">CMR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">37</Data></Cell>
+    <Cell><Data ss:Type="Number">124</Data></Cell>
+    <Cell><Data ss:Type="String">КАНАДА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">CA</Data></Cell>
+    <Cell><Data ss:Type="String">CAN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">38</Data></Cell>
+    <Cell><Data ss:Type="Number">132</Data></Cell>
+    <Cell><Data ss:Type="String">КАБО-ВЕРДЕ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Кабо-Верде</Data></Cell>
+    <Cell><Data ss:Type="String">CV</Data></Cell>
+    <Cell><Data ss:Type="String">CPV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">39</Data></Cell>
+    <Cell><Data ss:Type="Number">136</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВА КАЙМАН</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">KY</Data></Cell>
+    <Cell><Data ss:Type="String">CYM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">40</Data></Cell>
+    <Cell><Data ss:Type="Number">140</Data></Cell>
+    <Cell><Data ss:Type="String">ЦЕНТРАЛЬНО-АФРИКАНСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">CF</Data></Cell>
+    <Cell><Data ss:Type="String">CAF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">41</Data></Cell>
+    <Cell><Data ss:Type="Number">144</Data></Cell>
+    <Cell><Data ss:Type="String">ШРИ-ЛАНКА</Data></Cell>
+    <Cell><Data ss:Type="String">Демократическая Социалистическая Республика Шри-Ланка</Data></Cell>
+    <Cell><Data ss:Type="String">LK</Data></Cell>
+    <Cell><Data ss:Type="String">LKA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">42</Data></Cell>
+    <Cell><Data ss:Type="Number">148</Data></Cell>
+    <Cell><Data ss:Type="String">ЧАД</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Чад</Data></Cell>
+    <Cell><Data ss:Type="String">TD</Data></Cell>
+    <Cell><Data ss:Type="String">TCD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">43</Data></Cell>
+    <Cell><Data ss:Type="Number">152</Data></Cell>
+    <Cell><Data ss:Type="String">ЧИЛИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Чили</Data></Cell>
+    <Cell><Data ss:Type="String">CL</Data></Cell>
+    <Cell><Data ss:Type="String">CHL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">44</Data></Cell>
+    <Cell><Data ss:Type="Number">156</Data></Cell>
+    <Cell><Data ss:Type="String">КИТАЙ</Data></Cell>
+    <Cell><Data ss:Type="String">Китайская Народная Республика</Data></Cell>
+    <Cell><Data ss:Type="String">CN</Data></Cell>
+    <Cell><Data ss:Type="String">CHN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">45</Data></Cell>
+    <Cell><Data ss:Type="Number">158</Data></Cell>
+    <Cell><Data ss:Type="String">ТАЙВАНЬ (КИТАЙ)</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">TW</Data></Cell>
+    <Cell><Data ss:Type="String">TWN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">46</Data></Cell>
+    <Cell><Data ss:Type="Number">162</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВ РОЖДЕСТВА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">CX</Data></Cell>
+    <Cell><Data ss:Type="String">CXR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">47</Data></Cell>
+    <Cell><Data ss:Type="Number">166</Data></Cell>
+    <Cell><Data ss:Type="String">КОКОСОВЫЕ (КИЛИНГ) ОСТРОВА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">CC</Data></Cell>
+    <Cell><Data ss:Type="String">CCK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">48</Data></Cell>
+    <Cell><Data ss:Type="Number">170</Data></Cell>
+    <Cell><Data ss:Type="String">КОЛУМБИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Колумбия</Data></Cell>
+    <Cell><Data ss:Type="String">CO</Data></Cell>
+    <Cell><Data ss:Type="String">COL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">49</Data></Cell>
+    <Cell><Data ss:Type="Number">174</Data></Cell>
+    <Cell><Data ss:Type="String">КОМОРЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Союз Коморы</Data></Cell>
+    <Cell><Data ss:Type="String">KM</Data></Cell>
+    <Cell><Data ss:Type="String">COM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell><Data ss:Type="Number">175</Data></Cell>
+    <Cell><Data ss:Type="String">МАЙОТТА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">YT</Data></Cell>
+    <Cell><Data ss:Type="String">MYT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">51</Data></Cell>
+    <Cell><Data ss:Type="Number">178</Data></Cell>
+    <Cell><Data ss:Type="String">КОНГО</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Конго</Data></Cell>
+    <Cell><Data ss:Type="String">CG</Data></Cell>
+    <Cell><Data ss:Type="String">COG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">52</Data></Cell>
+    <Cell><Data ss:Type="Number">180</Data></Cell>
+    <Cell><Data ss:Type="String">КОНГО, ДЕМОКРАТИЧЕСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Демократическая Республика Конго</Data></Cell>
+    <Cell><Data ss:Type="String">CD</Data></Cell>
+    <Cell><Data ss:Type="String">COD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">53</Data></Cell>
+    <Cell><Data ss:Type="Number">184</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВА КУКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">CK</Data></Cell>
+    <Cell><Data ss:Type="String">COK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">54</Data></Cell>
+    <Cell><Data ss:Type="Number">188</Data></Cell>
+    <Cell><Data ss:Type="String">КОСТА-РИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Коста-Рика</Data></Cell>
+    <Cell><Data ss:Type="String">CR</Data></Cell>
+    <Cell><Data ss:Type="String">CRI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">55</Data></Cell>
+    <Cell><Data ss:Type="Number">191</Data></Cell>
+    <Cell><Data ss:Type="String">ХОРВАТИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Хорватия</Data></Cell>
+    <Cell><Data ss:Type="String">HR</Data></Cell>
+    <Cell><Data ss:Type="String">HRV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">56</Data></Cell>
+    <Cell><Data ss:Type="Number">192</Data></Cell>
+    <Cell><Data ss:Type="String">КУБА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Куба</Data></Cell>
+    <Cell><Data ss:Type="String">CU</Data></Cell>
+    <Cell><Data ss:Type="String">CUB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">57</Data></Cell>
+    <Cell><Data ss:Type="Number">196</Data></Cell>
+    <Cell><Data ss:Type="String">КИПР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Кипр</Data></Cell>
+    <Cell><Data ss:Type="String">CY</Data></Cell>
+    <Cell><Data ss:Type="String">CYP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">58</Data></Cell>
+    <Cell><Data ss:Type="Number">203</Data></Cell>
+    <Cell><Data ss:Type="String">ЧЕХИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Чешская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">CZ</Data></Cell>
+    <Cell><Data ss:Type="String">CZE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">59</Data></Cell>
+    <Cell><Data ss:Type="Number">204</Data></Cell>
+    <Cell><Data ss:Type="String">БЕНИН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Бенин</Data></Cell>
+    <Cell><Data ss:Type="String">BJ</Data></Cell>
+    <Cell><Data ss:Type="String">BEN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">60</Data></Cell>
+    <Cell><Data ss:Type="Number">208</Data></Cell>
+    <Cell><Data ss:Type="String">ДАНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Дания</Data></Cell>
+    <Cell><Data ss:Type="String">DK</Data></Cell>
+    <Cell><Data ss:Type="String">DNK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">61</Data></Cell>
+    <Cell><Data ss:Type="Number">212</Data></Cell>
+    <Cell><Data ss:Type="String">ДОМИНИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Содружество Доминики</Data></Cell>
+    <Cell><Data ss:Type="String">DM</Data></Cell>
+    <Cell><Data ss:Type="String">DMA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">62</Data></Cell>
+    <Cell><Data ss:Type="Number">214</Data></Cell>
+    <Cell><Data ss:Type="String">ДОМИНИКАНСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">DO</Data></Cell>
+    <Cell><Data ss:Type="String">DOM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">63</Data></Cell>
+    <Cell><Data ss:Type="Number">218</Data></Cell>
+    <Cell><Data ss:Type="String">ЭКВАДОР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Эквадор</Data></Cell>
+    <Cell><Data ss:Type="String">EC</Data></Cell>
+    <Cell><Data ss:Type="String">ECU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">64</Data></Cell>
+    <Cell><Data ss:Type="Number">222</Data></Cell>
+    <Cell><Data ss:Type="String">ЭЛЬ-САЛЬВАДОР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Эль-Сальвадор</Data></Cell>
+    <Cell><Data ss:Type="String">SV</Data></Cell>
+    <Cell><Data ss:Type="String">SLV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">65</Data></Cell>
+    <Cell><Data ss:Type="Number">226</Data></Cell>
+    <Cell><Data ss:Type="String">ЭКВАТОРИАЛЬНАЯ ГВИНЕЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Экваториальная Гвинея</Data></Cell>
+    <Cell><Data ss:Type="String">GQ</Data></Cell>
+    <Cell><Data ss:Type="String">GNQ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">66</Data></Cell>
+    <Cell><Data ss:Type="Number">231</Data></Cell>
+    <Cell><Data ss:Type="String">ЭФИОПИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Федеративная Демократическая Республика Эфиопия</Data></Cell>
+    <Cell><Data ss:Type="String">ET</Data></Cell>
+    <Cell><Data ss:Type="String">ETH</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">67</Data></Cell>
+    <Cell><Data ss:Type="Number">232</Data></Cell>
+    <Cell><Data ss:Type="String">ЭРИТРЕЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Государство Эритрея</Data></Cell>
+    <Cell><Data ss:Type="String">ER</Data></Cell>
+    <Cell><Data ss:Type="String">ERI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">68</Data></Cell>
+    <Cell><Data ss:Type="Number">233</Data></Cell>
+    <Cell><Data ss:Type="String">ЭСТОНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Эстонская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">EE</Data></Cell>
+    <Cell><Data ss:Type="String">EST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">69</Data></Cell>
+    <Cell><Data ss:Type="Number">234</Data></Cell>
+    <Cell><Data ss:Type="String">ФАРЕРСКИЕ ОСТРОВА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">FO</Data></Cell>
+    <Cell><Data ss:Type="String">FRO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">70</Data></Cell>
+    <Cell><Data ss:Type="Number">238</Data></Cell>
+    <Cell><Data ss:Type="String">ФОЛКЛЕНДСКИЕ ОСТРОВА (МАЛЬВИНСКИЕ)</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">FK</Data></Cell>
+    <Cell><Data ss:Type="String">FLK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">71</Data></Cell>
+    <Cell><Data ss:Type="Number">239</Data></Cell>
+    <Cell><Data ss:Type="String">ЮЖНАЯ ДЖОРДЖИЯ И ЮЖНЫЕ САНДВИЧЕВЫ ОСТРОВА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GS</Data></Cell>
+    <Cell><Data ss:Type="String">SGS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">72</Data></Cell>
+    <Cell><Data ss:Type="Number">242</Data></Cell>
+    <Cell><Data ss:Type="String">ФИДЖИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Фиджи</Data></Cell>
+    <Cell><Data ss:Type="String">FJ</Data></Cell>
+    <Cell><Data ss:Type="String">FJI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">73</Data></Cell>
+    <Cell><Data ss:Type="Number">246</Data></Cell>
+    <Cell><Data ss:Type="String">ФИНЛЯНДИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Финляндская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">FI</Data></Cell>
+    <Cell><Data ss:Type="String">FIN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">74</Data></Cell>
+    <Cell><Data ss:Type="Number">248</Data></Cell>
+    <Cell><Data ss:Type="String">АЛАНДСКИЕ ОСТРОВА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AX</Data></Cell>
+    <Cell><Data ss:Type="String">ALA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">75</Data></Cell>
+    <Cell><Data ss:Type="Number">250</Data></Cell>
+    <Cell><Data ss:Type="String">ФРАНЦИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Французская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">FR</Data></Cell>
+    <Cell><Data ss:Type="String">FRA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">76</Data></Cell>
+    <Cell><Data ss:Type="Number">254</Data></Cell>
+    <Cell><Data ss:Type="String">ФРАНЦУЗСКАЯ ГВИАНА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GF</Data></Cell>
+    <Cell><Data ss:Type="String">GUF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">77</Data></Cell>
+    <Cell><Data ss:Type="Number">258</Data></Cell>
+    <Cell><Data ss:Type="String">ФРАНЦУЗСКАЯ ПОЛИНЕЗИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">PF</Data></Cell>
+    <Cell><Data ss:Type="String">PYF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">78</Data></Cell>
+    <Cell><Data ss:Type="Number">260</Data></Cell>
+    <Cell><Data ss:Type="String">ФРАНЦУЗСКИЕ ЮЖНЫЕ ТЕРРИТОРИИ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">TF</Data></Cell>
+    <Cell><Data ss:Type="String">ATF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">79</Data></Cell>
+    <Cell><Data ss:Type="Number">262</Data></Cell>
+    <Cell><Data ss:Type="String">ДЖИБУТИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Джибути</Data></Cell>
+    <Cell><Data ss:Type="String">DJ</Data></Cell>
+    <Cell><Data ss:Type="String">DJI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="Number">266</Data></Cell>
+    <Cell><Data ss:Type="String">ГАБОН</Data></Cell>
+    <Cell><Data ss:Type="String">Габонская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">GA</Data></Cell>
+    <Cell><Data ss:Type="String">GAB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">81</Data></Cell>
+    <Cell><Data ss:Type="Number">268</Data></Cell>
+    <Cell><Data ss:Type="String">ГРУЗИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GE</Data></Cell>
+    <Cell><Data ss:Type="String">GEO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">82</Data></Cell>
+    <Cell><Data ss:Type="Number">270</Data></Cell>
+    <Cell><Data ss:Type="String">ГАМБИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Исламская Республика Гамбия</Data></Cell>
+    <Cell><Data ss:Type="String">GM</Data></Cell>
+    <Cell><Data ss:Type="String">GMB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">83</Data></Cell>
+    <Cell><Data ss:Type="Number">275</Data></Cell>
+    <Cell><Data ss:Type="String">ПАЛЕСТИНА, ГОСУДАРСТВО</Data></Cell>
+    <Cell><Data ss:Type="String">Государство Палестина</Data></Cell>
+    <Cell><Data ss:Type="String">PS</Data></Cell>
+    <Cell><Data ss:Type="String">PSE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">84</Data></Cell>
+    <Cell><Data ss:Type="Number">276</Data></Cell>
+    <Cell><Data ss:Type="String">ГЕРМАНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Федеративная Республика Германия</Data></Cell>
+    <Cell><Data ss:Type="String">DE</Data></Cell>
+    <Cell><Data ss:Type="String">DEU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">85</Data></Cell>
+    <Cell><Data ss:Type="Number">288</Data></Cell>
+    <Cell><Data ss:Type="String">ГАНА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Гана</Data></Cell>
+    <Cell><Data ss:Type="String">GH</Data></Cell>
+    <Cell><Data ss:Type="String">GHA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">86</Data></Cell>
+    <Cell><Data ss:Type="Number">292</Data></Cell>
+    <Cell><Data ss:Type="String">ГИБРАЛТАР</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GI</Data></Cell>
+    <Cell><Data ss:Type="String">GIB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">87</Data></Cell>
+    <Cell><Data ss:Type="Number">296</Data></Cell>
+    <Cell><Data ss:Type="String">КИРИБАТИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Кирибати</Data></Cell>
+    <Cell><Data ss:Type="String">KI</Data></Cell>
+    <Cell><Data ss:Type="String">KIR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">88</Data></Cell>
+    <Cell><Data ss:Type="Number">300</Data></Cell>
+    <Cell><Data ss:Type="String">ГРЕЦИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Греческая Республика</Data></Cell>
+    <Cell><Data ss:Type="String">GR</Data></Cell>
+    <Cell><Data ss:Type="String">GRC</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">89</Data></Cell>
+    <Cell><Data ss:Type="Number">304</Data></Cell>
+    <Cell><Data ss:Type="String">ГРЕНЛАНДИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GL</Data></Cell>
+    <Cell><Data ss:Type="String">GRL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">90</Data></Cell>
+    <Cell><Data ss:Type="Number">308</Data></Cell>
+    <Cell><Data ss:Type="String">ГРЕНАДА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GD</Data></Cell>
+    <Cell><Data ss:Type="String">GRD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">91</Data></Cell>
+    <Cell><Data ss:Type="Number">312</Data></Cell>
+    <Cell><Data ss:Type="String">ГВАДЕЛУПА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GP</Data></Cell>
+    <Cell><Data ss:Type="String">GLP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">92</Data></Cell>
+    <Cell><Data ss:Type="Number">316</Data></Cell>
+    <Cell><Data ss:Type="String">ГУАМ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GU</Data></Cell>
+    <Cell><Data ss:Type="String">GUM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">93</Data></Cell>
+    <Cell><Data ss:Type="Number">320</Data></Cell>
+    <Cell><Data ss:Type="String">ГВАТЕМАЛА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Гватемала</Data></Cell>
+    <Cell><Data ss:Type="String">GT</Data></Cell>
+    <Cell><Data ss:Type="String">GTM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">94</Data></Cell>
+    <Cell><Data ss:Type="Number">324</Data></Cell>
+    <Cell><Data ss:Type="String">ГВИНЕЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Гвинейская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">GN</Data></Cell>
+    <Cell><Data ss:Type="String">GIN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">95</Data></Cell>
+    <Cell><Data ss:Type="Number">328</Data></Cell>
+    <Cell><Data ss:Type="String">ГАЙАНА</Data></Cell>
+    <Cell><Data ss:Type="String">Кооперативная Республика Гайана</Data></Cell>
+    <Cell><Data ss:Type="String">GY</Data></Cell>
+    <Cell><Data ss:Type="String">GUY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">96</Data></Cell>
+    <Cell><Data ss:Type="Number">332</Data></Cell>
+    <Cell><Data ss:Type="String">ГАИТИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Гаити</Data></Cell>
+    <Cell><Data ss:Type="String">HT</Data></Cell>
+    <Cell><Data ss:Type="String">HTI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">97</Data></Cell>
+    <Cell><Data ss:Type="Number">334</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВ ХЕРД И ОСТРОВА МАКДОНАЛЬД</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">HM</Data></Cell>
+    <Cell><Data ss:Type="String">HMD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">98</Data></Cell>
+    <Cell><Data ss:Type="Number">336</Data></Cell>
+    <Cell><Data ss:Type="String">ПАПСКИЙ ПРЕСТОЛ (ГОСУДАРСТВО - ГОРОД ВАТИКАН)</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">VA</Data></Cell>
+    <Cell><Data ss:Type="String">VAT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">99</Data></Cell>
+    <Cell><Data ss:Type="Number">340</Data></Cell>
+    <Cell><Data ss:Type="String">ГОНДУРАС</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Гондурас</Data></Cell>
+    <Cell><Data ss:Type="String">HN</Data></Cell>
+    <Cell><Data ss:Type="String">HND</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="Number">344</Data></Cell>
+    <Cell><Data ss:Type="String">ГОНКОНГ</Data></Cell>
+    <Cell><Data ss:Type="String">Специальный административный район Гонконг Китайской Народной Республики</Data></Cell>
+    <Cell><Data ss:Type="String">HK</Data></Cell>
+    <Cell><Data ss:Type="String">HKG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">101</Data></Cell>
+    <Cell><Data ss:Type="Number">348</Data></Cell>
+    <Cell><Data ss:Type="String">ВЕНГРИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Венгрия</Data></Cell>
+    <Cell><Data ss:Type="String">HU</Data></Cell>
+    <Cell><Data ss:Type="String">HUN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">102</Data></Cell>
+    <Cell><Data ss:Type="Number">352</Data></Cell>
+    <Cell><Data ss:Type="String">ИСЛАНДИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">IS</Data></Cell>
+    <Cell><Data ss:Type="String">ISL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">103</Data></Cell>
+    <Cell><Data ss:Type="Number">356</Data></Cell>
+    <Cell><Data ss:Type="String">ИНДИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Индия</Data></Cell>
+    <Cell><Data ss:Type="String">IN</Data></Cell>
+    <Cell><Data ss:Type="String">IND</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">104</Data></Cell>
+    <Cell><Data ss:Type="Number">360</Data></Cell>
+    <Cell><Data ss:Type="String">ИНДОНЕЗИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Индонезия</Data></Cell>
+    <Cell><Data ss:Type="String">ID</Data></Cell>
+    <Cell><Data ss:Type="String">IDN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">105</Data></Cell>
+    <Cell><Data ss:Type="Number">364</Data></Cell>
+    <Cell><Data ss:Type="String">ИРАН (ИСЛАМСКАЯ РЕСПУБЛИКА)</Data></Cell>
+    <Cell><Data ss:Type="String">Исламская Республика Иран</Data></Cell>
+    <Cell><Data ss:Type="String">IR</Data></Cell>
+    <Cell><Data ss:Type="String">IRN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">106</Data></Cell>
+    <Cell><Data ss:Type="Number">368</Data></Cell>
+    <Cell><Data ss:Type="String">ИРАК</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Ирак</Data></Cell>
+    <Cell><Data ss:Type="String">IQ</Data></Cell>
+    <Cell><Data ss:Type="String">IRQ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">107</Data></Cell>
+    <Cell><Data ss:Type="Number">372</Data></Cell>
+    <Cell><Data ss:Type="String">ИРЛАНДИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">IE</Data></Cell>
+    <Cell><Data ss:Type="String">IRL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">108</Data></Cell>
+    <Cell><Data ss:Type="Number">376</Data></Cell>
+    <Cell><Data ss:Type="String">ИЗРАИЛЬ</Data></Cell>
+    <Cell><Data ss:Type="String">Государство Израиль</Data></Cell>
+    <Cell><Data ss:Type="String">IL</Data></Cell>
+    <Cell><Data ss:Type="String">ISR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">109</Data></Cell>
+    <Cell><Data ss:Type="Number">380</Data></Cell>
+    <Cell><Data ss:Type="String">ИТАЛИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Итальянская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">IT</Data></Cell>
+    <Cell><Data ss:Type="String">ITA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">110</Data></Cell>
+    <Cell><Data ss:Type="Number">384</Data></Cell>
+    <Cell><Data ss:Type="String">КОТ Д'ИВУАР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Кот д'Ивуар</Data></Cell>
+    <Cell><Data ss:Type="String">CI</Data></Cell>
+    <Cell><Data ss:Type="String">CIV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">111</Data></Cell>
+    <Cell><Data ss:Type="Number">388</Data></Cell>
+    <Cell><Data ss:Type="String">ЯМАЙКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">JM</Data></Cell>
+    <Cell><Data ss:Type="String">JAM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">112</Data></Cell>
+    <Cell><Data ss:Type="Number">392</Data></Cell>
+    <Cell><Data ss:Type="String">ЯПОНИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">JP</Data></Cell>
+    <Cell><Data ss:Type="String">JPN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">113</Data></Cell>
+    <Cell><Data ss:Type="Number">398</Data></Cell>
+    <Cell><Data ss:Type="String">КАЗАХСТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Казахстан</Data></Cell>
+    <Cell><Data ss:Type="String">KZ</Data></Cell>
+    <Cell><Data ss:Type="String">KAZ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">114</Data></Cell>
+    <Cell><Data ss:Type="Number">400</Data></Cell>
+    <Cell><Data ss:Type="String">ИОРДАНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Иорданское Хашимитское Королевство</Data></Cell>
+    <Cell><Data ss:Type="String">JO</Data></Cell>
+    <Cell><Data ss:Type="String">JOR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">115</Data></Cell>
+    <Cell><Data ss:Type="Number">404</Data></Cell>
+    <Cell><Data ss:Type="String">КЕНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Кения</Data></Cell>
+    <Cell><Data ss:Type="String">KE</Data></Cell>
+    <Cell><Data ss:Type="String">KEN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">116</Data></Cell>
+    <Cell><Data ss:Type="Number">408</Data></Cell>
+    <Cell><Data ss:Type="String">КОРЕЯ, НАРОДНО-ДЕМОКРАТИЧЕСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Корейская Народно-Демократическая Республика</Data></Cell>
+    <Cell><Data ss:Type="String">KP</Data></Cell>
+    <Cell><Data ss:Type="String">PRK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">117</Data></Cell>
+    <Cell><Data ss:Type="Number">410</Data></Cell>
+    <Cell><Data ss:Type="String">КОРЕЯ, РЕСПУБЛИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Корея</Data></Cell>
+    <Cell><Data ss:Type="String">KR</Data></Cell>
+    <Cell><Data ss:Type="String">KOR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">118</Data></Cell>
+    <Cell><Data ss:Type="Number">414</Data></Cell>
+    <Cell><Data ss:Type="String">КУВЕЙТ</Data></Cell>
+    <Cell><Data ss:Type="String">Государство Кувейт</Data></Cell>
+    <Cell><Data ss:Type="String">KW</Data></Cell>
+    <Cell><Data ss:Type="String">KWT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">119</Data></Cell>
+    <Cell><Data ss:Type="Number">417</Data></Cell>
+    <Cell><Data ss:Type="String">КИРГИЗИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Киргизская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">KG</Data></Cell>
+    <Cell><Data ss:Type="String">KGZ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">120</Data></Cell>
+    <Cell><Data ss:Type="Number">418</Data></Cell>
+    <Cell><Data ss:Type="String">ЛАОССКАЯ НАРОДНО-ДЕМОКРАТИЧЕСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">LA</Data></Cell>
+    <Cell><Data ss:Type="String">LAO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">121</Data></Cell>
+    <Cell><Data ss:Type="Number">422</Data></Cell>
+    <Cell><Data ss:Type="String">ЛИВАН</Data></Cell>
+    <Cell><Data ss:Type="String">Ливанская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">LB</Data></Cell>
+    <Cell><Data ss:Type="String">LBN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">122</Data></Cell>
+    <Cell><Data ss:Type="Number">426</Data></Cell>
+    <Cell><Data ss:Type="String">ЛЕСОТО</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Лесото</Data></Cell>
+    <Cell><Data ss:Type="String">LS</Data></Cell>
+    <Cell><Data ss:Type="String">LSO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">123</Data></Cell>
+    <Cell><Data ss:Type="Number">428</Data></Cell>
+    <Cell><Data ss:Type="String">ЛАТВИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Латвийская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">LV</Data></Cell>
+    <Cell><Data ss:Type="String">LVA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">124</Data></Cell>
+    <Cell><Data ss:Type="Number">430</Data></Cell>
+    <Cell><Data ss:Type="String">ЛИБЕРИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Либерия</Data></Cell>
+    <Cell><Data ss:Type="String">LR</Data></Cell>
+    <Cell><Data ss:Type="String">LBR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">125</Data></Cell>
+    <Cell><Data ss:Type="Number">434</Data></Cell>
+    <Cell><Data ss:Type="String">ЛИВИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Государство Ливия</Data></Cell>
+    <Cell><Data ss:Type="String">LY</Data></Cell>
+    <Cell><Data ss:Type="String">LBY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">126</Data></Cell>
+    <Cell><Data ss:Type="Number">438</Data></Cell>
+    <Cell><Data ss:Type="String">ЛИХТЕНШТЕЙН</Data></Cell>
+    <Cell><Data ss:Type="String">Княжество Лихтенштейн</Data></Cell>
+    <Cell><Data ss:Type="String">LI</Data></Cell>
+    <Cell><Data ss:Type="String">LIE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">127</Data></Cell>
+    <Cell><Data ss:Type="Number">440</Data></Cell>
+    <Cell><Data ss:Type="String">ЛИТВА</Data></Cell>
+    <Cell><Data ss:Type="String">Литовская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">LT</Data></Cell>
+    <Cell><Data ss:Type="String">LTU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">128</Data></Cell>
+    <Cell><Data ss:Type="Number">442</Data></Cell>
+    <Cell><Data ss:Type="String">ЛЮКСЕМБУРГ</Data></Cell>
+    <Cell><Data ss:Type="String">Великое Герцогство Люксембург</Data></Cell>
+    <Cell><Data ss:Type="String">LU</Data></Cell>
+    <Cell><Data ss:Type="String">LUX</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">129</Data></Cell>
+    <Cell><Data ss:Type="Number">446</Data></Cell>
+    <Cell><Data ss:Type="String">МАКАО</Data></Cell>
+    <Cell><Data ss:Type="String">Специальный административный район Макао Китайской Народной Республики</Data></Cell>
+    <Cell><Data ss:Type="String">MO</Data></Cell>
+    <Cell><Data ss:Type="String">MAC</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">130</Data></Cell>
+    <Cell><Data ss:Type="Number">450</Data></Cell>
+    <Cell><Data ss:Type="String">МАДАГАСКАР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Мадагаскар</Data></Cell>
+    <Cell><Data ss:Type="String">MG</Data></Cell>
+    <Cell><Data ss:Type="String">MDG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">131</Data></Cell>
+    <Cell><Data ss:Type="Number">454</Data></Cell>
+    <Cell><Data ss:Type="String">МАЛАВИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Малави</Data></Cell>
+    <Cell><Data ss:Type="String">MW</Data></Cell>
+    <Cell><Data ss:Type="String">MWI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">132</Data></Cell>
+    <Cell><Data ss:Type="Number">458</Data></Cell>
+    <Cell><Data ss:Type="String">МАЛАЙЗИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">MY</Data></Cell>
+    <Cell><Data ss:Type="String">MYS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">133</Data></Cell>
+    <Cell><Data ss:Type="Number">462</Data></Cell>
+    <Cell><Data ss:Type="String">МАЛЬДИВЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Мальдивская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">MV</Data></Cell>
+    <Cell><Data ss:Type="String">MDV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">134</Data></Cell>
+    <Cell><Data ss:Type="Number">466</Data></Cell>
+    <Cell><Data ss:Type="String">МАЛИ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Мали</Data></Cell>
+    <Cell><Data ss:Type="String">ML</Data></Cell>
+    <Cell><Data ss:Type="String">MLI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">135</Data></Cell>
+    <Cell><Data ss:Type="Number">470</Data></Cell>
+    <Cell><Data ss:Type="String">МАЛЬТА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Мальта</Data></Cell>
+    <Cell><Data ss:Type="String">MT</Data></Cell>
+    <Cell><Data ss:Type="String">MLT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">136</Data></Cell>
+    <Cell><Data ss:Type="Number">474</Data></Cell>
+    <Cell><Data ss:Type="String">МАРТИНИКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">MQ</Data></Cell>
+    <Cell><Data ss:Type="String">MTQ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">137</Data></Cell>
+    <Cell><Data ss:Type="Number">478</Data></Cell>
+    <Cell><Data ss:Type="String">МАВРИТАНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Исламская Республика Мавритания</Data></Cell>
+    <Cell><Data ss:Type="String">MR</Data></Cell>
+    <Cell><Data ss:Type="String">MRT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">138</Data></Cell>
+    <Cell><Data ss:Type="Number">480</Data></Cell>
+    <Cell><Data ss:Type="String">МАВРИКИЙ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Маврикий</Data></Cell>
+    <Cell><Data ss:Type="String">MU</Data></Cell>
+    <Cell><Data ss:Type="String">MUS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">139</Data></Cell>
+    <Cell><Data ss:Type="Number">484</Data></Cell>
+    <Cell><Data ss:Type="String">МЕКСИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Мексиканские Соединенные Штаты</Data></Cell>
+    <Cell><Data ss:Type="String">MX</Data></Cell>
+    <Cell><Data ss:Type="String">MEX</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">140</Data></Cell>
+    <Cell><Data ss:Type="Number">492</Data></Cell>
+    <Cell><Data ss:Type="String">МОНАКО</Data></Cell>
+    <Cell><Data ss:Type="String">Княжество Монако</Data></Cell>
+    <Cell><Data ss:Type="String">MC</Data></Cell>
+    <Cell><Data ss:Type="String">MCO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">141</Data></Cell>
+    <Cell><Data ss:Type="Number">496</Data></Cell>
+    <Cell><Data ss:Type="String">МОНГОЛИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">MN</Data></Cell>
+    <Cell><Data ss:Type="String">MNG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">142</Data></Cell>
+    <Cell><Data ss:Type="Number">498</Data></Cell>
+    <Cell><Data ss:Type="String">МОЛДОВА, РЕСПУБЛИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Молдова</Data></Cell>
+    <Cell><Data ss:Type="String">MD</Data></Cell>
+    <Cell><Data ss:Type="String">MDA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">143</Data></Cell>
+    <Cell><Data ss:Type="Number">499</Data></Cell>
+    <Cell><Data ss:Type="String">ЧЕРНОГОРИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">ME</Data></Cell>
+    <Cell><Data ss:Type="String">MNE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">144</Data></Cell>
+    <Cell><Data ss:Type="Number">500</Data></Cell>
+    <Cell><Data ss:Type="String">МОНТСЕРРАТ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">MS</Data></Cell>
+    <Cell><Data ss:Type="String">MSR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">145</Data></Cell>
+    <Cell><Data ss:Type="Number">504</Data></Cell>
+    <Cell><Data ss:Type="String">МАРОККО</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Марокко</Data></Cell>
+    <Cell><Data ss:Type="String">MA</Data></Cell>
+    <Cell><Data ss:Type="String">MAR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">146</Data></Cell>
+    <Cell><Data ss:Type="Number">508</Data></Cell>
+    <Cell><Data ss:Type="String">МОЗАМБИК</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Мозамбик</Data></Cell>
+    <Cell><Data ss:Type="String">MZ</Data></Cell>
+    <Cell><Data ss:Type="String">MOZ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">147</Data></Cell>
+    <Cell><Data ss:Type="Number">512</Data></Cell>
+    <Cell><Data ss:Type="String">ОМАН</Data></Cell>
+    <Cell><Data ss:Type="String">Султанат Оман</Data></Cell>
+    <Cell><Data ss:Type="String">OM</Data></Cell>
+    <Cell><Data ss:Type="String">OMN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">148</Data></Cell>
+    <Cell><Data ss:Type="Number">516</Data></Cell>
+    <Cell><Data ss:Type="String">НАМИБИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Намибия</Data></Cell>
+    <Cell><Data ss:Type="String">NA</Data></Cell>
+    <Cell><Data ss:Type="String">NAM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">149</Data></Cell>
+    <Cell><Data ss:Type="Number">520</Data></Cell>
+    <Cell><Data ss:Type="String">НАУРУ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Науру</Data></Cell>
+    <Cell><Data ss:Type="String">NR</Data></Cell>
+    <Cell><Data ss:Type="String">NRU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">150</Data></Cell>
+    <Cell><Data ss:Type="Number">524</Data></Cell>
+    <Cell><Data ss:Type="String">НЕПАЛ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">NP</Data></Cell>
+    <Cell><Data ss:Type="String">NPL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">151</Data></Cell>
+    <Cell><Data ss:Type="Number">528</Data></Cell>
+    <Cell><Data ss:Type="String">НИДЕРЛАНДЫ, КОРОЛЕВСТВО</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Нидерландов</Data></Cell>
+    <Cell><Data ss:Type="String">NL</Data></Cell>
+    <Cell><Data ss:Type="String">NLD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">152</Data></Cell>
+    <Cell><Data ss:Type="Number">531</Data></Cell>
+    <Cell><Data ss:Type="String">КЮРАСАО</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">CW</Data></Cell>
+    <Cell><Data ss:Type="String">CUW</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">153</Data></Cell>
+    <Cell><Data ss:Type="Number">533</Data></Cell>
+    <Cell><Data ss:Type="String">АРУБА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AW</Data></Cell>
+    <Cell><Data ss:Type="String">ABW</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">154</Data></Cell>
+    <Cell><Data ss:Type="Number">534</Data></Cell>
+    <Cell><Data ss:Type="String">СЕН-МАРТЕН (нидерландская часть)</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">SX</Data></Cell>
+    <Cell><Data ss:Type="String">SXM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">155</Data></Cell>
+    <Cell><Data ss:Type="Number">535</Data></Cell>
+    <Cell><Data ss:Type="String">БОНЭЙР, СИНТ-ЭСТАТИУС И САБА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BQ</Data></Cell>
+    <Cell><Data ss:Type="String">BES</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">156</Data></Cell>
+    <Cell><Data ss:Type="Number">540</Data></Cell>
+    <Cell><Data ss:Type="String">НОВАЯ КАЛЕДОНИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">NC</Data></Cell>
+    <Cell><Data ss:Type="String">NCL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">157</Data></Cell>
+    <Cell><Data ss:Type="Number">548</Data></Cell>
+    <Cell><Data ss:Type="String">ВАНУАТУ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Вануату</Data></Cell>
+    <Cell><Data ss:Type="String">VU</Data></Cell>
+    <Cell><Data ss:Type="String">VUT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">158</Data></Cell>
+    <Cell><Data ss:Type="Number">554</Data></Cell>
+    <Cell><Data ss:Type="String">НОВАЯ ЗЕЛАНДИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">NZ</Data></Cell>
+    <Cell><Data ss:Type="String">NZL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">159</Data></Cell>
+    <Cell><Data ss:Type="Number">558</Data></Cell>
+    <Cell><Data ss:Type="String">НИКАРАГУА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Никарагуа</Data></Cell>
+    <Cell><Data ss:Type="String">NI</Data></Cell>
+    <Cell><Data ss:Type="String">NIC</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">160</Data></Cell>
+    <Cell><Data ss:Type="Number">562</Data></Cell>
+    <Cell><Data ss:Type="String">НИГЕР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Нигер</Data></Cell>
+    <Cell><Data ss:Type="String">NE</Data></Cell>
+    <Cell><Data ss:Type="String">NER</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">161</Data></Cell>
+    <Cell><Data ss:Type="Number">566</Data></Cell>
+    <Cell><Data ss:Type="String">НИГЕРИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Федеративная Республика Нигерия</Data></Cell>
+    <Cell><Data ss:Type="String">NG</Data></Cell>
+    <Cell><Data ss:Type="String">NGA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">162</Data></Cell>
+    <Cell><Data ss:Type="Number">570</Data></Cell>
+    <Cell><Data ss:Type="String">НИУЭ</Data></Cell>
+    <Cell><Data ss:Type="String">Ниуэ</Data></Cell>
+    <Cell><Data ss:Type="String">NU</Data></Cell>
+    <Cell><Data ss:Type="String">NIU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">163</Data></Cell>
+    <Cell><Data ss:Type="Number">574</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВ НОРФОЛК</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">NF</Data></Cell>
+    <Cell><Data ss:Type="String">NFK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">164</Data></Cell>
+    <Cell><Data ss:Type="Number">578</Data></Cell>
+    <Cell><Data ss:Type="String">НОРВЕГИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Норвегия</Data></Cell>
+    <Cell><Data ss:Type="String">NO</Data></Cell>
+    <Cell><Data ss:Type="String">NOR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">165</Data></Cell>
+    <Cell><Data ss:Type="Number">580</Data></Cell>
+    <Cell><Data ss:Type="String">СЕВЕРНЫЕ МАРИАНСКИЕ ОСТРОВА</Data></Cell>
+    <Cell><Data ss:Type="String">Содружество Северных Марианских островов</Data></Cell>
+    <Cell><Data ss:Type="String">MP</Data></Cell>
+    <Cell><Data ss:Type="String">MNP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">166</Data></Cell>
+    <Cell><Data ss:Type="Number">581</Data></Cell>
+    <Cell><Data ss:Type="String">МАЛЫЕ ТИХООКЕАНСКИЕ ОТДАЛЕННЫЕ ОСТРОВА СОЕДИНЕННЫХ ШТАТОВ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">UM</Data></Cell>
+    <Cell><Data ss:Type="String">UMI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">167</Data></Cell>
+    <Cell><Data ss:Type="Number">583</Data></Cell>
+    <Cell><Data ss:Type="String">МИКРОНЕЗИЯ, ФЕДЕРАТИВНЫЕ ШТАТЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Федеративные штаты Микронезии</Data></Cell>
+    <Cell><Data ss:Type="String">FM</Data></Cell>
+    <Cell><Data ss:Type="String">FSM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">168</Data></Cell>
+    <Cell><Data ss:Type="Number">584</Data></Cell>
+    <Cell><Data ss:Type="String">МАРШАЛЛОВЫ ОСТРОВА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Маршалловы Острова</Data></Cell>
+    <Cell><Data ss:Type="String">MH</Data></Cell>
+    <Cell><Data ss:Type="String">MHL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">169</Data></Cell>
+    <Cell><Data ss:Type="Number">585</Data></Cell>
+    <Cell><Data ss:Type="String">ПАЛАУ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Палау</Data></Cell>
+    <Cell><Data ss:Type="String">PW</Data></Cell>
+    <Cell><Data ss:Type="String">PLW</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">170</Data></Cell>
+    <Cell><Data ss:Type="Number">586</Data></Cell>
+    <Cell><Data ss:Type="String">ПАКИСТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Исламская Республика Пакистан</Data></Cell>
+    <Cell><Data ss:Type="String">PK</Data></Cell>
+    <Cell><Data ss:Type="String">PAK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">171</Data></Cell>
+    <Cell><Data ss:Type="Number">591</Data></Cell>
+    <Cell><Data ss:Type="String">ПАНАМА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Панама</Data></Cell>
+    <Cell><Data ss:Type="String">PA</Data></Cell>
+    <Cell><Data ss:Type="String">PAN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">172</Data></Cell>
+    <Cell><Data ss:Type="Number">598</Data></Cell>
+    <Cell><Data ss:Type="String">ПАПУА-НОВАЯ ГВИНЕЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Независимое Государство  Папуа Новая Гвинея</Data></Cell>
+    <Cell><Data ss:Type="String">PG</Data></Cell>
+    <Cell><Data ss:Type="String">PNG</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">173</Data></Cell>
+    <Cell><Data ss:Type="Number">600</Data></Cell>
+    <Cell><Data ss:Type="String">ПАРАГВАЙ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Парагвай</Data></Cell>
+    <Cell><Data ss:Type="String">PY</Data></Cell>
+    <Cell><Data ss:Type="String">PRY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">174</Data></Cell>
+    <Cell><Data ss:Type="Number">604</Data></Cell>
+    <Cell><Data ss:Type="String">ПЕРУ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Перу</Data></Cell>
+    <Cell><Data ss:Type="String">PE</Data></Cell>
+    <Cell><Data ss:Type="String">PER</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">175</Data></Cell>
+    <Cell><Data ss:Type="Number">608</Data></Cell>
+    <Cell><Data ss:Type="String">ФИЛИППИНЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Филиппины</Data></Cell>
+    <Cell><Data ss:Type="String">PH</Data></Cell>
+    <Cell><Data ss:Type="String">PHL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">176</Data></Cell>
+    <Cell><Data ss:Type="Number">612</Data></Cell>
+    <Cell><Data ss:Type="String">ПИТКЕРН</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">PN</Data></Cell>
+    <Cell><Data ss:Type="String">PCN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">177</Data></Cell>
+    <Cell><Data ss:Type="Number">616</Data></Cell>
+    <Cell><Data ss:Type="String">ПОЛЬША</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Польша</Data></Cell>
+    <Cell><Data ss:Type="String">PL</Data></Cell>
+    <Cell><Data ss:Type="String">POL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">178</Data></Cell>
+    <Cell><Data ss:Type="Number">620</Data></Cell>
+    <Cell><Data ss:Type="String">ПОРТУГАЛИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Португальская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">PT</Data></Cell>
+    <Cell><Data ss:Type="String">PRT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">179</Data></Cell>
+    <Cell><Data ss:Type="Number">624</Data></Cell>
+    <Cell><Data ss:Type="String">ГВИНЕЯ-БИСАУ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Гвинея-Бисау</Data></Cell>
+    <Cell><Data ss:Type="String">GW</Data></Cell>
+    <Cell><Data ss:Type="String">GNB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">180</Data></Cell>
+    <Cell><Data ss:Type="Number">626</Data></Cell>
+    <Cell><Data ss:Type="String">ТИМОР-ЛЕСТЕ</Data></Cell>
+    <Cell><Data ss:Type="String">Демократическая Республика Тимор-Лесте</Data></Cell>
+    <Cell><Data ss:Type="String">TL</Data></Cell>
+    <Cell><Data ss:Type="String">TLS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">181</Data></Cell>
+    <Cell><Data ss:Type="Number">630</Data></Cell>
+    <Cell><Data ss:Type="String">ПУЭРТО-РИКО</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">PR</Data></Cell>
+    <Cell><Data ss:Type="String">PRI</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">182</Data></Cell>
+    <Cell><Data ss:Type="Number">634</Data></Cell>
+    <Cell><Data ss:Type="String">КАТАР</Data></Cell>
+    <Cell><Data ss:Type="String">Государство Катар</Data></Cell>
+    <Cell><Data ss:Type="String">QA</Data></Cell>
+    <Cell><Data ss:Type="String">QAT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">183</Data></Cell>
+    <Cell><Data ss:Type="Number">638</Data></Cell>
+    <Cell><Data ss:Type="String">РЕЮНЬОН</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">RE</Data></Cell>
+    <Cell><Data ss:Type="String">REU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">184</Data></Cell>
+    <Cell><Data ss:Type="Number">642</Data></Cell>
+    <Cell><Data ss:Type="String">РУМЫНИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">RO</Data></Cell>
+    <Cell><Data ss:Type="String">ROU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">185</Data></Cell>
+    <Cell><Data ss:Type="Number">643</Data></Cell>
+    <Cell><Data ss:Type="String">РОССИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Российская Федерация</Data></Cell>
+    <Cell><Data ss:Type="String">RU</Data></Cell>
+    <Cell><Data ss:Type="String">RUS</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">186</Data></Cell>
+    <Cell><Data ss:Type="Number">646</Data></Cell>
+    <Cell><Data ss:Type="String">РУАНДА</Data></Cell>
+    <Cell><Data ss:Type="String">Руандийская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">RW</Data></Cell>
+    <Cell><Data ss:Type="String">RWA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">187</Data></Cell>
+    <Cell><Data ss:Type="Number">652</Data></Cell>
+    <Cell><Data ss:Type="String">СЕН-БАРТЕЛЕМИ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BL</Data></Cell>
+    <Cell><Data ss:Type="String">BLM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">188</Data></Cell>
+    <Cell><Data ss:Type="Number">654</Data></Cell>
+    <Cell><Data ss:Type="String">СВЯТАЯ ЕЛЕНА, ОСТРОВ ВОЗНЕСЕНИЯ, ТРИСТАН-ДА-КУНЬЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">SH</Data></Cell>
+    <Cell><Data ss:Type="String">SHN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">189</Data></Cell>
+    <Cell><Data ss:Type="Number">659</Data></Cell>
+    <Cell><Data ss:Type="String">СЕНТ-КИТС И НЕВИС</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">KN</Data></Cell>
+    <Cell><Data ss:Type="String">KNA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">190</Data></Cell>
+    <Cell><Data ss:Type="Number">660</Data></Cell>
+    <Cell><Data ss:Type="String">АНГИЛЬЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AI</Data></Cell>
+    <Cell><Data ss:Type="String">AIA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">191</Data></Cell>
+    <Cell><Data ss:Type="Number">662</Data></Cell>
+    <Cell><Data ss:Type="String">СЕНТ-ЛЮСИЯ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">LC</Data></Cell>
+    <Cell><Data ss:Type="String">LCA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">192</Data></Cell>
+    <Cell><Data ss:Type="Number">663</Data></Cell>
+    <Cell><Data ss:Type="String">СЕН-МАРТЕН (французская часть)&#10;</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">MF</Data></Cell>
+    <Cell><Data ss:Type="String">MAF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">193</Data></Cell>
+    <Cell><Data ss:Type="Number">666</Data></Cell>
+    <Cell><Data ss:Type="String">СЕН-ПЬЕР И МИКЕЛОН</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">PM</Data></Cell>
+    <Cell><Data ss:Type="String">SPM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">194</Data></Cell>
+    <Cell><Data ss:Type="Number">670</Data></Cell>
+    <Cell><Data ss:Type="String">СЕНТ-ВИНСЕНТ И ГРЕНАДИНЫ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">VC</Data></Cell>
+    <Cell><Data ss:Type="String">VCT</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">195</Data></Cell>
+    <Cell><Data ss:Type="Number">674</Data></Cell>
+    <Cell><Data ss:Type="String">САН-МАРИНО</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Сан-Марино</Data></Cell>
+    <Cell><Data ss:Type="String">SM</Data></Cell>
+    <Cell><Data ss:Type="String">SMR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">196</Data></Cell>
+    <Cell><Data ss:Type="Number">678</Data></Cell>
+    <Cell><Data ss:Type="String">САН-ТОМЕ И ПРИНСИПИ</Data></Cell>
+    <Cell><Data ss:Type="String">Демократическая Республика Сан-Томе и Принсипи</Data></Cell>
+    <Cell><Data ss:Type="String">ST</Data></Cell>
+    <Cell><Data ss:Type="String">STP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">197</Data></Cell>
+    <Cell><Data ss:Type="Number">682</Data></Cell>
+    <Cell><Data ss:Type="String">САУДОВСКАЯ АРАВИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Саудовская Аравия</Data></Cell>
+    <Cell><Data ss:Type="String">SA</Data></Cell>
+    <Cell><Data ss:Type="String">SAU</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">198</Data></Cell>
+    <Cell><Data ss:Type="Number">686</Data></Cell>
+    <Cell><Data ss:Type="String">СЕНЕГАЛ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Сенегал</Data></Cell>
+    <Cell><Data ss:Type="String">SN</Data></Cell>
+    <Cell><Data ss:Type="String">SEN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">199</Data></Cell>
+    <Cell><Data ss:Type="Number">688</Data></Cell>
+    <Cell><Data ss:Type="String">СЕРБИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Сербия</Data></Cell>
+    <Cell><Data ss:Type="String">RS</Data></Cell>
+    <Cell><Data ss:Type="String">SRB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="Number">690</Data></Cell>
+    <Cell><Data ss:Type="String">СЕЙШЕЛЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Сейшелы</Data></Cell>
+    <Cell><Data ss:Type="String">SC</Data></Cell>
+    <Cell><Data ss:Type="String">SYC</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">201</Data></Cell>
+    <Cell><Data ss:Type="Number">694</Data></Cell>
+    <Cell><Data ss:Type="String">СЬЕРРА-ЛЕОНЕ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Сьерра-Леоне</Data></Cell>
+    <Cell><Data ss:Type="String">SL</Data></Cell>
+    <Cell><Data ss:Type="String">SLE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">202</Data></Cell>
+    <Cell><Data ss:Type="Number">702</Data></Cell>
+    <Cell><Data ss:Type="String">СИНГАПУР</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Сингапур</Data></Cell>
+    <Cell><Data ss:Type="String">SG</Data></Cell>
+    <Cell><Data ss:Type="String">SGP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">203</Data></Cell>
+    <Cell><Data ss:Type="Number">703</Data></Cell>
+    <Cell><Data ss:Type="String">СЛОВАКИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Словацкая Республика</Data></Cell>
+    <Cell><Data ss:Type="String">SK</Data></Cell>
+    <Cell><Data ss:Type="String">SVK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">204</Data></Cell>
+    <Cell><Data ss:Type="Number">704</Data></Cell>
+    <Cell><Data ss:Type="String">ВЬЕТНАМ</Data></Cell>
+    <Cell><Data ss:Type="String">Социалистическая Республика Вьетнам</Data></Cell>
+    <Cell><Data ss:Type="String">VN</Data></Cell>
+    <Cell><Data ss:Type="String">VNM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">205</Data></Cell>
+    <Cell><Data ss:Type="Number">705</Data></Cell>
+    <Cell><Data ss:Type="String">СЛОВЕНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Словения</Data></Cell>
+    <Cell><Data ss:Type="String">SI</Data></Cell>
+    <Cell><Data ss:Type="String">SVN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">206</Data></Cell>
+    <Cell><Data ss:Type="Number">706</Data></Cell>
+    <Cell><Data ss:Type="String">СОМАЛИ</Data></Cell>
+    <Cell><Data ss:Type="String">Федеративная Республика Сомали</Data></Cell>
+    <Cell><Data ss:Type="String">SO</Data></Cell>
+    <Cell><Data ss:Type="String">SOM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">207</Data></Cell>
+    <Cell><Data ss:Type="Number">710</Data></Cell>
+    <Cell><Data ss:Type="String">ЮЖНАЯ АФРИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Южно-Африканская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">ZA</Data></Cell>
+    <Cell><Data ss:Type="String">ZAF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">208</Data></Cell>
+    <Cell><Data ss:Type="Number">716</Data></Cell>
+    <Cell><Data ss:Type="String">ЗИМБАБВЕ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Зимбабве</Data></Cell>
+    <Cell><Data ss:Type="String">ZW</Data></Cell>
+    <Cell><Data ss:Type="String">ZWE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">209</Data></Cell>
+    <Cell><Data ss:Type="Number">724</Data></Cell>
+    <Cell><Data ss:Type="String">ИСПАНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Испания</Data></Cell>
+    <Cell><Data ss:Type="String">ES</Data></Cell>
+    <Cell><Data ss:Type="String">ESP</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">210</Data></Cell>
+    <Cell><Data ss:Type="Number">728</Data></Cell>
+    <Cell><Data ss:Type="String">ЮЖНЫЙ СУДАН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Южный Судан</Data></Cell>
+    <Cell><Data ss:Type="String">SS</Data></Cell>
+    <Cell><Data ss:Type="String">SSD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">211</Data></Cell>
+    <Cell><Data ss:Type="Number">729</Data></Cell>
+    <Cell><Data ss:Type="String">СУДАН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Судан</Data></Cell>
+    <Cell><Data ss:Type="String">SD</Data></Cell>
+    <Cell><Data ss:Type="String">SDN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">212</Data></Cell>
+    <Cell><Data ss:Type="Number">732</Data></Cell>
+    <Cell><Data ss:Type="String">ЗАПАДНАЯ САХАРА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">EH</Data></Cell>
+    <Cell><Data ss:Type="String">ESH</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">213</Data></Cell>
+    <Cell><Data ss:Type="Number">740</Data></Cell>
+    <Cell><Data ss:Type="String">СУРИНАМ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Суринам</Data></Cell>
+    <Cell><Data ss:Type="String">SR</Data></Cell>
+    <Cell><Data ss:Type="String">SUR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">214</Data></Cell>
+    <Cell><Data ss:Type="Number">744</Data></Cell>
+    <Cell><Data ss:Type="String">ШПИЦБЕРГЕН И ЯН МАЙЕН</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">SJ</Data></Cell>
+    <Cell><Data ss:Type="String">SJM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">215</Data></Cell>
+    <Cell><Data ss:Type="Number">748</Data></Cell>
+    <Cell><Data ss:Type="String">ЭСВАТИНИ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Эсватини</Data></Cell>
+    <Cell><Data ss:Type="String">SZ</Data></Cell>
+    <Cell><Data ss:Type="String">SWZ</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">216</Data></Cell>
+    <Cell><Data ss:Type="Number">752</Data></Cell>
+    <Cell><Data ss:Type="String">ШВЕЦИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Швеция</Data></Cell>
+    <Cell><Data ss:Type="String">SE</Data></Cell>
+    <Cell><Data ss:Type="String">SWE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">217</Data></Cell>
+    <Cell><Data ss:Type="Number">756</Data></Cell>
+    <Cell><Data ss:Type="String">ШВЕЙЦАРИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Швейцарская Конфедерация</Data></Cell>
+    <Cell><Data ss:Type="String">CH</Data></Cell>
+    <Cell><Data ss:Type="String">CHE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">218</Data></Cell>
+    <Cell><Data ss:Type="Number">760</Data></Cell>
+    <Cell><Data ss:Type="String">СИРИЙСКАЯ АРАБСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">SY</Data></Cell>
+    <Cell><Data ss:Type="String">SYR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">219</Data></Cell>
+    <Cell><Data ss:Type="Number">762</Data></Cell>
+    <Cell><Data ss:Type="String">ТАДЖИКИСТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Таджикистан</Data></Cell>
+    <Cell><Data ss:Type="String">TJ</Data></Cell>
+    <Cell><Data ss:Type="String">TJK</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">220</Data></Cell>
+    <Cell><Data ss:Type="Number">764</Data></Cell>
+    <Cell><Data ss:Type="String">ТАИЛАНД</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Таиланд</Data></Cell>
+    <Cell><Data ss:Type="String">TH</Data></Cell>
+    <Cell><Data ss:Type="String">THA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">221</Data></Cell>
+    <Cell><Data ss:Type="Number">768</Data></Cell>
+    <Cell><Data ss:Type="String">ТОГО</Data></Cell>
+    <Cell><Data ss:Type="String">Тоголезская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">TG</Data></Cell>
+    <Cell><Data ss:Type="String">TGO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">222</Data></Cell>
+    <Cell><Data ss:Type="Number">772</Data></Cell>
+    <Cell><Data ss:Type="String">ТОКЕЛАУ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">TK</Data></Cell>
+    <Cell><Data ss:Type="String">TKL</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">223</Data></Cell>
+    <Cell><Data ss:Type="Number">776</Data></Cell>
+    <Cell><Data ss:Type="String">ТОНГА</Data></Cell>
+    <Cell><Data ss:Type="String">Королевство Тонга</Data></Cell>
+    <Cell><Data ss:Type="String">TO</Data></Cell>
+    <Cell><Data ss:Type="String">TON</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">224</Data></Cell>
+    <Cell><Data ss:Type="Number">780</Data></Cell>
+    <Cell><Data ss:Type="String">ТРИНИДАД И ТОБАГО</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Тринидад и Тобаго</Data></Cell>
+    <Cell><Data ss:Type="String">TT</Data></Cell>
+    <Cell><Data ss:Type="String">TTO</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">225</Data></Cell>
+    <Cell><Data ss:Type="Number">784</Data></Cell>
+    <Cell><Data ss:Type="String">ОБЪЕДИНЕННЫЕ АРАБСКИЕ ЭМИРАТЫ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">AE</Data></Cell>
+    <Cell><Data ss:Type="String">ARE</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">226</Data></Cell>
+    <Cell><Data ss:Type="Number">788</Data></Cell>
+    <Cell><Data ss:Type="String">ТУНИС</Data></Cell>
+    <Cell><Data ss:Type="String">Тунисская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">TN</Data></Cell>
+    <Cell><Data ss:Type="String">TUN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">227</Data></Cell>
+    <Cell><Data ss:Type="Number">792</Data></Cell>
+    <Cell><Data ss:Type="String">ТУРЦИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Турецкая Республика</Data></Cell>
+    <Cell><Data ss:Type="String">TR</Data></Cell>
+    <Cell><Data ss:Type="String">TUR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">228</Data></Cell>
+    <Cell><Data ss:Type="Number">795</Data></Cell>
+    <Cell><Data ss:Type="String">ТУРКМЕНИСТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Туркменистан</Data></Cell>
+    <Cell><Data ss:Type="String">TM</Data></Cell>
+    <Cell><Data ss:Type="String">TKM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">229</Data></Cell>
+    <Cell><Data ss:Type="Number">796</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВА ТЕРКС И КАЙКОС</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">TC</Data></Cell>
+    <Cell><Data ss:Type="String">TCA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">230</Data></Cell>
+    <Cell><Data ss:Type="Number">798</Data></Cell>
+    <Cell><Data ss:Type="String">ТУВАЛУ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">TV</Data></Cell>
+    <Cell><Data ss:Type="String">TUV</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">231</Data></Cell>
+    <Cell><Data ss:Type="Number">800</Data></Cell>
+    <Cell><Data ss:Type="String">УГАНДА</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Уганда</Data></Cell>
+    <Cell><Data ss:Type="String">UG</Data></Cell>
+    <Cell><Data ss:Type="String">UGA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">232</Data></Cell>
+    <Cell><Data ss:Type="Number">804</Data></Cell>
+    <Cell><Data ss:Type="String">УКРАИНА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">UA</Data></Cell>
+    <Cell><Data ss:Type="String">UKR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">233</Data></Cell>
+    <Cell><Data ss:Type="Number">807</Data></Cell>
+    <Cell><Data ss:Type="String">СЕВЕРНАЯ МАКЕДОНИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Северная Македония</Data></Cell>
+    <Cell><Data ss:Type="String">MK</Data></Cell>
+    <Cell><Data ss:Type="String">MKD</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">234</Data></Cell>
+    <Cell><Data ss:Type="Number">818</Data></Cell>
+    <Cell><Data ss:Type="String">ЕГИПЕТ</Data></Cell>
+    <Cell><Data ss:Type="String">Арабская Республика Египет</Data></Cell>
+    <Cell><Data ss:Type="String">EG</Data></Cell>
+    <Cell><Data ss:Type="String">EGY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">235</Data></Cell>
+    <Cell><Data ss:Type="Number">826</Data></Cell>
+    <Cell><Data ss:Type="String">СОЕДИНЕННОЕ КОРОЛЕВСТВО ВЕЛИКОБРИТАНИИ И СЕВЕРНОЙ ИРЛАНДИИ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GB</Data></Cell>
+    <Cell><Data ss:Type="String">GBR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">236</Data></Cell>
+    <Cell><Data ss:Type="Number">831</Data></Cell>
+    <Cell><Data ss:Type="String">ГЕРНСИ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">GG</Data></Cell>
+    <Cell><Data ss:Type="String">GGY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">237</Data></Cell>
+    <Cell><Data ss:Type="Number">832</Data></Cell>
+    <Cell><Data ss:Type="String">ДЖЕРСИ</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">JE</Data></Cell>
+    <Cell><Data ss:Type="String">JEY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">238</Data></Cell>
+    <Cell><Data ss:Type="Number">833</Data></Cell>
+    <Cell><Data ss:Type="String">ОСТРОВ МЭН</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">IM</Data></Cell>
+    <Cell><Data ss:Type="String">IMN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">239</Data></Cell>
+    <Cell><Data ss:Type="Number">834</Data></Cell>
+    <Cell><Data ss:Type="String">ТАНЗАНИЯ, ОБЪЕДИНЕННАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Объединенная Республика Танзания</Data></Cell>
+    <Cell><Data ss:Type="String">TZ</Data></Cell>
+    <Cell><Data ss:Type="String">TZA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">240</Data></Cell>
+    <Cell><Data ss:Type="Number">840</Data></Cell>
+    <Cell><Data ss:Type="String">СОЕДИНЕННЫЕ ШТАТЫ</Data></Cell>
+    <Cell><Data ss:Type="String">Соединенные Штаты Америки</Data></Cell>
+    <Cell><Data ss:Type="String">US</Data></Cell>
+    <Cell><Data ss:Type="String">USA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">241</Data></Cell>
+    <Cell><Data ss:Type="Number">850</Data></Cell>
+    <Cell><Data ss:Type="String">ВИРГИНСКИЕ ОСТРОВА (США)</Data></Cell>
+    <Cell><Data ss:Type="String">Виргинские острова Соединенных Штатов</Data></Cell>
+    <Cell><Data ss:Type="String">VI</Data></Cell>
+    <Cell><Data ss:Type="String">VIR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">242</Data></Cell>
+    <Cell><Data ss:Type="Number">854</Data></Cell>
+    <Cell><Data ss:Type="String">БУРКИНА-ФАСО</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">BF</Data></Cell>
+    <Cell><Data ss:Type="String">BFA</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">243</Data></Cell>
+    <Cell><Data ss:Type="Number">858</Data></Cell>
+    <Cell><Data ss:Type="String">УРУГВАЙ</Data></Cell>
+    <Cell><Data ss:Type="String">Восточная Республика Уругвай</Data></Cell>
+    <Cell><Data ss:Type="String">UY</Data></Cell>
+    <Cell><Data ss:Type="String">URY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">244</Data></Cell>
+    <Cell><Data ss:Type="Number">860</Data></Cell>
+    <Cell><Data ss:Type="String">УЗБЕКИСТАН</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Узбекистан</Data></Cell>
+    <Cell><Data ss:Type="String">UZ</Data></Cell>
+    <Cell><Data ss:Type="String">UZB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">245</Data></Cell>
+    <Cell><Data ss:Type="Number">862</Data></Cell>
+    <Cell><Data ss:Type="String">ВЕНЕСУЭЛА, БОЛИВАРИАНСКАЯ РЕСПУБЛИКА</Data></Cell>
+    <Cell><Data ss:Type="String">Боливарианская Республика Венесуэла</Data></Cell>
+    <Cell><Data ss:Type="String">VE</Data></Cell>
+    <Cell><Data ss:Type="String">VEN</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">246</Data></Cell>
+    <Cell><Data ss:Type="Number">876</Data></Cell>
+    <Cell><Data ss:Type="String">УОЛЛИС И ФУТУНА</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">WF</Data></Cell>
+    <Cell><Data ss:Type="String">WLF</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">247</Data></Cell>
+    <Cell><Data ss:Type="Number">882</Data></Cell>
+    <Cell><Data ss:Type="String">САМОА</Data></Cell>
+    <Cell><Data ss:Type="String">Независимое Государство Самоа</Data></Cell>
+    <Cell><Data ss:Type="String">WS</Data></Cell>
+    <Cell><Data ss:Type="String">WSM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">248</Data></Cell>
+    <Cell><Data ss:Type="Number">887</Data></Cell>
+    <Cell><Data ss:Type="String">ЙЕМЕН</Data></Cell>
+    <Cell><Data ss:Type="String">Йеменская Республика</Data></Cell>
+    <Cell><Data ss:Type="String">YE</Data></Cell>
+    <Cell><Data ss:Type="String">YEM</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">249</Data></Cell>
+    <Cell><Data ss:Type="Number">894</Data></Cell>
+    <Cell><Data ss:Type="String">ЗАМБИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Замбия</Data></Cell>
+    <Cell><Data ss:Type="String">ZM</Data></Cell>
+    <Cell><Data ss:Type="String">ZMB</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">250</Data></Cell>
+    <Cell><Data ss:Type="Number">895</Data></Cell>
+    <Cell><Data ss:Type="String">АБХАЗИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Абхазия</Data></Cell>
+    <Cell><Data ss:Type="String">AB</Data></Cell>
+    <Cell><Data ss:Type="String">ABH</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">251</Data></Cell>
+    <Cell><Data ss:Type="Number">896</Data></Cell>
+    <Cell><Data ss:Type="String">ЮЖНАЯ ОСЕТИЯ</Data></Cell>
+    <Cell><Data ss:Type="String">Республика Южная Осетия</Data></Cell>
+    <Cell><Data ss:Type="String">OS</Data></Cell>
+    <Cell><Data ss:Type="String">OST</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">252</Data></Cell>
+    <Cell><Data ss:Type="Number">897</Data></Cell>
+    <Cell><Data ss:Type="String">ДНР</Data></Cell>
+    <Cell><Data ss:Type="String">Донецкая Народная Республика</Data></Cell>
+    <Cell><Data ss:Type="String">DN</Data></Cell>
+    <Cell><Data ss:Type="String">DNR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number">253</Data></Cell>
+    <Cell><Data ss:Type="Number">898</Data></Cell>
+    <Cell><Data ss:Type="String">ЛНР</Data></Cell>
+    <Cell><Data ss:Type="String">Луганская Народная Республика</Data></Cell>
+    <Cell><Data ss:Type="String">LN</Data></Cell>
+    <Cell><Data ss:Type="String">LNR</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <FreezePanes/>
+   <FrozenNoSplit/>
+   <SplitHorizontal>7</SplitHorizontal>
+   <TopRowBottomPane>7</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Лист2">
+  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="1" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="51.428571428571431"
+   ss:DefaultRowHeight="14.571428571428571">
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <NoOrientation/>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Лист3">
+  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="1" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="51.428571428571431"
+   ss:DefaultRowHeight="14.571428571428571">
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <NoOrientation/>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

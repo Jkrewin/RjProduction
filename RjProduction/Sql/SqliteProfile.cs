@@ -113,6 +113,7 @@ namespace RjProduction.Sql
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             command.CommandText = $"{sql}; SELECT last_insert_rowid();";
             SqlLogString = $"SqlCommand: {DateTime.Now} {sql}";
+           
             return (long)command.ExecuteScalar();
         }
 

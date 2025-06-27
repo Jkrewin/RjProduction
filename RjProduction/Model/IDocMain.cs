@@ -38,7 +38,7 @@ namespace RjProduction.Model
     }
 
     /// <summary>
-    /// Helper в конвертации
+    /// Helper в конвертации. Конвертурует только физически сущемтвующее материалы на складе для учета в Products
     /// </summary>
     public interface IConvertDoc {
         public Products ToProducts();

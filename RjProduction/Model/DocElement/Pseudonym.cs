@@ -5,7 +5,7 @@ namespace RjProduction.Model.DocElement
     /// <summary>
     /// Общая форма материалов необходимы для учета в общей бд
     /// </summary>
-    public class Pseudonym : IDoc
+    public class Pseudonym : IDoc, IConvertDoc
     {
         private Products _Product = new();
 
@@ -60,6 +60,7 @@ namespace RjProduction.Model.DocElement
             }
         }
 
+        public Products ToProducts() => Product;
     }
 
 }

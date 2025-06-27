@@ -1,0 +1,567 @@
+﻿<OKEI>
+  <Section Name="Международные единицы измерения, включенные в ОКЕИ">
+    <Group Name="Единицы длины">
+      <Uom Code="003" Name="Миллиметр" SymbolRu="мм" SymbolEn="mm" AlphaRu="ММ" AlphaEn="MMT" />
+      <Uom Code="004" Name="Сантиметр" SymbolRu="см" SymbolEn="cm" AlphaRu="СМ" AlphaEn="CMT" />
+      <Uom Code="005" Name="Дециметр&#x9;" SymbolRu="дм" SymbolEn="dm" AlphaRu="ДМ" AlphaEn="DMT" />
+      <Uom Code="006" Name="Метр&#x9;" SymbolRu="м" SymbolEn="m" AlphaRu="М" AlphaEn="MTR" />
+      <Uom Code="008" Name="Километр; тысяча метров" SymbolRu="км; 10³ м" SymbolEn="km" AlphaRu="КМ; ТЫС М" AlphaEn="KMT" />
+      <Uom Code="009" Name="Мегаметр; миллион метров" SymbolRu="Мм; 10⁶ м" SymbolEn="Mm" AlphaRu="МЕГАМ; МЛН М" AlphaEn="MAM" />
+      <Uom Code="039" Name="Дюйм (25,4 мм)" SymbolRu="дюйм" SymbolEn="in" AlphaRu="ДЮЙМ" AlphaEn="INH" />
+      <Uom Code="041" Name="Фут (0,3048 м)" SymbolRu="фут" SymbolEn="ft" AlphaRu="ФУТ" AlphaEn="FOT" />
+      <Uom Code="043" Name="Ярд (0,9144 м)" SymbolRu="ярд" SymbolEn="yd" AlphaRu="ЯРД" AlphaEn="YRD" />
+      <Uom Code="047" Name="Морская миля (1852 м)" SymbolRu="миля" SymbolEn="n mile" AlphaRu="МИЛЬ" AlphaEn="NMI" />
+    </Group>
+    <Group Name="Единицы площади">
+      <Uom Code="050" Name="Квадратный миллиметр" SymbolRu="мм²" SymbolEn="mm²" AlphaRu="ММ2" AlphaEn="MMK" />
+      <Uom Code="051" Name="Квадратный сантиметр" SymbolRu="см²" SymbolEn="cm²" AlphaRu="СМ2" AlphaEn="CMK" />
+      <Uom Code="053" Name="Квадратный дециметр" SymbolRu="дм²" SymbolEn="dm²" AlphaRu="ДМ2" AlphaEn="DMK" />
+      <Uom Code="055" Name="Квадратный метр" SymbolRu="м²" SymbolEn="m²" AlphaRu="М2" AlphaEn="MTK" />
+      <Uom Code="058" Name="Тысяча квадратных метров" SymbolRu="10³ м²" SymbolEn="daa" AlphaRu="ТЫС М2" AlphaEn="DAA" />
+      <Uom Code="059" Name="Гектар" SymbolRu="га" SymbolEn="ha" AlphaRu="ГА" AlphaEn="HAR" />
+      <Uom Code="061" Name="Квадратный километр" SymbolRu="км²" SymbolEn="km²" AlphaRu="КМ2" AlphaEn="KMK" />
+      <Uom Code="071" Name="Квадратный дюйм (645,16 мм²)" SymbolRu="дюйм²" SymbolEn="in²" AlphaRu="ДЮЙМ2" AlphaEn="INK" />
+      <Uom Code="073" Name="Квадратный фут (0,092903 м²)" SymbolRu="фут²" SymbolEn="ft²" AlphaRu="ФУТ2" AlphaEn="FTK" />
+      <Uom Code="075" Name="Квадратный ярд (0,8361274 м²)" SymbolRu="ярд²" SymbolEn="yd²" AlphaRu="ЯРД2" AlphaEn="YDK" />
+      <Uom Code="109" Name="Ар (100 м²)" SymbolRu="а" SymbolEn="a" AlphaRu="АР" AlphaEn="ARE" />
+    </Group>
+    <Group Name="Единицы объема">
+      <Uom Code="110" Name="Кубический миллиметр" SymbolRu="мм³" SymbolEn="mm³" AlphaRu="ММ3" AlphaEn="MMQ" />
+      <Uom Code="111" Name="Кубический сантиметр; миллилитр" SymbolRu="см³; мл" SymbolEn="cm³; ml" AlphaRu="СМ3; МЛ" AlphaEn="CMQ; MLT" />
+      <Uom Code="112" Name="Кубический дециметр; литр" SymbolRu="дм³; л" SymbolEn="dm³; I; L" AlphaRu="ДМ3; Л" AlphaEn="DMQ; LTR" />
+      <Uom Code="113" Name="Кубический метр" SymbolRu="м³" SymbolEn="m³" AlphaRu="М3" AlphaEn="MTQ" />
+      <Uom Code="118" Name="Децилитр" SymbolRu="дл" SymbolEn="dl" AlphaRu="ДЛ" AlphaEn="DLT" />
+      <Uom Code="122" Name="Гектолитр" SymbolRu="гл" SymbolEn="hl" AlphaRu="ГЛ" AlphaEn="HLT" />
+      <Uom Code="126" Name="Мегалитр" SymbolRu="Мл" SymbolEn="Ml" AlphaRu="МЕГАЛ" AlphaEn="MAL" />
+      <Uom Code="131" Name="Кубический дюйм (16387,1 мм³)" SymbolRu="дюйм³" SymbolEn="in³" AlphaRu="ДЮЙМ3" AlphaEn="INQ" />
+      <Uom Code="132" Name="Кубический фут (0,02831685 м³)" SymbolRu="фут³" SymbolEn="ft³" AlphaRu="ФУТ3" AlphaEn="FTQ" />
+      <Uom Code="133" Name="Кубический ярд (0,764555 м³)" SymbolRu="ярд³" SymbolEn="yd³" AlphaRu="ЯРД3" AlphaEn="YDQ" />
+      <Uom Code="159" Name="Миллион кубических метров" SymbolRu="10⁶ м³" SymbolEn="10⁶ m³" AlphaRu="МЛН М3" AlphaEn="HMQ" />
+    </Group>
+    <Group Name="Единицы массы">
+      <Uom Code="160" Name="Гектограмм" SymbolRu="гг" SymbolEn="hg" AlphaRu="ГГ" AlphaEn="HGM" />
+      <Uom Code="161" Name="Миллиграмм" SymbolRu="мг" SymbolEn="mg" AlphaRu="МГ" AlphaEn="MGM" />
+      <Uom Code="162" Name="Метрический карат" SymbolRu="кар" SymbolEn="МС" AlphaRu="КАР" AlphaEn="CTM" />
+      <Uom Code="163" Name="Грамм" SymbolRu="г" SymbolEn="g" AlphaRu="Г" AlphaEn="GRM" />
+      <Uom Code="164" Name="Микрограмм" SymbolRu="мкг" SymbolEn="mg" AlphaRu="МКГ" AlphaEn="MG" />
+      <Uom Code="166" Name="Килограмм" SymbolRu="кг" SymbolEn="kg" AlphaRu="КГ" AlphaEn="KGM" />
+      <Uom Code="168" Name="Тонна; метрическая тонна (1000 кг)" SymbolRu="т" SymbolEn="t" AlphaRu="Т" AlphaEn="TNE" />
+      <Uom Code="170" Name="Килотонна" SymbolRu="10³ т" SymbolEn="kt" AlphaRu="КТ" AlphaEn="KTN" />
+      <Uom Code="173" Name="Сантиграмм" SymbolRu="сг" SymbolEn="cg" AlphaRu="СГ" AlphaEn="CGM" />
+      <Uom Code="181" Name="Брутто-регистровая тонна (2,8316 м3)" SymbolRu="БРТ" SymbolEn="-" AlphaRu="БРУТТ. РЕГИСТР Т" AlphaEn="GRT" />
+      <Uom Code="185" Name="Грузоподъемность в метрических тоннах" SymbolRu="т грп" SymbolEn="-" AlphaRu="Т ГРУЗОПОД" AlphaEn="CCT" />
+      <Uom Code="206" Name="Центнер (метрический) (100 кг); гектокилограмм; квинтал1 (метрический); децитонна" SymbolRu="ц" SymbolEn="q; 10² kg" AlphaRu="Ц" AlphaEn="DTN" />
+    </Group>
+    <Group Name="Технические единицы">
+      <Uom Code="212" Name="Ватт" SymbolRu="Вт" SymbolEn="W" AlphaRu="ВТ" AlphaEn="WTT" />
+      <Uom Code="214" Name="Киловатт" SymbolRu="кВт" SymbolEn="kW" AlphaRu="КВТ" AlphaEn="KWT" />
+      <Uom Code="215" Name="Мегаватт; тысяча киловатт" SymbolRu="МВт; 10³ кВт" SymbolEn="MW" AlphaRu="МЕГАВТ; ТЫС КВТ" AlphaEn="MAW" />
+      <Uom Code="222" Name="Вольт" SymbolRu="В" SymbolEn="V" AlphaRu="В" AlphaEn="VLT" />
+      <Uom Code="223" Name="Киловольт" SymbolRu="кВ" SymbolEn="kV" AlphaRu="КВ" AlphaEn="KVT" />
+      <Uom Code="227" Name="Киловольт-ампер" SymbolRu="кВ·А" SymbolEn="kV·А" AlphaRu="КВ·А" AlphaEn="KVA" />
+      <Uom Code="228" Name="Мегавольт-ампер (тысяча киловольт-ампер)" SymbolRu="МВ·А" SymbolEn="МV·А" AlphaRu="МЕГАВ·А" AlphaEn="MVA" />
+      <Uom Code="230" Name="Киловар" SymbolRu="квар" SymbolEn="kVAR" AlphaRu="КВАР" AlphaEn="KVR" />
+      <Uom Code="243" Name="Ватт-час" SymbolRu="Вт·ч" SymbolEn="W·h" AlphaRu="ВТ·Ч" AlphaEn="WHR" />
+      <Uom Code="245" Name="Киловатт-час" SymbolRu="кВт·ч" SymbolEn="kW·h" AlphaRu="КВТ·Ч" AlphaEn="KWH" />
+      <Uom Code="246" Name="Мегаватт-час; 1000 киловатт-часов" SymbolRu="МВт·ч; 10³ кВт·ч" SymbolEn="МW·h" AlphaRu="МЕГАВТ·Ч; ТЫС КВТ·Ч" AlphaEn="MWH" />
+      <Uom Code="247" Name="Гигаватт-час (миллион киловатт-часов)" SymbolRu="ГВт·ч" SymbolEn="GW·h" AlphaRu="ГИГАВТ·Ч" AlphaEn="GWH" />
+      <Uom Code="260" Name="Ампер" SymbolRu="А" SymbolEn="A" AlphaRu="А" AlphaEn="AMP" />
+      <Uom Code="263" Name="Ампер-час (3,6 кКл)" SymbolRu="А·ч" SymbolEn="А·h" AlphaRu="А·Ч" AlphaEn="AMH" />
+      <Uom Code="264" Name="Тысяча ампер-часов" SymbolRu="10³ А·ч" SymbolEn="10³ А·h" AlphaRu="ТЫС А·Ч" AlphaEn="TAH" />
+      <Uom Code="270" Name="Кулон" SymbolRu="Кл" SymbolEn="C" AlphaRu="КЛ" AlphaEn="COU" />
+      <Uom Code="271" Name="Джоуль" SymbolRu="Дж" SymbolEn="J" AlphaRu="ДЖ" AlphaEn="JOU" />
+      <Uom Code="273" Name="Килоджоуль" SymbolRu="кДж" SymbolEn="kJ" AlphaRu="КДЖ" AlphaEn="KJO" />
+      <Uom Code="274" Name="Ом" SymbolRu="Ом" SymbolEn="Ω" AlphaRu="ОМ" AlphaEn="OHM" />
+      <Uom Code="276" Name="Грей" SymbolRu="Гр" SymbolEn="Gy" AlphaRu="ГР" AlphaEn="GY" />
+      <Uom Code="277" Name="Микрогрей" SymbolRu="мкГр" SymbolEn="μGy" AlphaRu="МКГР" AlphaEn="MKGY" />
+      <Uom Code="278" Name="Миллигрей" SymbolRu="мГр" SymbolEn="mGy" AlphaRu="МЛГР" AlphaEn="MGY" />
+      <Uom Code="279" Name="Килогрей" SymbolRu="кГр" SymbolEn="kGy" AlphaRu="КИЛОГР" AlphaEn="KGY" />
+      <Uom Code="280" Name="Градус Цельсия" SymbolRu="°C" SymbolEn="°C" AlphaRu="ГРАД ЦЕЛЬС" AlphaEn="CEL" />
+      <Uom Code="281" Name="Градус Фаренгейта" SymbolRu="°F" SymbolEn="°F" AlphaRu="ГРАД ФАРЕНГ" AlphaEn="FAN" />
+      <Uom Code="282" Name="Кандела" SymbolRu="кд" SymbolEn="cd" AlphaRu="КД" AlphaEn="CDL" />
+      <Uom Code="283" Name="Люкс" SymbolRu="лк" SymbolEn="lx" AlphaRu="ЛК" AlphaEn="LUX" />
+      <Uom Code="284" Name="Люмен" SymbolRu="лм" SymbolEn="lm" AlphaRu="ЛМ" AlphaEn="LUM" />
+      <Uom Code="288" Name="Кельвин" SymbolRu="К" SymbolEn="K" AlphaRu="К" AlphaEn="KEL" />
+      <Uom Code="289" Name="Ньютон" SymbolRu="Н" SymbolEn="N" AlphaRu="Н" AlphaEn="NEW" />
+      <Uom Code="290" Name="Герц" SymbolRu="Гц" SymbolEn="Hz" AlphaRu="ГЦ" AlphaEn="HTZ" />
+      <Uom Code="291" Name="Килогерц" SymbolRu="кГц" SymbolEn="kHz" AlphaRu="КГЦ" AlphaEn="KHZ" />
+      <Uom Code="292" Name="Мегагерц" SymbolRu="МГц" SymbolEn="MHz" AlphaRu="МЕГАГЦ" AlphaEn="MHZ" />
+      <Uom Code="293" Name="Гигагерц" SymbolRu="ГГц" SymbolEn="GHz" AlphaRu="ГИГАГЦ" AlphaEn="GHZ" />
+      <Uom Code="294" Name="Паскаль" SymbolRu="Па" SymbolEn="Pa" AlphaRu="ПА" AlphaEn="PAL" />
+      <Uom Code="295" Name="Терагерц" SymbolRu="ТГц" SymbolEn="THz" AlphaRu="ТЕРАГЦ" AlphaEn="THZ" />
+      <Uom Code="296" Name="Сименс" SymbolRu="См" SymbolEn="S" AlphaRu="СИ" AlphaEn="SIE" />
+      <Uom Code="297" Name="Килопаскаль" SymbolRu="кПа" SymbolEn="kPa" AlphaRu="КПА" AlphaEn="KPA" />
+      <Uom Code="298" Name="Мегапаскаль" SymbolRu="МПа" SymbolEn="MPa" AlphaRu="МЕГАПА" AlphaEn="MPA" />
+      <Uom Code="300" Name="Физическая атмосфера (101325 Па)" SymbolRu="атм" SymbolEn="atm" AlphaRu="АТМ" AlphaEn="ATM" />
+      <Uom Code="301" Name="Техническая атмосфера (98066,5 Па)" SymbolRu="ат" SymbolEn="at" AlphaRu="АТТ" AlphaEn="ATT" />
+      <Uom Code="302" Name="Гигабеккерель" SymbolRu="ГБк" SymbolEn="GBq" AlphaRu="ГИГАБК" AlphaEn="GBQ" />
+      <Uom Code="303" Name="Килобеккерель" SymbolRu="кБк" SymbolEn="kBq" AlphaRu="КИЛОБК" AlphaEn="KBQ" />
+      <Uom Code="304" Name="Милликюри" SymbolRu="мКи" SymbolEn="mCi" AlphaRu="МКИ" AlphaEn="MCU" />
+      <Uom Code="305" Name="Кюри" SymbolRu="Ки" SymbolEn="Ci" AlphaRu="КИ" AlphaEn="CUR" />
+      <Uom Code="306" Name="Грамм делящихся изотопов" SymbolRu="г Д/И" SymbolEn="g fissile isotopes" AlphaRu="Г ДЕЛЯЩ ИЗОТОП" AlphaEn="GFI" />
+      <Uom Code="307" Name="Мегабеккерель" SymbolRu="МБк" SymbolEn="MBq" AlphaRu="МЕГАБК" AlphaEn="MBQ" />
+      <Uom Code="308" Name="Миллибар" SymbolRu="мб" SymbolEn="mbar" AlphaRu="МБАР" AlphaEn="MBR" />
+      <Uom Code="309" Name="Бар" SymbolRu="бар" SymbolEn="bar" AlphaRu="БАР" AlphaEn="BAR" />
+      <Uom Code="310" Name="Гектобар" SymbolRu="гб" SymbolEn="hbar" AlphaRu="ГБАР" AlphaEn="HBA" />
+      <Uom Code="312" Name="Килобар" SymbolRu="кб" SymbolEn="kbar" AlphaRu="КБАР" AlphaEn="KBA" />
+      <Uom Code="314" Name="Фарад" SymbolRu="Ф" SymbolEn="F" AlphaRu="Ф" AlphaEn="FAR" />
+      <Uom Code="316" Name="Килограмм на кубический метр" SymbolRu="кг/м³" SymbolEn="kg/m³" AlphaRu="КГ/М3" AlphaEn="KMQ" />
+      <Uom Code="318" Name="Зиверт" SymbolRu="Зв" SymbolEn="Sv" AlphaRu="ЗВ" AlphaEn="SV" />
+      <Uom Code="319" Name="Микрозиверт" SymbolRu="мкЗв" SymbolEn="μSv" AlphaRu="МКЗВ" AlphaEn="MKSV" />
+      <Uom Code="320" Name="Моль" SymbolRu="моль" SymbolEn="mol" AlphaRu="МОЛЬ" AlphaEn="MOL" />
+      <Uom Code="321" Name="Миллизиверт" SymbolRu="мЗв" SymbolEn="mSv" AlphaRu="МЗВ" AlphaEn="MSV" />
+      <Uom Code="323" Name="Беккерель" SymbolRu="Бк" SymbolEn="Bq" AlphaRu="БК" AlphaEn="BQL" />
+      <Uom Code="324" Name="Вебер" SymbolRu="Вб" SymbolEn="Wb" AlphaRu="ВБ" AlphaEn="WEB" />
+      <Uom Code="327" Name="Узел (миля/ч)" SymbolRu="уз" SymbolEn="kn" AlphaRu="УЗ" AlphaEn="KNT" />
+      <Uom Code="328" Name="Метр в секунду" SymbolRu="м/с" SymbolEn="m/s" AlphaRu="М/С" AlphaEn="MTS" />
+      <Uom Code="330" Name="Оборот в секунду" SymbolRu="об/с" SymbolEn="r/s" AlphaRu="ОБ/С" AlphaEn="RPS" />
+      <Uom Code="331" Name="Оборот в минуту" SymbolRu="об/мин" SymbolEn="r/min" AlphaRu="ОБ/МИН" AlphaEn="RPM" />
+      <Uom Code="333" Name="Километр в час" SymbolRu="км/ч" SymbolEn="km/h" AlphaRu="КМ/Ч" AlphaEn="KMH" />
+      <Uom Code="335" Name="Метр на секунду в квадрате" SymbolRu="м/с²" SymbolEn="m/s²" AlphaRu="М/С2" AlphaEn="MSK" />
+      <Uom Code="349" Name="Кулон на килограмм" SymbolRu="Кл/кг" SymbolEn="C/kg" AlphaRu="КЛ/КГ" AlphaEn="CKG" />
+    </Group>
+    <Group Name="Единицы времени">
+      <Uom Code="354" Name="Секунда" SymbolRu="с" SymbolEn="s" AlphaRu="С" AlphaEn="SEC" />
+      <Uom Code="355" Name="Минута" SymbolRu="мин" SymbolEn="min" AlphaRu="МИН" AlphaEn="MIN" />
+      <Uom Code="356" Name="Час" SymbolRu="ч" SymbolEn="h" AlphaRu="Ч" AlphaEn="HUR" />
+      <Uom Code="359" Name="Сутки" SymbolRu="сут; дн" SymbolEn="d" AlphaRu="СУТ; ДН" AlphaEn="DAY" />
+      <Uom Code="360" Name="Неделя" SymbolRu="нед" SymbolEn="-" AlphaRu="НЕД" AlphaEn="WEE" />
+      <Uom Code="361" Name="Декада" SymbolRu="дек" SymbolEn="-" AlphaRu="ДЕК" AlphaEn="DAD" />
+      <Uom Code="362" Name="Месяц" SymbolRu="мес" SymbolEn="-" AlphaRu="МЕС" AlphaEn="MON" />
+      <Uom Code="364" Name="Квартал" SymbolRu="кварт" SymbolEn="-" AlphaRu="КВАРТ" AlphaEn="QAN" />
+      <Uom Code="365" Name="Полугодие" SymbolRu="полгода" SymbolEn="-" AlphaRu="ПОЛГОД" AlphaEn="SAN" />
+      <Uom Code="366" Name="Год" SymbolRu="г; лет" SymbolEn="a" AlphaRu="ГОД; ЛЕТ" AlphaEn="ANN" />
+      <Uom Code="368" Name="Десятилетие" SymbolRu="деслет" SymbolEn="-" AlphaRu="ДЕСЛЕТ" AlphaEn="DEC" />
+    </Group>
+    <Group Name="Экономические единицы">
+      <Uom Code="499" Name="Килограмм в секунду" SymbolRu="кг/с" SymbolEn="—" AlphaRu="КГ/С" AlphaEn="KGS" />
+      <Uom Code="533" Name="Тонна пара в час" SymbolRu="т пар/ч" SymbolEn="—" AlphaRu="Т ПАР/Ч" AlphaEn="TSH" />
+      <Uom Code="596" Name="Кубический метр в секунду" SymbolRu="м³/с" SymbolEn="m³/s" AlphaRu="М3/С" AlphaEn="MQS" />
+      <Uom Code="598" Name="Кубический метр в час" SymbolRu="м³/ч" SymbolEn="m³/h" AlphaRu="М3/Ч" AlphaEn="MQH" />
+      <Uom Code="599" Name="Тысяча кубических метров в сутки" SymbolRu="10³ м³/сут" SymbolEn="—" AlphaRu="ТЫС М3/СУТ" AlphaEn="TQD" />
+      <Uom Code="616" Name="Бобина" SymbolRu="боб" SymbolEn="—" AlphaRu="БОБ" AlphaEn="NBB" />
+      <Uom Code="625" Name="Лист" SymbolRu="л." SymbolEn="—" AlphaRu="ЛИСТ" AlphaEn="LEF" />
+      <Uom Code="626" Name="Сто листов" SymbolRu="100 л." SymbolEn="—" AlphaRu="100 ЛИСТ" AlphaEn="CLF" />
+      <Uom Code="630" Name="Тысяча стандартных условных кирпичей" SymbolRu="тыс. станд. усл. кирп" SymbolEn="—" AlphaRu="ТЫС СТАНД УСЛ КИРП" AlphaEn="MBE" />
+      <Uom Code="641" Name="Дюжина (12 шт.)" SymbolRu="дюжина" SymbolEn="Doz; 12" AlphaRu="ДЮЖИНА" AlphaEn="DZN" />
+      <Uom Code="657" Name="Изделие" SymbolRu="изд" SymbolEn="—" AlphaRu="ИЗД" AlphaEn="NAR" />
+      <Uom Code="683" Name="Сто ящиков" SymbolRu="100 ящ" SymbolEn="Hbx" AlphaRu="100 ЯЩ" AlphaEn="HBX" />
+      <Uom Code="704" Name="Набор" SymbolRu="набор" SymbolEn="—" AlphaRu="НАБОР" AlphaEn="SET" />
+      <Uom Code="715" Name="Пара (2 шт.)" SymbolRu="пар" SymbolEn="pr; 2" AlphaRu="ПАР" AlphaEn="NPR" />
+      <Uom Code="730" Name="Два десятка" SymbolRu="20" SymbolEn="20" AlphaRu="2 ДЕС" AlphaEn="SCO" />
+      <Uom Code="732" Name="Десять пар" SymbolRu="10 пар" SymbolEn="—" AlphaRu="ДЕС ПАР" AlphaEn="TPR" />
+      <Uom Code="733" Name="Дюжина пар" SymbolRu="дюжина пар" SymbolEn="—" AlphaRu="ДЮЖИНА ПАР" AlphaEn="DPR" />
+      <Uom Code="734" Name="Посылка" SymbolRu="посыл" SymbolEn="—" AlphaRu="ПОСЫЛ" AlphaEn="NPL" />
+      <Uom Code="735" Name="Часть" SymbolRu="часть" SymbolEn="—" AlphaRu="ЧАСТЬ" AlphaEn="NPT" />
+      <Uom Code="736" Name="Рулон" SymbolRu="рул" SymbolEn="—" AlphaRu="РУЛ" AlphaEn="NRL" />
+      <Uom Code="737" Name="Дюжина рулонов" SymbolRu="дюжина рул" SymbolEn="—" AlphaRu="ДЮЖИНА РУЛ" AlphaEn="DRL" />
+      <Uom Code="740" Name="Дюжина штук" SymbolRu="дюжина шт" SymbolEn="—" AlphaRu="ДЮЖИНА ШТ" AlphaEn="DPC" />
+      <Uom Code="745" Name="Элемент" SymbolRu="элем" SymbolEn="CI" AlphaRu="ЭЛЕМ" AlphaEn="NCL" />
+      <Uom Code="778" Name="Упаковка" SymbolRu="упак" SymbolEn="—" AlphaRu="УПАК" AlphaEn="NMP" />
+      <Uom Code="780" Name="Дюжина упаковок" SymbolRu="дюжина упак" SymbolEn="—" AlphaRu="ДЮЖИНА УПАК" AlphaEn="DZP" />
+      <Uom Code="781" Name="Сто упаковок" SymbolRu="100 упак" SymbolEn="—" AlphaRu="100 УПАК" AlphaEn="CNP" />
+      <Uom Code="796" Name="Штука" SymbolRu="шт" SymbolEn="pc; 1" AlphaRu="ШТ" AlphaEn="PCE; NMB" />
+      <Uom Code="797" Name="Сто штук" SymbolRu="100 шт" SymbolEn="100" AlphaRu="100 ШТ" AlphaEn="CEN" />
+      <Uom Code="798" Name="Тысяча штук" SymbolRu="тыс. шт; 1000 шт" SymbolEn="1000" AlphaRu="ТЫС ШТ" AlphaEn="MIL" />
+      <Uom Code="799" Name="Миллион штук" SymbolRu="10⁶ шт" SymbolEn="10⁶" AlphaRu="МЛН ШТ" AlphaEn="MIO" />
+      <Uom Code="800" Name="Миллиард штук" SymbolRu="10⁹ шт" SymbolEn="10⁹" AlphaRu="МЛРД ШТ" AlphaEn="MLD" />
+      <Uom Code="801" Name="Биллион штук (Европа); триллион штук" SymbolRu="10¹² шт" SymbolEn="10¹²" AlphaRu="БИЛЛ ШТ (ЕВР); ТРИЛЛ ШТ" AlphaEn="BIL" />
+      <Uom Code="802" Name="Квинтильон штук (Европа)" SymbolRu="10¹⁸ шт" SymbolEn="10¹⁸" AlphaRu="КВИНТ ШТ" AlphaEn="TRL" />
+      <Uom Code="820" Name="Крепость спирта по массе" SymbolRu="креп. спирта по массе" SymbolEn="% mds" AlphaRu="КРЕП СПИРТ ПО МАСС" AlphaEn="ASM" />
+      <Uom Code="821" Name="Крепость спирта по объему" SymbolRu="креп. спирта по объему" SymbolEn="% vol" AlphaRu="КРЕП СПИРТ ПО ОБЪЕМ" AlphaEn="ASV" />
+      <Uom Code="831" Name="Литр чистого (100%) спирта" SymbolRu="л 100% спирта" SymbolEn="—" AlphaRu="Л ЧИСТ СПИРТ" AlphaEn="LPA" />
+      <Uom Code="833" Name="Гектолитр чистого (100%) спирта" SymbolRu="Гл 100% спирта" SymbolEn="—" AlphaRu="ГЛ ЧИСТ СПИРТ" AlphaEn="HPA" />
+      <Uom Code="841" Name="Килограмм пероксида водорода" SymbolRu="кг H₂О₂" SymbolEn="—" AlphaRu="КГ ПЕРОКСИД ВОДОРОДА" AlphaEn="—" />
+      <Uom Code="845" Name="Килограмм 90%-го сухого вещества" SymbolRu="кг 90% с/в" SymbolEn="—" AlphaRu="КГ 90 ПРОЦ СУХ ВЕЩ" AlphaEn="KSD" />
+      <Uom Code="847" Name="Тонна 90%-го сухого вещества" SymbolRu="т 90% с/в" SymbolEn="—" AlphaRu="Т 90 ПРОЦ СУХ ВЕЩ" AlphaEn="TSD" />
+      <Uom Code="852" Name="Килограмм оксида калия" SymbolRu="кг К₂О" SymbolEn="—" AlphaRu="КГ ОКСИД КАЛИЯ" AlphaEn="KPO" />
+      <Uom Code="859" Name="Килограмм гидроксида калия" SymbolRu="кг КОН" SymbolEn="—" AlphaRu="КГ ГИДРОКСИД КАЛИЯ" AlphaEn="KPH" />
+      <Uom Code="861" Name="Килограмм азота" SymbolRu="кг N" SymbolEn="—" AlphaRu="КГ АЗОТ" AlphaEn="KNI" />
+      <Uom Code="863" Name="Килограмм гидроксида натрия" SymbolRu="кг NaOH" SymbolEn="—" AlphaRu="КГ ГИДРОКСИД НАТРИЯ" AlphaEn="KSH" />
+      <Uom Code="865" Name="Килограмм пятиокиси фосфора" SymbolRu="кг Р₂О₅" SymbolEn="—" AlphaRu="КГ ПЯТИОКИСЬ ФОСФОРА" AlphaEn="KPP" />
+      <Uom Code="867" Name="Килограмм урана" SymbolRu="кг U" SymbolEn="—" AlphaRu="КГ УРАН" AlphaEn="KUR" />
+    </Group>
+  </Section>
+  <Section Name="Национальные единицы измерения, включенные в ОКЕИ">
+    <Group Name="Единицы длины">
+      <Uom Code="018" Name="Погонный метр" SymbolRu="пог. м" AlphaRu="ПОГ М" />
+      <Uom Code="019" Name="Тысяча погонных метров" SymbolRu="10³ пог. м" AlphaRu="ТЫС ПОГ М" />
+      <Uom Code="020" Name="Условный метр" SymbolRu="усл. м" AlphaRu="УСЛ М" />
+      <Uom Code="048" Name="Тысяча условных метров" SymbolRu="10³ усл. м" AlphaRu="ТЫС УСЛ М" />
+      <Uom Code="049" Name="Километр условных труб" SymbolRu="км усл. труб" AlphaRu="КМ УСЛ ТРУБ" />
+    </Group>
+    <Group Name="Единицы площади">
+      <Uom Code="054" Name="Тысяча квадратных дециметров" SymbolRu="10³ дм²" AlphaRu="ТЫС ДМ2" />
+      <Uom Code="056" Name="Миллион квадратных дециметров" SymbolRu="10⁶ дм²" AlphaRu="МЛН ДМ2" />
+      <Uom Code="057" Name="Миллион квадратных метров" SymbolRu="10⁶ м²" AlphaRu="МЛН М2" />
+      <Uom Code="060" Name="Тысяча гектаров" SymbolRu="10³ га" AlphaRu="ТЫС ГА" />
+      <Uom Code="062" Name="Условный квадратный метр" SymbolRu="усл. м²" AlphaRu="УСЛ М2" />
+      <Uom Code="063" Name="Тысяча условных квадратных метров" SymbolRu="10³ усл. м²" AlphaRu="ТЫС УСЛ М2" />
+      <Uom Code="064" Name="Миллион условных квадратных метров" SymbolRu="10⁶ усл. м²" AlphaRu="МЛН УСЛ М2" />
+      <Uom Code="081" Name="Квадратный метр общей площади" SymbolRu="м² общ. пл" AlphaRu="М2 ОБЩ ПЛ" />
+      <Uom Code="082" Name="Тысяча квадратных метров общей площади" SymbolRu="10³ м² общ. пл" AlphaRu="ТЫС М2 ОБЩ ПЛ" />
+      <Uom Code="083" Name="Миллион квадратных метров общей площади" SymbolRu="10⁶ м² общ. пл" AlphaRu="МЛН М2 ОБЩ ПЛ" />
+      <Uom Code="084" Name="Квадратный метр жилой площади" SymbolRu="м² жил. пл" AlphaRu="М2 ЖИЛ ПЛ" />
+      <Uom Code="085" Name="Тысяча квадратных метров жилой площади" SymbolRu="10³ м² жил. пл" AlphaRu="ТЫС М2 ЖИЛ ПЛ" />
+      <Uom Code="086" Name="Миллион квадратных метров жилой площади" SymbolRu="10⁶ м² жил. пл" AlphaRu="МЛН М2 ЖИЛ ПЛ" />
+      <Uom Code="087" Name="Квадратный метр учебно-лабораторных зданий" SymbolRu="м² уч. лаб. здан" AlphaRu="М2 УЧ. ЛАБ ЗДАН" />
+      <Uom Code="088" Name="Тысяча квадратных метров учебно-лабораторных зданий" SymbolRu="10³ м² уч. лаб. здан" AlphaRu="ТЫС М2 УЧ. ЛАБ ЗДАН" />
+      <Uom Code="089" Name="Миллион квадратных метров в двухмиллиметровом исчислении" SymbolRu="10⁶ м² 2 мм исч" AlphaRu="МЛН М2 2ММ ИСЧ" />
+    </Group>
+    <Group Name="Единицы объема">
+      <Uom Code="114" Name="Тысяча кубических метров" SymbolRu="10³ м³" AlphaRu="ТЫС М3" />
+      <Uom Code="115" Name="Миллиард кубических метров" SymbolRu="10⁹ м³" AlphaRu="МЛРД М3" />
+      <Uom Code="116" Name="Декалитр" SymbolRu="дкл" AlphaRu="ДКЛ" />
+      <Uom Code="119" Name="Тысяча декалитров" SymbolRu="10³ дкл" AlphaRu="ТЫС ДКЛ" />
+      <Uom Code="120" Name="Миллион декалитров" SymbolRu="10⁶ дкл" AlphaRu="МЛН ДКЛ" />
+      <Uom Code="121" Name="Плотный кубический метр" SymbolRu="плотн. м³" AlphaRu="ПЛОТН М3" />
+      <Uom Code="123" Name="Условный кубический метр" SymbolRu="усл. м³" AlphaRu="УСЛ М3" />
+      <Uom Code="124" Name="Тысяча условных кубических метров" SymbolRu="10³ усл. м³" AlphaRu="ТЫС УСЛ М3" />
+      <Uom Code="125" Name="Миллион кубических метров переработки газа" SymbolRu="10⁶ м³ перераб. газа" AlphaRu="МЛН М3 ПЕРЕРАБ ГАЗА" />
+      <Uom Code="127" Name="Тысяча плотных кубических метров" SymbolRu="10³ плотн. м³" AlphaRu="ТЫС ПЛОТН М3" />
+      <Uom Code="128" Name="Тысяча полулитров" SymbolRu="10³ пол. л" AlphaRu="ТЫС ПОЛ Л" />
+      <Uom Code="129" Name="Миллион полулитров" SymbolRu="10⁶ пол. л" AlphaRu="МЛН ПОЛ Л" />
+      <Uom Code="130" Name="Тысяча литров; 1000 литров" SymbolRu="10³ л; 1000 л" AlphaRu="ТЫС Л" />
+    </Group>
+    <Group Name="Единицы массы">
+      <Uom Code="165" Name="Тысяча каратов метрических" SymbolRu="10³ кар" AlphaRu="ТЫС КАР" />
+      <Uom Code="167" Name="Миллион каратов метрических" SymbolRu="10⁶ кар" AlphaRu="МЛН КАР" />
+      <Uom Code="169" Name="Тысяча тонн" SymbolRu="10³ т" AlphaRu="ТЫС Т" />
+      <Uom Code="171" Name="Миллион тонн" SymbolRu="10⁶ т" AlphaRu="МЛН Т" />
+      <Uom Code="172" Name="Тонна условного топлива" SymbolRu="т усл. топл" AlphaRu="Т УСЛ ТОПЛ" />
+      <Uom Code="175" Name="Тысяча тонн условного топлива" SymbolRu="10³ т усл. топл" AlphaRu="ТЫС Т УСЛ ТОПЛ" />
+      <Uom Code="176" Name="Миллион тонн условного топлива" SymbolRu="10⁶ т усл. топл" AlphaRu="МЛН Т УСЛ ТОПЛ" />
+      <Uom Code="177" Name="Тысяча тонн единовременного хранения" SymbolRu="10³ т единовр. хран" AlphaRu="ТЫС Т ЕДИНОВР ХРАН" />
+      <Uom Code="178" Name="Тысяча тонн переработки" SymbolRu="10³ т перераб" AlphaRu="ТЫС Т ПЕРЕРАБ" />
+      <Uom Code="179" Name="Условная тонна" SymbolRu="усл. т" AlphaRu="УСЛ Т" />
+      <Uom Code="207" Name="Тысяча центнеров" SymbolRu="10³ ц" AlphaRu="ТЫС Ц" />
+    </Group>
+    <Group Name="Технические единицы">
+      <Uom Code="226" Name="Вольт-ампер" SymbolRu="В·А" AlphaRu="В·А" />
+      <Uom Code="231" Name="Метр в час" SymbolRu="м/ч" AlphaRu="М/Ч" />
+      <Uom Code="232" Name="Килокалория" SymbolRu="ккал" AlphaRu="ККАЛ" />
+      <Uom Code="233" Name="Гигакалория" SymbolRu="Гкал" AlphaRu="ГИГАКАЛ" />
+      <Uom Code="234" Name="Тысяча гигакалорий" SymbolRu="10³ Гкал" AlphaRu="ТЫС ГИГАКАЛ" />
+      <Uom Code="235" Name="Миллион гигакалорий" SymbolRu="10⁶ Гкал" AlphaRu="МЛН ГИГАКАЛ" />
+      <Uom Code="236" Name="Калория в час" SymbolRu="кал/ч" AlphaRu="КАЛ/Ч" />
+      <Uom Code="237" Name="Килокалория в час" SymbolRu="ккал/ч" AlphaRu="ККАЛ/Ч" />
+      <Uom Code="238" Name="Гигакалория в час" SymbolRu="Гкал/ч" AlphaRu="ГИГАКАЛ/Ч" />
+      <Uom Code="239" Name="Тысяча гигакалорий в час" SymbolRu="10³ Гкал/ч" AlphaRu="ТЫС ГИГАКАЛ/Ч" />
+      <Uom Code="241" Name="Миллион ампер-часов" SymbolRu="10⁶ А·ч" AlphaRu="МЛН А·Ч" />
+      <Uom Code="242" Name="Миллион киловольт-ампер" SymbolRu="10⁶ кВ·А" AlphaRu="МЛН КВ·А" />
+      <Uom Code="248" Name="Киловольт-ампер реактивный" SymbolRu="кВ·А Р" AlphaRu="КВ·А Р" />
+      <Uom Code="249" Name="Миллиард киловатт-часов" SymbolRu="10⁹ кВт·ч" AlphaRu="МЛРД КВТ·Ч" />
+      <Uom Code="250" Name="Тысяча киловольт-ампер реактивных" SymbolRu="10³ кВ·А Р" AlphaRu="ТЫС КВ·А Р" />
+      <Uom Code="251" Name="Лошадиная сила" SymbolRu="л. с" AlphaRu="ЛС" />
+      <Uom Code="252" Name="Тысяча лошадиных сил" SymbolRu="10³ л. с" AlphaRu="ТЫС ЛС" />
+      <Uom Code="253" Name="Миллион лошадиных сил" SymbolRu="10⁶ л. с" AlphaRu="МЛН ЛС" />
+      <Uom Code="254" Name="Бит" SymbolRu="бит" AlphaRu="БИТ" />
+      <Uom Code="255" Name="Байт" SymbolRu="байт" AlphaRu="БАЙТ" />
+      <Uom Code="256" Name="Килобайт" SymbolRu="кбайт" AlphaRu="КБАЙТ" />
+      <Uom Code="257" Name="Мегабайт" SymbolRu="Мбайт" AlphaRu="МБАЙТ" />
+      <Uom Code="258" Name="Бод" SymbolRu="бод" AlphaRu="БОД" />
+      <Uom Code="287" Name="Генри" SymbolRu="Гн" AlphaRu="ГН" />
+      <Uom Code="313" Name="Тесла" SymbolRu="Тл" AlphaRu="ТЛ" />
+      <Uom Code="317" Name="Килограмм на квадратный сантиметр" SymbolRu="кг/см²" AlphaRu="КГ/СМ2" />
+      <Uom Code="337" Name="Миллиметр водяного столба" SymbolRu="мм вод. ст" AlphaRu="ММ ВОД СТ" />
+      <Uom Code="338" Name="Миллиметр ртутного столба" SymbolRu="мм рт. ст" AlphaRu="ММ РТ СТ" />
+      <Uom Code="339" Name="Сантиметр водяного столба" SymbolRu="см вод. ст" AlphaRu="СМ ВОД СТ" />
+    </Group>
+    <Group Name="Единицы времени">
+      <Uom Code="348" Name="Фемтосекунда" SymbolRu="фс" AlphaRu="ФС" />
+      <Uom Code="350" Name="Пикосекунда" SymbolRu="пс" AlphaRu="ПС" />
+      <Uom Code="351" Name="Наносекунда" SymbolRu="нс" AlphaRu="НС" />
+      <Uom Code="352" Name="Микросекунда" SymbolRu="мкс" AlphaRu="МКС" />
+      <Uom Code="353" Name="Миллисекунда" SymbolRu="млс" AlphaRu="МЛС" />
+    </Group>
+    <Group Name="Экономические единицы">
+      <Uom Code="383" Name="Рубль" SymbolRu="руб" AlphaRu="РУБ" />
+      <Uom Code="384" Name="Тысяча рублей" SymbolRu="10³ руб" AlphaRu="ТЫС РУБ" />
+      <Uom Code="385" Name="Миллион рублей" SymbolRu="10⁶ руб" AlphaRu="МЛН РУБ" />
+      <Uom Code="386" Name="Миллиард рублей" SymbolRu="10⁹ руб" AlphaRu="МЛРД РУБ" />
+      <Uom Code="387" Name="Триллион рублей" SymbolRu="10¹² руб" AlphaRu="ТРИЛЛ РУБ" />
+      <Uom Code="388" Name="Квадрильон рублей" SymbolRu="10¹⁵ руб" AlphaRu="КВАДР РУБ" />
+      <Uom Code="414" Name="Пассажиро-километр" SymbolRu="пасс·км" AlphaRu="ПАСС·КМ" />
+      <Uom Code="421" Name="Пассажирское место (пассажирских мест)" SymbolRu="пасс. мест" AlphaRu="ПАСС. МЕСТ" />
+      <Uom Code="423" Name="Тысяча пассажиро-километров" SymbolRu="10³ пасс·км" AlphaRu="ТЫС ПАСС·КМ" />
+      <Uom Code="424" Name="Миллион пассажиро-километров" SymbolRu="10⁶ пасс·км" AlphaRu="МЛН ПАСС·КМ" />
+      <Uom Code="427" Name="Пассажиропоток" SymbolRu="пасс. поток" AlphaRu="ПАСС. ПОТОК" />
+      <Uom Code="449" Name="Тонно-километр" SymbolRu="т·км" AlphaRu="Т·КМ" />
+      <Uom Code="450" Name="Тысяча тонно-километров" SymbolRu="10³ т·км" AlphaRu="ТЫС Т·КМ" />
+      <Uom Code="451" Name="Миллион тонно-километров" SymbolRu="10⁶ т·км" AlphaRu="МЛН Т·КМ" />
+      <Uom Code="479" Name="Тысяча наборов" SymbolRu="10³ набор" AlphaRu="ТЫС НАБОР" />
+      <Uom Code="508" Name="Тысяча метров кубических в час" SymbolRu="10³ м3/ч" AlphaRu="ТЫС М3/Ч" />
+      <Uom Code="509" Name="Километр в сутки" SymbolRu="км/сут" AlphaRu="КМ/СУТ" />
+      <Uom Code="510" Name="Грамм на киловатт-час" SymbolRu="г/кВт·ч" AlphaRu="Г/КВТ·Ч" />
+      <Uom Code="511" Name="Килограмм на гигакалорию" SymbolRu="кг/Гкал" AlphaRu="КГ/ГИГАКАЛ" />
+      <Uom Code="512" Name="Тонно-номер" SymbolRu="т·ном" AlphaRu="Т·НОМ" />
+      <Uom Code="513" Name="Автотонна" SymbolRu="авто т" AlphaRu="АВТО Т" />
+      <Uom Code="514" Name="Тонна тяги" SymbolRu="т тяги" AlphaRu="Т ТЯГИ" />
+      <Uom Code="515" Name="Дедвейт-тонна" SymbolRu="дедвейт·т" AlphaRu="ДЕДВЕЙТ·Т" />
+      <Uom Code="516" Name="Тонно-танид" SymbolRu="т·танид" AlphaRu="Т·ТАНИД" />
+      <Uom Code="521" Name="Человек на квадратный метр" SymbolRu="чел/м2" AlphaRu="ЧЕЛ/М2" />
+      <Uom Code="522" Name="Человек на квадратный километр" SymbolRu="чел/км2" AlphaRu="ЧЕЛ/КМ2" />
+      <Uom Code="534" Name="Тонна в час" SymbolRu="т/ч" AlphaRu="Т/Ч" />
+      <Uom Code="535" Name="Тонна в сутки" SymbolRu="т/сут" AlphaRu="Т/СУТ" />
+      <Uom Code="536" Name="Тонна в смену" SymbolRu="т/смен" AlphaRu="Т/СМЕН" />
+      <Uom Code="537" Name="Тысяча тонн в сезон" SymbolRu="10³ т/сез" AlphaRu="ТЫС Т/СЕЗ" />
+      <Uom Code="538" Name="Тысяча тонн в год" SymbolRu="10³ т/год" AlphaRu="ТЫС Т/ГОД" />
+      <Uom Code="539" Name="Человеко-час" SymbolRu="чел·ч" AlphaRu="ЧЕЛ·Ч" />
+      <Uom Code="540" Name="Человеко-день" SymbolRu="чел·дн" AlphaRu="ЧЕЛ·ДН" />
+      <Uom Code="541" Name="Тысяча человеко-дней" SymbolRu="10³ чел·дн" AlphaRu="ТЫС ЧЕЛ·ДН" />
+      <Uom Code="542" Name="Тысяча человеко-часов" SymbolRu="10³ чел·ч" AlphaRu="ТЫС ЧЕЛ·Ч" />
+      <Uom Code="543" Name="Тысяча условных банок в смену" SymbolRu="10³ усл. банк/смен" AlphaRu="ТЫС УСЛ БАНК/СМЕН" />
+      <Uom Code="544" Name="Миллион единиц в год" SymbolRu="10⁶ ед/год" AlphaRu="МЛН ЕД/ГОД" />
+      <Uom Code="545" Name="Посещение в смену" SymbolRu="посещ/смен" AlphaRu="ПОСЕЩ/СМЕН" />
+      <Uom Code="546" Name="Тысяча посещений в смену" SymbolRu="10³ посещ/смен" AlphaRu="ТЫС ПОСЕЩ/СМЕН" />
+      <Uom Code="547" Name="Пара в смену" SymbolRu="пар/смен" AlphaRu="ПАР/СМЕН" />
+      <Uom Code="548" Name="Тысяча пар в смену" SymbolRu="10³ пар/смен" AlphaRu="ТЫС ПАР/СМЕН" />
+      <Uom Code="550" Name="Миллион тонн в год" SymbolRu="10⁶ т/год" AlphaRu="МЛН Т/ГОД" />
+      <Uom Code="552" Name="Тонна переработки в сутки" SymbolRu="т перераб/сут" AlphaRu="Т ПЕРЕРАБ/СУТ" />
+      <Uom Code="553" Name="Тысяча тонн переработки в сутки" SymbolRu="10³ т перераб/сут" AlphaRu="ТЫС Т ПЕРЕРАБ/СУТ" />
+      <Uom Code="554" Name="Центнер переработки в сутки" SymbolRu="ц перераб/сут" AlphaRu="Ц ПЕРЕРАБ/СУТ" />
+      <Uom Code="555" Name="Тысяча центнеров переработки в сутки" SymbolRu="10³ ц перераб/сут" AlphaRu="ТЫС Ц ПЕРЕРАБ/СУТ" />
+      <Uom Code="556" Name="Тысяча голов в год" SymbolRu="10³ гол/год" AlphaRu="ТЫС ГОЛ/ГОД" />
+      <Uom Code="557" Name="Миллион голов в год" SymbolRu="10⁶ гол/год" AlphaRu="МЛН ГОЛ/ГОД" />
+      <Uom Code="558" Name="Тысяча птицемест" SymbolRu="10³ птицемест" AlphaRu="ТЫС ПТИЦЕМЕСТ" />
+      <Uom Code="559" Name="Тысяча кур-несушек" SymbolRu="10³ кур. несуш" AlphaRu="ТЫС КУР. НЕСУШ" />
+      <Uom Code="561" Name="Тысяча тонн пара в час" SymbolRu="10³ т пар/ч" AlphaRu="ТЫС Т ПАР/Ч" />
+      <Uom Code="562" Name="Тысяча прядильных веретен" SymbolRu="10³ пряд. верет" AlphaRu="ТЫС ПРЯД ВЕРЕТ" />
+      <Uom Code="563" Name="Тысяча прядильных мест" SymbolRu="10³ пряд. мест" AlphaRu="ТЫС ПРЯД МЕСТ" />
+      <Uom Code="639" Name="Доза" SymbolRu="доз" AlphaRu="ДОЗ" />
+      <Uom Code="640" Name="Тысяча доз" SymbolRu="10³ доз" AlphaRu="ТЫС ДОЗ" />
+      <Uom Code="642" Name="Единица" SymbolRu="ед" AlphaRu="ЕД" />
+      <Uom Code="643" Name="Тысяча единиц" SymbolRu="10³ ед" AlphaRu="ТЫС ЕД" />
+      <Uom Code="644" Name="Миллион единиц" SymbolRu="10⁶ ед" AlphaRu="МЛН ЕД" />
+      <Uom Code="661" Name="Канал" SymbolRu="канал" AlphaRu="КАНАЛ" />
+      <Uom Code="673" Name="Тысяча комплектов" SymbolRu="10³ компл" AlphaRu="ТЫС КОМПЛ" />
+      <Uom Code="698" Name="Место" SymbolRu="мест" AlphaRu="МЕСТ" />
+      <Uom Code="699" Name="Тысяча мест" SymbolRu="10³ мест" AlphaRu="ТЫС МЕСТ" />
+      <Uom Code="709" Name="Тысяча номеров" SymbolRu="10³ ном" AlphaRu="ТЫС НОМ" />
+      <Uom Code="724" Name="Тысяча гектаров порций" SymbolRu="10³ га порц" AlphaRu="ТЫС ГА ПОРЦ" />
+      <Uom Code="728" Name="Пачка" SymbolRu="пач" AlphaRu="ПАЧ" />
+      <Uom Code="729" Name="Тысяча пачек" SymbolRu="10³ пач" AlphaRu="ТЫС ПАЧ" />
+      <Uom Code="744" Name="Процент" SymbolRu="%" AlphaRu="ПРОЦ" />
+      <Uom Code="746" Name="Промилле (0,1 процента)" SymbolRu="‰" AlphaRu="ПРОМИЛЛЕ" />
+      <Uom Code="751" Name="Тысяча рулонов" SymbolRu="10³ рул" AlphaRu="ТЫС РУЛ" />
+      <Uom Code="761" Name="Тысяча станов" SymbolRu="10³ стан" AlphaRu="ТЫС СТАН" />
+      <Uom Code="762" Name="Станция" SymbolRu="станц" AlphaRu="СТАНЦ" />
+      <Uom Code="775" Name="Тысяча тюбиков" SymbolRu="10³ тюбик" AlphaRu="ТЫС ТЮБИК" />
+      <Uom Code="776" Name="Тысяча условных тубов" SymbolRu="10³ усл. туб" AlphaRu="ТЫС УСЛ ТУБ" />
+      <Uom Code="779" Name="Миллион упаковок" SymbolRu="10⁶ упак" AlphaRu="МЛН УПАК" />
+      <Uom Code="782" Name="Тысяча упаковок" SymbolRu="10³ упак" AlphaRu="ТЫС УПАК" />
+      <Uom Code="792" Name="Человек" SymbolRu="чел" AlphaRu="ЧЕЛ" />
+      <Uom Code="793" Name="Тысяча человек" SymbolRu="10³ чел" AlphaRu="ТЫС ЧЕЛ" />
+      <Uom Code="794" Name="Миллион человек" SymbolRu="10⁶ чел" AlphaRu="МЛН ЧЕЛ" />
+      <Uom Code="808" Name="Миллион экземпляров" SymbolRu="10⁶ экз" AlphaRu="МЛН ЭКЗ" />
+      <Uom Code="810" Name="Ячейка" SymbolRu="яч" AlphaRu="ЯЧ" />
+      <Uom Code="812" Name="Ящик" SymbolRu="ящ" AlphaRu="ЯЩ" />
+      <Uom Code="836" Name="Голова" SymbolRu="гол" AlphaRu="ГОЛ" />
+      <Uom Code="837" Name="Тысяча пар" SymbolRu="10³ пар" AlphaRu="ТЫС ПАР" />
+      <Uom Code="838" Name="Миллион пар" SymbolRu="10⁶ пар" AlphaRu="МЛН ПАР" />
+      <Uom Code="839" Name="Комплект" SymbolRu="компл" AlphaRu="КОМПЛ" />
+      <Uom Code="840" Name="Секция" SymbolRu="секц" AlphaRu="СЕКЦ" />
+      <Uom Code="868" Name="Бутылка" SymbolRu="бут" AlphaRu="БУТ" />
+      <Uom Code="869" Name="Тысяча бутылок" SymbolRu="10³ бут" AlphaRu="ТЫС БУТ" />
+      <Uom Code="870" Name="Ампула" SymbolRu="ампул" AlphaRu="АМПУЛ" />
+      <Uom Code="871" Name="Тысяча ампул" SymbolRu="10³ ампул" AlphaRu="ТЫС АМПУЛ" />
+      <Uom Code="872" Name="Флакон" SymbolRu="флак" AlphaRu="ФЛАК" />
+      <Uom Code="873" Name="Тысяча флаконов" SymbolRu="10³ флак" AlphaRu="ТЫС ФЛАК" />
+      <Uom Code="874" Name="Тысяча тубов" SymbolRu="10³ туб" AlphaRu="ТЫС ТУБ" />
+      <Uom Code="875" Name="Тысяча коробок" SymbolRu="10³ кор" AlphaRu="ТЫС КОР" />
+      <Uom Code="876" Name="Условная единица" SymbolRu="усл. ед" AlphaRu="УСЛ ЕД" />
+      <Uom Code="877" Name="Тысяча условных единиц" SymbolRu="10³ усл. ед" AlphaRu="ТЫС УСЛ ЕД" />
+      <Uom Code="878" Name="Миллион условных единиц" SymbolRu="10⁶ усл. ед" AlphaRu="МЛН УСЛ ЕД" />
+      <Uom Code="879" Name="Условная штука" SymbolRu="усл. шт" AlphaRu="УСЛ ШТ" />
+      <Uom Code="880" Name="Тысяча условных штук" SymbolRu="10³ усл. шт" AlphaRu="ТЫС УСЛ ШТ" />
+      <Uom Code="881" Name="Условная банка" SymbolRu="усл. банк" AlphaRu="УСЛ БАНК" />
+      <Uom Code="882" Name="Тысяча условных банок" SymbolRu="10³ усл. банк" AlphaRu="ТЫС УСЛ БАНК" />
+      <Uom Code="883" Name="Миллион условных банок" SymbolRu="10⁶ усл. банк" AlphaRu="МЛН УСЛ БАНК" />
+      <Uom Code="884" Name="Условный кусок" SymbolRu="усл. кус" AlphaRu="УСЛ КУС" />
+      <Uom Code="885" Name="Тысяча условных кусков" SymbolRu="10³ усл. кус" AlphaRu="ТЫС УСЛ КУС" />
+      <Uom Code="886" Name="Миллион условных кусков" SymbolRu="10⁶ усл. кус" AlphaRu="МЛН УСЛ КУС" />
+      <Uom Code="887" Name="Условный ящик" SymbolRu="усл. ящ" AlphaRu="УСЛ ЯЩ" />
+      <Uom Code="888" Name="Тысяча условных ящиков" SymbolRu="10³ усл. ящ" AlphaRu="ТЫС УСЛ ЯЩ" />
+      <Uom Code="889" Name="Условная катушка" SymbolRu="усл. кат" AlphaRu="УСЛ КАТ" />
+      <Uom Code="890" Name="Тысяча условных катушек" SymbolRu="10³ усл. кат" AlphaRu="ТЫС УСЛ КАТ" />
+      <Uom Code="891" Name="Условная плитка" SymbolRu="усл. плит" AlphaRu="УСЛ ПЛИТ" />
+      <Uom Code="892" Name="Тысяча условных плиток" SymbolRu="10³ усл. плит" AlphaRu="ТЫС УСЛ ПЛИТ" />
+      <Uom Code="893" Name="Условный кирпич" SymbolRu="усл. кирп" AlphaRu="УСЛ КИРП" />
+      <Uom Code="894" Name="Тысяча условных кирпичей" SymbolRu="10³ усл. кирп" AlphaRu="ТЫС УСЛ КИРП" />
+      <Uom Code="895" Name="Миллион условных кирпичей" SymbolRu="10⁶ усл. кирп" AlphaRu="МЛН УСЛ КИРП" />
+      <Uom Code="896" Name="Семья" SymbolRu="семей" AlphaRu="СЕМЕЙ" />
+      <Uom Code="897" Name="Тысяча семей" SymbolRu="10³ семей" AlphaRu="ТЫС СЕМЕЙ" />
+      <Uom Code="898" Name="Миллион семей" SymbolRu="10⁶ семей" AlphaRu="МЛН СЕМЕЙ" />
+      <Uom Code="899" Name="Домохозяйство" SymbolRu="домхоз" AlphaRu="ДОМХОЗ" />
+      <Uom Code="900" Name="Тысяча домохозяйств" SymbolRu="10³ домхоз" AlphaRu="ТЫС ДОМХОЗ" />
+      <Uom Code="901" Name="Миллион домохозяйств" SymbolRu="10⁶ домхоз" AlphaRu="МЛН ДОМХОЗ" />
+      <Uom Code="902" Name="Ученическое место" SymbolRu="учен. мест" AlphaRu="УЧЕН МЕСТ" />
+      <Uom Code="903" Name="Тысяча ученических мест" SymbolRu="10³ учен. мест" AlphaRu="ТЫС УЧЕН МЕСТ" />
+      <Uom Code="904" Name="Рабочее место" SymbolRu="раб. мест" AlphaRu="РАБ МЕСТ" />
+      <Uom Code="905" Name="Тысяча рабочих мест" SymbolRu="10³ раб. мест" AlphaRu="ТЫС РАБ МЕСТ" />
+      <Uom Code="906" Name="Посадочное место" SymbolRu="посад. мест" AlphaRu="ПОСАД МЕСТ" />
+      <Uom Code="907" Name="Тысяча посадочных мест" SymbolRu="10³ посад. мест" AlphaRu="ТЫС ПОСАД МЕСТ" />
+      <Uom Code="908" Name="Номер" SymbolRu="ном" AlphaRu="НОМ" />
+      <Uom Code="909" Name="Квартира" SymbolRu="кварт" AlphaRu="КВАРТ" />
+      <Uom Code="910" Name="Тысяча квартир" SymbolRu="10³ кварт" AlphaRu="ТЫС КВАРТ" />
+      <Uom Code="911" Name="Койка" SymbolRu="коек" AlphaRu="КОЕК" />
+      <Uom Code="912" Name="Тысяча коек" SymbolRu="10³ коек" AlphaRu="ТЫС КОЕК" />
+      <Uom Code="913" Name="Том книжного фонда" SymbolRu="том книжн. фонд" AlphaRu="ТОМ КНИЖН ФОНД" />
+      <Uom Code="914" Name="Тысяча томов книжного фонда" SymbolRu="10³ том книжн. фонд" AlphaRu="ТЫС ТОМ КНИЖН ФОНД" />
+      <Uom Code="915" Name="Условный ремонт" SymbolRu="усл. рем" AlphaRu="УСЛ РЕМ" />
+      <Uom Code="916" Name="Условный ремонт в год" SymbolRu="усл. рем/год" AlphaRu="УСЛ РЕМ/ГОД" />
+      <Uom Code="917" Name="Смена" SymbolRu="смен" AlphaRu="СМЕН" />
+      <Uom Code="918" Name="Лист авторский" SymbolRu="л. авт" AlphaRu="ЛИСТ АВТ" />
+      <Uom Code="920" Name="Лист печатный" SymbolRu="л. печ" AlphaRu="ЛИСТ ПЕЧ" />
+      <Uom Code="921" Name="Лист учетно-издательский" SymbolRu="л. уч.-изд" AlphaRu="ЛИСТ УЧ.ИЗД" />
+      <Uom Code="922" Name="Знак" SymbolRu="знак" AlphaRu="ЗНАК" />
+      <Uom Code="923" Name="Слово" SymbolRu="слово" AlphaRu="СЛОВО" />
+      <Uom Code="924" Name="Символ" SymbolRu="символ" AlphaRu="СИМВОЛ" />
+      <Uom Code="925" Name="Условная труба" SymbolRu="усл. труб" AlphaRu="УСЛ ТРУБ" />
+      <Uom Code="930" Name="Тысяча пластин" SymbolRu="10³ пласт" AlphaRu="ТЫС ПЛАСТ" />
+      <Uom Code="937" Name="Миллион доз" SymbolRu="10⁶ доз" AlphaRu="МЛН ДОЗ" />
+      <Uom Code="949" Name="Миллион листов-оттисков" SymbolRu="10⁶ лист·оттиск" AlphaRu="МЛН ЛИСТ ОТТИСК" />
+      <Uom Code="950" Name="Вагоно (машино)-день" SymbolRu="ваг (маш)·дн" AlphaRu="ВАГ (МАШ)·ДН" />
+      <Uom Code="951" Name="Тысяча вагоно (машино)-часов" SymbolRu="10³ ваг (маш)·ч" AlphaRu="ТЫС ВАГ (МАШ)·Ч" />
+      <Uom Code="952" Name="Тысяча вагоно (машино)-километров" SymbolRu="10³ ваг (маш)·км" AlphaRu="ТЫС ВАГ (МАШ)·КМ" />
+      <Uom Code="953" Name="Тысяча место-километров" SymbolRu="10³ мест·км" AlphaRu="ТЫС МЕСТ·КМ" />
+      <Uom Code="954" Name="Вагоно-сутки" SymbolRu="ваг·сут" AlphaRu="ВАГ·СУТ" />
+      <Uom Code="955" Name="Тысяча поездо-часов" SymbolRu="10³ поезд·ч" AlphaRu="ТЫС ПОЕЗД·Ч" />
+      <Uom Code="956" Name="Тысяча поездо-километров" SymbolRu="10³ поезд·км" AlphaRu="ТЫС ПОЕЗД·КМ" />
+      <Uom Code="957" Name="Тысяча тонно-миль" SymbolRu="10³ т·миль" AlphaRu="ТЫС Т·МИЛЬ" />
+      <Uom Code="958" Name="Тысяча пассажиро-миль" SymbolRu="10³ пасс·миль" AlphaRu="ТЫС ПАСС·МИЛЬ" />
+      <Uom Code="959" Name="Автомобиле-день" SymbolRu="автомоб·дн" AlphaRu="АВТОМОБ·ДН" />
+      <Uom Code="960" Name="Тысяча автомобиле-тонно-дней" SymbolRu="10³ автомоб·т·дн" AlphaRu="ТЫС АВТОМОБ·Т·ДН" />
+      <Uom Code="961" Name="Тысяча автомобиле-часов" SymbolRu="10³ автомоб·ч" AlphaRu="ТЫС АВТОМОБ·Ч" />
+      <Uom Code="962" Name="Тысяча автомобиле-место-дней" SymbolRu="10³ автомоб·мест·дн" AlphaRu="ТЫС АВТОМОБ·МЕСТ·ДН" />
+      <Uom Code="963" Name="Приведенный час" SymbolRu="привед. ч" AlphaRu="ПРИВЕД. Ч" />
+      <Uom Code="964" Name="Самолето-километр" SymbolRu="самолет·км" AlphaRu="САМОЛЕТ·КМ" />
+      <Uom Code="965" Name="Тысяча километров" SymbolRu="10³ км" AlphaRu="ТЫС КМ" />
+      <Uom Code="966" Name="Тысяча тоннаже-рейсов" SymbolRu="10³ тоннаж·рейс" AlphaRu="ТЫС ТОННАЖ·РЕЙС" />
+      <Uom Code="967" Name="Миллион тонно-миль" SymbolRu="10⁶ т·миль" AlphaRu="МЛН Т·МИЛЬ" />
+      <Uom Code="968" Name="Миллион пассажиро-миль" SymbolRu="10⁶ пасс·миль" AlphaRu="МЛН ПАСС·МИЛЬ" />
+      <Uom Code="969" Name="Миллион тоннаже-миль" SymbolRu="10⁶ тоннаж·миль" AlphaRu="МЛН ТОННАЖ·МИЛЬ" />
+      <Uom Code="970" Name="Миллион пассажиро-место-миль" SymbolRu="10⁶ пасс·мест·миль" AlphaRu="МЛН ПАСС·МЕСТ·МИЛЬ" />
+      <Uom Code="971" Name="Кормо-день" SymbolRu="корм·дн" AlphaRu="КОРМ·ДН" />
+      <Uom Code="972" Name="Центнер кормовых единиц" SymbolRu="ц корм ед" AlphaRu="Ц КОРМ ЕД" />
+      <Uom Code="973" Name="Тысяча автомобиле-километров" SymbolRu="10³ автомоб·км" AlphaRu="ТЫС АВТОМОБ·КМ" />
+      <Uom Code="974" Name="Тысяча тоннаже-суток" SymbolRu="10³ тоннаж·сут" AlphaRu="ТЫС ТОННАЖ·СУТ" />
+      <Uom Code="975" Name="Суго-сутки" SymbolRu="суго·сут" AlphaRu="СУГО·СУТ" />
+      <Uom Code="976" Name="Штука в 20-футовом эквиваленте (ДФЭ)" SymbolRu="штук в 20-футовом эквиваленте" AlphaRu="ШТ В 20 ФУТ ЭКВИВ" />
+      <Uom Code="977" Name="Канало-километр" SymbolRu="канал·км" AlphaRu="КАНАЛ·КМ" />
+      <Uom Code="978" Name="Канало-концы" SymbolRu="канал·конц" AlphaRu="КАНАЛ·КОНЦ" />
+      <Uom Code="979" Name="Тысяча экземпляров" SymbolRu="10³ экз" AlphaRu="ТЫС ЭКЗ" />
+      <Uom Code="980" Name="Тысяча долларов" SymbolRu="10³ доллар" AlphaRu="ТЫС ДОЛЛАР" />
+      <Uom Code="981" Name="Тысяча тонн кормовых единиц" SymbolRu="10³ корм ед" AlphaRu="ТЫС Т КОРМ ЕД" />
+      <Uom Code="982" Name="Миллион тонн кормовых единиц" SymbolRu="10⁶ корм ед" AlphaRu="МЛН Т КОРМ ЕД" />
+      <Uom Code="983" Name="Судо-сутки" SymbolRu="суд·сут" AlphaRu="СУД·СУТ" />
+      <Uom Code="984" Name="Центнеров с гектара" SymbolRu="ц/га" AlphaRu="Ц/ГА" />
+      <Uom Code="985" Name="Тысяча голов" SymbolRu="10³ гол" AlphaRu="ТЫС ГОЛ" />
+      <Uom Code="986" Name="Тысяча краско-оттисков" SymbolRu="10³ краск·оттиск" AlphaRu="ТЫС КРАСК ОТТИСК" />
+      <Uom Code="987" Name="Миллион краско-оттисков" SymbolRu="10⁶ краск·оттиск" AlphaRu="МЛН КРАСК ОТТИСК" />
+      <Uom Code="988" Name="Миллион условных плиток" SymbolRu="10⁶ усл. плит" AlphaRu="МЛН УСЛ ПЛИТ" />
+      <Uom Code="989" Name="Человек в час" SymbolRu="чел/ч" AlphaRu="ЧЕЛ/Ч" />
+      <Uom Code="990" Name="Пассажиров в час" SymbolRu="пасс/ч" AlphaRu="ПАСС/Ч" />
+      <Uom Code="991" Name="Пассажиро-миля" SymbolRu="пасс·миля" AlphaRu="ПАСС МИЛЯ" />
+    </Group>
+  </Section>
+  <Section Name="Четырехзначные национальные единицы измерения, включенные в ОКЕИ">
+    <Group Name="Технические единицы">
+      <Uom Code="2311" Name="Грей в секунду" SymbolRu="Гр/с" AlphaRu="ГР/С" />
+      <Uom Code="2312" Name="Грей в минуту" SymbolRu="Гр/мин" AlphaRu="ГР/МИН" />
+      <Uom Code="2313" Name="Грей в час" SymbolRu="Гр/ч" AlphaRu="ГР/Ч" />
+      <Uom Code="2314" Name="Микрогрей в секунду" SymbolRu="мкГр/с" AlphaRu="МКГР/С" />
+      <Uom Code="2315" Name="Микрогрей в час" SymbolRu="мкГр/ч" AlphaRu="МКГР/Ч" />
+      <Uom Code="2316" Name="Миллигрей в час" SymbolRu="мГр/ч" AlphaRu="МЛГР/Ч" />
+      <Uom Code="2351" Name="Зиверт в час" SymbolRu="Зв/ч" AlphaRu="ЗВ/Ч" />
+      <Uom Code="2352" Name="Микрозиверт в секунду" SymbolRu="мкЗв/с" AlphaRu="МКЗВ/С" />
+      <Uom Code="2353" Name="Микрозиверт в час" SymbolRu="мкЗв/ч" AlphaRu="МКЗВ/Ч" />
+      <Uom Code="2354" Name="Миллизиверт в час" SymbolRu="мЗв/ч" AlphaRu="МЛЗВ/Ч" />
+      <Uom Code="2541" Name="Бит в секунду" SymbolRu="бит/с" AlphaRu="БИТ/С" />
+      <Uom Code="2543" Name="Килобит в секунду" SymbolRu="кбит/с" AlphaRu="КБИТ/С" />
+      <Uom Code="2545" Name="Мегабит в секунду" SymbolRu="Мбит/с" AlphaRu="МБИТ/С" />
+      <Uom Code="2547" Name="Гигабит в секунду" SymbolRu="Гбит/с" AlphaRu="ГБИТ/С" />
+      <Uom Code="2551" Name="Байт в секунду" SymbolRu="Байт/с" AlphaRu="БАЙТ/С" />
+      <Uom Code="2552" Name="Гигабайт в секунду" SymbolRu="Гбайт/с" AlphaRu="ГБАЙТ/С" />
+      <Uom Code="2553" Name="Гигабайт" SymbolRu="Гбайт" AlphaRu="ГБАЙТ" />
+      <Uom Code="2554" Name="Терабайт" SymbolRu="Тбайт" AlphaRu="ТБАЙТ" />
+      <Uom Code="2555" Name="Петабайт" SymbolRu="Пбайт" AlphaRu="ПБАЙТ" />
+      <Uom Code="2556" Name="Эксабайт" SymbolRu="Эбайт" AlphaRu="ЭБАЙТ" />
+      <Uom Code="2557" Name="Зеттабайт" SymbolRu="Збайт" AlphaRu="ЗБАЙТ" />
+      <Uom Code="2558" Name="Йоттабайт" SymbolRu="Йбайт" AlphaRu="ЙБАЙТ" />
+      <Uom Code="2561" Name="Килобайт в секунду" SymbolRu="кбайт/с" AlphaRu="КБАЙТ/С" />
+      <Uom Code="2571" Name="Мегабайт в секунду" SymbolRu="Мбайт/с" AlphaRu="МБАЙТ/С" />
+      <Uom Code="2581" Name="Эрланг" SymbolRu="Эрл" AlphaRu="ЭРЛАНГ" />
+      <Uom Code="2931" Name="Гигагерц" SymbolRu="ГГц" AlphaRu="ГИГАГЦ" />
+      <Uom Code="3135" Name="Децибел" SymbolRu="дБ" AlphaRu="ДЕЦИБЕЛ" />
+    </Group>
+    <Group Name="Экономические единицы">
+      <Uom Code="3831" Name="Рубль тонна" SymbolRu="руб. тонна" AlphaRu="РУБ ТОННА" />
+      <Uom Code="5401" Name="Дето-день" SymbolRu="дет·дн" AlphaRu="ДЕТ ДН" />
+      <Uom Code="5423" Name="Человек в год" SymbolRu="чел/год" AlphaRu="ЧЕЛ/ГОД" />
+      <Uom Code="5451" Name="Посещение" SymbolRu="посещ" AlphaRu="ПОСЕЩ" />
+      <Uom Code="5562" Name="Тысяча гнезд" SymbolRu="10³ гнезд" AlphaRu="ТЫС ГНЕЗД" />
+      <Uom Code="6421" Name="Единиц в год" SymbolRu="ед/год" AlphaRu="ЕД/ГОД" />
+      <Uom Code="6422" Name="Вызов" SymbolRu="вызов" AlphaRu="ВЫЗОВ" />
+      <Uom Code="6423" Name="Посевная единица" SymbolRu="пос. ед" AlphaRu="ПОС ЕД" />
+      <Uom Code="6424" Name="Штамм" SymbolRu="штамм" AlphaRu="ШТАММ" />
+      <Uom Code="7923" Name="Абонент" SymbolRu="Абонент" AlphaRu="АБОНЕНТ" />
+      <Uom Code="8361" Name="Особь" SymbolRu="ос" AlphaRu="ОСОБЬ" />
+      <Uom Code="8751" Name="Коробка" SymbolRu="кор" AlphaRu="КОР" />
+      <Uom Code="9061" Name="Миллион гектаров" SymbolRu="10⁶ га" AlphaRu="МЛН ГА" />
+      <Uom Code="9062" Name="Миллиард гектаров" SymbolRu="10⁹ га" AlphaRu="МЛРД ГА" />
+      <Uom Code="9111" Name="Койко-день" SymbolRu="койк·дн" AlphaRu="КОЙК ДН" />
+      <Uom Code="9113" Name="Пациенто-день" SymbolRu="пациент·дн" AlphaRu="ПАЦИЕНТ ДН" />
+      <Uom Code="9245" Name="Запись" SymbolRu="запись" AlphaRu="ЗАПИСЬ" />
+      <Uom Code="9246" Name="Документ" SymbolRu="докум" AlphaRu="ДОКУМ" />
+      <Uom Code="9491" Name="Лист-оттиск" SymbolRu="лист·оттиск" AlphaRu="ЛИСТ ОТТИСК" />
+      <Uom Code="9501" Name="Вагоно (машино)-час" SymbolRu="ваг (маш)·ч" AlphaRu="ВАГ (МАШ)·Ч" />
+      <Uom Code="9557" Name="Миллион голов" SymbolRu="10⁶ гол" AlphaRu="МЛН ГОЛ" />
+      <Uom Code="9641" Name="Летный час" SymbolRu="летн. ч" AlphaRu="ЛЕТН Ч" />
+      <Uom Code="9642" Name="Балл" SymbolRu="балл" AlphaRu="БАЛЛ" />
+      <Uom Code="9802" Name="Миллион долларов" SymbolRu="10⁶ доллар" AlphaRu="МЛН ДОЛЛАР" />
+      <Uom Code="9803" Name="Миллиард долларов" SymbolRu="10⁹ доллар" AlphaRu="МЛРД ДОЛЛАР" />
+      <Uom Code="9805" Name="Доллар за тонну" SymbolRu="доллар за тонну" AlphaRu="ДОЛЛАР ЗА ТОННУ" />
+    </Group>
+    <Group Name="Дозировки лекарственных препаратов">
+      <Uom Code="9910" Name="Международная единица биологической активности" SymbolRu="МЕ" AlphaRu="МЕ" />
+      <Uom Code="9911" Name="Тысяча международных единиц биологической активности" SymbolRu="тыс. МЕ" AlphaRu="ТЫС. МЕ" />
+      <Uom Code="9912" Name="Миллион международных единиц биологической активности" SymbolRu="млн. МЕ" AlphaRu="МЛН. МЕ" />
+      <Uom Code="9913" Name="Международная единица биологической активности на грамм" SymbolRu="МЕ/г" AlphaRu="МЕ/Г" />
+      <Uom Code="9914" Name="Тысяча международных единиц биологической активности на грамм" SymbolRu="тыс. МЕ/г" AlphaRu="ТЫС. МЕ/Г" />
+      <Uom Code="9915" Name="Миллион международных единиц биологической активности на грамм" SymbolRu="млн. МЕ/г" AlphaRu="МЛН. МЕ/Г" />
+      <Uom Code="9916" Name="Международная единица биологической активности на миллилитр" SymbolRu="МЕ/мл" AlphaRu="МЕ/МЛ" />
+      <Uom Code="9917" Name="Тысяча международных единиц биологической активности на миллилитр" SymbolRu="тыс. МЕ/мл" AlphaRu="ТЫС. МЕ/МЛ" />
+      <Uom Code="9918" Name="Миллион международных единиц биологической активности на миллилитр" SymbolRu="млн. МЕ/мл" AlphaRu="МЛН. МЕ/МЛ" />
+      <Uom Code="9920" Name="Единица действия биологической активности" SymbolRu="ЕД" AlphaRu="ЕД" />
+      <Uom Code="9921" Name="Единица действия биологической активности на грамм" SymbolRu="ЕД/г" AlphaRu="ЕД/Г" />
+      <Uom Code="9922" Name="Тысяча единиц действия биологической активности на грамм" SymbolRu="тыс. ЕД/г" AlphaRu="ТЫС. ЕД/Г" />
+      <Uom Code="9923" Name="Единица действия биологической активности на микролитр" SymbolRu="ЕД/мкл" AlphaRu="ЕД/МКЛ" />
+      <Uom Code="9924" Name="Единица действия биологической активности на миллилитр" SymbolRu="ЕД/мл" AlphaRu="ЕД/МЛ" />
+      <Uom Code="9925" Name="Тысяча единиц действия биологической активности на миллилитр" SymbolRu="тыс. ЕД/мл" AlphaRu="ТЫС. ЕД/МЛ" />
+      <Uom Code="9926" Name="Миллион единиц действия биологической активности на миллилитр" SymbolRu="млн. ЕД/мл" AlphaRu="МЛН. ЕД/МЛ" />
+      <Uom Code="9927" Name="Единица действия биологической активности в сутки" SymbolRu="ЕД/сут" AlphaRu="ЕД/СУТ" />
+      <Uom Code="9930" Name="Антитоксическая единица" SymbolRu="АЕ" AlphaRu="АЕ" />
+      <Uom Code="9931" Name="Тысяча антитоксических единиц" SymbolRu="тыс. АЕ" AlphaRu="ТЫС. АЕ" />
+      <Uom Code="9940" Name="Антитрипсиновая единица" SymbolRu="АТрЕ" AlphaRu="АТРЕ" />
+      <Uom Code="9941" Name="Тысяча антитрипсиновых единиц" SymbolRu="тыс. АТрЕ" AlphaRu="ТЫС. АТРЕ" />
+      <Uom Code="9950" Name="Индекс Реактивности" SymbolRu="ИР" AlphaRu="ИР" />
+      <Uom Code="9951" Name="Индекс Реактивности на миллилитр" SymbolRu="ИР/мл" AlphaRu="ИР/МЛ" />
+      <Uom Code="9960" Name="Килобеккерель на миллилитр" SymbolRu="кБк/мл" AlphaRu="КИЛОБК/МЛ" />
+      <Uom Code="9961" Name="Мегабеккерель на миллилитр" SymbolRu="МБк/мл" AlphaRu="МЕГАБК/МЛ" />
+      <Uom Code="9962" Name="Мегабеккерель на метр квадратный" SymbolRu="МБк/м²" AlphaRu="МЕГАБК/М2" />
+      <Uom Code="9970" Name="Калликреиновая ингибирующая единица на миллилитр" SymbolRu="КИЕ/мл" AlphaRu="КИЕ/МЛ" />
+      <Uom Code="9971" Name="Тысяча калликреиновых ингибирующих единиц на миллилитр" SymbolRu="тыс. КИЕ/мл" AlphaRu="ТЫС. КИЕ/МЛ" />
+      <Uom Code="9980" Name="Миллион колониеобразуюших единиц" SymbolRu="млн. КОЕ" AlphaRu="МЛН. КОЕ" />
+      <Uom Code="9981" Name="Миллион колониеобразующих единиц на пакет" SymbolRu="млн. КОЕ/пакет" AlphaRu="МЛН. КОЕ/ПАКЕТ" />
+      <Uom Code="9982" Name="Миллиард колониеобразующих единиц" SymbolRu="млрд. КОЕ" AlphaRu="МЛРД. КОЕ" />
+      <Uom Code="9983" Name="Протеолитическая единица" SymbolRu="ПЕ" AlphaRu="ПЕ" />
+      <Uom Code="9985" Name="Микрограмм на миллилитр" SymbolRu="Мкг/мл" AlphaRu="МКГ/МЛ" />
+      <Uom Code="9986" Name="Микрограмм в сутки" SymbolRu="Мкг/сут" AlphaRu="МКГ/СУТ" />
+      <Uom Code="9987" Name="Микрограмм в час" SymbolRu="Мкг/ч" AlphaRu="МКГ/Ч" />
+      <Uom Code="9988" Name="Микрограмм на дозу" SymbolRu="Мкг/доза" AlphaRu="МКГ/ДОЗА" />
+      <Uom Code="9990" Name="Миллимоль на миллилитр" SymbolRu="ммоль/мл" AlphaRu="ММОЛЬ/МЛ" />
+      <Uom Code="9991" Name="Миллимоль на литр" SymbolRu="ммоль/л" AlphaRu="ММОЛЬ/Л" />
+    </Group>
+  </Section>
+</OKEI>

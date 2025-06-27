@@ -75,19 +75,60 @@ namespace RjProduction.XML
                 MessageBox.Show("Нет активного подключения к БД, создайте новое подключение к БД.");
                 return;
             }
+            if (string.IsNullOrEmpty(Reason) )
+            {
+                MessageBox.Show("Не указана причина списания");
+                return;
+            }
             var id_doc = SqlRequest.ExistRecord<DocWriteDowns>(new ISqlProfile.FieldSql("ID_Doc", ID_Doc));
             if (id_doc != -1)
             {
                 MessageBox.Show("Этот документ был ранее проведен или произошла ошибка. С такой датой и номером уже ранее сохранен в БД. ");
                 Status = StatusEnum.Проведен;
-                goto final;
+                XmlProtocol.SaveDocXml<DocWriteDowns>(this);
+                return;
             }
 
             Warehouse.SyncClass();
+          
+            // запуск сохранения в БД Products              
+            foreach (var item in ListPseudonym)
+            {
+                Products? cl = SqlRequest.ReadData<Products>([new("NameItem", item.Product.NameItem), new("Warehouse", item.Product.Warehouse.ID)]);
+                // Меняет текущее в на этом складе и по этому названию 
+                if (cl != null)
+                {
+                    cl.ConcurrentReqest(MDL.SqlProfile, SqlRequest.OperatonEnum.vsMunis, item.SelectedCub);
+                    item.Product .SyncError = cl.SyncError; // сохранить ошибку если была
+                }
+                // создает новое значение если не найдено 
+                else SqlRequest.SetData(item.Product);
+            }
 
-
-
-        final: XmlProtocol.SaveDocXml<DocArrival>(this);
+            // далее сохранения документа в БД document
+            SqlRequest.SetData(this);
+            List<DocRow> rows = [];
+            Status = StatusEnum.Проведен;
+            var products = (from tv in ListPseudonym where tv is IConvertDoc select ((IConvertDoc)tv).ToProducts()).ToArray<Products>();
+            foreach (var obj in MainTabel)
+            {
+                foreach (var tv in obj.Tabels)
+                {
+                    if (tv is IConvertDoc doc)
+                    {
+                        // Если транзакция была проблем сохраняет в этот документ если были ошибки то частично проведен 
+                        var p = doc.ToProducts();
+                        if (products.Any(x => x.NameItem == p.NameItem & p.SyncError == true))
+                        {
+                            Status = StatusEnum.Частично;
+                            continue;
+                        }
+                    }
+                    rows.Add(new DocRow(tv, obj.NameGrup, ID_Doc));
+                }
+            }
+            SqlRequest.SetData([.. rows]);
+            XmlProtocol.SaveDocXml<DocWriteDowns>(this);
         }
     }
 }

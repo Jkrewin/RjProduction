@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 using RjProduction.WpfFrm;
 using System.Diagnostics;
 using RjProduction.Pages;
+using System.Windows.Media;
+using RjProduction.Model.Classifier;
 
 namespace RjProduction
 {
@@ -58,10 +60,7 @@ namespace RjProduction
             Grid_Arrival.Visibility = Visibility.Collapsed;
             Grid_Reference.Visibility = Visibility.Collapsed;
 
-            foreach (Control item in StackP_Buttons.Children)
-            {
-                item.Background.Opacity = 0;
-            }
+            foreach (Control item in StackP_Buttons.Children) item.Background.Opacity = 0;
         }
 
 
@@ -107,8 +106,8 @@ namespace RjProduction
             MDL.Refreh_AllWpfView(); // Обновить нижнаяя панель
 
             var test = new Test_circut();
-           // test.ShowDialog();
-
+            // test.ShowDialog();
+           // var ls = CountryOKSM.LoadList(@"C:\Users\Макс\source\repos\RjProduction\RjProduction\Resources\oksm.xml");
            
         }
 
@@ -353,6 +352,35 @@ namespace RjProduction
             if (e.Key == Key.F12) {
                 MDL.AddNotification("test");
             
+            }
+        }
+
+        private void КурсорНадАвой(object sender, MouseEventArgs e)=> ElipsAva.Stroke = Brushes.GreenYellow;
+        private void КурсорПокинулАву(object sender, MouseEventArgs e)=> ElipsAva.Stroke = Brushes.White;
+        private void КурсорСуппорт(object sender, MouseEventArgs e)=> Support.Foreground = Brushes.GreenYellow;
+        private void КурсорВышелСуппорт(object sender, MouseEventArgs e) => Support.Foreground = Brushes.White;
+
+        private void НажатьАккаунт(object sender, MouseButtonEventArgs e)
+        {
+            var wpf = new WpfFrm.MyAcc();
+            wpf.Show();
+        }
+
+        private void ОткрытьАдреса(object sender, RoutedEventArgs e)
+        {
+            if (Reference is PageReference r) r.МоиАдреса();
+        }
+
+        private void ВыборОтчетПоступление(object sender, MouseButtonEventArgs e)
+        {
+            if (ReportPage != null)
+            {
+                ReportPage.Button_GeneratedReport.Visibility = Visibility.Visible;
+                ReportPage.Button_SetUpReport.Visibility = Visibility.Visible;
+                ReportPage.Grid_DateSelect.Visibility = Visibility.Visible;
+                ReportPage.SelectReport = ReportPage.Report_Gen_ВсеДниРабочих;
+                ReportPage.Grid_Start.Visibility = Visibility.Collapsed;
+                ReportPage.Label_Title.Content = "Продукция доставленная автотранспортом";
             }
         }
     }

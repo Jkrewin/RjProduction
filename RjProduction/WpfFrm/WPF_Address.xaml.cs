@@ -1,4 +1,4 @@
-﻿using RjProduction.Model;
+﻿
 using System.Windows;
 
 namespace RjProduction.WpfFrm
@@ -7,7 +7,7 @@ namespace RjProduction.WpfFrm
     {
         private Model.Catalog.AddresStruct _Address;
         private Action<Model.Catalog.AddresStruct> Act;
-
+        private MDL.Reference.Catalog<Model.Catalog.AddresStruct> Catalog = new();
 
         public WPF_Address(Model.Catalog.AddresStruct addres, Action<Model.Catalog.AddresStruct> act)
         {
@@ -18,31 +18,25 @@ namespace RjProduction.WpfFrm
 
         private void Добавить(object sender, RoutedEventArgs e)
         {
-            Act(MDL.GetStruct<Model.Catalog.AddresStruct>(MainGrind));
+            var r = MDL.GetStruct<Model.Catalog.AddresStruct>(MainGrind);
+            if (Catalog.ExistItem(r.ToString()) == false) Catalog.ListCatalog.Add(r);
+            Act(r);
+            Catalog.SaveData();
             Close();
         }
 
         private void Загрузить(object sender, RoutedEventArgs e)
         {
-            MDL.SetStruct<Model.Catalog.AddresStruct>(MainGrind,_Address);
-            List<DeliveredStruct> ls = [];
-
-            foreach (var item in MDL.MyDataBase.Warehouses)
-            {
-                ls.Add(new DeliveredStruct(item.NameWarehouse + ": "+ item.AddressWarehouse, 0,item.NameWarehouse,item));
-            }
-
-            LBox_Adress.ItemsSource = ls;
-            LBox_Adress.DisplayMemberPath = "Name";
+            MDL.SetStruct<Model.Catalog.AddresStruct>(MainGrind, _Address);  
+            LBox_Adress.ItemsSource = Catalog.ListCatalog;
         }
 
         private void ВыборЭлемента(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-if (LBox_Adress.SelectedItem is DeliveredStruct delivered) {
-                if (delivered.Obj is WarehouseClass warehouse) {
-                    _Address = warehouse.InfoWarehouse;
-                    MDL.SetStruct<Model.Catalog.AddresStruct>(MainGrind, _Address);
-                }            
+            if (LBox_Adress.SelectedItem is Model.Catalog.AddresStruct adress)
+            {
+                _Address = adress;
+                MDL.SetStruct<Model.Catalog.AddresStruct>(MainGrind, adress);
             }
         }
     }

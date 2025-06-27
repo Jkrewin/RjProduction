@@ -253,6 +253,10 @@ namespace RjProduction.Pages
             DG_Main.Columns[2].Header = "Адрес склада       ";
         }
 
+        public void МоиАдреса() { 
+        
+        }
+
         private void Добавить_изменить(object sender, RoutedEventArgs e)
         {            
            

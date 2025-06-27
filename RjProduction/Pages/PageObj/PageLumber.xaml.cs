@@ -96,7 +96,7 @@ namespace RjProduction.Pages
 
         private void СохранитьКоличество(object sender, RoutedEventArgs e)
         {
-            ((TextBox)sender).Text = Calculator(((TextBox)sender).Text);
+            ((TextBox)sender).Text = MDL.Calculator(((TextBox)sender));
             ChangeField(ref _Material.Quantity, sender);
         }
 
@@ -211,57 +211,6 @@ namespace RjProduction.Pages
                 if (e.Key == Key.F1) ОК_Согласие(null!, null!);
                 else if (e.Key == Key.Escape) CloseAction?.Invoke();
         }
-        /// <summary>
-        /// Вычисляет количекство вводимое в текстбокс
-        /// </summary>
-        /// <param name="txt">текст из текстбокса</param>
-        /// <returns>решение если с ошибками будет возрат прошлой строки</returns>
-        private static string Calculator(string txt) {
-            
-            txt = txt.Replace(" ", "");
-            // Поддерживаемые операторы
-            char[] value = ['+', '-', '*', '/'];
-            char[] operators = value;
-
-            // Находим оператор в строке
-            char? operation = null;
-            int operatorIndex = -1;
-
-            foreach (char op in operators)
-            {
-                operatorIndex = txt.IndexOf(op);
-                if (operatorIndex != -1)
-                {
-                    operation = op;
-                    break;
-                }
-            }
-
-            if (operation == null || operatorIndex == -1) return txt;
-
-            // Разделяем строку на левый и правый операнды
-            string leftOperandStr = txt[..operatorIndex];
-            string rightOperandStr = txt[(operatorIndex + 1)..];
-
-            // Преобразуем операнды в числа
-            if (!double.TryParse(leftOperandStr, out double leftOperand) ||
-                !double.TryParse(rightOperandStr, out double rightOperand)) return txt;
-
-            // Выполняем операцию
-            switch (operation)
-            {
-                case '+':
-                    return (leftOperand + rightOperand).ToString();
-                case '-':
-                    return (leftOperand - rightOperand).ToString();
-                case '*':
-                    return (leftOperand * rightOperand).ToString();
-                case '/':
-                    if (rightOperand != 0) return (leftOperand / rightOperand).ToString();
-                    else return txt;
-                default:
-                    return txt;
-            }
-        }
+       
     }
 }

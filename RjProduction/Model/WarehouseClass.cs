@@ -34,13 +34,13 @@ namespace RjProduction.Model
         public WarehouseClass() { }
 
         public WarehouseClass(DataRow dataRow) {
-            FullSet(dataRow);
-            if (dataRow[nameof(NameWarehouse)] is string s) _NameWarehouse = s;
-            if (dataRow[nameof(DescriptionWarehouse)] is string s1) _DescriptionWarehouse = s1;
-            if (dataRow[nameof(AddressWarehouse)] is string s2) AddressWarehouse =  s2;            
-            if (dataRow[nameof(SyncData)] is string s3) _SyncData = s3;
-            if (dataRow[nameof(EMailWarehouse)] is string s4) EMailWarehouse = s4;
-            if (dataRow[nameof(PhoneWarehouse)] is string s5) PhoneWarehouse = s5;
+            FullSet(dataRow);             
+            if (dataRow.Table.Columns.Contains(nameof(NameWarehouse))) _NameWarehouse = dataRow[nameof(NameWarehouse)].ToString()!;
+            if (dataRow.Table.Columns.Contains(nameof(DescriptionWarehouse))) _DescriptionWarehouse = dataRow[nameof(DescriptionWarehouse)].ToString()!;
+            if (dataRow.Table.Columns.Contains(nameof(AddressWarehouse))) AddressWarehouse = dataRow[nameof(AddressWarehouse)].ToString()!;
+            if (dataRow.Table.Columns.Contains(nameof(EMailWarehouse))) EMailWarehouse = dataRow[nameof(EMailWarehouse)].ToString()!;
+            if (dataRow.Table.Columns.Contains(nameof(PhoneWarehouse))) PhoneWarehouse = dataRow[nameof(PhoneWarehouse)].ToString()!;
+            if (dataRow.Table.Columns.Contains(nameof(SyncData))) _SyncData = dataRow[nameof(SyncData)].ToString()!;
         }
 
         /// <summary>

@@ -26,11 +26,36 @@
                     <Button x:Name="ButtonAdd" Content="Ë" Margin="10,0,0,0" FontFamily="Wingdings 2" Width="23" Background="#FFA4D47A" Foreground="#FF195603" Click="ДобавитьОбъект" BorderBrush="#FF056A00">
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="F5 Добавить пиломатериал " Click="ДобавитьПМат" ></MenuItem>
-                                <MenuItem Header="F6 Сотрудник (рабочии)" Click="ДобавитьСотрудника"></MenuItem>
-                                <MenuItem Header="F7 Круглый лес (брена)" Click="ДобавитьКруглыйЛес"/>
-                                <MenuItem Header="F8 Доплата сотрудникам" Click="ДобавитьДоплата"/>
-                                <MenuItem Header="F9 Траспорт" Click="ДобавитьТранспорт"/>
+                                <MenuItem Header="F5 Добавить пиломатериал " Click="ДобавитьПМат">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Res/images/masonry_view.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="F6 Добавить сотрудника " Click="ДобавитьСотрудника">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Res/images/worker.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="F7 Круглый лес (брена)" Click="ДобавитьКруглыйЛес">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Res/images/wood_icon.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="F8 Доплата сотрудникам" Click="ДобавитьДоплата">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Res/images/coin_icon.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="F9 Траспорт" Click="ДобавитьТранспорт">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Res/images/car13260.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="F10 Фиксированный объем" Click="ФиксОбъем">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Res/images/car13260.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </Button.ContextMenu>
 
@@ -117,6 +142,7 @@
             <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="White" VerticalAlignment="Center" Height="158"/>
 
         </Grid>
+       
 
     </Grid>
 

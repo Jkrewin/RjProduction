@@ -9,6 +9,10 @@
       Title="PageTimbers" Loaded="Загруженно"  >
 
     <DockPanel>
+        <Grid DockPanel.Dock="Bottom" Background="White" Height="23">
+            <Label x:Name="LabelItog" Content="----"  VerticalAlignment="Center" Width="377" FontFamily="Arial" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF002887" HorizontalAlignment="Left"/>
+        </Grid>
+        
         <Grid DockPanel.Dock="Top" Background="White" Height="47">
             <Button Content="OK (F1)" HorizontalAlignment="Right" Margin="0,10,150,0" VerticalAlignment="Top" Width="120" Click="Кубатурник_ОК" FontSize="14" TabIndex="6" Foreground="White" Background="#FF3E85FF" BorderBrush="{x:Null}">
                 <Button.Resources>
@@ -35,9 +39,17 @@
                 <RowDefinition Height="116*"/>
             </Grid.RowDefinitions>
             <StackPanel Height="30" Orientation="Horizontal" Grid.Row="0">
-                <Button x:Name="ButtonAdd" Content="Добавить (F2)" Margin="5,0,0,0" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="117" Click="НовыйЭлемент" Foreground="#FF2B2A2A"/>
+                <Button x:Name="ButtonAdd" Content="Добавить (+)" Margin="5,0,0,0" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="117" Click="НовыйЭлемент" Foreground="#FF2B2A2A"/>
                 <Button Content="Удалить (F3)" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="117" Click="УдалитьЗначение" Foreground="#FF2B2A2A"/>
-                <Label x:Name="LabelItog" Content="----"  VerticalAlignment="Center" Width="290" FontFamily="Arial" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF002887"/>
+                <Grid Margin="30,0,0,0" Width="132">
+                    <Label FontFamily="Corbel" FontSize="14">Длинна бревен</Label>
+                    <TextBox x:Name="LongWoods" Width="30" MaxLength="3" HorizontalAlignment="Right" Background="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14" LostFocus="ИзменитьДлинну" Text="0" Height="20" MinWidth="30" MinHeight="20"/>
+                </Grid>
+
+                <Grid Margin="30,0,0,0" Width="205">
+                    <TextBox x:Name="TBox_AllPrice" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontFamily="Arial Black" Background="{x:Null}" />
+                    <Button Content="Установить всем цену" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Center" Width="145" Click="ЦенаДляВсех" Foreground="#FF2B2A2A"/>
+                </Grid>
             </StackPanel>
             <DataGrid x:Name="DG_Cubs"  CanUserAddRows="False" Grid.Row="1" SelectionMode="Single" SelectionUnit="Cell" SelectedCellsChanged="ВыборОбъекта" Background="WhiteSmoke" />
 
@@ -53,7 +65,7 @@
    VerticalAlignment="Center">
                     <StackPanel>
                         <TextBlock x:Name="InputBox_TextBlock" Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
-                        <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"/>
+                        <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox" TextChanged="ИзменениеТекстаПоле" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button x:Name="YesButton" Margin="5" Content="Да" Background="{x:Null}" Click="Yes_Click"/>
                             <Button x:Name="NoButton" Margin="5" Content="Отмена" Background="{x:Null}" Click="NoButton_Click" />

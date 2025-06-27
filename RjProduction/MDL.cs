@@ -3,13 +3,11 @@ using RjProduction.Model.Catalog;
 using RjProduction.Model.DocElement;
 using RjProduction.Sql;
 using RjProduction.WpfFrm;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using static RjProduction.Sql.ISqlProfile;
@@ -34,7 +32,11 @@ namespace RjProduction
         /// <summary>
         /// Текущий каталог где справочник
         /// </summary>
-        static public readonly string SFile_DB = AppDomain.CurrentDomain.BaseDirectory + @"Res\db.xml";
+        static public readonly string SFile_DB = AppDomain.CurrentDomain.BaseDirectory + @"Data\db.xml";
+        /// <summary>
+        /// Каталог ресурсов
+        /// </summary>
+        static public readonly string Dir_Resources = AppDomain.CurrentDomain.BaseDirectory + @"Resources\";
         /// <summary>
         /// Справочник
         /// </summary>
@@ -299,6 +301,59 @@ namespace RjProduction
         }
 
         /// <summary>
+        /// Вычисляет количекство вводимое в текстбокс
+        /// </summary>
+        /// <param name="txt">текст из текстбокса</param>
+        /// <returns>решение если с ошибками будет возрат прошлой строки</returns>
+        public static string Calculator(TextBox txtbox)
+        {
+           string txt = txtbox.Text.Replace(" ", "");
+            // Поддерживаемые операторы
+            char[] value = ['+', '-', '*', '/'];
+            char[] operators = value;
+
+            // Находим оператор в строке
+            char? operation = null;
+            int operatorIndex = -1;
+
+            foreach (char op in operators)
+            {
+                operatorIndex = txt.IndexOf(op);
+                if (operatorIndex != -1)
+                {
+                    operation = op;
+                    break;
+                }
+            }
+
+            if (operation == null || operatorIndex == -1) return txt;
+
+            // Разделяем строку на левый и правый операнды
+            string leftOperandStr = txt[..operatorIndex];
+            string rightOperandStr = txt[(operatorIndex + 1)..];
+
+            // Преобразуем операнды в числа
+            if (!double.TryParse(leftOperandStr, out double leftOperand) ||
+                !double.TryParse(rightOperandStr, out double rightOperand)) return txt;
+
+            // Выполняем операцию
+            switch (operation)
+            {
+                case '+':
+                    return (leftOperand + rightOperand).ToString();
+                case '-':
+                    return (leftOperand - rightOperand).ToString();
+                case '*':
+                    return (leftOperand * rightOperand).ToString();
+                case '/':
+                    if (rightOperand != 0) return (leftOperand / rightOperand).ToString();
+                    else return txt;
+                default:
+                    return txt;
+            }
+        }
+
+        /// <summary>
         /// Создает путь к файлу с учетом создания каталогов по месяцам
         /// </summary>
         /// <param name="dataCreate">дата</param>
@@ -542,7 +597,29 @@ namespace RjProduction
             /// Склад по умолчанию выбран
             /// </summary>
             public Model.WarehouseClass? WarehouseDef;
+            /// <summary>
+            /// Выбранный профиль зарплат для рабочих
+            /// </summary>
+            public SalaryRatesClass SalaryRates { get; set; } = new();
 
+
+
+
+            /// <summary>
+            /// Профиль зарплат для работников
+            /// </summary>
+            public class SalaryRatesClass
+            {
+                public double Price_Up { get; set; }
+                public double Price_Down { get; set; }
+                public double Price_Standart { get; set; }
+                public byte Proc_Price_Up { get; set; } = 5;
+                public byte Proc_Price_Down { get; set; } = 5;
+            }
+
+            /// <summary>
+            /// Сохранить базу данных в файл переменной MyDataBase
+            /// </summary>
             public static void SaveDB() => MDL.SaveXml<MDL.Reference>(MDL.MyDataBase, MDL.SFile_DB);
 
             /// <summary>
@@ -556,9 +633,13 @@ namespace RjProduction
                 /// </summary>
                 public readonly List<T> ListCatalog;
 
+                /// <summary>
+                /// Загрузить данные из BaseDirectory > Data   typeof(T).Name.xml Сразу после вызова контруктора
+                /// </summary>
+                /// <exception cref="InvalidOperationException">Ошибка чтения файла Xml</exception>
                 public Catalog()
                 {
-                    _sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\" + typeof(T).Name + ".xml";
+                    _sFile = AppDomain.CurrentDomain.BaseDirectory + "Data\\" + typeof(T).Name + ".xml";
 
                     if (File.Exists(_sFile))
                     {
@@ -583,6 +664,19 @@ namespace RjProduction
                 }
 
                 public void SaveData() => MDL.SaveXml<List<T>>(ListCatalog, _sFile);
+
+                /// <summary>
+                /// Поиск существующей строки сравнение из ToString() метода
+                /// </summary>
+                /// <returns>true - есть вариация такой строки</returns>
+                public bool ExistItem(string str) {
+                    foreach (var item in ListCatalog)
+                    {
+                        if (string.IsNullOrEmpty(item!.ToString())) continue;
+                        else if (str.ToLower().Trim() == item.ToString()!.ToLower().Trim()) return true;
+                    }     
+                    return false;
+                }
             }
         }
 
@@ -591,7 +685,7 @@ namespace RjProduction
         /// </summary>
         public class SettingAppClass
         {
-            public readonly string SetFile = AppDomain.CurrentDomain.BaseDirectory + @"Res\Setting_App.xml";
+            public readonly string SetFile = AppDomain.CurrentDomain.BaseDirectory + @"Data\Setting_App.xml";
 
             public string LocalDir ;
             public string DataBaseFile ;
@@ -647,6 +741,7 @@ namespace RjProduction
             /// Имя пользователя 
             /// </summary>
             public string UserName { get; set; } = "TestApp";
+           
         }
 
         /// <summary>

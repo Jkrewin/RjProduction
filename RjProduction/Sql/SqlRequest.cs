@@ -73,6 +73,7 @@ namespace RjProduction.Sql
                 if (actor<DocWriteDowns>() == false) return false;
                 if (actor<DocSales>() == false) return false;
                 if (actor<Company>() == false) return false;
+                if (actor<Сommodity>() == false) return false;
             }
             catch
             {
@@ -99,6 +100,7 @@ namespace RjProduction.Sql
             ForceCreateTabel< DocArrival > ();
             try
             {
+                ForceCreateTabel<Сommodity>();
                 ForceCreateTabel<DocWriteDowns>();
                 ForceCreateTabel<DocArrival>();
                 ForceCreateTabel<DocMoving>();
@@ -107,7 +109,7 @@ namespace RjProduction.Sql
                 ForceCreateTabel<Model.WarehouseClass>();
                 ForceCreateTabel<Model.DocRow>();
                 ForceCreateTabel<DocSales>();
-                ForceCreateTabel<Company>();
+                ForceCreateTabel<Company>();                
             }
             catch
             {
@@ -505,6 +507,22 @@ namespace RjProduction.Sql
             {
                 //if (item is null) continue;
                 if (item.GetCustomAttributes(true).Any(x => x is SqlIgnore)) continue;
+
+                if (item.GetValue(obj) is Sql.SqlParam.IClassifier cls) {
+                    // класификатор
+
+                    continue;
+                }
+                else if (item.GetValue(obj) is Sql.SqlFlat flat) {
+                    // плоское размещение 
+                    foreach (var tv in flat.GetType().GetProperties().Where(x => x.CanWrite))
+                    {
+                        var piu = obj.GetType().GetProperties().First(x => x.CanWrite && x.Name == tv.Name);
+
+                    }
+                    continue;
+                }
+
                 SqlParam? param = item.GetValue(obj) as SqlParam;
                                
                 if (param is not null)

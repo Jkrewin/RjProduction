@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\okei.xml" />
+    <None Remove="Resources\oksm.xml" />
+    <None Remove="Resources\RoundTimberCub.xml" />
     <None Remove="Resources\SplashScreen.png" />
     <None Remove="Res\FGIS\config.ini" />
     <None Remove="Res\GOST2078-75B.txt" />
@@ -21,6 +24,7 @@
     <None Remove="Res\images\analytics_report.png" />
     <None Remove="Res\images\book.png" />
     <None Remove="Res\images\business_report.png" />
+    <None Remove="Res\images\car13260.png" />
     <None Remove="Res\images\coin_icon.png" />
     <None Remove="Res\images\configuration.png" />
     <None Remove="Res\images\cross_78905.png" />
@@ -43,6 +47,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\okei.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\oksm.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\RoundTimberCub.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Res\FGIS\config.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -68,6 +81,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\business_report.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\images\car13260.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Res\images\coin_icon.png">

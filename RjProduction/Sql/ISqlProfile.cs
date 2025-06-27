@@ -64,7 +64,7 @@ namespace RjProduction.Sql
         /// Выполняет SQL запрос
         /// </summary>
         /// <param name="sql">Строка запроса</param>
-        /// <returns>Возврат Int добавленого id или измененного</returns>
+        /// <returns>Возврат Int добавленого id </returns>
         public long SqlCommand(string sql);
         /// <summary>
         /// Проверка на существоание таблици
@@ -110,8 +110,34 @@ namespace RjProduction.Sql
                 // Проверяем атрибуты
                 var atr = field.GetCustomAttributes(true).Any(x => x is SqlIgnore);
                 if (atr != false) continue;
-
                 
+                SqlParam? param = field.GetValue(obj) as SqlParam;
+
+                // SqlFlat добовляет столбци в таблицу из класса
+                if (field.GetValue(obj) is SqlFlat paramFlat) ls.AddRange(TitleDB_SqlFlat(paramFlat));
+                // Проверяем что это касификатор и добав. тoлько название
+                else if (field.GetValue(obj) is Sql.SqlParam.IClassifier cls) ls.Add(new(field.Name, TypeSQL("String")));
+                //
+                else if (param is not null) ls.Add(new(field.Name, TypeSQL("Int32")));
+                // это поле исключетельно для ID в бд
+                else if (field.Name == nameof(SqlParam.ID)) ls.Insert(0, new("ID", TypeSQL("KEY_ID")));
+                // стандартное поле
+                else ls.Add(new(field.Name, TypeSQL(field.PropertyType.Name)));
+            }
+            return ls;
+        }
+        /// <summary>
+        /// Для вложенных классов без использование доп таблици
+        /// </summary>
+        /// <param name="obj">SqlFlat</param>
+        private List<(string, string)> TitleDB_SqlFlat(SqlFlat obj) {
+            List<(string, string)> ls = [];
+            foreach (var field in obj.GetType().GetProperties().Where(x => x.CanRead))
+            {
+                // Проверяем атрибуты
+                var atr = field.GetCustomAttributes(true).Any(x => x is SqlIgnore);
+                if (atr != false) continue;
+
                 SqlParam? param = field.GetValue(obj) as SqlParam;
 
                 if (param is not null) ls.Add(new(field.Name, TypeSQL("Int32")));
@@ -119,7 +145,9 @@ namespace RjProduction.Sql
                 else ls.Add(new(field.Name, TypeSQL(field.PropertyType.Name)));
             }
             return ls;
+
         }
+
         /// <summary>
         /// Обеспечивает работу с DataTable
         /// </summary>

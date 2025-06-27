@@ -5,8 +5,9 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using RjProduction.Model.DocElement;
+using RjProduction.Pages.PageObj;
+using RjProduction.WpfFrm;
 
 namespace RjProduction.Pages
 {
@@ -116,14 +117,10 @@ namespace RjProduction.Pages
                 { 
                     if (e.Worker) salaries++; 
                 }
-                else if (item is MaterialObj m)
+                else if (item is IDoc ii)
                 {                   
-                    allAmount += m.Amount;
-                    cuba += m.CubatureAll;
-                }
-                else if (item is Tabel_Timbers h) {                   
-                    allAmount += h.Amount; 
-                    cuba += h.CubatureAll; 
+                    allAmount += ii.Amount;
+                    cuba += ii.CubatureAll;
                 }
             }
                      
@@ -208,8 +205,14 @@ namespace RjProduction.Pages
             }
             else if (doc is TransportPart track)
             {
-                _obj = new PageTrack(track, actor, close);
+                _obj = new PageTrack(track, actor, close, new AddresStruct( MyDoc.Warehouse.AddressWarehouse ));
                 FrameDisplay.Height = 450;
+                FrameDisplay.Navigate(_obj);
+            }
+            else if (doc is FixCub fix)
+            {
+                _obj = new PageFixCub(fix, actor, close);
+                FrameDisplay.Height = 180;
                 FrameDisplay.Navigate(_obj);
             }
             else throw new Exception("Такой элемент не зарегистрирован для OpenWpfItem");
@@ -314,8 +317,7 @@ namespace RjProduction.Pages
             }
 
 
-            MyDoc.DataCreate = DateOnly.FromDateTime(DataCreate.SelectedDate.Value);
-            MyDoc.Warehouse = (WarehouseClass)Cbox_warehouses.SelectedItem;
+            MyDoc.DataCreate = DateOnly.FromDateTime(DataCreate.SelectedDate.Value);           
             MDL.MyDataBase.WarehouseDef = (Model.WarehouseClass?)Cbox_warehouses.SelectedItem;
 
             if (SavedDoc == false)
@@ -394,13 +396,7 @@ namespace RjProduction.Pages
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {
-            string[] arr = ["Res/images/masonry_view.png", "Res/images/worker.png", "Res/images/wood_icon.png", "Res/images/coin_icon.png", "Res/images/coin_icon.png"];
-            int i = 0;
-            foreach (MenuItem item in ButtonAdd.ContextMenu.Items)
-            {
-                item.Icon = new Image { Source = new BitmapImage(new Uri(arr[i], UriKind.Relative)) };
-                i++;
-            }
+           
             TBox_GrupName.ItemsSource = MDL.MyDataBase.NamesGrup;
             
 
@@ -443,7 +439,25 @@ namespace RjProduction.Pages
 
         }
 
-        private void ВыбранСклад(object sender, SelectionChangedEventArgs e) => MyDoc.Warehouse = MDL.MyDataBase.Warehouses.Find(x => x.Equals(Cbox_warehouses.Text)) ?? new WarehouseClass() { NameWarehouse = "NaN" };
+        private void ВыбранСклад(object sender, SelectionChangedEventArgs e)
+        {
+            if (Cbox_warehouses.SelectedItem is null)
+            {
+                MyDoc.Warehouse = new WarehouseClass() { NameWarehouse = "NaN" };
+                return;
+            }
+            if (MDL.MyDataBase.Warehouses.Any(x => x.Equals((WarehouseClass)Cbox_warehouses.SelectedItem)))
+            {
+                MyDoc.Warehouse = (WarehouseClass)Cbox_warehouses.SelectedItem;
+
+            }
+            else
+            {
+                // Если нет в локальной бд то добавить 
+                MyDoc.Warehouse = (WarehouseClass)Cbox_warehouses.SelectedItem;
+                MDL.MyDataBase.Warehouses.Add(MyDoc.Warehouse);
+            }
+        }
 
         private void ВозвратЦвета(object sender, MouseEventArgs e)
         {
@@ -468,5 +482,7 @@ namespace RjProduction.Pages
         }
 
         private void ДобавитьТранспорт(object sender, RoutedEventArgs e) => OpenWpfItem(new TransportPart());
+
+        private void ФиксОбъем(object sender, RoutedEventArgs e) => OpenWpfItem(new FixCub());
     }
 }

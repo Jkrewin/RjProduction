@@ -28,7 +28,11 @@ namespace RjProduction.Pages
             }
             catch (Exception ex)
             {
+#if DEBUG 
+                MessageBox.Show("Ошибка подключения: " + ex.Message + " debug information: " + MDL.SqlProfile?.SqlLogString);
+#else
                 MessageBox.Show("Ошибка подключения: " + ex.Message);
+#endif
                 MDL.SqlProfile = null;
                 return;
             }

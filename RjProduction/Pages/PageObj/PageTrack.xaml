@@ -47,7 +47,7 @@
             <TextBox x:Name="Tbox_AddresFrom" HorizontalAlignment="Left" Margin="86,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14" IsEnabled="False"/>
             <TextBox x:Name="Tbox_AddresTo" HorizontalAlignment="Left" Margin="86,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="449" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" BorderBrush="#FFD5D5D5"  FontSize="14" IsEnabled="False"/>
             <Button  HorizontalAlignment="Left" Margin="534,202,0,0" VerticalAlignment="Top" Height="24" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборОтКуда" BorderBrush="#FFD5D5D5" FontSize="16"/>
-            <Button  HorizontalAlignment="Left" Margin="534,235,0,0" VerticalAlignment="Top" Height="24" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборКуда" BorderBrush="#FFD5D5D5" FontSize="16"/>
+            <Button x:Name="ButtonTo"   HorizontalAlignment="Left" Margin="534,235,0,0" VerticalAlignment="Top" Height="24" Width="24" Background="#FFF0F5F2" Content="&#xE12A;" FontFamily="Segoe MDL2 Assets" Foreground="#FF6D6D6D" Click="ВыборКуда" BorderBrush="#FFD5D5D5" FontSize="16"/>
             <Label x:Name="ErrorLabel" Content="Label" Margin="0,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FFEE5959" Foreground="#FFF9F9F9" FontSize="16" Height="29" Padding="5,1,5,5"/>
 
         </Grid>

@@ -7,6 +7,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using RjProduction.Model.DocElement;
+using static RjProduction.XML.BlankDoc.Invoice;
+using RjProduction.XML.BlankDoc;
+using RjProduction.Model.Catalog;
+using RjProduction.Pages.Editors;
 
 namespace RjProduction.Pages.Doc
 {
@@ -20,10 +24,43 @@ namespace RjProduction.Pages.Doc
         private readonly UIElement? MainFramePanel;
         private Action? RenameFoo;
 
+        private bool СоСкладаНаСклад
+        {
+            get => TabWarehouseSelector.Visibility == Visibility.Visible; set
+            {
+                if (value) TabWarehouseSelector.Visibility = Visibility.Visible;
+                else TabWarehouseSelector.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private bool ЕстьПокупатель
+        {
+            get => TabGrid_Buyer.Visibility == Visibility.Visible; set
+            {
+                if (value) TabGrid_Buyer.Visibility = Visibility.Visible;
+                else TabGrid_Buyer.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private bool УказатьПричинуСписания
+        {
+            get => Grid_Writedowns.Visibility == Visibility.Visible; set
+            {
+                if (value) Grid_Writedowns.Visibility = Visibility.Visible;
+                else Grid_Writedowns.Visibility = Visibility.Collapsed;
+            }
+        }
+
         /// <summary>
         /// Выбранная группа
         /// </summary>
         private GrupObj? SelectGrup { get => _Doc.MainTabel.Find(x=> x.NameGrup == ListGrup.SelectedValue.ToString()); }
+
+        private void Clear_UI() { 
+            СоСкладаНаСклад = false;
+            ЕстьПокупатель = false;
+            УказатьПричинуСписания =false;
+        }
 
         public PageShipments(DocShipments doc, UIElement framePanel, Action closePage)
         {
@@ -32,7 +69,7 @@ namespace RjProduction.Pages.Doc
             ClosePage = closePage;
             MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
-            WarehouseSelector.Visibility = Visibility.Collapsed;
+            Clear_UI();
         }
         /// <summary>
         /// Оформляем продажи
@@ -40,10 +77,9 @@ namespace RjProduction.Pages.Doc
         public PageShipments(DocSales doc, UIElement framePanel, Action closePage) 
         {
             InitializeComponent();
-            Clear_SPanel();
-            Grid_Buyer.Visibility = Visibility.Visible;
-            GridWarehouse.Visibility = Visibility.Visible;
-            Warehouse_From.Text = doc.Warehouse_From.ToString();
+            Clear_UI();
+            ЕстьПокупатель = true;
+            Warehouse_From.Content = doc.Warehouse_From.ToString();
             _Doc = doc;
             ClosePage = closePage;
             MainFramePanel = framePanel;
@@ -60,8 +96,9 @@ namespace RjProduction.Pages.Doc
             ClosePage = closePage;
             MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
-            WarehouseSelector.Visibility = Visibility.Visible;
-            Cbox_warehouses_From.Content = doc.Warehouse_From.NameWarehouse;
+            Clear_UI();
+            СоСкладаНаСклад = true;
+            Warehouse_From.Content = doc.Warehouse_From.NameWarehouse;
             Cbox_warehouses_To.DisplayMemberPath = "NameWarehouse";
             Cbox_warehouses_To.ItemsSource = MDL.MyDataBase.Warehouses;
         }
@@ -75,16 +112,9 @@ namespace RjProduction.Pages.Doc
             ClosePage = closePage;
             MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
-            WarehouseSelector.Visibility = Visibility.Visible;
-            Cbox_warehouses_To.DisplayMemberPath = "NameWarehouse";
-            Cbox_warehouses_To.ItemsSource = MDL.MyDataBase.Warehouses;
-        }
-
-        private void Clear_SPanel() {
-            foreach (var item in Spanel_ones.Children)
-            {
-                ((UIElement)item).Visibility = Visibility.Collapsed;
-            }
+            Clear_UI();
+            Warehouse.Content = doc.Warehouse.ToString();
+            УказатьПричинуСписания = true;
         }
 
         private void Refreh_ListGrup() {
@@ -445,6 +475,44 @@ namespace RjProduction.Pages.Doc
         private void ДействиГруппой(object sender, RoutedEventArgs e)
         {
             RenameFoo?.Invoke();
+        }
+
+        private void РедакторНакладной(object sender, RoutedEventArgs e)
+        {
+
+            DocSales doc = ((DocSales)_Doc);
+
+            if (((DocSales)_Doc).Buyer == null)
+            {
+                MessageBox.Show("Не выбран покупатель");
+                return;
+            }
+
+            if (MDL.MyDataBase.CompanyOwn == null)
+            {
+                MessageBox.Show("Для создания документа, требуется указать в настройках программы, вашу компанию и указать реквизиты ");
+                return;
+            }
+            Invoice invoice = new ()
+            {
+                Payer = doc.Buyer!,
+                Shipper = MDL.MyDataBase.CompanyOwn,
+                Supplier = doc.Buyer!
+            };
+            foreach (var item in doc.ListPseudonym)
+            {
+                invoice.Tabel.Add(new RowTabel()
+                {
+                    Goods_Name = item.NamePseudonym,                   
+                    Price = item.PriceCng,
+                    Quantity = item.SelectedCub    
+                    // тип ед измер устанавливаеться отдельно из файла
+                });
+            }
+
+            var wpf = new WpfFrm.WpfView(new InvoiceEditor(invoice), Title, () => { });
+            wpf.Show();
+
         }
     }
 }

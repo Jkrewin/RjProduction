@@ -45,9 +45,9 @@ namespace RjProduction.Model
         /// </summary>
         [SqlIgnore] public decimal Amount => (decimal)(Price * _Cubature);
         /// <summary>
-        /// Ошибка при транзакции 
+        /// Ошибка при транзакции. true - была ошибка 
         /// </summary>
-        [SqlIgnore] public bool SyncError { get=> _SyncError; }
+        [SqlIgnore] public bool SyncError { get => _SyncError; set => _SyncError = value; }
 
         public Products() {
             // необходим для авто создание SqlRequest

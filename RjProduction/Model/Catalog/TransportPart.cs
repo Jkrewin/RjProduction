@@ -23,10 +23,10 @@ namespace RjProduction.Model.Catalog
         public AddresStruct AddresFrom { get; set; }
         public AddresStruct AddresTo { get; set; }
 
-        public decimal Amount => throw new NotImplementedException();
+        public decimal Amount => 0;
 
-        public double CubatureAll => throw new NotImplementedException();
+        public double CubatureAll => 0;
 
-        public override string ToString() => Truck.CarNumber + "=>" + AddresTo.Address;
+        public override string ToString() => Truck.CarNumber + " " + AddresFrom + " => " + AddresTo.Address;
     }
 }

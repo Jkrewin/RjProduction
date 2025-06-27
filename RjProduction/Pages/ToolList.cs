@@ -9,6 +9,7 @@ namespace RjProduction.Pages
 {
     /// <summary>
     /// Открывает список элементов для выбора. Не универсален требует измнения  OpenWpfDialog
+    /// 
     /// </summary>
     public class ToolList<T> where T : IToolFind
     {

@@ -276,12 +276,16 @@ namespace RjProduction.Pages.Additions
                 case DocCode.Списание_Продукции:
                     PlusIcon = false;
                     MinusIcon = true;
-                    EqualIcon = true;
+                    EqualIcon = false;
                     SelectedDoc = () =>
                     {
                         if (First_Const(out List<GrupObj> tabel))
                         {
-                            var page = new Pages.Doc.PageShipments(new XML.DocWriteDowns() { DocTitle = "Списание товара", Number = MDL.MyDataBase.NumberDef + 1, MainTabel = tabel }, DockPanel_РамкаДокумента, Close_action);
+                            var page = new Pages.Doc.PageShipments(new XML.DocWriteDowns() {
+                                Warehouse = (WarehouseClass)MainComboBox.SelectedItem,
+                                DocTitle = "Списание товара", 
+                                Number = MDL.MyDataBase.NumberDef + 1, 
+                                MainTabel = tabel }, DockPanel_РамкаДокумента, Close_action);
                             DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
                             FrameDisplay.Navigate(page);
                         }
@@ -293,7 +297,7 @@ namespace RjProduction.Pages.Additions
                     EqualIcon = true;
                     SelectedDoc = () =>
                     {
-
+                        MessageBox.Show("Выберете конкретный документ");
                     };
                     break;
             }
@@ -400,8 +404,8 @@ namespace RjProduction.Pages.Additions
         }
 
         private void ОбновитьТекстКубах(object sender, RoutedEventArgs e)
-        {
-            string str = ((TextBox)sender).Text.Replace('.', ',');
+        {             
+            string str = MDL.Calculator((TextBox)sender).Replace('.', ',');
             if (double.TryParse(str, out double d))
             {
                 ((MyCollection)DG_Main.SelectedItem).Selected_Cubature = d;
@@ -442,7 +446,7 @@ namespace RjProduction.Pages.Additions
         {
             if (DG_Main.SelectedItem is MyCollection my)
             {
-                if (int.TryParse(((TextBox)sender).Text, out int i))
+                if (int.TryParse(MDL.Calculator((TextBox)sender), out int i))
                     my.Piece = i;
             }
         }
@@ -450,6 +454,32 @@ namespace RjProduction.Pages.Additions
         private void СоздатьДокумент(object sender, RoutedEventArgs e)
         {
             SelectedDoc?.Invoke();
+        }
+
+        private void Удалить_значение(object sender, RoutedEventArgs e)
+        {
+            if (DG_Main.SelectedItem is MyCollection my)
+            {
+                if (MessageBox.Show("Удалить строку " + my.Products.NameItem + "? Будет удалена в случае если остатки равны нулю.", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+                if (MDL.SqlProfile is not null)
+                {
+                    try
+                    {
+                        MDL.SqlProfile.Conection();
+                        MDL.SqlProfile.Delete(nameof(Model.Products), $"ID ={my.Products.ID} AND {nameof(Products.Cubature)} =0");
+                        if (MDL.SqlProfile.GetFieldSql(my.Products.ID, nameof(Model.Products)).Length == 0) _db.Remove(my);
+                    }
+                    catch (Exception ex)
+                    {
+                        MDL.LogError("Ошибка при удаление строки", ex.Message + ex.Source);
+                    }
+                    finally
+                    {
+                        MDL.SqlProfile.Disconnect();
+                    }
+                }
+                ВыбраннаСтрока(null!, null!);
+            }
         }
     }
 }

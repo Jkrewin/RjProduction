@@ -16,8 +16,10 @@ namespace RjProduction.Model.DocElement
         {
             get
             {
+                // обрезная доска 
                 if (MaterialType == MaterialTypeEnum.Количество) return (WidthMaterial / 1000) * (HeightMaterial / 1000) * (LongMaterial / 1000);
-                else return Math.Round((WidthMaterial / 100) * (HeightMaterial / 100) * (LongMaterial / 1000) * (Ratio / 100), 3);
+                // н/о
+                else return Math.Round((WidthMaterial / 100) * (HeightMaterial / 100) * (LongMaterial / 100) * (Ratio / 100), 3);
             }
         }
         public double WidthMaterial;
