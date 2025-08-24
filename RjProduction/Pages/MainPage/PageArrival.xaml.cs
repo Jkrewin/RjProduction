@@ -13,6 +13,8 @@ namespace RjProduction.Pages
 {
     public partial class PageArrival : Page
     {
+        const int START_DATE = 2000;
+
         private List<IDocMain> Docs = [];
         private DateOnly? SelectDate = null;
         private string ItemStringDoc = string.Empty;
@@ -28,6 +30,14 @@ namespace RjProduction.Pages
             MainComboBox.SelectedIndex = 1;
             // Перехват нажатий
             Window.GetWindow(this).KeyDown += (object sender, KeyEventArgs e) => MDL.HandleKey?.HandleKeyPress(sender, e);
+
+            List<int> ints = [];
+            for (int i = START_DATE; i < 2100; i++)
+            {
+                ints.Add(i);
+            }
+            MonYears.ItemsSource = ints;
+
         }
 
       
@@ -128,50 +138,59 @@ namespace RjProduction.Pages
        private void ДвойноеНажатие(object sender, MouseButtonEventArgs e)
         {
             if (DataG_Main.SelectedItem == null) return;
-            if (((IDocMain)DataG_Main.SelectedItem).Status == StatusEnum.Ошибка) {
-                MessageBox.Show("Документ с ошибкой нельзя открыть ");
-                return;
-            }
 
-            DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
+            if (((IDocMain)DataG_Main.SelectedItem).Status == StatusEnum.Ошибка) {
+                ((IDocMain)DataG_Main.SelectedItem).Status = StatusEnum.Не_Проведен;
+            }
+          
+            
             if (DataG_Main.SelectedItem is DocArrival arrival)
             {
-                FrameDisplay.Navigate(new PageDocEditor(arrival, DockPanel_РамкаДокумента, (Action)(() =>
+                var page = new PageDocEditor(arrival, (Action)(() =>
                 {
-                    DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
+                    MDL.Organizer_Frame_Delete();
                     Refreh_DataG_Main();
-                })));
+                }));
+                MDL.Organizer_Frame_Add (page);
             }
             else if (DataG_Main.SelectedItem is DocShipments shipments)
             {
-                FrameDisplay.Navigate(new PageShipments(shipments, DockPanel_РамкаДокумента, (Action)(() =>
+                var page = new PageShipments(shipments, (Action)(() =>
+                   {
+                       MDL.Organizer_Frame_Delete();
+                       Refreh_DataG_Main();
+                   }))
                 {
-                    DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
-                    Refreh_DataG_Main();
-                })));
+                    Title = shipments.DocTitle
+                };
+                MDL.Organizer_Frame_Add(page);
             }
             else if (DataG_Main.SelectedItem is DocMoving moving)
             {
-                FrameDisplay.Navigate(new PageShipments(moving, DockPanel_РамкаДокумента, (Action)(() =>
+                var page = new PageShipments(moving, (Action)(() =>
                 {
-                    DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
+                    MDL.Organizer_Frame_Delete();
                     Refreh_DataG_Main();
-                })));
+                }))
+                {
+                    Title = moving.DocTitle
+                };
+                MDL.Organizer_Frame_Add(page);
             }
             else throw new Exception("Отсутсвует такой тип документа");
         }
 
         private void ОткрытьОкноОбъектов(object sender, RoutedEventArgs e)
-        {
-            FrameDisplay.NavigationService.RemoveBackEntry();
-            DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
+        {            
             var doc = new XML.DocArrival() { Number = MDL.MyDataBase.NumberDef };
             doc.MainTabel.Add(new GrupObj() { NameGrup = "Основная" });
-            FrameDisplay.Navigate(new PageDocEditor(doc, DockPanel_РамкаДокумента, () =>
+           var page = new PageDocEditor(doc, () =>
             {
-                DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
+                MDL.Organizer_Frame_Delete();
                 Refreh_DataG_Main();
-            }));
+            });
+            page.Title= doc.DocTitle + " " + doc.Number;
+            MDL.Organizer_Frame_Add(page);
         }
 
         private void ПровестиДок(object sender, RoutedEventArgs e)
@@ -205,30 +224,7 @@ namespace RjProduction.Pages
             }
             Refreh_DataG_Main();
         }
-
-        private void ВыборТекущаяДата(object sender, RoutedEventArgs e)
-        {
-                if (Ration_now.IsChecked == true & DP_DataNow is not  null)
-                {
-                    DP_DataNow!.IsEnabled = false;
-                    Refreh_DataG_Main();
-                }
-            
-        }
-
-        private void ВыборДата(object sender, RoutedEventArgs e)
-        {
-            DP_DataNow.IsEnabled = true;
-            Refreh_DataG_Main();
-        }
-
-        private void ВыходИзДаты(object sender, RoutedEventArgs e)
-        {
-            if (DP_DataNow.SelectedDate is null) return;
-            SelectDate = DateOnly.FromDateTime(DP_DataNow.SelectedDate.Value);
-            Refreh_DataG_Main();
-        }
-
+        
         private void ВыбраннаСтрока(object sender, SelectionChangedEventArgs e)
         {
             ItemStringDoc = DocCode.ToCode(MainComboBox.SelectedValue.ToString() ?? string.Empty);
@@ -245,6 +241,28 @@ namespace RjProduction.Pages
             if (((Frame)sender).Content is IKeyControl control) {
                                    MDL.HandleKey = control;       
             }
+        }
+
+        private void ВыборТекущаяДата(object sender, RoutedEventArgs e)
+        {
+            if (DPDataNow is null) return;
+            DPDataNow.IsEnabled = false;
+            SelectDate = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, 1);
+            Refreh_DataG_Main();           
+        }
+
+        private void ВыборДата(object sender, RoutedEventArgs e)
+        {
+            DPDataNow.IsEnabled = true;
+            MonYears.SelectedIndex= DateTime.Now.Year-START_DATE;
+            ВыборДатыИлиГода(null!, null!);
+        }
+
+        private void ВыборДатыИлиГода(object sender, SelectionChangedEventArgs e)
+        {
+            if (MonYears.SelectedValue is null | MonMonf.SelectedValue is null ) return;
+            SelectDate = new DateOnly(Convert.ToInt32(MonYears.SelectedValue), MonMonf.SelectedIndex + 1, 1);
+            Refreh_DataG_Main();
         }
     }
 

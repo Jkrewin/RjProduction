@@ -74,6 +74,7 @@ namespace RjProduction.Sql
                 if (actor<DocSales>() == false) return false;
                 if (actor<Company>() == false) return false;
                 if (actor<Сommodity>() == false) return false;
+                if (actor<Model.DocElement.Transportation.DeliveryWoods>() == false) return false;
             }
             catch
             {
@@ -95,7 +96,6 @@ namespace RjProduction.Sql
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
             
             MDL.SqlProfile.Conection();
-
            
             ForceCreateTabel< DocArrival > ();
             try
@@ -109,7 +109,8 @@ namespace RjProduction.Sql
                 ForceCreateTabel<Model.WarehouseClass>();
                 ForceCreateTabel<Model.DocRow>();
                 ForceCreateTabel<DocSales>();
-                ForceCreateTabel<Company>();                
+                ForceCreateTabel<Company>();
+                ForceCreateTabel<Model.DocElement.Transportation.DeliveryWoods>();
             }
             catch
             {
@@ -144,6 +145,7 @@ namespace RjProduction.Sql
                 sqlProfile.Disconnect();
             }
         }
+
         /// <summary>
         /// Создать коллекцию данных
         /// </summary>
@@ -170,6 +172,7 @@ namespace RjProduction.Sql
 
             return list;
         }
+
         /// <summary>
         /// Чтение данных
         /// </summary>
@@ -200,9 +203,7 @@ namespace RjProduction.Sql
 
             return obj;
         }
-
         public static T? ReadData<T>(FieldSql field, bool _lock = false) where T : SqlParam => ReadData<T>([field], _lock);
-
         public static T? ReadData<T>(FieldSql[] field, bool _lock = false) where T : SqlParam
         {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
@@ -242,89 +243,14 @@ namespace RjProduction.Sql
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
 
             sqlProfile.Conection(true);
-            long IDField_lite = -1;
-
-            long cROW(SqlParam _obj)
-            {                
-                long IDField;
-
-                if (_obj.ID == -1)          //INSERT INTO
-                {
-                    string str = "";
-                    string values = "";
-                    foreach (var item in sqlProfile.TitleDB(_obj))
-                    {
-                        if (item.Item1 == "ID") continue;       // Создаеться автоматически id
-                        if (item.Item1 == nameof(_obj.LockInfo)) continue;  // Управление осущ. извне
-                        str += sqlProfile.QuotSql(item.Item1) + ", ";
-                        PropertyInfo? refl = _obj.GetType().GetProperty(item.Item1);                       
-                        if (refl == null) continue;
-                            if (refl.GetCustomAttributes(true).Any(x => x is SqlIgnore)) continue;
-
-                        if (refl.PropertyType.BaseType?.Name != nameof(SqlParam)) {
-                            values += "'" + CastType(refl.GetValue(_obj) ?? "", refl) + "', "; 
-                        }
-                        else
-                        {                           
-                            if (refl.GetValue(_obj) is SqlParam sql)
-                            {
-                                if (sql.ID != -1) values += "'" + sql.ID + "', ";
-                                else values += $"'{cROW(sql)}', ";
-                            }
-                        }
-                    }
-
-                    str = str[0..^2];
-                    values = values[0..^2];
-
-                    IDField = sqlProfile.SqlCommand($"INSERT INTO  {sqlProfile.QuotSql(_obj.TabelName)} ({str}) VALUES ({values})");
-                    var fi = _obj.GetType().GetField("IDField", BindingFlags.NonPublic | BindingFlags.Instance);
-                    fi?.SetValue(_obj, IDField);
-                }
-                else                    //Update
-                {
-                    if (_obj.LockInfo)
-                    {
-                        if (Prv_IsLock(_obj.ID,_obj.TabelName))
-                                throw new Exception("Запись " + _obj.TabelName  + " id:" + _obj.ID + " заблокированна другим пользователем id:"+ _obj.LockInfo);
-                    }
-
-                    string unityValue = "";
-
-                    foreach (var item in sqlProfile.TitleDB(_obj))
-                    {
-                        if (item.Item1 == "ID") continue;       // Создаеться автоматически id
-                        if (item.Item1 == nameof(_obj.LockInfo)) continue;  // Управление осущ. извне
-                        PropertyInfo? refl = _obj.GetType().GetProperty(item.Item1);
-                        if (refl == null) continue;                       
-                        if (refl.GetCustomAttributes(true).Any(x => x is SqlIgnore)) continue; 
-                        if (refl.PropertyType.BaseType?.Name != nameof(SqlParam))
-                        {
-                            unityValue += sqlProfile.QuotSql(item.Item1) + "='" + CastType(refl.GetValue(_obj) ?? "", refl) + "', ";
-                        }
-                        else            // here class
-                        {
-                            if (refl.GetValue(_obj) is SqlParam sql)
-                            {
-                                if (sql.ID != -1) unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{sql.ID}', ";
-                                else { unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{cROW(sql)}', "; }
-                            }
-                        }
-                    }
-
-                    unityValue = unityValue[0..^2];
-                    IDField = _obj.ID;
-                    sqlProfile.SqlCommand($"UPDATE {sqlProfile.QuotSql(_obj.TabelName)} SET {unityValue} WHERE ID = {_obj.ID} ");
-                }
-                return IDField;
-            }
+            long IDField_lite = -1;           
 
             try
             {
                 foreach (var item in objA)
                 {
                     if (item is null) continue;
-                    IDField_lite = cROW(item);
+                    IDField_lite = Edit_Row(item,sqlProfile);
                 }
             }
             catch (Exception)
@@ -339,6 +265,7 @@ namespace RjProduction.Sql
             }
             return IDField_lite;
         }
+
         /// <summary>
         /// Получение данных виде DataTable
         /// </summary>
@@ -433,6 +360,26 @@ namespace RjProduction.Sql
             }
         }
 
+        /// <summary>
+        /// Обновить указанную строку. <b>Важно:</b> Изменяет id в _obj на id
+        /// </summary>
+        /// <param name="id">если -1 то обновления не будет. Изменяет id в _obj</param>
+        /// <param name="_obj">SqlParam наследник. Изменяемый IDField </param>
+        /// <exception cref="Exception">Ошибка в случее если нет строки </exception>
+        public static void Update(long id, SqlParam _obj) {
+            if (id == -1) return;
+
+            ISqlProfile sqlProfile = MDL.SqlProfile!;
+            if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
+
+            sqlProfile.Conection(true);
+
+            var fi = _obj.GetType().GetField("IDField", BindingFlags.NonPublic | BindingFlags.Instance);
+            fi?.SetValue(_obj, id);
+
+            Edit_Row(_obj, sqlProfile);
+        }
+
         private static void ForceCreateTabel<T>() where T : SqlParam
         {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
@@ -444,7 +391,81 @@ namespace RjProduction.Sql
 
             if (sqlProfile.ExistTabel(obj.TabelName) == false) sqlProfile.SqlCommand(str);
         }
+        private static long Edit_Row(SqlParam _obj,in ISqlProfile sqlProfile)
+        {
+            long IDField;
 
+            if (_obj.ID == -1)          //INSERT INTO
+            {
+                string str = "";
+                string values = "";
+                foreach (var item in sqlProfile.TitleDB(_obj))
+                {
+                    if (item.Item1 == "ID") continue;       // Создаеться автоматически id
+                    if (item.Item1 == nameof(_obj.LockInfo)) continue;  // Управление осущ. извне
+                    str += sqlProfile.QuotSql(item.Item1) + ", ";
+                    PropertyInfo? refl = _obj.GetType().GetProperty(item.Item1);
+                    if (refl == null) continue;
+                    if (refl.GetCustomAttributes(true).Any(x => x is SqlIgnore)) continue;
+
+                    if (refl.PropertyType.BaseType?.Name != nameof(SqlParam))
+                    {
+                        values += "'" + CastType(refl.GetValue(_obj) ?? "", refl) + "', ";
+                    }
+                    else
+                    {
+                        if (refl.GetValue(_obj) is SqlParam sql)
+                        {
+                            if (sql.ID != -1) values += "'" + sql.ID + "', ";
+                            else values += $"'{Edit_Row(sql, sqlProfile)}', ";
+                        }
+                    }
+                }
+
+                str = str[0..^2];
+                values = values[0..^2];
+
+                IDField = sqlProfile.SqlCommand($"INSERT INTO  {sqlProfile.QuotSql(_obj.TabelName)} ({str}) VALUES ({values})");
+                var fi = _obj.GetType().GetField("IDField", BindingFlags.NonPublic | BindingFlags.Instance);
+                fi?.SetValue(_obj, IDField);
+            }
+            else                    //Update
+            {
+                if (_obj.LockInfo)
+                {
+                    if (Prv_IsLock(_obj.ID, _obj.TabelName))
+                        throw new Exception("Запись " + _obj.TabelName + " id:" + _obj.ID + " заблокированна другим пользователем id:" + _obj.LockInfo);
+                }
+
+                string unityValue = "";
+
+                foreach (var item in sqlProfile.TitleDB(_obj))
+                {
+                    if (item.Item1 == "ID") continue;       // Создаеться автоматически id
+                    if (item.Item1 == nameof(_obj.LockInfo)) continue;  // Управление осущ. извне
+                    PropertyInfo? refl = _obj.GetType().GetProperty(item.Item1);
+                    if (refl == null) continue;
+                    if (refl.GetCustomAttributes(true).Any(x => x is SqlIgnore)) continue;
+                    if (refl.PropertyType.BaseType?.Name != nameof(SqlParam))
+                    {
+                        unityValue += sqlProfile.QuotSql(item.Item1) + "='" + CastType(refl.GetValue(_obj) ?? "", refl) + "', ";
+                    }
+                    else            // here class
+                    {
+                        if (refl.GetValue(_obj) is SqlParam sql)
+                        {
+                            if (sql.ID != -1) unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{sql.ID}', ";
+                            else { unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{Edit_Row(sql,sqlProfile)}', "; }
+                        }
+                    }
+                }
+
+                unityValue = unityValue[0..^2];
+                IDField = _obj.ID;
+                sqlProfile.SqlCommand($"UPDATE {sqlProfile.QuotSql(_obj.TabelName)} SET {unityValue} WHERE ID = {_obj.ID} ");
+            }
+            return IDField;
+        }
         private static bool Prv_IsLock(long id, string tabelname)
         {
             var kk = MDL.SqlProfile!.GetFieldSql($"ID={id}", tabelname, "LockInfo, datetime('now') as now").First().ToArray();
@@ -491,7 +512,6 @@ namespace RjProduction.Sql
             var tmp = sqlProfile.GetFieldSql(id, ((SqlParam)obj).TabelName);
             return Integrator(obj, tmp, _lock);
         }
-
         private static object Integrator(object obj, FieldSql[] tmp, bool _lock)
         {           
             if (tmp.Length != 0)

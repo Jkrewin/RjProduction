@@ -52,7 +52,7 @@
             <Label  Visibility="Hidden" x:Name="Label_Error" DockPanel.Dock="Top" Content="fsdafdfasfasf" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="18" Background="#FFFFF0F0" Foreground="#FF5B1616" />
             <Grid DockPanel.Dock="Left" Width="50" />
 
-            <StackPanel DockPanel.Dock="Left" Width="600" >
+            <StackPanel x:Name="MainStackPanel" DockPanel.Dock="Left" Width="745"  >
                 <Grid x:Name="Grid_Title" Visibility="Visible"  Height="42" Background="White">
                     <Label x:Name="Label_Title" Content="Выберете тип отчета    " HorizontalAlignment="Center" VerticalAlignment="Center" Width="591" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" FontFamily="Arial" FontWeight="Bold" Foreground="#FF4A4848"/>
                 </Grid>
@@ -89,11 +89,15 @@
                     </ComboBox>
                 </Grid>
 
-                <Grid  Visibility="Hidden" x:Name="Grid_TabelListItem" Background="#FF003BD8" Height="80"  >
+                <Grid   x:Name="Grid_TabelListItem" Visibility="Hidden" Background="#FF003BD8" Height="500"  >
                     <DataGrid x:Name="TabelListItem" />
                     
                 </Grid>
 
+                <Grid Visibility="Hidden" Height="500" Background="#FFF50D0D">
+                    
+                    
+                </Grid>
             </StackPanel>
 
         </DockPanel>

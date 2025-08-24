@@ -19,7 +19,6 @@ namespace RjProduction.Pages
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private object? _obj;               //Page с доб и изм строк
-        private readonly UIElement? MainFramePanel;
 
        
 
@@ -31,15 +30,8 @@ namespace RjProduction.Pages
             ClosePage = closePage;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
         }
-        public PageDocEditor(DocArrival doc, UIElement framePanel, Action closePage)
-        {
-            InitializeComponent();
-            MyDoc = doc;
-            ClosePage = closePage;
-            MainFramePanel = framePanel;
-            Title = doc.Number + "/" + doc.DataCreate.ToString();
-        }
-
+        
+                
         /// <summary>
         /// Обновить список в основной части MainTabel
         /// </summary>
@@ -125,7 +117,7 @@ namespace RjProduction.Pages
             }
                      
             // Задействоан в производстве делить прибыль 50/50 между рабочими  
-            Label_SumUP.Content = allAmount.ToString(); // Сумма дохода
+            Label_SumUP.Content =Math.Round ( allAmount,2); // Сумма дохода
             if (salaries > 0)
             {
                 allAmount /= salaries;
@@ -203,9 +195,9 @@ namespace RjProduction.Pages
                 FrameDisplay.Height = 180;
                 FrameDisplay.Navigate(_obj);
             }
-            else if (doc is TransportPart track)
+            else if (doc is Transportation track)
             {
-                _obj = new PageTrack(track, actor, close, new AddresStruct( MyDoc.Warehouse.AddressWarehouse ));
+                _obj = new PageTrack(track, actor, close, MyDoc.Warehouse.InfoWarehouse);
                 FrameDisplay.Height = 450;
                 FrameDisplay.Navigate(_obj);
             }
@@ -468,7 +460,7 @@ namespace RjProduction.Pages
         {
             CloseWpf.Visibility = Visibility.Collapsed;
             ((Button)sender).Visibility = Visibility.Collapsed;
-            if (MainFramePanel is not null) MainFramePanel.Visibility = Visibility.Collapsed;
+           
             var wpf =new WpfFrm.WpfView(this,this.Title, ClosePage);
             wpf.Show();
         }
@@ -481,7 +473,15 @@ namespace RjProduction.Pages
             else if (e.Key == Key.F8) OpenWpfItem(new Tabel_Timbers());
         }
 
-        private void ДобавитьТранспорт(object sender, RoutedEventArgs e) => OpenWpfItem(new TransportPart());
+        private void ДобавитьТранспорт(object sender, RoutedEventArgs e)
+        {
+            OpenWpfItem(new Transportation() { 
+             EndPlace = MyDoc.Warehouse .InfoWarehouse,
+             StartPlace = new AddresStruct(),
+             Transport = new TransportPart(),
+             Date = MyDoc.DataCreate
+            });
+        }
 
         private void ФиксОбъем(object sender, RoutedEventArgs e) => OpenWpfItem(new FixCub());
     }

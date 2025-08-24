@@ -17,12 +17,12 @@
             <Label Content="Адрес" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Center" FontFamily="Arial Black" FontWeight="Bold" FontSize="18" Foreground="#FF0736A3"/>
 
         </Grid>
-        <Label Content="Адрес (место):" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
-        <Label Content="Телефон:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
-        <TextBox x:Name="Address" HorizontalAlignment="Left" Margin="170,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="448" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5"  Grid.Row="1" Uid="Address"/>
-        <TextBox x:Name="Phone" HorizontalAlignment="Left" Margin="170,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5" Grid.Row="1" Uid="Phone"/>
-        <Label Content="E-mail:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
-        <TextBox x:Name="Email" HorizontalAlignment="Left" Margin="170,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5" Grid.Row="1" Uid="Email"/>
+        <Label Content="Адрес (место):" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
+        <Label Content="Телефон:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
+        <TextBox x:Name="Address" HorizontalAlignment="Left" Margin="170,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="448" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5"  Grid.Row="1" Uid="Address"/>
+        <TextBox x:Name="Phone" HorizontalAlignment="Left" Margin="170,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5" Grid.Row="1" Uid="Phone"/>
+        <Label Content="E-mail:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
+        <TextBox x:Name="Email" HorizontalAlignment="Left" Margin="170,163,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5" Grid.Row="1" Uid="Email"/>
         <Button HorizontalAlignment="Left" Margin="428,193,0,0" VerticalAlignment="Top" Height="25" Width="190" Background="{x:Null}" Content="Добавить сведения" FontFamily="Trebuchet MS" Foreground="Black" Click="Добавить" BorderBrush="Black" Grid.Row="1" FontSize="14" Loaded="Загрузить">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -31,6 +31,9 @@
             </Button.Resources>
         </Button>
         <ComboBox x:Name="LBox_Adress" HorizontalAlignment="Left" Margin="170,20,0,0" Grid.Row="1" VerticalAlignment="Top" Width="448" SelectionChanged="ВыборЭлемента" IsReadOnly="True"/>
+        <Label Content="Название(метка):" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="192" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
+        <TextBox x:Name="Label" HorizontalAlignment="Left" Margin="170,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="307" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontFamily="Arial" BorderBrush="#FFD5D5D5"  Grid.Row="1" Uid="Label"/>
+        <Label Content="(не обязательно)" BorderThickness=" 1" HorizontalAlignment="Left" Margin="477,70,0,0" VerticalAlignment="Top" Width="192" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656"/>
 
     </Grid>
 </Window>

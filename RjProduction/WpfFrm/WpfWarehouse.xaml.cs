@@ -140,5 +140,16 @@ namespace RjProduction.WpfFrm
         }
 
         private void ВыборОбъекта(object sender, RoutedEventArgs e) => Close();
+
+        private void Вход_поле(object sender, RoutedEventArgs e)
+        {
+            WpfFrm.WPF_Address wpf = new(new Model.Catalog.AddresStruct(), (pt) =>
+            {
+                AddressWarehouse.Tag= pt;
+                AddressWarehouse.Text = pt.ToString();
+                AddressWarehouse.ToolTip = "Телефон: " + pt.Phone + " Почта: " + pt.Email;
+            });
+            wpf.ShowDialog();
+        }
     }
 }

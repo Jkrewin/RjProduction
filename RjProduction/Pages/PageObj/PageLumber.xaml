@@ -28,28 +28,28 @@
             <Label Content="Пиломатериалы" HorizontalAlignment="Left" Margin="18,7,0,0" VerticalAlignment="Top" FontFamily="Corbel" FontWeight="Bold" FontSize="16"/>
         </Grid>
         <Grid Background="White">
-            
+
             <Rectangle
      Fill="#FF0C39C5"
      HorizontalAlignment="Left"
      VerticalAlignment="Top"
      Margin="{Binding Margin, ElementName=TBoxКоличество}"  Width="65" Height="20"/>
-            
+
             <TextBox x:Name="TBoxШирина" HorizontalAlignment="Left" Margin="51,67,0,0" TextWrapping="NoWrap" Text="0000" VerticalAlignment="Top" Width="50" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Height="20" GotFocus="ВходТ_поле" LostFocus="СохранитьШирину" VerticalContentAlignment="Center" MinWidth="50" MinHeight="20" MaxWidth="50" MaxHeight="20" Grid.RowSpan="1" Grid.ColumnSpan="1" Uid="WidthMaterial" TabIndex="1" FontSize="14"/>
             <TextBox x:Name="TBoxВысота" HorizontalAlignment="Left" Margin="117,67,0,0" TextWrapping="NoWrap" Text="0000" VerticalAlignment="Top" Width="50" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Height="20" GotFocus="ВходТ_поле" LostFocus="СохранитьВысоту" VerticalContentAlignment="Center" MinWidth="50" MinHeight="20" MaxWidth="50" MaxHeight="20" Uid="HeightMaterial" TabIndex="2" FontSize="14"/>
             <TextBox x:Name="TBoxДлинна" Margin="182,67,0,0" TextWrapping="NoWrap" Text="0000" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Height="20" Width="50" GotFocus="ВходТ_поле" HorizontalAlignment="Left" LostFocus="СохранитьДлинну" VerticalContentAlignment="Center" MinWidth="48" MinHeight="20" MaxWidth="50" MaxHeight="20" Uid="LongMaterial" TabIndex="3" FontSize="14"/>
             <TextBox x:Name="TBoxКоличество" Margin="254,67,0,0" TextWrapping="NoWrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Background="#FFF6F0E0" Height="20" Width="60" GotFocus="ВходТ_поле" HorizontalAlignment="Left" LostFocus="СохранитьКоличество" VerticalContentAlignment="Center" MinWidth="60" MinHeight="20" MaxWidth="60" MaxHeight="20" TextChanged="ИзменениеТекста" Uid="Quantity" TabIndex="4" FontSize="14" Panel.ZIndex="5"/>
-            <TextBox x:Name="TBoxКофф" MaxLength="2" Visibility="Collapsed" Margin="254,67,0,0" TextWrapping="NoWrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Background="{x:Null}" Height="20" Width="60" GotFocus="ВходТ_поле" HorizontalAlignment="Left" LostFocus="СохранитьКофф" VerticalContentAlignment="Center" MinWidth="60" MinHeight="20" MaxWidth="60" MaxHeight="20" TextChanged="ИзменениеТекста" Uid="Ratio" TabIndex="4" FontSize="14"/>
+            <TextBox x:Name="TBoxКофф" MaxLength="2" Visibility="Collapsed" Margin="254,67,0,0" TextWrapping="NoWrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Background="#FFF6F0E0" Height="20" Width="60" GotFocus="ВходТ_поле" HorizontalAlignment="Left" LostFocus="СохранитьКофф" VerticalContentAlignment="Center" MinWidth="60" MinHeight="20" MaxWidth="60" MaxHeight="20" TextChanged="ИзменениеТекста" Uid="Ratio" TabIndex="4" FontSize="14"/>
             <Label x:Name="Lab_Title" Content="(мм)Ш  х  (мм)В х  (см)Д      (см) Кол" HorizontalAlignment="Left" Margin="48,38,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Bahnschrift Light" Width="294"/>
             <Label Visibility="Hidden" x:Name="LabelMaterialType" HorizontalAlignment="Left" Margin="51,92,0,0" VerticalAlignment="Top" Height="32" Width="181" FontFamily="Cascadia Code" FontWeight="Bold" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Uid="MaterialType"/>
             <Label  x:Name="LabelTest" Content="{Binding Cubs}" HorizontalAlignment="Left" Margin="51,92,0,0" VerticalAlignment="Top" Height="32" Width="181" FontFamily="Cascadia Code" FontWeight="Bold" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF654D4D"/>
             <ComboBox x:Name="ListBoadr" HorizontalAlignment="Left" Margin="53,11,0,0" VerticalAlignment="Top" Width="188" DropDownClosed="ВыполнитьВыбор"/>
             <Label   Content="Тип Леса" HorizontalAlignment="Left" Margin="312,8,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Bahnschrift Light" Width="294" />
             <ComboBox x:Name="TypeWood" HorizontalAlignment="Left" Margin="405,11,0,0" VerticalAlignment="Top" Width="188" FontFamily="Calibri" FontSize="14" />
+            <Label   Content="Сорт" HorizontalAlignment="Left" Margin="598,9,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Bahnschrift Light" Width="147" />
+            <ComboBox x:Name="Grade" HorizontalAlignment="Left" Margin="656,11,0,0" VerticalAlignment="Top" Width="72" FontFamily="Calibri" FontSize="14" />
 
 
-           
-           
             <TextBox x:Name="TBoxPrice" Margin="340,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Cascadia Code SemiBold" Foreground="#FF444AF0" Background="#FFF6F0E0" Height="20" Width="60" GotFocus="ВходТ_поле" HorizontalAlignment="Left" LostFocus="СохранитьЦену" VerticalContentAlignment="Center" MinWidth="60" MinHeight="20" MaxWidth="60" MaxHeight="20" Uid="Price" TabIndex="5" TextChanged="ИзменениеТекста" FontSize="14"/>
 
             <Label  x:Name="Lab_Title_Копировать3" Content="Цена          Сумма                 Куб/м" HorizontalAlignment="Left" Margin="347,38,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Bahnschrift Light" Width="294"/>

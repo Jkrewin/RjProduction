@@ -10,12 +10,12 @@ namespace RjProduction.Model.Catalog
         /// <summary>
         /// Гос номер машины
         /// </summary>
-        [RegularExpression(@"^[a-zA-Zа-яА-Я]{1}\d{3}[a-zA-Zа-яА-Я]{2} \d{2}$", ErrorMessage = "Некорректный номер машинны")]
+        [RegularExpression(@"^[a-zA-Zа-яА-Я]{1}\d{3}[a-zA-Zа-яА-Я]{2} \d{2}$", ErrorMessage = "Некорректный номер машинны, либо нет пробела где № региона")]
         public string CarNumber { get; set; } = "АА123АА 66";
         /// <summary>
         /// Гос номер прицепа
         /// </summary>
-        [RegularExpression(@"^[a-zA-Zа-яА-Я]{2}\d{4} \d{2}$", ErrorMessage = "Некорректный номер прицепа")]
+        [RegularExpression(@"^[a-zA-Zа-яА-Я]{2}\d{4} \d{2}$", ErrorMessage = "Некорректный номер прицепа, либо нет пробела где № региона")]
         public string? TrailerNumber { get; set; }
         /// <summary>
         /// Компания владелей транспортом

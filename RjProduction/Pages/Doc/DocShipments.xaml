@@ -148,9 +148,10 @@
             <TabItem x:Name="TabGrid_Buyer" Header="Продажи">
                 <Grid>
                     <Label Content="Покупатель:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Center"/>
-                    <TextBox x:Name="TBox_Buyer" HorizontalAlignment="Left" Margin="152,8,0,0" TextWrapping="Wrap" Text="&lt; Выбор компании&gt;" VerticalAlignment="Top" Width="292" FontSize="14" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" GotFocus="ИзменитьКомпанию"/>
+                    <TextBox x:Name="TBox_Buyer" HorizontalAlignment="Left" Margin="152,8,0,0" TextWrapping="Wrap" Text="&lt; Выбор компании&gt;" VerticalAlignment="Top" Width="292" FontSize="14" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     <Label Content="Адрес отправки:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="0,39,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="24" Foreground="#FF565656" FontWeight="Bold" Padding="5,0,5,5" VerticalContentAlignment="Center"/>
-                    <Button Content="&#xE2F6;" HorizontalAlignment="Left" Margin="270,0,0,0" VerticalAlignment="Center" Height="30" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="РедакторНакладной" ToolTip="Создание накладной"/>
+                    <Button Content="&#xE2F6;" HorizontalAlignment="Left" Margin="517,39,0,0" VerticalAlignment="Top" Height="30" Width="32" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="РедакторНакладной" ToolTip="Создание накладной"/>
+                    <Button Content="" HorizontalAlignment="Left" Margin="449,8,0,0" VerticalAlignment="Top" Height="25" Width="25" FontSize="16" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="ВыборКомпании" ToolTip="Выбрать компанию"/>
                 </Grid>
             </TabItem>
 

@@ -1,4 +1,5 @@
 ﻿using RjProduction.Model.Catalog;
+using RjProduction.Model.DocElement;
 using RjProduction.WpfFrm;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -11,12 +12,12 @@ namespace RjProduction.Pages
     public partial class PageTrack : Page, IKeyControl
     {
         private readonly Action CloseAction;
-        private readonly TransportPart _transport;
-        private Action<TransportPart> ActionOne;
-        private MDL.Reference.Catalog<TruckClass> Catalog = new ();
+        private readonly Transportation _transport;
+        private Action<Transportation> ActionOne;
+        private MDL.Reference.Catalog<TransportPart> Catalog = new ();
         private AddresStruct? Adress_From;
 
-        public PageTrack(TransportPart transport, Action<TransportPart> actionOne, Action closeAction)
+        public PageTrack(Transportation transport, Action<Transportation> actionOne, Action closeAction)
         {
             InitializeComponent();
             this.CloseAction = closeAction;
@@ -24,7 +25,7 @@ namespace RjProduction.Pages
             ActionOne = actionOne;
         }
 
-        public PageTrack(TransportPart transport, Action<TransportPart> actionOne, Action closeAction, AddresStruct from_addres )
+        public PageTrack(Transportation transport, Action<Transportation> actionOne, Action closeAction, AddresStruct from_addres )
         {
             InitializeComponent();
             this.CloseAction = closeAction;
@@ -37,7 +38,7 @@ namespace RjProduction.Pages
         {
             ErrorLabel.Visibility = Visibility.Collapsed;
 
-            if (string.IsNullOrEmpty(_transport.AddresTo.Address) || string.IsNullOrEmpty(_transport.AddresFrom.Address)) {
+            if (string.IsNullOrEmpty(_transport.EndPlace.Address) || string.IsNullOrEmpty(_transport.StartPlace.Address)) {
                 ErrorLabel.Visibility = Visibility.Visible;
                 ErrorLabel.Content = "Необходимо заполнить поля от куда или куда доставка";
                 return;
@@ -49,7 +50,7 @@ namespace RjProduction.Pages
                 return;
             }
 
-            var att = _transport.Truck.GetType();
+            var att = _transport.Transport.GetType();
             RegularExpressionAttribute reg = att.GetProperty(nameof(TruckClass.CarNumber))!.GetCustomAttribute<RegularExpressionAttribute>()!;
 
             if (!reg.IsValid(CarNumber.Text)) 
@@ -58,7 +59,7 @@ namespace RjProduction.Pages
                 ErrorLabel .Content = reg.ErrorMessage;
                 return;
             }
-            _transport.Truck.CarNumber = CarNumber.Text;
+            _transport.Transport.CarNumber = CarNumber.Text;
 
             reg = att.GetProperty(nameof(TruckClass.TrailerNumber))!.GetCustomAttribute<RegularExpressionAttribute>()!;
 
@@ -68,16 +69,16 @@ namespace RjProduction.Pages
                 ErrorLabel.Content = reg.ErrorMessage;
                 return;
             }
-            _transport.Truck.TrailerNumber = TrailerNumber.Text;
+            _transport.Transport.TrailerNumber = TrailerNumber.Text;
 
-            _transport.Truck.CarLabel = CarLabel.Text;
-            _transport.Truck.TrailerLabel = TrailerLabel.Text;
+            _transport.Transport.CarLabel = CarLabel.Text;
+            _transport.Transport.TrailerLabel = TrailerLabel.Text;
 
-            var f = Catalog.ListCatalog.FindIndex(x => x.CarNumber == _transport.Truck.CarNumber);
+            var f = Catalog.ListCatalog.FindIndex(x => x.CarNumber == _transport.Transport.CarNumber);
             if (f == -1)
             {
                 // создать новую строку
-                Catalog.ListCatalog.Add(_transport.Truck);
+                Catalog.ListCatalog.Add(_transport.Transport  );
                 Catalog.SaveData();
                 Refreh_Carlist();
             }
@@ -85,15 +86,15 @@ namespace RjProduction.Pages
             {
                 // Проверить на изменения 
                 var cl = Catalog.ListCatalog[f];
-                if (_transport.Truck.CarLabel != cl.CarLabel ||
-                    _transport.Truck.TrailerLabel != cl.TrailerLabel ||
-                    _transport.Truck.TrailerNumber != cl.TrailerNumber)
+                if (_transport.Transport.CarLabel != cl.CarLabel ||
+                    _transport.Transport.TrailerLabel != cl.TrailerLabel ||
+                    _transport.Transport.TrailerNumber != cl.TrailerNumber)
                 {
-                    Catalog.ListCatalog[f] = _transport.Truck;
+                    Catalog.ListCatalog[f] = _transport.Transport;
                 }
-                else if (_transport.Truck.CargoCarriers is not null) 
+                else if (_transport.Transport.CargoCarriers is not null) 
                 {
-                    if (!_transport.Truck.CargoCarriers.Equals(cl.CargoCarriers)) Catalog.ListCatalog[f] = _transport.Truck;
+                    if (!_transport.Transport.CargoCarriers.Equals(cl.CargoCarriers)) Catalog.ListCatalog[f] = _transport.Transport ;
                 }
                 
                 Catalog.SaveData();
@@ -131,7 +132,7 @@ namespace RjProduction.Pages
                 if (obj is Model.Catalog.Company comp)
                 {
                     TBox_Company.Text = comp.ShortName;
-                    _transport.Truck.CargoCarriers = comp;
+                    _transport.Transport.CargoCarriers = comp;
                 }
             });
         }
@@ -140,7 +141,7 @@ namespace RjProduction.Pages
         {
             WpfFrm.WPF_Address wpf = new(new Model.Catalog.AddresStruct(), (pt) =>
             {
-                _transport.AddresFrom = pt;
+                _transport.StartPlace = pt;
                 Tbox_AddresFrom.Text = pt.ToString();
                 Tbox_AddresFrom.ToolTip = "Телефон: " + pt.Phone + " Почта: " + pt.Email;
             });
@@ -151,7 +152,7 @@ namespace RjProduction.Pages
         {
             WpfFrm.WPF_Address wpf = new(new Model.Catalog.AddresStruct(), (pt) =>
             {
-                _transport.AddresTo = pt;
+                _transport.EndPlace = pt;
                 Tbox_AddresTo.Text = pt.ToString();
                 Tbox_AddresTo.ToolTip = "Телефон: " + pt.Phone + " Почта: " + pt.Email;
             });
@@ -164,9 +165,9 @@ namespace RjProduction.Pages
             Refreh_Carlist();
             if (Adress_From.HasValue) // по умолчанию куда 
             {
-                _transport.AddresTo = Adress_From.Value;
-                Tbox_AddresTo.Text = _transport.AddresTo.ToString();
-                Tbox_AddresTo.ToolTip = "Телефон: " + _transport.AddresTo.Phone + " Почта: " + _transport.AddresTo.Email;
+                _transport.StartPlace = Adress_From.Value;
+                Tbox_AddresTo.Text = _transport.EndPlace.ToString();
+                Tbox_AddresTo.ToolTip = "Телефон: " + _transport.EndPlace.Phone + " Почта: " + _transport.EndPlace.Email;
                 ButtonTo.Visibility = Visibility.Hidden;
             }
         }
@@ -196,7 +197,7 @@ namespace RjProduction.Pages
                 CarNumber.Text = truck.CarNumber;
                 CarLabel.Text = truck.CarLabel;
                 TrailerLabel.Text = truck.TrailerLabel;
-                _transport.Truck.CargoCarriers = truck.CargoCarriers;
+                _transport.Transport.CargoCarriers = truck.CargoCarriers;
                 TBox_Company.Text = truck.CargoCarriers?.ShortName;
             }
         }

@@ -24,7 +24,20 @@ namespace RjProduction.Sql
         /// <summary>
         /// Название таблици
         /// </summary>
-        [SqlIgnore] public string TabelName { get => this.GetType().Name; }
+        [SqlIgnore] public string TabelName { get { 
+                string str = this.GetType().Name;
+
+                foreach (var attr in this.GetType().GetCustomAttributes(true))
+                {
+                    if (attr is SqlTabelName sqlname)
+                    {
+                        str = sqlname.TabelName;
+                        break;
+                    }
+                }
+
+                return str;
+            } }
         /// <summary>
         /// Ид в бд
         /// </summary>
@@ -32,7 +45,7 @@ namespace RjProduction.Sql
         /// <summary>
         /// Пометка на удаление
         /// </summary>
-        public bool ActiveObjIsDelete { get; set; } = false;
+        [XmlIgnore] public bool ActiveObjIsDelete { get; set; } = false;
         /// <summary>
         /// Информации блокировки этой записии пользователем.  
         /// <b>Нельзя заблокировать ранее заблокированные записи. Если не подключен профиль БД или эта запись новая и ее нет в БД</b>

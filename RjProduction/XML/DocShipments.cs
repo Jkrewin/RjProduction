@@ -39,7 +39,7 @@ namespace RjProduction.XML
         {
             if (MDL.SqlProfile == null)
             {
-                MessageBox.Show("Нет активного подключения к БД, создайте новое подключение к БД.");
+                IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
                 return;
             }
             if (Status == StatusEnum.Проведен) return;
@@ -48,7 +48,7 @@ namespace RjProduction.XML
             var id_doc = SqlRequest.ExistRecord<DocShipments>(new ISqlProfile.FieldSql("ID_Doc", ID_Doc));
             if (id_doc != -1)
             {
-                MessageBox.Show("Этот документ был ранее проведен. С такой датой и номером. Уже зафиксированы в БД изменения, если вам нужно внести изменения, то нужно выполнить корректировку остатков. Создав документ по корректировки остатков на складе. ");
+                IDocMain.ErrorMessage(IDocMain.Error_Txt.Ошибка_в_документе);
                 goto final;
             }
 
@@ -80,16 +80,18 @@ namespace RjProduction.XML
             // Сохраним документ
                SqlRequest.SetData(this);
             //соберем список строк
-            List<DocRow> ls = [];
             foreach (var item in MainTabel)
             {
                 foreach (var tv in item.Tabels)
-                {                  
-                    ls.Add(new(tv, item.NameGrup, ID_Doc));
+                {        
+                    if (tv is DocRow.IDocRow d)
+                    {  // сохраним их
+                        SqlRequest.SetData(d.ToDocRow(item.NameGrup, ID_Doc));
+                        d.Send_DB(ID_Doc); // Дополнительная отправка в дб строики если нужно 
+                    }
+                    else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString() + "\n ()CarryOut " + this.ToString());
                 }
-            }
-            // сохраним их
-            SqlRequest.SetData([.. ls]);
+            }          
 
         final:
             Status = StatusEnum.Проведен;

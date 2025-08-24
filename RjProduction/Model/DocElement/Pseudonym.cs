@@ -5,7 +5,7 @@ namespace RjProduction.Model.DocElement
     /// <summary>
     /// Общая форма материалов необходимы для учета в общей бд
     /// </summary>
-    public class Pseudonym : IDoc, IConvertDoc
+    public class Pseudonym : IDoc, IConvertDoc, DocRow.IDocRow
     {
         private Products _Product = new();
 
@@ -49,18 +49,28 @@ namespace RjProduction.Model.DocElement
         /// <summary>
         /// Проводит расчет кубатуры в итоге из SelectedCub и Product.Cubature
         /// </summary>
-        public double CubatureAll
+        public float CubatureAll
         {
             get
             {
-                if (Operation == SqlRequest.OperatonEnum.vsPlus) return SelectedCub + Product.Cubature;
-                else if (Operation == SqlRequest.OperatonEnum.vsMunis) return Product.Cubature - SelectedCub;
-                else if (Operation == SqlRequest.OperatonEnum.vsMutation) return SelectedCub;
-                else return Product.Cubature;
+                if (Operation == SqlRequest.OperatonEnum.vsPlus) return (float)(SelectedCub + Product.Cubature);
+                else if (Operation == SqlRequest.OperatonEnum.vsMunis) return (float)(Product.Cubature - SelectedCub);
+                else if (Operation == SqlRequest.OperatonEnum.vsMutation) return (float)SelectedCub;
+                else return (float)Product.Cubature;
             }
         }
 
         public Products ToProducts() => Product;
+
+        public DocRow ToDocRow(string grupname, string id_document)
+        {
+            return new(id_document, grupname, Operation.ToString(), Product.NameItem, PriceCng, Math.Round(SelectedCub / Product.OnePice, 0), Amount, DocRow.Пиломатериалы, 0, CubatureAll);
+        }
+
+        public void Send_DB(string id)
+        {
+          
+        }
     }
 
 }

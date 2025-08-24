@@ -1,7 +1,6 @@
 ﻿using RjProduction.Model;
-using RjProduction.Sql;
-using System.Windows;
 using RjProduction.Model.DocElement;
+using RjProduction.Sql;
 
 namespace RjProduction.XML
 {
@@ -63,7 +62,7 @@ namespace RjProduction.XML
         public void CarryOut()        {
             if (MDL.SqlProfile == null)
             {
-                MessageBox.Show("Нет активного подключения к БД, создайте новое подключение к БД.");
+                IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
                 return;
             }
             if (Status == StatusEnum.Проведен) return;
@@ -72,7 +71,7 @@ namespace RjProduction.XML
             var id_doc = SqlRequest.ExistRecord<DocArrival>(new ISqlProfile.FieldSql("ID_Doc",  ID_Doc));
             if (id_doc != -1)
             {
-                MessageBox.Show("Этот документ был ранее проведен или произошла ошибка. С такой датой и номером. Уже зафиксированы в БД изменения, если вам нужно внести изменения, то нужно выполнить корректировку остатков. Создав документ по корректировки остатков на складе. ");
+                IDocMain.ErrorMessage(IDocMain.Error_Txt.Ошибка_в_документе);
                 goto final;
             }
 
@@ -116,15 +115,20 @@ namespace RjProduction.XML
 
                 // далее сохранения документа в БД document
                 SqlRequest.SetData(this);
-                List<DocRow> rows = [];
+                // потом сохраняем строки                
                 foreach (var obj in MainTabel)
                 {
                     foreach (var tv in obj.Tabels)
                     {
-                        rows.Add(new DocRow(tv, obj.NameGrup, ID_Doc));
+                        if (tv is DocRow.IDocRow d)
+                        {
+                            var tttt = d.ToDocRow(obj.NameGrup, ID_Doc);
+                            SqlRequest.SetData(d.ToDocRow(obj.NameGrup, ID_Doc)); // только добавление
+                            d.Send_DB(ID_Doc); // Дополнительная отправка в дб строики если нужно 
+                        }
+                        else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString() + "\n ()CarryOut " + this.ToString());
                     }
-                }
-                SqlRequest.SetData([.. rows]);
+                }                
             }
             catch (Exception ex)
             {

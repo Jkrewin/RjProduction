@@ -40,15 +40,15 @@ namespace RjProduction.Pages
             if (_Material.MaterialType == MaterialObj.MaterialTypeEnum.Количество)
             {
                 // количество
-                LabelTest.Content = _Material.Cub;
-                if (LabelОбъем != null) LabelОбъем.Content = Math.Round(_Material.CubatureAll, 3);
-                Label_Amount.Content = _Material.Amount;
+                LabelTest.Content = (float) _Material.Cub;
+                if (LabelОбъем != null) LabelОбъем.Content = _Material.CubatureAll;
+                Label_Amount.Content = Math.Round(_Material.Amount,2);
             }
             else if (_Material.MaterialType == MaterialObj.MaterialTypeEnum.Объем)
             {
                 // объем
                 Label_Amount.Content = _Material.Amount;
-                LabelTest.Content = Math.Round(_Material.Cub, 3);
+                LabelTest.Content = _Material.Cub;
             }
         }
 
@@ -85,6 +85,8 @@ namespace RjProduction.Pages
                 }
             }
 
+            _Material.Grade = (MaterialObj.GradeEnum)Enum.Parse(typeof(MaterialObj.GradeEnum), Grade.SelectedValue.ToString()!.Replace (",","_") ?? nameof(MaterialObj.GradeEnum.Нет));
+
             ActionOne?.Invoke(_Material);
             ЗакрытьФорму(null!, null!);
         }
@@ -112,7 +114,7 @@ namespace RjProduction.Pages
             {
                 if (int.TryParse(TBoxКоличество.Text, out int i))
                 {
-                    LabelОбъем.Content = Math.Round((_Material.Cub * i), 3);
+                    LabelОбъем.Content =(float)( _Material.Cub * i);
                     if (int.TryParse(TBoxPrice.Text, out int ii))
                     {
                         Label_Amount.Content = Math.Round((_Material.Cub * i) * ii, 2);
@@ -178,6 +180,9 @@ namespace RjProduction.Pages
                     }
                 }
             }
+
+            Grade.ItemsSource = MaterialObj.GradeEnum.GetNames(typeof(MaterialObj.GradeEnum)).Select(x=> x.Replace ('_',','));
+            Grade.SelectedIndex = 0;
         }
 
         private void ВыполнитьВыбор(object sender, EventArgs e)
@@ -199,6 +204,19 @@ namespace RjProduction.Pages
                 i++;
             }
             TBoxКоличество.Focus();
+
+            // Установить значение наверх списка
+            MaterialObj saved;
+            for (int j = 0; j < MDL.MyDataBase.MaterialsDic.Count; j++)
+            {
+                if (MDL.MyDataBase.MaterialsDic[j].NameMaterial == x.NameMaterial)
+                {
+                    saved = MDL.MyDataBase.MaterialsDic[j];
+                    MDL.MyDataBase.MaterialsDic.RemoveAt(j);
+                    MDL.MyDataBase.MaterialsDic.Insert(0, saved);
+                    break;
+                }
+            }
         }
 
         private void СохранитьКофф(object sender, RoutedEventArgs e)

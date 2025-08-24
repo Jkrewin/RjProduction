@@ -120,7 +120,7 @@ namespace RjProduction.Sql
         public object? AdapterSql(string tabelName, string nameField, string where = "")
         {
             string pol = where != "" ? $"SELECT {nameField} FROM [{tabelName}] WHERE {where} LIMIT 1" : $"SELECT {nameField} FROM [{tabelName}] LIMIT 1";
-            SqlLogString = pol;
+            SqlLogString = "AdapterSql" + pol;
             using SQLiteCommand command = new(pol, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             return command.ExecuteScalar();

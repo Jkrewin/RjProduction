@@ -1,5 +1,5 @@
 ﻿
-using RjProduction.Model.Catalog;
+
 using RjProduction.Model.DocElement;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,7 +31,7 @@ namespace RjProduction.Pages.PageObj
 
             if (double.TryParse(Plan.Text, out double plan)==false) { Plan.Background = Brushes.Pink; return; }
 
-            if (double.TryParse(Fact.Text, out double fact))
+            if (float.TryParse(Fact.Text, out float fact))
             {
                 if (double.TryParse(Price.Text, out double price))
                 {

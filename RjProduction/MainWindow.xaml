@@ -8,8 +8,8 @@
         Title="" Height="900" Width="1000" Loaded="Загрузка" Closed="ПриложениеЗакрыто" Icon="/Res/Icon/app_draw.ico" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="#FF6071AF" KeyDown="ГорячиеКлавиши">
     <Grid x:Name="MainGrind" Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="73*"/>
-            <RowDefinition Height="24"/>
+            <RowDefinition/>
+            <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
         <DockPanel Background="#FF060505" >
             <Grid x:Name="UpPanel"  DockPanel.Dock="Top" Height="29" PreviewMouseDown="Перетаскивание" Background="#FF6071AF" >
@@ -287,7 +287,7 @@
                 </Grid.RowDefinitions>
                 <Label Content="ДОКУМЕНТЫ" VerticalAlignment="Center" Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Bold" Foreground="#FF5C5C5C"/>
                 <StackPanel x:Name="Sp_leftPanel" Grid.Row="1" Margin="0,10,0,0">
-                   
+
                     <Button Height="37" Background="#FFB6D4D1" BorderBrush="{x:Null}" Click="ПереходПроизводство2">
                         <StackPanel Orientation="Horizontal" Width="211" >
                             <Label DockPanel.Dock="Left"  FontFamily="Segoe MDL2 Assets" Content="" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
@@ -377,14 +377,27 @@
 
             <Grid DockPanel.Dock="Bottom" Background="#FFFAFAFA">
                 <ScrollViewer Grid.Row="1" Foreground="#FF0494B1" >
-                <Frame ScrollViewer.CanContentScroll="True" NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Загрузка..." ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    <Frame ScrollViewer.CanContentScroll="True" NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Загрузка..." ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                 </ScrollViewer>
                 <WrapPanel Visibility="Collapsed" x:Name="NotificationPanel" VerticalAlignment="Bottom"  Height="36 ">
                     <!--тут будет нотификация сообщения генерируеться програмно -->
                 </WrapPanel>
+
+                <Grid x:Name="FrameWorkspace" Visibility="Hidden">
+                    <Rectangle MouseDown="ВыборЭкрнаМышкой">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="#FF261D1D" Opacity="0.5"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Frame NavigationUIVisibility="Hidden" x:Name="FrameWorkspace_frame" Background="#FFF57373" HorizontalAlignment="Right" Width="750"></Frame>
+                </Grid>
             </Grid>
 
         </DockPanel>
-        <WrapPanel  x:Name="StBar" Background="#FFECECEC" VerticalAlignment="Center" Height="25" Grid.Row="1"/>
+
+        <StackPanel Orientation="Horizontal"  x:Name="StBar" Background="#FFE3E6F0" Grid.Row="1" Height="34"/>
+        <Rectangle Grid.Row="1" Fill="#FF1C359A" Height="1" VerticalAlignment="Top" Stroke="#FF1C359A"/>
+        
+        
     </Grid>
 </Window>

@@ -51,7 +51,7 @@
                     <Button Content="Установить всем цену" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Center" Width="145" Click="ЦенаДляВсех" Foreground="#FF2B2A2A"/>
                 </Grid>
             </StackPanel>
-            <DataGrid x:Name="DG_Cubs"  CanUserAddRows="False" Grid.Row="1" SelectionMode="Single" SelectionUnit="Cell" SelectedCellsChanged="ВыборОбъекта" Background="WhiteSmoke" />
+            <DataGrid x:Name="DG_Cubs"  CanUserAddRows="False" Grid.Row="1" SelectionMode="Single" SelectionUnit="Cell" SelectedCellsChanged="ВыборОбъекта" Background="WhiteSmoke" PreviewKeyDown="НажатиеКлавишТаблице" />
 
 
             <Grid x:Name="InputBox" Grid.Row="1" Visibility="Collapsed">

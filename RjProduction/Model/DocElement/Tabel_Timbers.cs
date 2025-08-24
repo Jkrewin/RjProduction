@@ -1,10 +1,13 @@
 ﻿
+using System.Diagnostics;
+using static RjProduction.Model.DocElement.Tabel_Timbers;
+
 namespace RjProduction.Model.DocElement
 {
     /// <summary>
     /// Таблица для учета бревен по штучно
     /// </summary>
-    public class Tabel_Timbers : IDoc, IConvertDoc
+    public class Tabel_Timbers : IDoc, IConvertDoc, DocRow.IDocRow
     {
         public List<Timber> Timbers = [];
         public decimal Amount
@@ -14,9 +17,24 @@ namespace RjProduction.Model.DocElement
                 return (decimal)(from tv in Timbers select (tv.Куб_М * (tv.Цена + UpRaise))).Sum(x => x);
             }
         }
-        public double CubatureAll { get => Timbers.Sum(x => x.Куб_М); }
+        public float CubatureAll { get => (float)Timbers.Sum(x => x.Куб_М); }
         public double UpRaise { get; set; }
         public TypeWoodEnum TypeWood { get; set; } = TypeWoodEnum.Любой;
+
+        public void Send_DB()
+        {
+           
+        }
+
+        public void Send_DB(string id_doc)
+        {
+           
+        }
+
+        public DocRow ToDocRow(string grupname, string id_document)
+        {
+            return new(id_document, grupname, string.Empty, ToProducts().NameItem, -1, Timbers.Sum(x => x.Количество), Amount, DocRow.КруглыйЛес, UpRaise, CubatureAll);
+        }
 
         public Products ToProducts()
         {

@@ -7,6 +7,6 @@ namespace RjProduction.Model.DocElement
     public interface IDoc
     {
         public decimal Amount { get; }
-        public double CubatureAll { get; }
+        public float CubatureAll { get; }
     }
 }

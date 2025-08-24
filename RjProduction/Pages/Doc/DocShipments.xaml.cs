@@ -21,7 +21,6 @@ namespace RjProduction.Pages.Doc
         private readonly IDocMain _Doc;       
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
-        private readonly UIElement? MainFramePanel;
         private Action? RenameFoo;
 
         private bool СоСкладаНаСклад
@@ -62,19 +61,18 @@ namespace RjProduction.Pages.Doc
             УказатьПричинуСписания =false;
         }
 
-        public PageShipments(DocShipments doc, UIElement framePanel, Action closePage)
+        public PageShipments(DocShipments doc, Action closePage)
         {
             InitializeComponent();
             _Doc = doc;
             ClosePage = closePage;
-            MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
             Clear_UI();
         }
         /// <summary>
         /// Оформляем продажи
         /// </summary>
-        public PageShipments(DocSales doc, UIElement framePanel, Action closePage) 
+        public PageShipments(DocSales doc, Action closePage) 
         {
             InitializeComponent();
             Clear_UI();
@@ -82,19 +80,17 @@ namespace RjProduction.Pages.Doc
             Warehouse_From.Content = doc.Warehouse_From.ToString();
             _Doc = doc;
             ClosePage = closePage;
-            MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
 
         }
         /// <summary>
         /// Оформляем перемещение
         /// </summary>
-        public PageShipments(DocMoving doc, UIElement framePanel, Action closePage)
+        public PageShipments(DocMoving doc, Action closePage)
         {
             InitializeComponent();
             _Doc = doc;
             ClosePage = closePage;
-            MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
             Clear_UI();
             СоСкладаНаСклад = true;
@@ -105,12 +101,11 @@ namespace RjProduction.Pages.Doc
         /// <summary>
         /// Списание
         /// </summary>
-        public PageShipments(DocWriteDowns doc, UIElement framePanel, Action closePage)
+        public PageShipments(DocWriteDowns doc, Action closePage)
         {
             InitializeComponent();
             _Doc = doc;
             ClosePage = closePage;
-            MainFramePanel = framePanel;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
             Clear_UI();
             Warehouse.Content = doc.Warehouse.ToString();
@@ -412,7 +407,7 @@ namespace RjProduction.Pages.Doc
         {
             CloseWpf.Visibility = Visibility.Collapsed;
             ((Button)sender).Visibility = Visibility.Collapsed;
-            if (MainFramePanel is not null) MainFramePanel.Visibility = Visibility.Collapsed;
+            if (MDL.MainWindow is not null) MDL.MainWindow.FrameWorkspace.Visibility = Visibility.Collapsed;
             var wpf = new WpfFrm.WpfView(this,Title ,ClosePage);
             wpf.Show();
         }
@@ -441,17 +436,7 @@ namespace RjProduction.Pages.Doc
             var w = MDL.MyDataBase.Warehouses.Find(x => x.Equals(Cbox_warehouses_To.SelectedValue)) ; 
             ((DocMoving)_Doc).Warehouse_To = w ?? new WarehouseClass() { NameWarehouse = "NaN" };
         }
-
-        private void ИзменитьКомпанию(object sender, RoutedEventArgs e)
-        {           
-            ToolList<Model.Catalog.Company> toolList = new  (MainGrid,  (obj) => {
-                if (obj is Model.Catalog.Company comp) {
-                    TBox_Buyer.Text =comp.ToString();
-                    if (_Doc is DocSales doc) doc.Buyer = comp;                   
-                }            
-            });
-        }
-
+      
         private void ИзменитьНазваниеСтроки() {
             if (_Doc.MainTabel[ListGrup.SelectedIndex].Tabels[ListBoxEmp.SelectedIndex] is Pseudonym pseudonym)
             { 
@@ -513,6 +498,17 @@ namespace RjProduction.Pages.Doc
             var wpf = new WpfFrm.WpfView(new InvoiceEditor(invoice), Title, () => { });
             wpf.Show();
 
+        }
+
+        private void ВыборКомпании(object sender, RoutedEventArgs e)
+        {
+            ToolList<Model.Catalog.Company> toolList = new(MainGrid, (obj) => {
+                if (obj is Model.Catalog.Company comp)
+                {
+                    TBox_Buyer.Text = comp.ToString();
+                    if (_Doc is DocSales doc) doc.Buyer = comp;
+                }
+            });
         }
     }
 }

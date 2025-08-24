@@ -1,10 +1,5 @@
 ﻿
-
-using RjProduction.Pages;
-using RjProduction.Sql;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Windows.Input;
 
 namespace RjProduction.Model
 {

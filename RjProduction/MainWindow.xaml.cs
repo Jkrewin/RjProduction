@@ -9,19 +9,48 @@ using RjProduction.WpfFrm;
 using System.Diagnostics;
 using RjProduction.Pages;
 using System.Windows.Media;
-using RjProduction.Model.Classifier;
 
 namespace RjProduction
 {
     public partial class MainWindow : Window
     {
         private PageReport? ReportPage;
-        private PageReference? Reference;        
+        private PageReference? Reference;
 
-        public MainWindow()
-        {
-            InitializeComponent();
+        public List<Page> Pages = [];
+
+
+
+
+        public MainWindow() => InitializeComponent();
+
+        /// <summary>
+        /// Скрывает окно сбоку
+        /// </summary>
+        public void OrganizerHide() {
+            MDL.Refreh_AllWpfView();
+            FrameWorkspace.Visibility = Visibility.Collapsed;
         }
+        /// <summary>
+        /// Организатор страниц добавление 
+        /// </summary>
+        public void OrganizerShowPage(Page page)
+        {
+            if (Pages.Any(x => x.Equals(page))==false)  Pages.Add(page); // если нет то добавить в список
+            FrameWorkspace.Visibility = Visibility.Visible;
+            FrameWorkspace_frame.Content = page;
+        }
+        /// <summary>
+        /// Организатор страниц удаление
+        /// </summary>
+        public void OrganizerClose() {
+            var p = Pages.Find(x => x.Equals(FrameWorkspace_frame.Content));
+            if (p != null) Pages.Remove(p);
+            FrameWorkspace.Visibility = Visibility.Collapsed;
+            FrameWorkspace_frame.NavigationService.RemoveBackEntry();
+            MDL.Refreh_AllWpfView();
+        }
+
 
         public void AddNotification(NotifMessage notif)
         {
@@ -54,6 +83,7 @@ namespace RjProduction
         /// </summary>
         private void ClearButtonSel()
         {
+            OrganizerHide();
             FrameDisplay.NavigationService.RemoveBackEntry();
             Grid_Task.Visibility = Visibility.Collapsed;
             Grid_Reports.Visibility = Visibility.Collapsed;
@@ -65,7 +95,7 @@ namespace RjProduction
 
 
         private void SelectButton(Button button) {
-            
+            OrganizerHide();
             foreach (var item in Sp_leftPanel.Children)
             {
                 if (item is  Button  b) {
@@ -105,7 +135,7 @@ namespace RjProduction
 
             MDL.Refreh_AllWpfView(); // Обновить нижнаяя панель
 
-            var test = new Test_circut();
+            //var test = new Test_circut();
             // test.ShowDialog();
            // var ls = CountryOKSM.LoadList(@"C:\Users\Макс\source\repos\RjProduction\RjProduction\Resources\oksm.xml");
            
@@ -378,10 +408,18 @@ namespace RjProduction
                 ReportPage.Button_GeneratedReport.Visibility = Visibility.Visible;
                 ReportPage.Button_SetUpReport.Visibility = Visibility.Visible;
                 ReportPage.Grid_DateSelect.Visibility = Visibility.Visible;
-                ReportPage.SelectReport = ReportPage.Report_Gen_ВсеДниРабочих;
+                ReportPage.SelectReport = ReportPage.Report_Gen_ДотставкаАвто;
                 ReportPage.Grid_Start.Visibility = Visibility.Collapsed;
                 ReportPage.Label_Title.Content = "Продукция доставленная автотранспортом";
+                ReportPage.Grid_TabelListItem.Visibility = Visibility.Visible;
+                ReportPage.Grid_TabelListItem.Height =this.Height-50;
+                
             }
+        }
+
+        private void ВыборЭкрнаМышкой(object sender, MouseButtonEventArgs e)
+        {
+            OrganizerHide();
         }
     }
 }

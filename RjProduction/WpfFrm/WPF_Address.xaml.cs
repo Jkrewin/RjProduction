@@ -18,6 +18,11 @@ namespace RjProduction.WpfFrm
 
         private void Добавить(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(Address.Text)) {
+                MessageBox.Show("Укажаите адрес.");
+                return;
+            }
+            if (Label.Text == "") Label.Text = Address.Text;
             var r = MDL.GetStruct<Model.Catalog.AddresStruct>(MainGrind);
             if (Catalog.ExistItem(r.ToString()) == false) Catalog.ListCatalog.Add(r);
             Act(r);

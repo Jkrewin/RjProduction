@@ -72,7 +72,7 @@ namespace RjProduction.XML
             } 
             if (MDL.SqlProfile == null)
             {
-                MessageBox.Show("Нет активного подключения к БД, создайте новое подключение к БД.");
+                IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
                 return;
             }
             if (string.IsNullOrEmpty(Reason) )
@@ -107,7 +107,7 @@ namespace RjProduction.XML
 
             // далее сохранения документа в БД document
             SqlRequest.SetData(this);
-            List<DocRow> rows = [];
+           
             Status = StatusEnum.Проведен;
             var products = (from tv in ListPseudonym where tv is IConvertDoc select ((IConvertDoc)tv).ToProducts()).ToArray<Products>();
             foreach (var obj in MainTabel)
@@ -124,10 +124,15 @@ namespace RjProduction.XML
                             continue;
                         }
                     }
-                    rows.Add(new DocRow(tv, obj.NameGrup, ID_Doc));
+                    if (tv is DocRow.IDocRow d)
+                    {
+                        SqlRequest.SetData(d.ToDocRow(obj.NameGrup, ID_Doc));
+                        d.Send_DB(ID_Doc); // Дополнительная отправка в дб строики если нужно 
+                    }
+                    else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString() + "\n ()CarryOut " + this.ToString());
                 }
             }
-            SqlRequest.SetData([.. rows]);
+          
             XmlProtocol.SaveDocXml<DocWriteDowns>(this);
         }
     }

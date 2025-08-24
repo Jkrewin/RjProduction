@@ -1,43 +1,51 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows.Media.Media3D;
+using System.Xml.Linq;
 
 namespace RjProduction.Model.DocElement
 {
     /// <summary>
     /// Пиломатериал
     /// </summary>
-    public struct MaterialObj : IDoc, IConvertDoc
+    public struct MaterialObj : IDoc, IConvertDoc, DocRow.IDocRow
     {
         public TypeWoodEnum TypeWood { get; set; }
-        /// <summary>
-        /// Куботура одной доски
-        /// </summary>
-        public readonly double Cub
-        {
-            get
-            {
-                // обрезная доска 
-                if (MaterialType == MaterialTypeEnum.Количество) return (WidthMaterial / 1000) * (HeightMaterial / 1000) * (LongMaterial / 1000);
-                // н/о
-                else return Math.Round((WidthMaterial / 100) * (HeightMaterial / 100) * (LongMaterial / 100) * (Ratio / 100), 3);
-            }
-        }
         public double WidthMaterial;
         public double HeightMaterial;
         public double LongMaterial;
         public double Quantity;
         public MaterialTypeEnum MaterialType { get; set; }
-        /// <summary>
-        /// общая куботура
-        /// </summary>
-        public readonly double CubatureAll { get => Cub * Quantity; }
         public double Price;
         public double UpRaise { get; set; }
-        public readonly decimal Amount { get => (decimal)((Price + UpRaise) * CubatureAll); }
-        /// <summary>
-        /// коэффициент для н/о
-        /// </summary>
         public double Ratio;
+        public GradeEnum Grade;
+
+        // Явно объявленный конструктор
+        public MaterialObj(TypeWoodEnum typeWood, double widthMaterial, double heightMaterial, double longMaterial, double quantity, MaterialTypeEnum materialType, double price, double upRaise, double ratio, GradeEnum grade)
+        {
+            TypeWood = typeWood;
+            WidthMaterial = widthMaterial;
+            HeightMaterial = heightMaterial;
+            LongMaterial = longMaterial;
+            Quantity = quantity;
+            MaterialType = materialType;
+            Price = price;
+            UpRaise = upRaise;
+            Ratio = ratio;
+            Grade = grade;
+        }
+
+        public readonly double Cub
+        {
+            get
+            {
+                if (MaterialType == MaterialTypeEnum.Количество) return (WidthMaterial / 1000) * (HeightMaterial / 1000) * (LongMaterial / 1000);
+                else return Math.Round((WidthMaterial / 100) * (HeightMaterial / 100) * (LongMaterial / 100) * (Ratio / 100), 3);
+            }
+        }
+
+        public readonly float CubatureAll { get => (float)(Cub * Quantity); }
+        public readonly decimal Amount { get => (decimal)((Price + UpRaise) * CubatureAll); }
 
         public readonly string NameMaterial
         {
@@ -52,7 +60,7 @@ namespace RjProduction.Model.DocElement
                     else
                     {
                         return $"[{WidthMaterial} x {HeightMaterial} x {LongMaterial}]({TypeWood}) ";
-                    }
+                    }            
                 }
                 else return $"[{WidthMaterial} x {HeightMaterial} x {LongMaterial} x {Ratio}]* ";
             }
@@ -61,14 +69,12 @@ namespace RjProduction.Model.DocElement
         public readonly Products ToProducts()
         {
             string name_wood;
-            if (MaterialType == MaterialObj.MaterialTypeEnum.Количество)
+            if (MaterialType == MaterialTypeEnum.Количество)
             {
-                // обрезная доска
                 name_wood = NameMaterial;
             }
             else
             {
-                // тут н/о
                 if (TypeWood == TypeWoodEnum.Любой) name_wood = "Необрезная " + LongMaterial.ToString() + "метровый";
                 else name_wood = "Необрезная (" + TypeWood.ToString() + ")" + LongMaterial.ToString() + "метровый";
             }
@@ -88,15 +94,24 @@ namespace RjProduction.Model.DocElement
             Количество, Объем, none
         }
 
+        public enum GradeEnum
+        {
+            Нет, I, II, III, IV, I_II_III, I_II
+        }
+
         public override readonly string ToString()
         {
+            string g;
+            if (Grade == GradeEnum.Нет) g = "";
+            else g = Grade.ToString().Replace("_", ",");
+
             if (UpRaise == 0)
             {
-                return NameMaterial + " " + Math.Round(CubatureAll, 3) + "M3 " + Quantity + "шт. " + Price + "p. = " + Amount + "p.";
+                return NameMaterial + " " + g + " " + Math.Round(CubatureAll, 3) + "M3 " + Quantity + "шт. " + Price + "p. = " + Math.Round( Amount,2) + "p.";
             }
             else
             {
-                return NameMaterial + " " + Math.Round(CubatureAll, 3) + "M3 " + Quantity + "шт. " + Price + "p. (+" + UpRaise + ") = " + Amount + "p.";
+                return NameMaterial + " " + g + " " + Math.Round(CubatureAll, 3) + "M3 " + Quantity + "шт. " + Price + "p. (+" + UpRaise + ") = " + Math.Round(Amount, 2) + "p.";
             }
         }
 
@@ -112,5 +127,15 @@ namespace RjProduction.Model.DocElement
 
         public override readonly bool Equals([NotNullWhen(true)] object? obj) => base.Equals(obj);
         public override readonly int GetHashCode() => base.GetHashCode();
+
+        public DocRow ToDocRow(string grupname, string id_document) 
+        {                      
+            return new(id_document, grupname, string.Empty, NameMaterial, Price, Quantity, Amount, DocRow.Пиломатериалы, UpRaise, CubatureAll);
+        }
+
+        public void Send_DB(string id)
+        {
+          
+        }
     }
 }

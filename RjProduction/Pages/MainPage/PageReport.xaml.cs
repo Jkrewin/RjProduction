@@ -1,18 +1,25 @@
 ﻿using RjProduction.Model;
 using RjProduction.Model.DocElement;
 using RjProduction.XML;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using static RjProduction.MDL;
 
 namespace RjProduction.Pages
 {
+    /// <summary>
+    ///  SelectReport включает в себя сценарий генерации отчетов как метод в Report_Gen_тут отчет
+    /// в качестве делигата важен при объявление этой странице
+    /// </summary>
     public partial class PageReport : Page
     {
         private List<IDocMain>? _docs;
 
         public Action Report_Gen_МесячнаяЗарплата { get => () => Report_01(); }
         public Action Report_Gen_ВсеДниРабочих { get => () => ReportAllDay(); }
+        public Action Report_Gen_ДотставкаАвто { get => () => ReportAllTrack(); }
+              
         public Action? SelectReport;
 
         public PageReport() => InitializeComponent();
@@ -32,25 +39,78 @@ namespace RjProduction.Pages
             }
             return mon;
         }
-
-
-
+        
         private void ГенерироватьОтчет(object sender, RoutedEventArgs e)=> SelectReport?.Invoke();
-        private void ФокусМесяца(object sender, RoutedEventArgs e)=> RB_AllMon.IsChecked = true; 
+        private void ФокусМесяца(object sender, RoutedEventArgs e)=> RB_AllMon.IsChecked = true;
+
+        private void GetDocuments() {
+            _docs =  MDL.GetDocuments(DateTime.Now.Year, SetMonth(), DocCode.Производство_Cклад)!;
+            if (_docs == null || _docs.Count == 0)
+            {
+                Label_Error.Visibility = Visibility.Visible;
+                Label_Error.Content = "Соответствие с настройками отчета не было найдено документов или сведений по данный параметрам";
+                return ;
+            }          
+        }
+
+
+        private class RouteTrack {
+            public string Документ { get; private set; } = "";
+            public string Номер_Дата { get; private set; } = "";
+            public string Номер_Машины { get; private set; } = "";
+            public string Кубометров { get; private set; } = "";
+            public string Маршрут { get; private set; } = "";
+
+
+            public void FirstRow(IDocMain doc ) { 
+                Документ = doc.DocTitle ;
+                Номер_Дата = "№" + doc.Number + " " + doc.DataCreate;
+            }
+
+            public void SelectRow(GrupObj grup, Model.DocElement.Transportation truck)
+            {
+                Номер_Машины = truck.Transport.ToString();
+                Кубометров = grup.Cubature.ToString("F2");
+                Маршрут = truck.StartPlace.Label+ ">"+ truck.EndPlace.Label;
+            }
+
+        }
+
+        /// <summary>
+        /// Доставка  транспортом
+        /// </summary>
+        private void ReportAllTrack()
+        {
+            GetDocuments();
+            if (_docs == null || _docs.Count == 0) return;
+
+            Stack<RouteTrack> st = [];
+
+            foreach (var doc in _docs) {
+                RouteTrack r = new ();
+                r.FirstRow(doc);
+                foreach (var grup in doc.MainTabel)
+                {
+                    foreach (var tv in grup.Tabels) {
+                        if (tv is Model.DocElement.Transportation tr) {
+                            r.SelectRow(grup,tr);
+                            st.Push(r);
+                        }
+                    }
+                }
+            }
+
+            TabelListItem.ItemsSource = st;
+        }
 
         /// <summary>
         /// отчет за все дни
         /// </summary>
         private void ReportAllDay() {
-            _docs = MDL.GetDocuments(DateTime.Now.Year, SetMonth(),DocCode.Производство_Cклад)!;
-            if (_docs == null || _docs.Count == 0)
-            {
-                Label_Error.Visibility = Visibility.Visible;
-                Label_Error.Content = "Соответствие с настройками отчета не было найдено документов или сведений по данный параметрам";
-                return;
-            }
+            GetDocuments();
+            if (_docs == null || _docs.Count == 0) return;
 
-            MDL.HtmlReport report = new(AppDomain.CurrentDomain.BaseDirectory + @"Res\Html\Report_AllDay.htm");
+                MDL.HtmlReport report = new(AppDomain.CurrentDomain.BaseDirectory + @"Res\Html\Report_AllDay.htm");
             report.LoadValue(["heading", "mbody", "tabel", "row", "rowf", "final"]);
             report.AddText = report.DicHtml["heading"];
 
@@ -69,11 +129,11 @@ namespace RjProduction.Pages
                     report.AddText = str;
 
                     int i = 1;
-                    foreach (var tv2 in tv.Tabels)
+                    foreach (var tv2 in tv.Tabels)  
                     {
                         str = report.DicHtml["row"];
                         HtmlReport.SetValue("text_num", i.ToString(), ref str);
-                        HtmlReport.SetValue("text_sum", tv2.Amount.ToString(), ref str);
+                        HtmlReport.SetValue("text_sum", Math.Round(tv2.Amount,3).ToString(), ref str);
 
                         string text = "";
                         if (tv2 is Employee eml)
@@ -84,7 +144,7 @@ namespace RjProduction.Pages
                         else if (tv2 is MaterialObj m)
                         {
                             sum += m.CubatureAll;
-                            text = $"{m.HeightMaterial}x{m.WidthMaterial}x{m.LongMaterial} кол-во: {m.Quantity} = {Math.Round(m.CubatureAll, 3)} * {m.Price}p; {m.Amount}p.";
+                            text = $"{m.HeightMaterial}x{m.WidthMaterial}x{m.LongMaterial} кол-во: {m.Quantity} = {Math.Round(m.CubatureAll, 3)} * {m.Price}p; {Math.Round(m.Amount,3)}p.";
                         }
                         else if (tv2 is Tabel_Timbers tt)
                         {
@@ -111,13 +171,8 @@ namespace RjProduction.Pages
         /// зарплатный отчет
         /// </summary>
         private void Report_01() {
-             _docs= MDL.GetDocuments(DateTime.Now.Year, SetMonth(), DocCode.Производство_Cклад)!;
-            if (_docs == null || _docs.Count == 0)
-            {
-                Label_Error.Visibility = Visibility.Visible;
-                Label_Error.Content = "Соответствие с настройками отчета не было найдено документов или сведений по данный параметрам";
-                return;
-            }
+            GetDocuments();
+            if (_docs == null || _docs.Count == 0) return;
 
             // сборка сведений
             List<(DateOnly, string, decimal)> ls = [];

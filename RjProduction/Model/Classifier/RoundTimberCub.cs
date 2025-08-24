@@ -28,12 +28,12 @@ namespace RjProduction.Model.Classifier
         /// Поиск значение по диаметру бревна
         /// </summary>
         /// <param name="diametor">Диаметор бревна бревна</param>
-        /// <returns>0 - нет такого диаметра</returns>
+        /// <returns>-1 - нет такого диаметра</returns>
         public double DictionarySize(string diametor) {
             foreach (var row in Rows) { 
                 if (row.Diameter== diametor) return row.Value;
             }
-            return 0;
+            return -1;
         }
 
         public RoundTimberCub(double long_size , RowCub[] rows)

@@ -117,7 +117,7 @@ namespace RjProduction.Sql
                 if (field.GetValue(obj) is SqlFlat paramFlat) ls.AddRange(TitleDB_SqlFlat(paramFlat));
                 // Проверяем что это касификатор и добав. тoлько название
                 else if (field.GetValue(obj) is Sql.SqlParam.IClassifier cls) ls.Add(new(field.Name, TypeSQL("String")));
-                //
+                // id класс
                 else if (param is not null) ls.Add(new(field.Name, TypeSQL("Int32")));
                 // это поле исключетельно для ID в бд
                 else if (field.Name == nameof(SqlParam.ID)) ls.Insert(0, new("ID", TypeSQL("KEY_ID")));

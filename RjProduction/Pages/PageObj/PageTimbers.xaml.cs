@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using RjProduction.Model.DocElement;
 
 namespace RjProduction.Pages
@@ -29,8 +28,6 @@ namespace RjProduction.Pages
         private readonly Action<Tabel_Timbers> ActionOne;
         private readonly Action CloseAction;
         private List<Model.Classifier.RoundTimberCub> LSCubs = [];
-        
-
 
         public PageTimbers(Tabel_Timbers tabelTimbers, Action<Tabel_Timbers> actionOne, Action closeAction)
         {
@@ -68,6 +65,28 @@ namespace RjProduction.Pages
             InputTextBox.Focus();
             InputBoxAction = action;
         }
+        /// <summary>
+        /// Находит и расчитывает кубы на 1 бревно
+        /// </summary>
+        /// <param name="diametor"></param>
+        /// <returns></returns>
+        private double FindCubs(int diametor) {
+            var cubs = LSCubs.Find(x => x.Long == LongWood); // получем список всех диаметров
+            double dd = cubs.DictionarySize(diametor.ToString());
+            // подборка похожего диаметра для отсутствующего диатмера
+            if (dd == -1)     //измен dd % 2 != 0 & dd==0
+            {
+                var d1 = cubs.DictionarySize((diametor - 1).ToString());
+                var d2 = cubs.DictionarySize((diametor + 1).ToString());
+                if (d1 == 0 | d2 == 0)
+                {
+                    MessageBox.Show("Справочник не содержит такого диаметра " + diametor);
+                    return -1;
+                }
+                dd = (d1 + d2) / 2; // формула среднего куба
+            }
+            return dd;
+        }
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {           
@@ -92,13 +111,12 @@ namespace RjProduction.Pages
 
             DG_Cubs.CellEditEnding += ИзмененияВнесены;
             DG_Cubs.CurrentCellChanged += ЯчекаИзменена;
-                        
             var window = Window.GetWindow(this);
           // window.KeyDown += HandleKeyPress;
 
             Refreh_DG_Cubs();
         }
-               
+       
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
             InputBox.Visibility = Visibility.Collapsed;
@@ -147,20 +165,7 @@ namespace RjProduction.Pages
                     if (int.TryParse(InputTextBox.Text, out int d))
                     {
                         TmpTimber.Количество += d;
-                        var cubs = LSCubs.Find(x => x.Long == LongWood); // получем список всех диаметров
-                        double dd = cubs.DictionarySize (TmpTimber.Диаметр.ToString());
-                        // подборка похожего диаметра для нечетного числа
-                        if (d % 2 != 0 & dd==0)
-                        {
-                            var d1 = cubs.DictionarySize((TmpTimber.Диаметр - 1).ToString());
-                            var d2 = cubs.DictionarySize((TmpTimber.Диаметр + 1).ToString());
-                            if (d1 == 0 | d2 == 0) 
-                            {
-                                MessageBox.Show("Справочник не содержит такого диаметра " + TmpTimber.Диаметр);
-                                return;
-                            }
-                            dd = (d1 + d2) / 2; // формула среднего куба
-                        }
+                        var dd = FindCubs(TmpTimber.Диаметр);
                         TmpTimber.Куб_М = dd * TmpTimber.Количество;
                         // добавить если нет в списке 
                         if (_TabelTimbers.Timbers.Any(x=>x.Диаметр== TmpTimber.Диаметр & x.Длинна==LongWood)==false) _TabelTimbers.Timbers.Add(TmpTimber);
@@ -221,8 +226,8 @@ namespace RjProduction.Pages
                 {
                     MessageBox.Show("Справочник не содержит такой длинны");
                     goto end;
-                }
-                var s = LSCubs.Find(x => x.Long == LongWood).DictionarySize(EndEdit.Диаметр.ToString());
+                }               
+                var s = FindCubs(EndEdit.Диаметр);
                 if (s == 0)
                 {
                     MessageBox.Show("Справочник не содержит такого диаметра");
@@ -242,7 +247,7 @@ namespace RjProduction.Pages
         {           
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                EndEdit = e.Row.Item as Tabel_Timbers.Timber;               
+                EndEdit = e.Row.Item as Tabel_Timbers.Timber;                
             }
         }
 
@@ -280,6 +285,14 @@ namespace RjProduction.Pages
         private void ИзменениеТекстаПоле(object sender, TextChangedEventArgs e)
         {
             if (InputTextBox.Text =="+") InputTextBox.Text = "";
+        }
+
+        private void НажатиеКлавишТаблице(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                DG_Cubs.CommitEdit(DataGridEditingUnit.Row, true);
+            }
         }
     }
 }

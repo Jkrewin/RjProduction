@@ -12,7 +12,8 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="80"/>
             <RowDefinition Height="33"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="284*"/>
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
         <Grid>
             <Rectangle VerticalAlignment="Bottom" Height="5">
@@ -33,7 +34,7 @@
             </Rectangle>
             <Label Content="Наличие остатков на складе" HorizontalAlignment="Left" Margin="31,-2,0,0" VerticalAlignment="Top" FontFamily="Dubai" FontWeight="Bold" FontSize="20" Foreground="#FF0013A7"/>
         </Grid>
-        <Grid Grid.Row="1" Background="White" HorizontalAlignment="Left">
+        <Grid x:Name="GridTop" Grid.Row="1" Background="White" HorizontalAlignment="Left">
             <Label Content="Создать документ:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,0,0,46" VerticalAlignment="Bottom" Width="202" FontSize="14" FontFamily="Arial Black" Background="White" BorderBrush="White" Height="30" Foreground="#FF565656" FontWeight="Bold"/>
             <ComboBox x:Name="ComboBox_Doc" HorizontalAlignment="Left" Margin="175,0,0,50" VerticalAlignment="Bottom" Width="283" FontFamily="Arial" FontSize="14" Height="24" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"></ComboBox>
             <Label Content="Выбранно строк:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="10,0,0,22" VerticalAlignment="Bottom" Width="145" FontFamily="Arial" Background="White" BorderBrush="White" Height="25" Foreground="#FF565656" FontWeight="Bold" FontSize="11" Padding="5,2,5,5"/>
@@ -73,134 +74,117 @@
                 <TextBox HorizontalAlignment="Left" Margin="75,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="230" FontSize="16" Background="#FFFFFCE9" FontFamily="Calibri" TextChanged="Поиск"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="3" Background="White">
+        <Grid Grid.Row="3" Background="White" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="264*"/>
                 <RowDefinition Height="19*"/>
             </Grid.RowDefinitions>
-            <Grid>
-                <DataGrid x:Name="DG_Main" Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" ScrollViewer.VerticalScrollBarVisibility="Hidden" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,0,0,-26" >
-                    <DataGrid.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+            <Grid x:Name="GridA" Height="800" >
+                <DataGrid x:Name="DG_Main"  Visibility="Visible"  AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,0,0,-26" SelectionChanged="DG_Main_SelectionChanged" VerticalAlignment="Top" >
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                             Color="#FFAACAFE"/>
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Наименование" Width="300"   >
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding NameItem}"  FontWeight="Normal" FontFamily="Calibri" HorizontalAlignment="Stretch" FontSize="14"  />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Тип дерева" Width="100">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding TypeWood}" FontFamily="Arial" VerticalContentAlignment="Center"  />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Куботура" Width="100">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding Cubature}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Наименование" Width="300"   >
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding NameItem}"  FontWeight="Normal" FontFamily="Calibri" HorizontalAlignment="Stretch" FontSize="14"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Тип дерева" Width="100">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding TypeWood}" FontFamily="Arial" VerticalContentAlignment="Center"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Куботура" Width="100">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Cubature}" HorizontalAlignment="Stretch" FontFamily="Arial Black" FontSize="12" VerticalContentAlignment="Center"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn Header="Значение" Width="70" CanUserResize="False">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Width="70" Foreground="White" Background="#FF3D8F18" Content="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="14" Click="ВыбратьЗнак">
-                                        <Button.Resources>
-                                            <Style TargetType="{x:Type Border}">
-                                                <Setter Property="CornerRadius" Value="3"/>
-                                            </Style>
-                                        </Button.Resources>
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Кубы" Width="50">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox x:Name="TextCubs" MaxLength="4" Text="{Binding Selected_Cubature}" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" LostFocus="ОбновитьТекстКубах"    />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Шт" Width="50">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox x:Name="TextQ" Text="{Binding Piece}"  MaxLength="5" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновленКоличест"  />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Остаток" Width="80">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label  Content="{Binding Result}" FontFamily="Arial" VerticalContentAlignment="Center" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Значение" Width="70" CanUserResize="False">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Width="70" Foreground="White" Background="#FF3D8F18" Content="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="14" Click="ВыбратьЗнак">
+                                    <Button.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="3"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Кубы" Width="50">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox x:Name="TextCubs" MaxLength="4" Text="{Binding Selected_Cubature}" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" LostFocus="ОбновитьТекстКубах"    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Шт" Width="50">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox x:Name="TextQ" Text="{Binding Piece}"  MaxLength="5" FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="NaN" TextChanged="ТекстОбновленКоличест"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Остаток" Width="80">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label  Content="{Binding Result}" FontFamily="Arial" VerticalContentAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-
-
         </Grid>
 
 
 
-        <Grid x:Name="DockPanel_РамкаДокумента"  Visibility="Collapsed" Grid.RowSpan="4" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False"  >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*"/>
-                <ColumnDefinition Width="750"/>
-            </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.3"/>
-                </Grid.Background>
-            </Grid>
-            <Grid   Background="White" Grid.Column="1">
-                <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-
-            </Grid>
-        </Grid>
         <Label x:Name="Label_NotDB" Visibility="Hidden" Content="   (!) Нет подключения к БД. Проверте настройки" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="525" Background="#FFCB0C0C" Foreground="White" VerticalContentAlignment="Center" FontSize="14" BorderBrush="#FF710606"/>
 
 

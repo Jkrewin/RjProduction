@@ -54,6 +54,24 @@ namespace RjProduction
         /// </summary>
         [XmlIgnore] static public List<WpfView> AllWpfViewWin { get; set; } = [];
 
+
+        /// <summary>
+        /// Управляет страницами основного фрейма добавить
+        /// </summary>
+        static public void Organizer_Frame_Add(Page page)
+        {
+            if (MainWindow is null) return;
+            MainWindow.OrganizerShowPage(page);
+        }
+        /// <summary>
+        /// Управляет страницами основного фрейма удалить
+        /// </summary>
+        static public void Organizer_Frame_Delete()
+        {
+            if (MainWindow is null) return;
+            MainWindow.OrganizerClose();
+        }
+
         public static void LogError(string mess, string error_text = "")
         {
             var t = new WpfFrm.ErrorLog(mess, error_text);
@@ -219,7 +237,8 @@ namespace RjProduction
             foreach (var item in obj.GetType().GetProperties())
             {
                 var t = page.FindName(item.Name);
-                if (t is TextBox text) {
+                if (t is TextBox text)
+                {
                     var o = item.GetValue(obj);
                     if (o is not null) text.Text = o.ToString();
                     else text.Text = string.Empty;
@@ -239,12 +258,12 @@ namespace RjProduction
                     else checkBox.IsChecked = false;
                 }
             }
-        }       
+        }
         /// <summary>
         /// Выгружает страницу или форму на нужный класс заполняе его. Выгружает страницу или форму на нужный класс заполняе только для SqlParam наслединков 
         /// </summary>
-        static public T ExportFromWpf<T>(FrameworkElement page, T obj)  where T : SqlParam
-        {          
+        static public T ExportFromWpf<T>(FrameworkElement page, T obj) where T : SqlParam
+        {
             foreach (var property in obj!.GetType().GetProperties())
             {
                 if (property.CanWrite == false) continue;
@@ -307,7 +326,7 @@ namespace RjProduction
         /// <returns>решение если с ошибками будет возрат прошлой строки</returns>
         public static string Calculator(TextBox txtbox)
         {
-           string txt = txtbox.Text.Replace(" ", "");
+            string txt = txtbox.Text.Replace(" ", "");
             // Поддерживаемые операторы
             char[] value = ['+', '-', '*', '/'];
             char[] operators = value;
@@ -358,7 +377,8 @@ namespace RjProduction
         /// </summary>
         /// <param name="dataCreate">дата</param>
         /// <returns>полный путь </returns>
-        public static string XmlPatch(DateOnly dataCreate) {
+        public static string XmlPatch(DateOnly dataCreate)
+        {
             string sFile = AppDomain.CurrentDomain.BaseDirectory + "xmldocs\\";
             sFile += dataCreate.Year.ToString();
             if (!File.Exists(sFile)) Directory.CreateDirectory(sFile);
@@ -373,7 +393,7 @@ namespace RjProduction
         public static void Refreh_AllWpfView()
         {
             if (MainWindow is null) return;
-            if (AllWpfViewWin.Count == 0)
+            if (AllWpfViewWin.Count == 0 & MainWindow.Pages .Count==0)
             {
                 MainWindow.StBar.Visibility = Visibility.Collapsed;
                 MainWindow.MainGrind.RowDefinitions[1].Height = new GridLength(1);
@@ -392,7 +412,7 @@ namespace RjProduction
                 {
                     Content = item.Title,
                     Width = 100,
-                    Height=25,
+                    Height = 25,
                     MaxWidth = 100,
                     Tag = item,
                     FontSize = 10,
@@ -404,22 +424,54 @@ namespace RjProduction
                 MainWindow.StBar.Children.Add(b);
             }
 
+            foreach (var page in MainWindow.Pages)
+            {
+                var b = new Button()
+                {
+                    Content = string.Concat("Документ ", page.GetHashCode().ToString().AsSpan(0, 3)), 
+                    ToolTip= page.Title,
+                    Width = 90,
+                    Height = 25,
+                    MaxWidth = 100,
+                    Tag = page,
+                    FontSize = 12,
+                    Margin = new Thickness(5,0,0,0),
+                    Background = null,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                    FontFamily = new FontFamily("Calibri"),
+                    BorderBrush =null,
+                    FontWeight = FontWeights.Normal
+                };
+                b.Click += Page_Click;
+                MainWindow.StBar.Children.Add(b);
+            }
+
             foreach (var item in MainWindow.StBar.Children)
             {
                 if (item is Button button)
                 {
-                    if (((WpfView)button.Tag).Focus()) {
-                        button .FontWeight = FontWeights.Bold;
+                    if (button.Tag is WpfView w)
+                    {
+                       if ( w.Focus()) button.FontWeight = FontWeights.Bold;
                     }
                 }
             }
+        }
+
+        private static void Page_Click(object sender, RoutedEventArgs e)
+        {
+            Page? page = ((Button)sender).Tag as Page;
+            MainWindow!.OrganizerShowPage(page!);
         }
 
         /// <summary>
         /// Добавить сообщение нотификации 
         /// </summary>
         /// <param name="msg">Текст сообщения</param>
-        public static void AddNotification(string msg) => MainWindow?.AddNotification( new NotifMessage(msg));
+        public static void AddNotification(string msg) => MainWindow?.AddNotification(new NotifMessage(msg));
 
         private static void Item_Activated(object? sender, EventArgs e)
         {
@@ -473,9 +525,10 @@ namespace RjProduction
         /// <summary>
         /// Сохранить настройки приложения
         /// </summary>
-        static public void SaveSettingApp() {
+        static public void SaveSettingApp()
+        {
             MDL.SaveXml<MDL.SettingAppClass>(MDL.SetApp, MDL.SetApp.SetFile);
-        }                
+        }
 
 
 
@@ -485,7 +538,7 @@ namespace RjProduction
         /// </summary>
         public class HtmlReport(string sFile)
         {
-            private readonly string SFile = sFile;           
+            private readonly string SFile = sFile;
             private readonly StringBuilder _text = new("");
 
             /// <summary>
@@ -512,7 +565,8 @@ namespace RjProduction
             /// <code>new string[] { "", "" }</code>
             /// </summary>
             /// <param name="strings"></param>
-            public void LoadValue(string[] strings ) {              
+            public void LoadValue(string[] strings)
+            {
                 if (!File.Exists(SFile))
                 {
                     MessageBox.Show("Файл не найден !");
@@ -522,7 +576,7 @@ namespace RjProduction
                 foreach (var item in strings)
                 {
                     DicHtml.Add(item, CutText(item, html));
-                }               
+                }
             }
 
             /// <summary>
@@ -531,7 +585,8 @@ namespace RjProduction
             /// </summary>
             public static void SetValue(string name, string value, ref string text) => text = text.Replace("$" + name + "$", value);
 
-            public string SetValueArr(string name, string value, string valueArr) {
+            public string SetValueArr(string name, string value, string valueArr)
+            {
                 return ValueArr[valueArr].Replace("$" + name + "$", value);
             }
             /// <summary>
@@ -567,7 +622,8 @@ namespace RjProduction
             /// <summary>
             /// Показать собранный отчет
             /// </summary>
-            public void OpenReport() {
+            public void OpenReport()
+            {
                 string endFile = AppDomain.CurrentDomain.BaseDirectory + @"Res\Отчет.html";
                 File.WriteAllText(endFile, _text.ToString(), System.Text.Encoding.Default);
                 Process.Start(new ProcessStartInfo(endFile) { UseShellExecute = true });
@@ -669,12 +725,13 @@ namespace RjProduction
                 /// Поиск существующей строки сравнение из ToString() метода
                 /// </summary>
                 /// <returns>true - есть вариация такой строки</returns>
-                public bool ExistItem(string str) {
+                public bool ExistItem(string str)
+                {
                     foreach (var item in ListCatalog)
                     {
                         if (string.IsNullOrEmpty(item!.ToString())) continue;
                         else if (str.ToLower().Trim() == item.ToString()!.ToLower().Trim()) return true;
-                    }     
+                    }
                     return false;
                 }
             }
@@ -687,8 +744,8 @@ namespace RjProduction
         {
             public readonly string SetFile = AppDomain.CurrentDomain.BaseDirectory + @"Data\Setting_App.xml";
 
-            public string LocalDir ;
-            public string DataBaseFile ;
+            public string LocalDir;
+            public string DataBaseFile;
             public int SqlType = (int)ISqlProfile.TypeSqlConnection.none;
 
             /// <summary>
@@ -741,13 +798,14 @@ namespace RjProduction
             /// Имя пользователя 
             /// </summary>
             public string UserName { get; set; } = "TestApp";
-           
+
         }
 
         /// <summary>
         /// Иконка сообщения нотификации 
         /// </summary>
-        public class NotifMessage {
+        public class NotifMessage
+        {
             private readonly Grid MyGrid;
             private readonly Label TitelSimbol;
             private readonly ProgressBar PBar;
@@ -800,7 +858,7 @@ namespace RjProduction
                     Tag = this,
                     Background = null,
                     Content = MyGrid,
-                    ToolTip=Msg
+                    ToolTip = Msg
                 };
             }
 

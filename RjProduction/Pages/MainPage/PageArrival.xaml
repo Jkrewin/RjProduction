@@ -67,15 +67,28 @@
             <Grid VerticalAlignment="Bottom" Grid.Column="1" Margin="63,0,0,45" Height="129" RenderTransformOrigin="0.5,0.5">
                 <RadioButton x:Name="Ration_now" Content="Текущий Период" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" IsChecked="True" Checked="ВыборТекущаяДата"/>
                 <RadioButton Content="" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Checked="ВыборДата"/>
-                <DatePicker x:Name="DP_DataNow" HorizontalAlignment="Left" Margin="34,88,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Width="134" IsEnabled="False" CalendarClosed="ВыходИзДаты" IsDropDownOpen="False">
-                    <DatePicker.Resources>
-                        <Style TargetType="DatePickerTextBox">
-                            <Setter Property="IsReadOnly" Value="True"/>
-                        </Style>
-                    </DatePicker.Resources>
-                </DatePicker>
+               
+                <Grid x:Name="DPDataNow"  HorizontalAlignment="Left" Margin="34,88,0,0" VerticalAlignment="Top" Width="153" IsEnabled="False" Height="25">
+                    <ComboBox x:Name="MonMonf" Margin="0,0,60,0" FontSize="14" SelectionChanged="ВыборДатыИлиГода">
+                        <TextBlock>Январь</TextBlock>
+                        <TextBlock>Февраль</TextBlock>
+                        <TextBlock>Март</TextBlock>
+                        <TextBlock>Апрель</TextBlock>
+                        <TextBlock>Май</TextBlock>
+                        <TextBlock>Июнь</TextBlock>
+                        <TextBlock>Июль</TextBlock>
+                        <TextBlock>Август</TextBlock>
+                        <TextBlock>Сентябрь</TextBlock>
+                        <TextBlock>Октябрь</TextBlock>
+                        <TextBlock>Ноябрь</TextBlock>
+                        <TextBlock>Декабрь</TextBlock>                        
+                    </ComboBox>
+                    <ComboBox x:Name="MonYears" Margin="93,0,0,0" FontSize="14" SelectionChanged="ВыборДатыИлиГода"/>
+                </Grid>
+
                 <Label Content="Тип документа:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="300,83,0,0" VerticalAlignment="Top" Width="152" FontSize="14" FontFamily="Arial"  BorderBrush="White" Height="30" Foreground="Black"/>
                 <ComboBox x:Name="MainComboBox" HorizontalAlignment="Left" Margin="420,83,0,0" VerticalAlignment="Top" Width="283" FontFamily="Arial" FontSize="14" Height="26" VerticalContentAlignment="Center" FontWeight="Bold" SelectionChanged="ВыбраннаСтрока"/>
+               
 
 
             </Grid>
@@ -173,22 +186,6 @@
             <Grid Margin="0,0,36,0"/>
         </Grid>
 
-        <Grid x:Name="DockPanel_РамкаДокумента"  Visibility="Collapsed" Grid.RowSpan="3" ScrollViewer.VerticalScrollBarVisibility="Disabled" UseLayoutRounding="False"  >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*"/>
-                <ColumnDefinition Width="750"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid>
-                <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.3"/>
-                </Grid.Background>
-            </Grid>
-            <Grid   Background="White" Grid.Column="1">
-                <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" LoadCompleted="ПолучениеСтраници"/>
-
-            </Grid>
-        </Grid>
 
     </Grid>
 </Page>

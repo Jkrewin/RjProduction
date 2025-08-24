@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RjProduction.WpfFrm"
         mc:Ignorable="d"
-        Title="Сообщение об ошибке" Height="426" Width="654" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Сообщение об ошибке" Height="455" Width="707" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Background="#FFCCD5F0" Margin="0,0,0,6">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -24,7 +24,7 @@
         <Label Content="Описание ошибки" HorizontalAlignment="Left" Height="28" Margin="28,235,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126" FontSize="14" FontFamily="Calibri"/>
         <TextBox x:Name="TextAnswer" HorizontalAlignment="Left" Margin="154,239,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="470" FontFamily="Calibri" FontSize="14"/>
         <Label Content="&#xE7BA;" HorizontalAlignment="Left" Height="54" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="48" FontSize="36" FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFBE3838"/>
-        <Rectangle Grid.Row="2" Stroke="#FF5D6B99" Fill="#FF7182B9" Margin="0,0,1,-14" RenderTransformOrigin="0.5,0.5">
+        <Rectangle Grid.Row="2" Stroke="#FF5D6B99" Fill="#FF7182B9" Margin="0,0,1,-14" RenderTransformOrigin="0.5,0.5" Height="40">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -34,8 +34,8 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Button Content="Отправить" HorizontalAlignment="Left" Margin="360,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Отправить"/>
-        <Button Content="Закрыть Окно" HorizontalAlignment="Left" Margin="514,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Закрыть"/>
+        <Button Content="Отправить" HorizontalAlignment="Left" Margin="361,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Отправить"/>
+        <Button Content="Закрыть Окно" HorizontalAlignment="Left" Margin="515,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="128" Height="25" Foreground="#FFEDE8E8" Background="#FF3B4F81" FontSize="14" FontFamily="Arial" Click="Закрыть"/>
         <Button Content="Добавить информацию об подключении" Margin="27,265,375,38" Grid.Row="1"  Height="25"  MinHeight="25" Background="{x:Null}" Foreground="#FF3D0000" Click="ИнфПодключение"/>
         <Button Content="Копировать ошибку" Margin="326,265,191,38" Grid.Row="1"  Height="25"  MinHeight="25" Background="{x:Null}" Foreground="#FF3D0000" Click="КопированиеОшибки"/>
     </Grid>

@@ -4,7 +4,7 @@ using RjProduction.Sql;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -166,6 +166,7 @@ namespace RjProduction.Pages.Additions
 
         private void Загрузка(object sender, RoutedEventArgs e)
         {
+            
             List<string> ls =  [nameof(DocCode.Просмотор_остатков), 
                                 nameof(DocCode.Перемещение_По_Складам), 
                                 nameof(DocCode.Продажи),    
@@ -197,7 +198,7 @@ namespace RjProduction.Pages.Additions
 
                 DG_Main.ItemsSource = _db;
             }
-
+            
         }
 
         private void ВыбраннаСтрока(object sender, SelectionChangedEventArgs e)
@@ -213,9 +214,9 @@ namespace RjProduction.Pages.Additions
                     {
                         if (First_Const(out List<GrupObj> tabel))
                         {
-                            var page = new Pages.Doc.PageShipments(new XML.DocShipments() { DocTitle = "Выравнивание Остатков", Number = MDL.MyDataBase.NumberDef + 1, MainTabel = tabel }, DockPanel_РамкаДокумента, Close_action);
-                            DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
-                            FrameDisplay.Navigate(page);
+                            var page = new Pages.Doc.PageShipments(new XML.DocShipments() { DocTitle = "Выравнивание Остатков", Number = MDL.MyDataBase.NumberDef + 1, MainTabel = tabel }, Close_action);
+                            page.Title = "Выравнивание остатков (новый)" ;
+                            MDL.Organizer_Frame_Add(page);
                         }
                     };
                     break;
@@ -246,9 +247,11 @@ namespace RjProduction.Pages.Additions
                         {
                             if (First_Const(out List<GrupObj> tabel))
                             {
-                                var page = new Pages.Doc.PageShipments(new XML.DocMoving() { DocTitle = "Со склада на склад", Number = MDL.MyDataBase.NumberDef + 1, MainTabel = tabel, Warehouse_From = warehouse }, DockPanel_РамкаДокумента, Close_action);
-                                DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
-                                FrameDisplay.Navigate(page);
+                                var page = new Pages.Doc.PageShipments(new XML.DocMoving() { DocTitle = "Со склада на склад", Number = MDL.MyDataBase.NumberDef + 1, MainTabel = tabel, Warehouse_From = warehouse }, Close_action)
+                                {
+                                    Title = "Со склада на склад (новый)"
+                                };
+                                MDL.Organizer_Frame_Add(page);
                             }
                         }
                     };
@@ -267,9 +270,11 @@ namespace RjProduction.Pages.Additions
                                 DocTitle = "Продажа продукции",
                                 Number = MDL.MyDataBase.NumberDef + 1,
                                 MainTabel = tabel
-                            }, DockPanel_РамкаДокумента, Close_action);
-                            DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
-                            FrameDisplay.Navigate(page);
+                            }, Close_action)
+                            {
+                                Title = "Продажа продукции"
+                            };
+                            MDL.Organizer_Frame_Add(page);
                         }
                     };
                     break;
@@ -285,9 +290,9 @@ namespace RjProduction.Pages.Additions
                                 Warehouse = (WarehouseClass)MainComboBox.SelectedItem,
                                 DocTitle = "Списание товара", 
                                 Number = MDL.MyDataBase.NumberDef + 1, 
-                                MainTabel = tabel }, DockPanel_РамкаДокумента, Close_action);
-                            DockPanel_РамкаДокумента.Visibility = Visibility.Visible;
-                            FrameDisplay.Navigate(page);
+                                MainTabel = tabel }, Close_action);
+                            page.Title = "Списание товара (новый)";
+                            MDL.Organizer_Frame_Add(page);
                         }
                     };
                     break;
@@ -326,7 +331,7 @@ namespace RjProduction.Pages.Additions
         /// </summary>
         private void Close_action()
         {
-            DockPanel_РамкаДокумента.Visibility = Visibility.Collapsed;
+            MDL.Organizer_Frame_Delete();
             ProdData = SqlRequest.GetDataTable(nameof(Products)); // обновить данные
             ВыбраннаСтрокаДляСклада(null!, null!);
         }
@@ -480,6 +485,11 @@ namespace RjProduction.Pages.Additions
                 }
                 ВыбраннаСтрока(null!, null!);
             }
+        }
+
+        private void DG_Main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

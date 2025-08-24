@@ -69,7 +69,7 @@ namespace RjProduction.XML
                         else if (tv is MaterialObj m) grup.Materials.Add(m);
                         else if (tv is Surcharges s) grup.Surcharges.Add(s);
                         else if (tv is Pseudonym p) grup.Pseudonyms.Add(p);
-                        else if (tv is TransportPart t) grup.Tracks.Add(t);
+                        else if (tv is Transportation t) grup.Tracks.Add(t);
                         else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString());
                     }
                     g.Add(grup);
@@ -180,7 +180,7 @@ namespace RjProduction.XML
             public List<MaterialObj> Materials = [];
             public List<Surcharges> Surcharges = [];
             public List<Pseudonym> Pseudonyms = [];
-            public List<Model.Catalog.TransportPart> Tracks = [];
+            public List<Transportation> Tracks = [];
 
         }
     }

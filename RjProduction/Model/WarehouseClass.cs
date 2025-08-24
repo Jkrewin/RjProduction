@@ -14,13 +14,15 @@ namespace RjProduction.Model
         private string _SyncData = "";
         private string _NameWarehouse = "Новый склад";
         private string _DescriptionWarehouse = string.Empty;
-        private AddresStruct _InfoWarehouse = new ();
+        private AddresStruct _InfoWarehouse;
 
         private static string GetDate() => DateTime.Now.TimeOfDay.ToString();
 
         public string NameWarehouse { get => _NameWarehouse; set { _NameWarehouse = value; _SyncData = GetDate(); } }
         public string DescriptionWarehouse { get => _DescriptionWarehouse; set { _DescriptionWarehouse = value; SyncData = GetDate(); } }
-        [SqlIgnore]public AddresStruct InfoWarehouse { get => _InfoWarehouse; set { _InfoWarehouse = value; SyncData = GetDate(); } }
+        [SqlIgnore]public AddresStruct InfoWarehouse { 
+            get => new AddresStruct(AddressWarehouse, EMailWarehouse, PhoneWarehouse, _NameWarehouse + ": "+ AddressWarehouse); 
+            set { _InfoWarehouse = value; SyncData = GetDate(); } }
         /// <summary>
         /// Синхронизирует справочники если были изменения с общей БД, так как локально могут храниться эта инфа
         /// </summary>
@@ -43,7 +45,7 @@ namespace RjProduction.Model
             if (dataRow.Table.Columns.Contains(nameof(SyncData))) _SyncData = dataRow[nameof(SyncData)].ToString()!;
         }
 
-        /// <summary>
+        /// <summary>a
         /// Синхронизирует склад с внешней БД и локальной
         /// </summary>
         public void SyncClass() {
