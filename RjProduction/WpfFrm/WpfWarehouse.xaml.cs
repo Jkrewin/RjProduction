@@ -118,7 +118,7 @@ namespace RjProduction.WpfFrm
 
         private void Синхронизация(object sender, RoutedEventArgs e)
         {           
-            var ls = Sql.SqlRequest.ReadСollection<WarehouseClass>(nameof(WarehouseClass), nameof(WarehouseClass.ActiveObjIsDelete) + "='0'");
+            var ls = Sql.SqlRequest.ReadСollection<WarehouseClass>( nameof(WarehouseClass.ActiveObjIsDelete) + "='0'");
             if (ls is null) return;
             foreach (var item in ls)
             {

@@ -28,7 +28,7 @@ namespace RjProduction.Model.DocElement
             }
         }
 
-        public void Send_DB(string id)
+        public void Send_DB(IDocMain doc, GrupObj grp)
         {
            
         }

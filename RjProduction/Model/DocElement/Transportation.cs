@@ -1,5 +1,6 @@
 ﻿
 using RjProduction.Sql;
+using System.Xml.Serialization;
 
 namespace RjProduction.Model.DocElement
 {
@@ -24,6 +25,10 @@ namespace RjProduction.Model.DocElement
         /// Дата транспортировки
         /// </summary>
         public required DateOnly Date { get; set; }
+        /// <summary>
+        /// Только для xml сохраняет дату / DateOnly тут не работает
+        /// </summary>
+        [SqlIgnore, XmlElement] public DateTime XmlDate { get => Date.ToDateTime(TimeOnly.MinValue); set { Date = DateOnly.FromDateTime(value); } }
 
         public  float CubatureAll => 0;
         public  decimal Amount => 0;
@@ -39,12 +44,14 @@ namespace RjProduction.Model.DocElement
 
         public override string ToString()=> Transport.ToString() +" " + StartPlace.Label +">"+ EndPlace.Label;
 
-        public void Send_DB(string id_doc)
+        public void Send_DB(IDocMain doc, GrupObj obj )
         {
-            DeliveryWoods delivery = new(this, id_doc) ;
+            DeliveryWoods delivery = new(this, doc.ID_Doc) ;
+            delivery .Cubature =  ((float)obj.Cubature);
+            delivery.Summ = obj.Amount;
             if (MDL.SqlProfile != null)
             {
-                var id = SqlRequest.ExistRecord<DeliveryWoods>(new ISqlProfile.FieldSql("IDdoc", id_doc));
+                var id = SqlRequest.ExistRecord<DeliveryWoods>(new ISqlProfile.FieldSql("IDdoc", doc.ID_Doc));
                 if (id == -1)
                 {
                     SqlRequest.SetData(delivery);

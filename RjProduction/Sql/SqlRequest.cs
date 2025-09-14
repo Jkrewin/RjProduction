@@ -154,15 +154,18 @@ namespace RjProduction.Sql
         /// <param name="where">критерии поиска</param>
         /// <param name="_lock">блокировка (осторожно: можно заблокировать много записей !)</param>
         /// <returns></returns>
-        public static List<T>? ReadСollection<T>(string tabelName, string where, bool _lock = false) where T : SqlParam
+        public static List<T>? ReadСollection<T>(string where, bool _lock = false) where T : SqlParam
         {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
             List<T> list = [];
+
+            T obj = Activator.CreateInstance<T>();
+
             sqlProfile.Conection();
             try
             {
-                var ls = sqlProfile.GetFieldSql(where, tabelName, "*");
+                var ls = sqlProfile.GetFieldSql(where, obj.TabelName, "*");
                 foreach (var item in ls)
                 {
                     list.Add((T)Integrator(Activator.CreateInstance<T>()!, item, _lock));

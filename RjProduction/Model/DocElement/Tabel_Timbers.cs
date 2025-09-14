@@ -20,13 +20,8 @@ namespace RjProduction.Model.DocElement
         public float CubatureAll { get => (float)Timbers.Sum(x => x.Куб_М); }
         public double UpRaise { get; set; }
         public TypeWoodEnum TypeWood { get; set; } = TypeWoodEnum.Любой;
-
-        public void Send_DB()
-        {
-           
-        }
-
-        public void Send_DB(string id_doc)
+               
+        public void Send_DB(IDocMain doc, GrupObj grp)
         {
            
         }

@@ -15,7 +15,8 @@ namespace RjProduction.Pages
         private readonly Transportation _transport;
         private Action<Transportation> ActionOne;
         private MDL.Reference.Catalog<TransportPart> Catalog = new ();
-        private AddresStruct? Adress_From;
+        private AddresStruct? Adress_From; // Допускаеться адрес куда доставка
+
 
         public PageTrack(Transportation transport, Action<Transportation> actionOne, Action closeAction)
         {
@@ -100,7 +101,7 @@ namespace RjProduction.Pages
                 Catalog.SaveData();
                 Refreh_Carlist();
             }
-
+            _transport.Date = DateOnly.FromDateTime (Date.SelectedDate!.Value);
             ActionOne(_transport);
             CloseAction();
         }
@@ -163,12 +164,26 @@ namespace RjProduction.Pages
         {
             ErrorLabel.Visibility = Visibility.Collapsed;
             Refreh_Carlist();
-            if (Adress_From.HasValue) // по умолчанию куда 
+            Date.SelectedDate = _transport.XmlDate;
+            if (Adress_From.HasValue) //  Допускаеться адрес куда доставка
             {
-                _transport.StartPlace = Adress_From.Value;
-                Tbox_AddresTo.Text = _transport.EndPlace.ToString();
+                _transport.EndPlace = Adress_From.Value;
+                Tbox_AddresFrom.Text = _transport.StartPlace.Label;
+                Tbox_AddresFrom.ToolTip = "Телефон: " + _transport.EndPlace.Phone + " Почта: " + _transport.EndPlace.Email;
+                Tbox_AddresTo.Text = _transport.EndPlace.Label;
                 Tbox_AddresTo.ToolTip = "Телефон: " + _transport.EndPlace.Phone + " Почта: " + _transport.EndPlace.Email;
                 ButtonTo.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Tbox_AddresFrom.Text = _transport.StartPlace.Label;
+                Tbox_AddresFrom.ToolTip = "Телефон: " + _transport.EndPlace.Phone + " Почта: " + _transport.EndPlace.Email;
+                Tbox_AddresTo.Text = _transport.EndPlace.Label;
+                Tbox_AddresTo.ToolTip = "Телефон: " + _transport.EndPlace.Phone + " Почта: " + _transport.EndPlace.Email;
+            }
+            if (Catalog.ListCatalog.Any(x => x.CarNumber == _transport.Transport.CarNumber & _transport.Transport.TrailerNumber == x.TrailerNumber))
+            {
+                CarSelect(new DeliveredStruct(_transport.Transport.CarNumber + " " + _transport.Transport.CarLabel, _transport.Transport));
             }
         }
 
@@ -192,14 +207,18 @@ namespace RjProduction.Pages
         {
             if (CarList.SelectedValue is DeliveredStruct dl)
             {
-                Model.Catalog.TruckClass truck = (TruckClass)dl.Obj!;
-                TrailerNumber.Text = truck.TrailerNumber;
-                CarNumber.Text = truck.CarNumber;
-                CarLabel.Text = truck.CarLabel;
-                TrailerLabel.Text = truck.TrailerLabel;
-                _transport.Transport.CargoCarriers = truck.CargoCarriers;
-                TBox_Company.Text = truck.CargoCarriers?.ShortName;
+                CarSelect(dl);
             }
+        }
+
+        private void CarSelect(DeliveredStruct dl) {
+            Model.Catalog.TruckClass truck = (TruckClass)dl.Obj!;
+            TrailerNumber.Text = truck.TrailerNumber;
+            CarNumber.Text = truck.CarNumber;
+            CarLabel.Text = truck.CarLabel;
+            TrailerLabel.Text = truck.TrailerLabel;
+            _transport.Transport.CargoCarriers = truck.CargoCarriers;
+            TBox_Company.Text = truck.CargoCarriers?.ShortName;
         }
     }
 }

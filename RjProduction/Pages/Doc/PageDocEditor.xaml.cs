@@ -197,6 +197,7 @@ namespace RjProduction.Pages
             }
             else if (doc is Transportation track)
             {
+               if (track.Date == new DateOnly()) track.Date = MyDoc.DataCreate;
                 _obj = new PageTrack(track, actor, close, MyDoc.Warehouse.InfoWarehouse);
                 FrameDisplay.Height = 450;
                 FrameDisplay.Navigate(_obj);

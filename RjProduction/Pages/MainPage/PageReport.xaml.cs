@@ -1,7 +1,11 @@
 ﻿using RjProduction.Model;
 using RjProduction.Model.DocElement;
+using RjProduction.Sql;
 using RjProduction.XML;
+using System;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using static RjProduction.MDL;
@@ -14,7 +18,11 @@ namespace RjProduction.Pages
     /// </summary>
     public partial class PageReport : Page
     {
+        private const string COLOR_SELECT_T = "#FF4D4DAB";
+        private const string COLOR_UNSELECT_T = "#FFD3D3EE";
+
         private List<IDocMain>? _docs;
+        private TypeTabelEnum TypeTabel = TypeTabelEnum.ДоставкаТранспортомФайлов;
 
         public Action Report_Gen_МесячнаяЗарплата { get => () => Report_01(); }
         public Action Report_Gen_ВсеДниРабочих { get => () => ReportAllDay(); }
@@ -52,61 +60,66 @@ namespace RjProduction.Pages
                 return ;
             }          
         }
-
-
-        private class RouteTrack {
-            public string Документ { get; private set; } = "";
-            public string Номер_Дата { get; private set; } = "";
-            public string Номер_Машины { get; private set; } = "";
-            public string Кубометров { get; private set; } = "";
-            public string Маршрут { get; private set; } = "";
-
-
-            public void FirstRow(IDocMain doc ) { 
-                Документ = doc.DocTitle ;
-                Номер_Дата = "№" + doc.Number + " " + doc.DataCreate;
-            }
-
-            public void SelectRow(GrupObj grup, Model.DocElement.Transportation truck)
-            {
-                Номер_Машины = truck.Transport.ToString();
-                Кубометров = grup.Cubature.ToString("F2");
-                Маршрут = truck.StartPlace.Label+ ">"+ truck.EndPlace.Label;
-            }
-
-        }
+             
 
         /// <summary>
         /// Доставка  транспортом
         /// </summary>
         private void ReportAllTrack()
         {
-            GetDocuments();
-            if (_docs == null || _docs.Count == 0) return;
-
             Stack<RouteTrack> st = [];
+           
+            if (TypeTabel == TypeTabelEnum.ДоставкаТранспортомФайлов)
+            {
+                GetDocuments();
+                if (_docs == null || _docs.Count == 0) return;
 
-            foreach (var doc in _docs) {
-                RouteTrack r = new ();
-                r.FirstRow(doc);
-                foreach (var grup in doc.MainTabel)
+                foreach (var doc in _docs)
                 {
-                    foreach (var tv in grup.Tabels) {
-                        if (tv is Model.DocElement.Transportation tr) {
-                            r.SelectRow(grup,tr);
-                            st.Push(r);
+                    RouteTrack r = new();
+                    r.FirstRow(doc);
+                    foreach (var grup in doc.MainTabel)
+                    {
+                        foreach (var tv in grup.Tabels)
+                        {
+                            if (tv is Model.DocElement.Transportation tr)
+                            {
+                                r.SelectRow(grup, tr);
+                                st.Push(r);
+                            }
                         }
                     }
                 }
             }
+            else // Из Бд
+            {
+                if (PeriodFirst.SelectedDate is null) {
+                    MessageBox.Show("Не выбран начальный период.");
+                    return;
+                }
+                if (PeriodEnd.SelectedDate is null)
+                {
+                    MessageBox.Show("Не выбран конечный период.");
+                    return;
+                }
 
-            TabelListItem.ItemsSource = st;
+                if (MDL.SqlProfile == null) IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
+                else
+                {
+                  var ls=  SqlRequest.ReadСollection<Model.DocElement.Transportation.DeliveryWoods>( $"Date BETWEEN '{PeriodFirst.SelectedDate.Value:yyyy-M-d}' AND '{PeriodEnd.SelectedDate.Value:yyyy-M-d}'") ?? new();                  
+                  foreach (var item in ls) st.Push(RouteTrack.ToRouteTrack(item));
+                }
+            }
+             TabelListItem.ItemsSource = st;
         }
 
         /// <summary>
         /// отчет за все дни
         /// </summary>
         private void ReportAllDay() {
+
+            Grid_TabelListItem.Visibility = Visibility.Collapsed; // убрать таблицу 
+
             GetDocuments();
             if (_docs == null || _docs.Count == 0) return;
 
@@ -171,6 +184,10 @@ namespace RjProduction.Pages
         /// зарплатный отчет
         /// </summary>
         private void Report_01() {
+
+            Grid_TabelListItem.Visibility = Visibility.Collapsed; // убрать таблицу 
+
+
             GetDocuments();
             if (_docs == null || _docs.Count == 0) return;
 
@@ -239,5 +256,147 @@ namespace RjProduction.Pages
         {
 
         }
+
+        private void СохранитьФайлТаблицу(object sender, RoutedEventArgs e)
+        {
+            const char CR = ';';
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "data",
+                DefaultExt = ".csv",
+                Filter = "CSV files (*.csv)|*.csv"
+            };
+
+            if (dialog.ShowDialog()!.Value)
+            {
+                string filePath = dialog.FileName;
+                string txt = "";              
+
+                try
+                {
+                    using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
+                    {
+                        // Записываем заголовки 
+                        if (TabelListItem.Items.Count != 0)
+                        {
+                            foreach (var item in TabelListItem.Items[0].GetType().GetProperties())
+                            {
+                                if (item.CanRead)
+                                {
+                                    txt += item.Name + CR;
+                                }                                
+                            }
+                        }
+                        writer.WriteLine(txt);
+                        // Данные
+                        foreach (var tv in TabelListItem.Items)
+                        {
+                            txt="";
+                            foreach (var item in tv.GetType().GetProperties())
+                            {
+                                if (item.CanRead) {
+                                    object? field = item.GetValue(tv);
+                                    if (field != null) {
+                                        string s = field.ToString() ?? "";
+                                        s = s.Replace(',', '_');
+                                        s = s.Replace('"', '_');
+                                        s = s.Replace('\n', '_');
+                                        txt += s + CR;
+                                    }                                   
+                                }
+                            }
+
+                            writer.WriteLine(txt);
+                        }
+                    }
+
+                    MessageBox.Show("Данные успешно сохранены!", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при сохранении: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void ПоискИзФайла(object sender, RoutedEventArgs e)
+        {
+            ButtonT1.Background = MDL.BrushConv(COLOR_SELECT_T);
+            ButtonT2.Background = MDL.BrushConv(COLOR_UNSELECT_T);
+            GridPeriod.Visibility = Visibility.Collapsed;
+            TabelListItem.ItemsSource = null;
+            TabelListItem.Items.Refresh();
+            TypeTabel = TypeTabelEnum.ДоставкаТранспортомФайлов;
+
+            Grid_DateSelect.Visibility = Visibility.Visible;
+        }
+
+        private void ПоискИзБД(object sender, RoutedEventArgs e)
+        {
+            ButtonT1.Background = MDL.BrushConv(COLOR_UNSELECT_T);
+            ButtonT2.Background = MDL.BrushConv(COLOR_SELECT_T);
+            GridPeriod.Visibility = Visibility.Visible;
+            TabelListItem.ItemsSource = null;
+            TabelListItem.Items.Refresh();
+            TypeTabel = TypeTabelEnum.ДоставкаТранспортомБД;
+            Grid_DateSelect.Visibility = Visibility.Collapsed;
+        }
+
+        private void Загруженно(object sender, RoutedEventArgs e)
+        {
+            Grid_TabelListItem.Visibility = Visibility.Collapsed;
+        }
+    }
+
+
+    //********************************************************************************************************************************************************************
+    /// <summary>
+    /// Структуры таблици
+    /// </summary>
+    partial class PageReport {
+
+        private enum TypeTabelEnum { 
+            ДоставкаТранспортомФайлов,
+            ДоставкаТранспортомБД
+
+        }
+
+        /// <summary>
+        /// Таблици маршруты
+        /// </summary>
+        private class RouteTrack
+        {
+            public string Документ { get; private set; } = "";
+            public string Номер_Дата { get; private set; } = "";
+            public string Номер_Машины { get; private set; } = "";
+            public string Кубометров { get; private set; } = "";
+            public string Маршрут { get; private set; } = "";
+
+
+            public void FirstRow(IDocMain doc)
+            {
+                Документ = doc.DocTitle;
+                Номер_Дата = "№" + doc.Number + " " + doc.DataCreate;
+            }
+
+            public void SelectRow(GrupObj grup, Model.DocElement.Transportation truck)
+            {
+                Номер_Машины = truck.Transport.ToString();
+                Кубометров = grup.Cubature.ToString("F2");
+                Маршрут = truck.StartPlace.Label + ">" + truck.EndPlace.Label;
+            }
+
+            public static RouteTrack ToRouteTrack(Transportation.DeliveryWoods delivery) {       
+                return new() //"dd-mm-yyyy"
+                {
+                    Документ = delivery.IDdoc,
+                    Номер_Дата = delivery.Date.ToString("dd.MM.yyyy"),
+                    Номер_Машины = delivery.Track.ToString(),
+                    Кубометров = delivery.Cubature.ToString(),
+                    Маршрут = delivery.StartPlace + " > " + delivery.EndPlace
+                };
+            }
+        }
+
     }
 }

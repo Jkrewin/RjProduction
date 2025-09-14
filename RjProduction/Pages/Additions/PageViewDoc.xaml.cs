@@ -77,7 +77,7 @@ namespace RjProduction.Pages.Additions
         private void Загруженно(object sender, RoutedEventArgs e)
         {
             Doc.MainTabel.Add(new GrupObj() { NameGrup = "main" });
-            DocRows = Sql.SqlRequest.ReadСollection<DocRow>(nameof(DocRow), $"{nameof(DocRow.ID_Doc)}='{Doc.ID_Doc}'") ?? [];           
+            DocRows = Sql.SqlRequest.ReadСollection<DocRow>( $"{nameof(DocRow.ID_Doc)}='{Doc.ID_Doc}'") ?? [];           
             Doc.MainTabel[0].Tabels = [.. DocRows];
 
             MDL.ImportToWpf(this, Doc);

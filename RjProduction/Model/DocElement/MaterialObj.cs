@@ -133,9 +133,13 @@ namespace RjProduction.Model.DocElement
             return new(id_document, grupname, string.Empty, NameMaterial, Price, Quantity, Amount, DocRow.Пиломатериалы, UpRaise, CubatureAll);
         }
 
-        public void Send_DB(string id)
+        public void Send_DB(IDocMain doc, GrupObj grp)
         {
           
         }
+
+
+
+
     }
 }

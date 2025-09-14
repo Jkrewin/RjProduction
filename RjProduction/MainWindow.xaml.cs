@@ -242,6 +242,8 @@ namespace RjProduction
                 ReportPage.SelectReport = ReportPage.Report_Gen_МесячнаяЗарплата;
                 ReportPage.Grid_Start.Visibility = Visibility.Collapsed;
                 ReportPage.Label_Title.Content = "Отчет по зарплатам";
+                ReportPage.Grid_TabelListItem.Visibility = Visibility.Collapsed;
+                ReportPage.SelectorDB_File.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -261,6 +263,8 @@ namespace RjProduction
                 ReportPage.SelectReport = ReportPage.Report_Gen_ВсеДниРабочих;
                 ReportPage.Grid_Start.Visibility = Visibility.Collapsed;
                 ReportPage.Label_Title.Content = "Подробный отчет по всем сотрудникам";
+                ReportPage.Grid_TabelListItem.Visibility = Visibility.Collapsed;
+                ReportPage.SelectorDB_File.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -413,7 +417,7 @@ namespace RjProduction
                 ReportPage.Label_Title.Content = "Продукция доставленная автотранспортом";
                 ReportPage.Grid_TabelListItem.Visibility = Visibility.Visible;
                 ReportPage.Grid_TabelListItem.Height =this.Height-50;
-                
+                ReportPage.SelectorDB_File.Visibility = Visibility.Visible;
             }
         }
 

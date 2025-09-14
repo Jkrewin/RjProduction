@@ -67,9 +67,9 @@ namespace RjProduction.Model.DocElement
             return new(id_document, grupname, Operation.ToString(), Product.NameItem, PriceCng, Math.Round(SelectedCub / Product.OnePice, 0), Amount, DocRow.Пиломатериалы, 0, CubatureAll);
         }
 
-        public void Send_DB(string id)
+        public void Send_DB(IDocMain doc, GrupObj grp)
         {
-          
+           
         }
     }
 

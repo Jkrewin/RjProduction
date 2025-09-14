@@ -87,7 +87,7 @@ namespace RjProduction.XML
                     if (tv is DocRow.IDocRow d)
                     {  // сохраним их
                         SqlRequest.SetData(d.ToDocRow(item.NameGrup, ID_Doc));
-                        d.Send_DB(ID_Doc); // Дополнительная отправка в дб строики если нужно 
+                        d.Send_DB(this,item); // Дополнительная отправка в дб строики если нужно 
                     }
                     else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString() + "\n ()CarryOut " + this.ToString());
                 }

@@ -61,7 +61,8 @@ namespace RjProduction.Model
             /// <summary>
             /// Отправляет в БД случае если есть в бд такая таблица 
             /// </summary>
-            public void Send_DB(string id_doc);
+            public void Send_DB(IDocMain doc, GrupObj grp);
+           
         }
         
     }

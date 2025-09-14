@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:RjProduction.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PageReport">
+      Title="PageReport" Loaded="Загруженно">
 
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -56,18 +56,18 @@
                 <Grid x:Name="Grid_Title" Visibility="Visible"  Height="42" Background="White">
                     <Label x:Name="Label_Title" Content="Выберете тип отчета    " HorizontalAlignment="Center" VerticalAlignment="Center" Width="591" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" FontFamily="Arial" FontWeight="Bold" Foreground="#FF4A4848"/>
                 </Grid>
-                
+
                 <Grid x:Name="Grid_Start" Height="113">
                     <Grid Width="240" Height="100" HorizontalAlignment="Left" VerticalAlignment="Center" >
                         <Border BorderThickness="1,1,1,1" CornerRadius="5,5,5,5" BorderBrush="#FF8C8CF0"/>
-                        <TextBlock TextWrapping="Wrap" Text="В этом разделе вы сможете настроить отчет, сохранить его и просмотреть "  HorizontalAlignment="Center" VerticalAlignment="Top" Width="230" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="64" Foreground="Black" Margin="0,36,0,0"/>
+                        <TextBlock TextWrapping="Wrap" Text="В этом разделе вы сможете настроить отчет, сохранить его и просмотреть "  HorizontalAlignment="Center" VerticalAlignment="Top" Width="230" FontSize="14" FontFamily="Calibri" Height="64" Foreground="Black" Margin="0,36,0,0"/>
                         <Label Content="РАЗДЕЛ ОТЧЕТЫ" BorderThickness=" 1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="220" FontSize="14" FontFamily="Calibri" Background="{x:Null}" Height="31" Foreground="Black" FontWeight="Bold"/>
 
                     </Grid>
 
                 </Grid>
 
-                <Grid x:Name="Grid_DateSelect" Background="White" Height="147" Visibility="Hidden" >
+                <Grid x:Name="Grid_DateSelect" Background="White" Height="147" Visibility="Collapsed" >
                     <Label Content="Установка по месяцу генерации отчета" HorizontalAlignment="Left" Margin="39,0,0,0" VerticalAlignment="Top" FontFamily="Dubai" FontWeight="Bold" FontSize="16" Foreground="#FF2A2A2A"/>
                     <Rectangle Fill="#FF8C8C8C" Margin="0,37,0,196"  />
                     <RadioButton x:Name="RB_NowMon" Content="Текущий месяц" HorizontalAlignment="Left" Margin="49,52,0,0" VerticalAlignment="Top" Width="175" FontFamily="Corbel" FontSize="14" BorderBrush="#FF01205F" IsChecked="True"/>
@@ -89,16 +89,77 @@
                     </ComboBox>
                 </Grid>
 
-                <Grid   x:Name="Grid_TabelListItem" Visibility="Hidden" Background="#FF003BD8" Height="500"  >
-                    <DataGrid x:Name="TabelListItem" />
-                    
+                <Grid x:Name="SelectorDB_File" Height="30" Visibility="Hidden">
+                    <Button x:Name="ButtonT1" Content="Из Файла" Background="#FF4D4DAB" Foreground="White" Width="91" Height="20" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ПоискИзФайла">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="5,0,0,5">
+                                    <!-- Закругление по всему контуру -->
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Margin="{TemplateBinding Padding}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#FF1B5E20"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#FF1B5E20"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="ButtonT2" Content="Из БД" Background="#FFD3D3EE" Foreground="White" Width="91" Height="20" Margin="101,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ПоискИзБД">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+Background="{TemplateBinding Background}"
+BorderBrush="{TemplateBinding BorderBrush}"
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="0,5,5,0">
+                                    <!-- Закругление по всему контуру -->
+                                    <ContentPresenter HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Margin="{TemplateBinding Padding}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#FF1B5E20"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#FF1B5E20"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </Grid>
 
-                <Grid Visibility="Hidden" Height="500" Background="#FFF50D0D">
-                    
-                    
+                <Grid x:Name="GridPeriod" Visibility="Hidden"  Height="34">
+                    <Label Content="Период" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" FontFamily="Dubai" Foreground="#FF2A2A2A" FontSize="14"/>
+                    <Label Content="-" HorizontalAlignment="Left" Margin="208,-5,0,0" VerticalAlignment="Top" FontFamily="Dubai" Foreground="#FF2A2A2A" FontSize="18"/>
+                    <DatePicker x:Name="PeriodFirst" HorizontalAlignment="Left" Margin="100,4,0,0" VerticalAlignment="Top" Width="108"/>
+                    <DatePicker x:Name="PeriodEnd" HorizontalAlignment="Left" Margin="227,4,0,0" VerticalAlignment="Top" Width="108"/>
                 </Grid>
+
+                <Grid   x:Name="Grid_TabelListItem" Visibility="Visible" Height="500"  >
+                    <StackPanel>
+                        <WrapPanel Height="32">
+                            <Button Content="" Height="30" Width="30" FontFamily="Segoe Fluent Icons" FontSize="20" Background="#FFFDFDFD" Foreground="#FF152EA9" Click="СохранитьФайлТаблицу" BorderBrush="{x:Null}"/>
+
+                        </WrapPanel>
+                        <DataGrid x:Name="TabelListItem" />
+                    </StackPanel>
+                </Grid>
+
+
             </StackPanel>
+
 
         </DockPanel>
     </Grid>

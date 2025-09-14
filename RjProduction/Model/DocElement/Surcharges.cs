@@ -33,7 +33,8 @@ namespace RjProduction.Model.DocElement
             return new(id_document, grupname,Info, "Для " + EmployeeName, 0, 0, Amount, DocRow.Доплата, UpRaise, CubatureAll);
         }
 
-        public void Send_DB(string id)
+        
+        public void Send_DB(IDocMain doc, GrupObj grp)
         {
            
         }
