@@ -33,11 +33,11 @@ namespace RjProduction.XML
         public WarehouseClass Warehouse { get; set; }
               
 
-        public double AllCubs
+        public float AllCubs
         {
             get
             {
-                double d = 0;
+                float d = 0;
                 foreach (var obj in MainTabel)
                 {
                     foreach (var tv in obj.Tabels)
@@ -65,7 +65,11 @@ namespace RjProduction.XML
                 IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
                 return;
             }
+           
             if (Status == StatusEnum.Проведен) return;
+
+            MDL.SqlProfile.SqlLogString.ErrorLogger = true;
+            MDL.SqlProfile.SqlLogString.AddInfo = "DocArrival";
 
             // если была потерена информация или создан одинаковый документ проверка
             var id_doc = SqlRequest.ExistRecord<DocArrival>(new ISqlProfile.FieldSql("ID_Doc",  ID_Doc));
@@ -100,19 +104,23 @@ namespace RjProduction.XML
                     }
                 }
             }
-
+           
+            List<SqlRequest.FieldSqlTrn> trn = [];
+           
             try
             {
                 // запуск сохранения в БД Products              
                 foreach (var item in products)
                 {
-                    Products? cl = SqlRequest.ReadData<Products>([new ("NameItem",  item.NameItem), new("Warehouse", item.Warehouse.ID)] );
-                    // Меняет текущее в на этом складе и по этому названию 
-                    if (cl != null) cl.ConcurrentReqest(MDL.SqlProfile, SqlRequest.OperatonEnum.vsPlus, item.Cubature);
+                    Products? cl = SqlRequest.ReadData<Products>([new("NameItem", item.NameItem), new("Warehouse", item.Warehouse.ID)]);
+                    // Меняет текущее в на этом складе и по этому названию                     
+                    if (cl != null) trn.Add(new SqlRequest.FieldSqlTrn(nameof(Products.Cubature), cl.ID, item.Cubature, SqlRequest.OperatonEnum.vsPlus));
                     // создает новое значение если не найдено 
                     else SqlRequest.SetData(item);
                 }
-
+                MDL.SqlProfile.SqlLogString.AddInfo = "Start Reqest Transaction";
+                SqlRequest.ReqestTransaction(MDL.SqlProfile, nameof(Products), trn);
+                MDL.SqlProfile.SqlLogString.AddInfo = "Start Doc Save";
                 // далее сохранения документа в БД document
                 SqlRequest.SetData(this);
                 // потом сохраняем строки                
@@ -122,25 +130,27 @@ namespace RjProduction.XML
                     {
                         if (tv is DocRow.IDocRow d)
                         {
-                            
                             SqlRequest.SetData(d.ToDocRow(obj.NameGrup, ID_Doc)); // только добавление
                             d.Send_DB(this, obj); // Дополнительная отправка в дб в отдельно в таблицу
                         }
                         else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString() + "\n ()CarryOut " + this.ToString());
                     }
-                }                
+                }
+
             }
             catch (Exception ex)
             {
                 MDL.LogError("Ошибка при попытки провести документ " + Doc_Code, ex.Message +" "+ ex.Source);
                 Status = StatusEnum.Ошибка;
                 XmlProtocol.SaveDocXml<DocArrival>(this);
+                MDL.SqlProfile.SqlLogString.ErrorLogger = false;
                 return;
             }
 
         final:
             Status = StatusEnum.Проведен;
             XmlProtocol.SaveDocXml<DocArrival>(this);
+            MDL.SqlProfile.SqlLogString.ErrorLogger = false;
         }
 
 

@@ -140,11 +140,11 @@ namespace RjProduction.Pages.Additions
                 VisibleColumns("LockInfo", Visibility.Collapsed);
                 VisibleColumns("GrupName", Visibility.Collapsed);
                 VisibleColumns("TabelName", Visibility.Collapsed);
+                VisibleColumns("CubatureAll", Visibility.Collapsed);
 
                 RenameColumns("NameObj", "Наименование");
                 RenameColumns("Amount", "Сумма");
                 RenameColumns("Quantity", "Количество");
-                RenameColumns("CubatureAll", "Куботура");
                 RenameColumns("Price", "Цена");
             }
             else if (b.Uid == DocRow.Сотрудники)

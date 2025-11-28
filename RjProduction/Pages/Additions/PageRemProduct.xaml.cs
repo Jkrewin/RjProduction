@@ -4,8 +4,6 @@ using RjProduction.Sql;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -74,7 +72,7 @@ namespace RjProduction.Pages.Additions
         private class MyCollection(DataRow row, Dictionary<long, WarehouseClass> warehouseHub) : INotifyPropertyChanged
         {
             private int _Piece = 0;
-            private double _Selected_Cubature = 0;
+            private float _Selected_Cubature = 0;
             private OperatonEnum _IsOperation = OperatonEnum.vsPlus;
             private double _Result = 0;
 
@@ -86,7 +84,7 @@ namespace RjProduction.Pages.Additions
             public string TypeWood { get => Products.TypeWood.ToString(); }
             public string Cubature { get => Math.Round(Products.Cubature, 3).ToString(); }
 
-            public double Selected_Cubature
+            public float Selected_Cubature
             {
                 get => _Selected_Cubature; set
                 {
@@ -133,7 +131,7 @@ namespace RjProduction.Pages.Additions
                 set
                 {
                     _Piece = value;
-                    _Selected_Cubature = Products.OnePice * _Piece;
+                    _Selected_Cubature = (float)(Products.OnePice * _Piece);
                     RefrehResult();
                     NotifyPropertyChanged();
                 }
@@ -198,7 +196,15 @@ namespace RjProduction.Pages.Additions
 
                 DG_Main.ItemsSource = _db;
             }
-            
+
+
+            double d=0;
+            foreach (var item in StartGrid.RowDefinitions)
+            {
+              if (item.Height.IsStar==false)  d += item.Height.Value;
+            }            
+
+            GridA.Height = this.ActualHeight - d; 
         }
 
         private void ВыбраннаСтрока(object sender, SelectionChangedEventArgs e)
@@ -381,7 +387,9 @@ namespace RjProduction.Pages.Additions
 
             string id = warehouse.ID.ToString();
             _db.Clear();
+            if (MDL.SqlProfile != null) { MDL.SqlProfile.SqlLogString.ErrorLogger = true; MDL.SqlProfile.SqlLogString.AddInfo = "Выбор склада "; }
             ProdData = SqlRequest.GetDataTable(nameof(Products), "*", "Warehouse='" + id + "'"); // загрузить сюда весь список Products
+            if (MDL.SqlProfile != null) MDL.SqlProfile.SqlLogString.ErrorLogger = false;
             if (ProdData is null) return;
 
             foreach (DataRow tv in ProdData.Rows) _db.Add(new MyCollection(tv, WarehouseHub));
@@ -411,7 +419,7 @@ namespace RjProduction.Pages.Additions
         private void ОбновитьТекстКубах(object sender, RoutedEventArgs e)
         {             
             string str = MDL.Calculator((TextBox)sender).Replace('.', ',');
-            if (double.TryParse(str, out double d))
+            if (float.TryParse(str, out float d))
             {
                 ((MyCollection)DG_Main.SelectedItem).Selected_Cubature = d;
             }

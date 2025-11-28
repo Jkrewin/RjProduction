@@ -36,11 +36,11 @@ namespace RjProduction.XML
         /// </summary>
         public string Reason { get; set; }
 
-        public double AllCubs
+        public float AllCubs
         {
             get
             {
-                double d = 0;
+                float d = 0;
                 foreach (var obj in MainTabel)
                 {
                     foreach (var tv in obj.Tabels)

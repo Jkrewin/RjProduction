@@ -1,10 +1,16 @@
 ﻿
 using System.Data;
+using System.Globalization;
 
 namespace RjProduction.Sql
 {
-    public interface ISqlProfile: IDisposable
+    public interface ISqlProfile : IDisposable
     {
+        /// <summary>
+        /// CultureInfo не предназначена для отображения данных пользователю! Для этого следует использовать CurrentCulture или явно заданную культуру, соответствующую языку/региону пользователя. 
+        ///  не зависит от региональных настроек пользователя или операционной системы. Если у тебя известен источник данных — всегда указывай правильную культуру!
+        /// </summary>
+        static public readonly CultureInfo MyCultureInfo = new("ru-RU");
         /// <summary>
         /// База Данных
         /// </summary>
@@ -20,7 +26,7 @@ namespace RjProduction.Sql
         /// <summary>
         /// Строка последнего запроса для поиска ошибок
         /// </summary>
-        public string SqlLogString { get; set; }
+        public DedugSql SqlLogString { get; }
 
 
         /// <summary>
@@ -34,7 +40,7 @@ namespace RjProduction.Sql
         /// Управляет транзакцией
         /// </summary>
         public void Transaction(TypeTransaction transaction);
-       
+
         /// <summary>
         /// Указывает какой тип подключения сейчас
         /// </summary>
@@ -79,7 +85,7 @@ namespace RjProduction.Sql
         /// <returns></returns>
         public FieldSql[] GetFieldSql(long ID, string TabelName);
         public FieldSql[] GetFieldSql(string where, string TabelName);
-        public List<FieldSql[]> GetFieldSql(string where, string tabelName, string select ="*");
+        public List<FieldSql[]> GetFieldSql(string where, string tabelName, string select = "*");
 
         /// <summary>
         /// Получает List объектов по запросу или с параметрами поиска
@@ -110,7 +116,7 @@ namespace RjProduction.Sql
                 // Проверяем атрибуты
                 var atr = field.GetCustomAttributes(true).Any(x => x is SqlIgnore);
                 if (atr != false) continue;
-                
+
                 SqlParam? param = field.GetValue(obj) as SqlParam;
 
                 // SqlFlat добовляет столбци в таблицу из класса
@@ -130,7 +136,8 @@ namespace RjProduction.Sql
         /// Для вложенных классов без использование доп таблици
         /// </summary>
         /// <param name="obj">SqlFlat</param>
-        private List<(string, string)> TitleDB_SqlFlat(SqlFlat obj) {
+        private List<(string, string)> TitleDB_SqlFlat(SqlFlat obj)
+        {
             List<(string, string)> ls = [];
             foreach (var field in obj.GetType().GetProperties().Where(x => x.CanRead))
             {
@@ -155,15 +162,15 @@ namespace RjProduction.Sql
         /// <param name="select_sql">Запрос по столбцам или все сразу </param>
         /// <param name="where_sql">where выборка если нужна  </param>
         /// <returns>DataTable</returns>
-        public DataTable GetDataTable(string tabelName, string select_sql ="*", string where_sql="");
+        public DataTable GetDataTable(string tabelName, string select_sql = "*", string where_sql = "");
         /// <summary>
         /// Являеться структурой полей базы данный улучшая поиск по ним
         /// </summary>
         public readonly struct FieldSql
         {
-            public readonly string NameField ;
-            public readonly string TypeField ;
-            public readonly string Value ;
+            public readonly string NameField;
+            public readonly string TypeField;
+            public readonly string Value;
             public readonly double ValueDbl;
 
             public FieldSql(string name, double value)
@@ -174,13 +181,15 @@ namespace RjProduction.Sql
                 TypeField = string.Empty;
             }
 
-            public FieldSql(string name, string value) {
+            public FieldSql(string name, string value)
+            {
                 NameField = name;
                 Value = value;
                 TypeField = string.Empty;
             }
 
-            public FieldSql(string name, string type, string value) {
+            public FieldSql(string name, string type, string value)
+            {
                 NameField = name;
                 TypeField = type;
                 Value = value;
@@ -191,20 +200,62 @@ namespace RjProduction.Sql
             /// <summary>
             /// посик значения в массиве по названию NameField
             /// </summary>
-            public static string ValueFieldSql(FieldSql[] fields, string nameField) {
-                for (int i = fields.Length-1; i >= 0; i--)
+            public static string ValueFieldSql(FieldSql[] fields, string nameField)
+            {
+                for (int i = fields.Length - 1; i >= 0; i--)
                 {
-                    if (fields[i].NameField.Equals(nameField)) { 
-                        return fields[i].Value ;
+                    if (fields[i].NameField.Equals(nameField))
+                    {
+                        return fields[i].Value;
                     }
                 }
-                return string.Empty ;   
+                return string.Empty;
             }
         }
 
         public enum TypeTransaction
         {
-            commit, roolback        
+            commit, roolback
         }
     }
+
+    public class DedugSql
+    {
+        private uint _index = 0;
+        private Stack<string> _info = [];
+        private string _endString = string.Empty;
+        /// <summary>
+        /// Регистратор ошибок true - включен 
+        /// </summary>
+        public bool ErrorLogger { get; set; } = false;
+        /// <summary>
+        /// Добовляет отладочную информацию о запросе
+        /// </summary>
+        public string AddInfo
+        {
+            set
+            {
+                if (ErrorLogger) { _index++; _info.Push("" + _index + "  " + value); }
+                _endString = value;
+            }
+        }
+        /// <summary>
+        /// Получает отладочные сведения
+        /// </summary>
+        public string ReadInfo { get => string.Join("\n", _info.Reverse()); }
+        /// <summary>
+        /// Читает последнию строку
+        /// </summary>
+        public string ReadEnd
+        {
+            get => _endString;
+        }
+
+
+        /// <summary>
+        /// Очищает информацию
+        /// </summary>
+        public void ClearInfo() { _info.Clear(); _index = 0; }
+    }
+
 }

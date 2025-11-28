@@ -106,7 +106,7 @@ namespace RjProduction.Pages
                 if (MDL.SqlProfile == null) IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
                 else
                 {
-                  var ls=  SqlRequest.ReadСollection<Model.DocElement.Transportation.DeliveryWoods>( $"Date BETWEEN '{PeriodFirst.SelectedDate.Value:yyyy-M-d}' AND '{PeriodEnd.SelectedDate.Value:yyyy-M-d}'") ?? new();                  
+                  var ls=  SqlRequest.ReadСollection<Model.DocElement.Transportation.DeliveryWoods>( $"Date BETWEEN '{PeriodFirst.SelectedDate.Value:yyyy-M-d}' AND '{PeriodEnd.SelectedDate.Value:yyyy-M-d}'") ?? [];                  
                   foreach (var item in ls) st.Push(RouteTrack.ToRouteTrack(item));
                 }
             }
@@ -397,6 +397,7 @@ namespace RjProduction.Pages
                 };
             }
         }
+
 
     }
 }

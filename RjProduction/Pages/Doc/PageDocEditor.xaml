@@ -5,12 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RjProduction.Pages"
       mc:Ignorable="d" d:DesignWidth="750"
-      Title="PageDocEditor"  Loaded="Загруженно" MaxWidth="800" MinWidth="750" HorizontalAlignment="Right" >
+      Title="PageDocEditor"  Loaded="Загруженно" MaxWidth="800" MinWidth="750" Height="617" VerticalAlignment="Top" >
 
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="519*"/>
+            <RowDefinition Height="386"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
 
@@ -123,7 +124,7 @@
             <Rectangle Stroke="Black" />
         </Grid>
 
-        <Grid x:Name="Curtain" Visibility="Collapsed" Background="Black" Opacity="0.5" Grid.RowSpan="2"/>
+        <Grid x:Name="Curtain" Visibility="Collapsed" Background="Black" Opacity="0.5" Grid.RowSpan="3"/>
 
         <Grid MinHeight="40" VerticalAlignment="Top" Height="40">
             <Rectangle Height="3" Fill="#FFD4D4D4" VerticalAlignment="Bottom"></Rectangle>
@@ -139,19 +140,24 @@
         </Grid>
 
 
-        
+
 
         <Label Content="Склад:" BorderThickness=" 1" HorizontalAlignment="Left" Margin="11,86,0,0" VerticalAlignment="Top" Width="147" FontSize="16" FontFamily="Corbel" Background="White" BorderBrush="White" Height="30" Grid.Row="1" Foreground="#FF565656" FontWeight="Bold"/>
         <ComboBox x:Name="Cbox_warehouses" HorizontalAlignment="Left" Margin="158,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="188" FontFamily="Arial" FontSize="14" Height="31" VerticalContentAlignment="Center" SelectionChanged="ВыбранСклад"/>
         <Button Content="&#xED11;" HorizontalAlignment="Left" Margin="351,85,0,0" VerticalAlignment="Top" Height="30" Width="30" FontSize="22" Background="#FFE7E7E7" FontFamily="Segoe MDL2 Assets" Click="СоздатьСклад" Grid.Row="1" BorderBrush="#FFACACAC"/>
 
-        <Grid x:Name="Grid_Curtain" Visibility="Collapsed"  Grid.RowSpan="2">
+        <Grid x:Name="Grid_Curtain" Visibility="Collapsed"  Grid.RowSpan="3">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.3"/>
             </Grid.Background>
             <Frame NavigationUIVisibility="Hidden" x:Name="FrameDisplay" Content="Frame" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="White" VerticalAlignment="Center" Height="158"/>
 
         </Grid>
+        <StackPanel Grid.Row="2">
+            <Grid x:Name="Grid_AddСотрудников" Height="41" Visibility="Hidden">
+                <Label x:Name="Label_TextAddСотрудник" Content="Label" HorizontalAlignment="Left" Margin="89,0,0,0" VerticalAlignment="Center" Height="34" Width="651" FontFamily="Arial" FontSize="14" Foreground="#FF0D449E" Cursor="Hand" PreviewMouseDown="ВыборПрошлышСотрудников"/>
+            </Grid>
+        </StackPanel>
 
 
     </Grid>

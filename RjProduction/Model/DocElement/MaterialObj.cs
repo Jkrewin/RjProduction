@@ -10,10 +10,10 @@ namespace RjProduction.Model.DocElement
     public struct MaterialObj : IDoc, IConvertDoc, DocRow.IDocRow
     {
         public TypeWoodEnum TypeWood { get; set; }
-        public double WidthMaterial;
-        public double HeightMaterial;
-        public double LongMaterial;
-        public double Quantity;
+        public float WidthMaterial;
+        public float HeightMaterial;
+        public float LongMaterial;
+        public float Quantity;
         public MaterialTypeEnum MaterialType { get; set; }
         public double Price;
         public double UpRaise { get; set; }
@@ -21,7 +21,7 @@ namespace RjProduction.Model.DocElement
         public GradeEnum Grade;
 
         // Явно объявленный конструктор
-        public MaterialObj(TypeWoodEnum typeWood, double widthMaterial, double heightMaterial, double longMaterial, double quantity, MaterialTypeEnum materialType, double price, double upRaise, double ratio, GradeEnum grade)
+        public MaterialObj(TypeWoodEnum typeWood, float widthMaterial, float heightMaterial, float longMaterial, float quantity, MaterialTypeEnum materialType, double price, double upRaise, double ratio, GradeEnum grade)
         {
             TypeWood = typeWood;
             WidthMaterial = widthMaterial;
@@ -35,12 +35,12 @@ namespace RjProduction.Model.DocElement
             Grade = grade;
         }
 
-        public readonly double Cub
+        public readonly float Cub
         {
             get
-            {
+            {                
                 if (MaterialType == MaterialTypeEnum.Количество) return (WidthMaterial / 1000) * (HeightMaterial / 1000) * (LongMaterial / 1000);
-                else return Math.Round((WidthMaterial / 100) * (HeightMaterial / 100) * (LongMaterial / 100) * (Ratio / 100), 3);
+                else return (float)Math.Round(WidthMaterial / 100 * (HeightMaterial / 100) * (LongMaterial / 100) * (Ratio / 100), 3);
             }
         }
 
@@ -81,7 +81,7 @@ namespace RjProduction.Model.DocElement
 
             return new Products()
             {
-                OnePice = Cub,
+                OnePice = (float)Cub,
                 Cubature = CubatureAll,
                 NameItem = name_wood,
                 TypeWood = TypeWood,

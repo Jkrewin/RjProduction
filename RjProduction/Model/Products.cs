@@ -1,6 +1,7 @@
 ﻿
 using RjProduction.Sql;
 using System.Data;
+using System.Globalization;
 
 namespace RjProduction.Model
 {
@@ -9,7 +10,7 @@ namespace RjProduction.Model
     /// </summary>
     public class Products : SqlParam, ICloneable, IConcurrentReqest
     {
-        private double _Cubature;
+        private float _Cubature;
         bool _SyncError = false;
 
         /// <summary>
@@ -19,7 +20,7 @@ namespace RjProduction.Model
         /// <summary>
         /// Общая Кубатура
         /// </summary>
-        public double Cubature
+        public float Cubature
         {
             get => _Cubature;
             set => _Cubature = value;            
@@ -35,7 +36,7 @@ namespace RjProduction.Model
         /// <summary>
         /// Кубатура одной штуки (нужен для штучного расчета)
         /// </summary>
-        public double OnePice { get; set; }
+        public float OnePice { get; set; }
         /// <summary>
         /// Цена за один куб
         /// </summary>
@@ -56,15 +57,14 @@ namespace RjProduction.Model
         public Products(DataRow dataRow, Dictionary<long, WarehouseClass> WarehouseHub)
         {
             OnePice = 0;
-            if (double.TryParse(dataRow[nameof(OnePice)].ToString(), out double dou)) OnePice = dou;
+            if (float.TryParse(dataRow[nameof(OnePice)].ToString(), CultureInfo.InvariantCulture,  out float dou)) OnePice = dou;
             NameItem = dataRow[nameof(NameItem)].ToString() ?? "def name";
-            FullSet(dataRow);
-
-            if (double.TryParse(dataRow[nameof(Cubature)].ToString(), out double d)) _Cubature = d;
+            FullSet(dataRow);            
+            if (float.TryParse(dataRow[nameof(Cubature)].ToString(), CultureInfo.InvariantCulture, out float d))  _Cubature = d; 
             if (int.TryParse(dataRow[nameof(TypeWood)].ToString(), out int i)) TypeWood = (TypeWoodEnum)i;
-            if (double.TryParse(dataRow[nameof(Price)].ToString(), out double dd)) Price = dd;
+            if (double.TryParse(dataRow[nameof(Price)].ToString(), CultureInfo.InvariantCulture, out double dd)) Price = dd;
 
-            if (long.TryParse(dataRow[nameof(Warehouse)].ToString(), out long w))
+            if (long.TryParse(dataRow[nameof(Warehouse)].ToString(), CultureInfo.InvariantCulture, out long w))
             {
                 if (WarehouseHub.TryGetValue(w, out WarehouseClass? value)) Warehouse = value;
             }
@@ -81,13 +81,12 @@ namespace RjProduction.Model
             return products;
         }
 
-        public void ConcurrentReqest(ISqlProfile sqlProfile, SqlRequest.OperatonEnum operaton, double value)
+      
+        public void ConcurrentReqest(ISqlProfile sqlProfile, SqlRequest.OperatonEnum operaton, float value)
         {
-            double d = ((IConcurrentReqest)this).ReqestTransaction(sqlProfile, TabelName, nameof(Cubature), value, ID, operaton);
+            float d = ((IConcurrentReqest)this).ReqestTransaction(sqlProfile, TabelName, nameof(Cubature), value, ID, operaton);
             _SyncError = d == -1;
             if (_SyncError == false) _Cubature = d;
         }
-
-
     }
 }

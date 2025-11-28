@@ -1,26 +1,29 @@
 ﻿using RjProduction.Model;
 using RjProduction.Model.Catalog;
+using RjProduction.Model.DocElement;
+using RjProduction.Pages.PageObj;
 using RjProduction.XML;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using RjProduction.Model.DocElement;
-using RjProduction.Pages.PageObj;
-using RjProduction.WpfFrm;
 
 namespace RjProduction.Pages
 {
     public partial class PageDocEditor : Page, IKeyControl
     {
+        private readonly string LastDate = AppDomain.CurrentDomain.BaseDirectory + @"Data\LastDate.xml";
+        private Action? LastDateEmployee;    // Добовляет сотрудников команда
+
         private GrupObj? SelectGrup;        //Выбранная группа
         private readonly DocArrival MyDoc;    //Редактируемый документ
         private bool RenameGrup = false;    //Режим переименование группы
         private readonly Action ClosePage;  //Ссылка на метод закрытия это формы
         private bool SavedDoc = false;      //Документ пока не сохранялся
         private object? _obj;               //Page с доб и изм строк
+        private List<SharedEmpl> LastEmployee = []; // Которые сотрудники использовались
 
-       
+
 
 
         public PageDocEditor(DocArrival doc, Action closePage)
@@ -29,6 +32,10 @@ namespace RjProduction.Pages
             MyDoc = doc;
             ClosePage = closePage;
             Title = doc.Number + "/" + doc.DataCreate.ToString();
+
+            var p = MDL.LoadXml<List<SharedEmpl>>(LastDate);
+            if (p != null) LastEmployee =p;
+              
         }
         
                 
@@ -270,17 +277,41 @@ namespace RjProduction.Pages
             else MyDoc.MainTabel.Add(new GrupObj() { NameGrup = TBox_GrupName.Text });
             SelectGrup = MyDoc.MainTabel[^1];
             Refreh_Tabels();
+
+            //прошлые шаблонны данных
+            var obj = LastEmployee.Find(x => x.GrupName == TBox_GrupName.Text);
+            if (obj != null)
+            {
+                if (obj.Employees.Count != 0)
+                {
+                    Grid_AddСотрудников.Visibility = Visibility.Visible;
+                    Label_TextAddСотрудник.Content = "Добавить сотрудника(ов) в таблицу: ";
+                    foreach (var employee in obj.Employees)
+                    {
+                        Label_TextAddСотрудник.Content += employee.NameEmployee + " ";
+                    }
+                    LastDateEmployee = () => {
+                        foreach (var employee in obj.Employees) 
+                        {
+                            SelectGrup.Tabels.Add(employee); 
+                        }
+                        Grid_AddСотрудников.Visibility = Visibility.Hidden; };
+                }
+            }
+
             ЗакрытьОкноГруппы(null!, null!);
         }       
 
         private void ВыбраннаГруппа(object sender, SelectionChangedEventArgs e)
         {
+            Grid_AddСотрудников.Visibility = Visibility.Collapsed;
             if (ListGrup.SelectedItem == null) return;
             var s = MyDoc.MainTabel.Find(x => x.NameGrup == ListGrup.SelectedItem.ToString());
             if (s != null)
             {
                 SelectGrup = MyDoc.MainTabel.Find(x => x.NameGrup == ListGrup.SelectedItem.ToString());
                 Refreh_Tabels();
+                
             }
         }
 
@@ -327,6 +358,38 @@ namespace RjProduction.Pages
             XmlProtocol.SaveDocXml<DocArrival>(MyDoc);
             SavedDoc = true;
             ((Button)sender).Foreground = MDL.BrushConv("#FFFFFFFF");
+
+            // Шаблоны прошлых записей
+            static List <Model.DocElement.Employee > mod_find(GrupObj item) {
+                List<Model.DocElement.Employee> ls = [];
+                foreach (var tv in item.Tabels)
+                {
+                    if (tv is Model.DocElement.Employee empl)
+                    {
+                        if (empl.Worker) ls.Add(empl);
+                    }
+                }
+                return ls;
+            }
+            foreach (var item in MyDoc.MainTabel)
+            {
+                var index = LastEmployee.FindIndex(x => x.GrupName == item.NameGrup);
+                if (index != -1)
+                {
+                    // Если есть такя группа в списке
+                    var ls = mod_find(item);
+                    if (ls.Count != 0) LastEmployee[index].Employees = ls;
+                }
+                else {
+                    // если нет 
+                    var ls = mod_find(item);
+                    if (ls.Count != 0)  LastEmployee.Add(new SharedEmpl() { GrupName = item.NameGrup, Employees = ls });        
+                }
+            }
+            MDL.SaveXml<List<SharedEmpl>>(LastEmployee, LastDate);
+            //****
+
+
         }
 
         private void ПереименоватьГруппу(object sender, RoutedEventArgs e)
@@ -485,5 +548,19 @@ namespace RjProduction.Pages
         }
 
         private void ФиксОбъем(object sender, RoutedEventArgs e) => OpenWpfItem(new FixCub());
+
+        /// <summary>
+        /// Данный о прошлых работниках в группе
+        /// </summary>
+        public class SharedEmpl {
+            public required string GrupName;
+            public List<Model.DocElement.Employee> Employees = [];
+        }
+
+        private void ВыборПрошлышСотрудников(object sender, MouseButtonEventArgs e)
+        {
+            LastDateEmployee?.Invoke();
+            Refreh_Tabels();
+        }
     }
 }

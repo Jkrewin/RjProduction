@@ -7,6 +7,7 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RjProduction.Pages.Additions
 {
@@ -68,13 +69,16 @@ namespace RjProduction.Pages.Additions
                 IsDel = (s == "0" ? "" : DEL_SIMBOL);
             }
 
-            private void NotifyPropertyChanged([CallerMemberName] String propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            private void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
        
 
         private void Загруженно(object sender, RoutedEventArgs e)
         {
+            Date1.SelectedDate = DateTime.Now.AddDays(-7);
+            Date2.SelectedDate = DateTime.Now;
+
             DateFilter = false;
 
             List<DeliveredStruct> d=[];
@@ -114,16 +118,11 @@ namespace RjProduction.Pages.Additions
         {
             if (string.IsNullOrEmpty(TabelName)) return;
 
-            if (DateFilter ==false)
-            {
-                _TabelData = Sql.SqlRequest.GetDataTable(TabelName);
-            }
-            else
-            {
-                string d1 = Date1.SelectedDate!.Value.ToString("yyyy-M-d");
-                string d2 = Date2.SelectedDate!.Value.ToString("yyyy-M-d");
-                _TabelData = Sql.SqlRequest.GetDataTable(TabelName, "*", $"{nameof(IDocMain.DataCreate)}>='{d1}' AND {nameof(IDocMain.DataCreate)}<'{d2}'");
-            }
+           
+                string d1 = Date1.SelectedDate!.Value.ToString("yyyy-MM-dd");
+                string d2 = Date2.SelectedDate!.Value.ToString("yyyy-MM-dd");
+                _TabelData = Sql.SqlRequest.GetDataTable(TabelName, "*", $"DATE({nameof(IDocMain.DataCreate)}) BETWEEN '{d1}' AND '{d2}';");
+            
             Refreh_Tabel();
         }
 

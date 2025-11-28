@@ -2,6 +2,8 @@
 using RjProduction.Model.Catalog;
 using RjProduction.XML;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Reflection;
 using static RjProduction.Sql.ISqlProfile;
 
@@ -12,7 +14,7 @@ namespace RjProduction.Sql
         public static void CreateTabel<T>() where T : SqlParam
         {
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
-          
+
             MDL.SqlProfile.Conection();
             try
             {
@@ -33,7 +35,8 @@ namespace RjProduction.Sql
         /// </summary>
         /// <returns>true - совместима версия</returns>
         [DependentCode]
-        public static bool TestingDB() {
+        public static bool TestingDB()
+        {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
 
@@ -47,7 +50,7 @@ namespace RjProduction.Sql
                         List<(string, string)> direct = sqlProfile.TitleDB(sql);
                         foreach (var d in sqlProfile.GetFieldSql("ID>0", sql.TabelName))
                         {
-                            if (direct.Any(x => x.Item1.Equals( d.NameField, StringComparison.CurrentCultureIgnoreCase) ) == false)
+                            if (direct.Any(x => x.Item1.Equals(d.NameField, StringComparison.CurrentCultureIgnoreCase)) == false)
                             {
                                 return false;
                             }
@@ -92,12 +95,12 @@ namespace RjProduction.Sql
         /// </summary>
         [DependentCode]
         public static void CreateStartBaseTabel()
-        {           
+        {
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
-            
+
             MDL.SqlProfile.Conection();
-           
-            ForceCreateTabel< DocArrival > ();
+
+            ForceCreateTabel<DocArrival>();
             try
             {
                 ForceCreateTabel<Сommodity>();
@@ -123,14 +126,87 @@ namespace RjProduction.Sql
         }
 
         /// <summary>
+        /// Выполняет транзакцию над указанной таблицей, применяя операции к каждому полю, как определено в списке
+        /// полей.
+        /// </summary>
+        /// <remarks>Этот метод выполняет серию операций над указанной таблицей, обновляя поля
+        /// в зависимости от типа операции. Если операция завершается неудачей (например, из-за отрицательного результата вычитания), это
+        /// регистрируется как ошибка в возвращаемом списке. Метод гарантирует, что все операции будут зафиксированы или откачены
+        /// как одна транзакция.</remarks>
+        /// <param name="sqlProfile">Профиль SQL, используемый для управления подключением к базе данных и выполнения команд. Необходимо подключиться перед
+        /// вызовом этого метода.</param>
+        /// <param name="tabelName">Имя таблицы, над которой должна быть выполнена транзакция. Не может быть пустым или иметь значение NULL.</param>
+        /// <param name="fields">Список объектов <see cref="FieldSqlTrn"/>, представляющих поля и операции, которые будут применены. Каждое поле
+        /// должно иметь действительный идентификатор.</param>
+        /// <returns>Список объектов <see cref="FieldSqlTrn"/>, указывающих успешность или неудачу каждой операции. Каждая запись
+        /// соответствует полю в списке входных данных.</returns>
+        public static List<FieldSqlTrn> ReqestTransaction([NotNull] ISqlProfile sqlProfile, [NotNull] string tabelName, List<FieldSqlTrn> fields)
+        {
+            List<FieldSqlTrn> errorlog = [];
+            sqlProfile.Conection(true);
+            FieldSqlTrn trn = new(); // запоминяет ошибку 
+            try
+            {
+                foreach (FieldSqlTrn f in fields)
+                {
+                    trn = f;
+                    if (f.ID == -1)
+                    {
+                        errorlog.Add(new FieldSqlTrn(f, false));
+                        continue;
+                    }
+
+                    float result = 0;
+                    var po = sqlProfile.AdapterSql(tabelName, f.NameField, $"ID = {f.ID}");
+                    if (po is not null)
+                    {
+                        if (float.TryParse(po.ToString(), out float ff))
+                        {
+                            switch (f.Operaton)
+                            {
+                                case OperatonEnum.vsPlus:
+                                    result = ff + f.Value;
+                                    break;
+                                case OperatonEnum.vsMunis:
+                                    var tt = ff - f.Value;
+                                    if (tt < 0) { errorlog.Add(new FieldSqlTrn(f, false)); continue; }
+                                    result = tt;
+                                    break;
+                                case OperatonEnum.vsMutation:
+                                    result = f.Value;
+                                    break;
+                            }
+                            string s = result.ToString(CultureInfo.InvariantCulture);
+                            sqlProfile.SqlCommand($"UPDATE {sqlProfile.QuotSql(tabelName)} SET {f.NameField} = {s} WHERE ID = {f.ID} ");
+                            errorlog.Add(new FieldSqlTrn(f, true));
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                sqlProfile.Transaction(TypeTransaction.roolback);
+                errorlog.Add(new FieldSqlTrn(trn, false));
+                throw;
+            }
+            finally
+            {
+                sqlProfile.Transaction(TypeTransaction.commit);
+                sqlProfile.Disconnect();
+            }
+            return errorlog;
+        }
+
+        /// <summary>
         /// Проверка на существание записи. Тип необязательно указывать тут
         /// </summary>
         /// <typeparam name="T">SqlParam только</typeparam>
         /// <param name="field">не обязательно указывать тип FieldSql только название и значение</param>
         /// <returns>-1 - не существует </returns>
-        public static long ExistRecord<T>(FieldSql field ) where T : SqlParam {
+        public static long ExistRecord<T>(FieldSql field) where T : SqlParam
+        {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
-            
+
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
             T obj = Activator.CreateInstance<T>();
             sqlProfile.Conection();
@@ -211,8 +287,8 @@ namespace RjProduction.Sql
         {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
-                        
-            T obj= Activator.CreateInstance<T>();
+
+            T obj = Activator.CreateInstance<T>();
             sqlProfile.Conection();
             try
             {
@@ -222,7 +298,7 @@ namespace RjProduction.Sql
                 if (ls.Count == 0) return null;
                 obj = (T)Integrator(obj, id, _lock);
             }
-            catch 
+            catch
             {
                 throw;
             }
@@ -230,7 +306,7 @@ namespace RjProduction.Sql
             {
                 sqlProfile.Disconnect();
             }
-           
+
             return obj;
         }
 
@@ -240,20 +316,20 @@ namespace RjProduction.Sql
         /// <param name="objA">Класс наследник SqlParam. ID будет обновленое если оно равно -1 и будет равно текущему в БД</param>
         /// <returns>id созданной или обновленной строки</returns>
         public static long SetData(SqlParam objA) => SetData([objA]);
-        public static long SetData( SqlParam[] objA) 
+        public static long SetData(SqlParam[] objA)
         {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
 
             sqlProfile.Conection(true);
-            long IDField_lite = -1;           
+            long IDField_lite = -1;
 
             try
             {
                 foreach (var item in objA)
                 {
                     if (item is null) continue;
-                    IDField_lite = Edit_Row(item,sqlProfile);
+                    IDField_lite = Edit_Row(item, sqlProfile);
                 }
             }
             catch (Exception)
@@ -272,7 +348,8 @@ namespace RjProduction.Sql
         /// <summary>
         /// Получение данных виде DataTable
         /// </summary>
-        public static DataTable? GetDataTable(string tabel_name, string select_sql = "*", string where_sql = "") {
+        public static DataTable? GetDataTable(string tabel_name, string select_sql = "*", string where_sql = "")
+        {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
             DataTable? dt;
@@ -281,7 +358,7 @@ namespace RjProduction.Sql
                 sqlProfile.Conection();
                 dt = sqlProfile.GetDataTable(tabel_name, select_sql, where_sql);
             }
-            catch 
+            catch
             {
                 throw;
             }
@@ -295,7 +372,8 @@ namespace RjProduction.Sql
         /// <summary>
         /// Удалит объект
         /// </summary>      
-        public static void Delete(SqlParam obj) {
+        public static void Delete(SqlParam obj)
+        {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
 
@@ -304,7 +382,7 @@ namespace RjProduction.Sql
             sqlProfile.Conection();
             try
             {
-                sqlProfile.Delete(obj.TabelName, nameof(obj.ID)+ "="+ obj.ID.ToString());
+                sqlProfile.Delete(obj.TabelName, nameof(obj.ID) + "=" + obj.ID.ToString());
             }
             catch (Exception)
             {
@@ -343,15 +421,16 @@ namespace RjProduction.Sql
         /// <summary>
         /// Пометить на удаление
         /// </summary>
-        public static void Mark_ActiveObjIsDelete(long id, string tabelname, bool del = true ) {
+        public static void Mark_ActiveObjIsDelete(long id, string tabelname, bool del = true)
+        {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             if (MDL.SqlProfile is null) throw new Exception("Профиль подключения не выбран " + nameof(MDL.SqlProfile));
             if (id == -1) return;
 
             sqlProfile.Conection();
-            try 
+            try
             {
-                sqlProfile.SqlCommand($"UPDATE {sqlProfile.QuotSql(tabelname)} SET {nameof(SqlParam.ActiveObjIsDelete)}={(del==true ? "1":"0")} WHERE ID = {id} ");
+                sqlProfile.SqlCommand($"UPDATE {sqlProfile.QuotSql(tabelname)} SET {nameof(SqlParam.ActiveObjIsDelete)}={(del == true ? "1" : "0")} WHERE ID = {id} ");
             }
             catch (Exception)
             {
@@ -369,7 +448,8 @@ namespace RjProduction.Sql
         /// <param name="id">если -1 то обновления не будет. Изменяет id в _obj</param>
         /// <param name="_obj">SqlParam наследник. Изменяемый IDField </param>
         /// <exception cref="Exception">Ошибка в случее если нет строки </exception>
-        public static void Update(long id, SqlParam _obj) {
+        public static void Update(long id, SqlParam _obj)
+        {
             if (id == -1) return;
 
             ISqlProfile sqlProfile = MDL.SqlProfile!;
@@ -394,7 +474,7 @@ namespace RjProduction.Sql
 
             if (sqlProfile.ExistTabel(obj.TabelName) == false) sqlProfile.SqlCommand(str);
         }
-        private static long Edit_Row(SqlParam _obj,in ISqlProfile sqlProfile)
+        private static long Edit_Row(SqlParam _obj, in ISqlProfile sqlProfile)
         {
             long IDField;
 
@@ -422,6 +502,7 @@ namespace RjProduction.Sql
                             if (sql.ID != -1) values += "'" + sql.ID + "', ";
                             else values += $"'{Edit_Row(sql, sqlProfile)}', ";
                         }
+                        else values += "NULL, ";
                     }
                 }
 
@@ -458,7 +539,7 @@ namespace RjProduction.Sql
                         if (refl.GetValue(_obj) is SqlParam sql)
                         {
                             if (sql.ID != -1) unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{sql.ID}', ";
-                            else { unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{Edit_Row(sql,sqlProfile)}', "; }
+                            else { unityValue += $"{sqlProfile.QuotSql(item.Item1)}='{Edit_Row(sql, sqlProfile)}', "; }
                         }
                     }
                 }
@@ -472,7 +553,7 @@ namespace RjProduction.Sql
         private static bool Prv_IsLock(long id, string tabelname)
         {
             var kk = MDL.SqlProfile!.GetFieldSql($"ID={id}", tabelname, "LockInfo, datetime('now') as now").First().ToArray();
-           // var k = MDL.SqlProfile!.GetDataFieldSql(tabelname, $"ID={id}", "LockInfo, datetime('now') as now").ToArray();
+            // var k = MDL.SqlProfile!.GetDataFieldSql(tabelname, $"ID={id}", "LockInfo, datetime('now') as now").ToArray();
             DateTime start = DateTime.Parse(ISqlProfile.FieldSql.ValueFieldSql(kk, "LockInfo"));
             DateTime now = DateTime.Parse(ISqlProfile.FieldSql.ValueFieldSql(kk, "now")); // дата и время на сервере может быть другая, получаем от туда а не с текущего сервера  
             start = start.AddMinutes(SqlParam.TIMER_COUNT);
@@ -495,28 +576,27 @@ namespace RjProduction.Sql
             if (obj.GetType().IsEnum) { value = ((int)obj).ToString(); }
             else if (info.PropertyType.Name == "Boolean") { value = obj.ToString() == "True" ? "1" : "0"; }
             else if (info.PropertyType.Name == "Color") { value = ((System.Drawing.Color)obj).Name; }
-            else if (info.PropertyType.Name == "DateOnly") {
-                DateOnly t = (DateOnly)obj;
-                value = $"{t.Year}-{t.Month}-{t.Day}"; 
-            }
-            else if (info.PropertyType.Name == "DateTime")
-            {
-                DateTime t = (DateTime)obj;
-                value = $"{t.Year}-{t.Month}-{t.Day}";
-            }
+            else if (info.PropertyType.Name == "DateOnly") { value = ((DateOnly)obj).ToString("yyyy-MM-dd"); }
+            else if (info.PropertyType.Name == "DateTime") { ((DateTime)obj).ToString("yyyy-MM-dd"); }
+           // else if (info.PropertyType.Name == "DateTime") { (value = obj.ToString(CultureInfo.InvariantCulture); }
+            
             else { value = obj.ToString() ?? ""; }
             value = value.Replace("'", @"\'");
 
             return value;
         }
 
-        private static object Integrator(object obj, long id, bool _lock) {
+        /// <summary>
+        /// Создает и заполняет класс данными
+        /// </summary>
+        private static object Integrator(object obj, long id, bool _lock)
+        {
             ISqlProfile sqlProfile = MDL.SqlProfile!;
             var tmp = sqlProfile.GetFieldSql(id, ((SqlParam)obj).TabelName);
             return Integrator(obj, tmp, _lock);
         }
         private static object Integrator(object obj, FieldSql[] tmp, bool _lock)
-        {           
+        {
             if (tmp.Length != 0)
             {
                 // Length = 0 будет означать что не найдена строка но она будет как новая rebild 
@@ -531,12 +611,14 @@ namespace RjProduction.Sql
                 //if (item is null) continue;
                 if (item.GetCustomAttributes(true).Any(x => x is SqlIgnore)) continue;
 
-                if (item.GetValue(obj) is Sql.SqlParam.IClassifier cls) {
+                if (item.GetValue(obj) is Sql.SqlParam.IClassifier cls)
+                {
                     // класификатор
 
                     continue;
                 }
-                else if (item.GetValue(obj) is Sql.SqlFlat flat) {
+                else if (item.GetValue(obj) is Sql.SqlFlat flat)
+                {
                     // плоское размещение 
                     foreach (var tv in flat.GetType().GetProperties().Where(x => x.CanWrite))
                     {
@@ -547,13 +629,13 @@ namespace RjProduction.Sql
                 }
 
                 SqlParam? param = item.GetValue(obj) as SqlParam;
-                               
+
                 if (param is not null)
                 {
                     // добавляем класс 
-                    string str = tmp.First(x => x.NameField == item.Name ).Value;
+                    string str = tmp.First(x => x.NameField == item.Name).Value;
                     object? dbClass = Activator.CreateInstance(item.PropertyType);
-                    if (dbClass != null) item.SetValue(obj, Integrator(dbClass, int.Parse(str), false)); 
+                    if (dbClass != null) item.SetValue(obj, Integrator(dbClass, int.Parse(str), false));
                 }
                 else
                 {
@@ -565,9 +647,10 @@ namespace RjProduction.Sql
                         var fi = obj.GetType().GetField("_LockInfo", BindingFlags.NonPublic | BindingFlags.Instance);
                         fi?.SetValue(obj, true);
                         //item.SetValue(obj, true);
-                    }                   
-                    else if (item.Name != nameof(param.LockInfo)) {
-                        // in special cases you need to add data conversion manually
+                    }
+                    else if (item.Name != nameof(param.LockInfo))
+                    {                        
+                        // in special cases you need to add data conversion manually                        
                         if (item.PropertyType.IsEnum) { item.SetValue(obj, Enum.Parse(item.PropertyType, str)); }
                         else if (item.PropertyType.Name == "Color") { item.SetValue(obj, System.Drawing.Color.FromName(str)); }
                         else if (item.PropertyType.Name == "Boolean") { item.SetValue(obj, str != "0"); }
@@ -576,8 +659,33 @@ namespace RjProduction.Sql
                         else if (item.PropertyType.Name == "Int32") { item.SetValue(obj, Int32.Parse(str)); }
                         else if (item.PropertyType.Name == "UInt32") { item.SetValue(obj, UInt32.Parse(str)); }
                         else if (item.PropertyType.Name == "String") { item.SetValue(obj, str); }
-                        else if (item.PropertyType.Name == "Double") { item.SetValue(obj, double.Parse(str==string.Empty ? "0" : str )); }
-                        else if (item.PropertyType.Name == "Decimal") { item.SetValue(obj, decimal.Parse(str == string.Empty ? "0" : str)); }
+                        else if (item.PropertyType.Name == "Single") {
+                            str = string.IsNullOrEmpty(str) ? "0" : str; // float
+                            if (!Single.TryParse(str, NumberStyles.Float, new CultureInfo("ru-RU"), out float num))
+                            {
+                                if (!Single.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out num)) 
+                                    throw new Exception("Не принимает строка значение '" + str + "' для " + num.GetType().Name);
+                            }
+                            item.SetValue(obj, num);     
+                        } 
+                        else if (item.PropertyType.Name == "Double") {
+                            str = string.IsNullOrEmpty(str) ? "0" : str; // Double
+                            if (!double.TryParse(str, new CultureInfo("ru-RU"), out double num))
+                            {
+                                if (!double.TryParse(str,  CultureInfo.InvariantCulture, out num))
+                                    throw new Exception("Не принимает строка значение '" + str + "' для " + num.GetType().Name);
+                            }
+                            item.SetValue(obj, num);
+                        }
+                        else if (item.PropertyType.Name == "Decimal") {
+                            str = string.IsNullOrEmpty(str) ? "0" : str; // Double
+                            if (!decimal.TryParse(str, new CultureInfo("ru-RU"), out decimal num))
+                            {
+                                if (!decimal.TryParse(str, CultureInfo.InvariantCulture, out num))
+                                    throw new Exception("Не принимает строка значение '" + str + "' для " + num.GetType().Name);
+                            }
+                            item.SetValue(obj, num);
+                        }
                         else if (item.PropertyType.Name == "DateOnly") { item.SetValue(obj, DateOnly.Parse(str)); }
                         else if (item.PropertyType.Name == "DateTime") { item.SetValue(obj, DateTime.Parse(str)); }
                         //else throw new NotImplementedException("Такой тип данных '"+ item.PropertyType.Name + "' отсутствует  ");
@@ -595,6 +703,7 @@ namespace RjProduction.Sql
 
         }
 
+       
 
 
         /// <summary>
@@ -605,5 +714,49 @@ namespace RjProduction.Sql
             vsPlus, vsMunis, vsMutation, vsNone
         }
 
+        /// <summary>
+        /// Списков полей для транзакции для метода ReqestTransaction
+        /// </summary>
+        public readonly struct FieldSqlTrn
+        {
+            public readonly string NameField;
+            public readonly long ID;
+            public readonly float Value;
+            public readonly OperatonEnum Operaton;
+            public readonly bool TransactionСompleted = false;
+
+            /// <summary>
+            /// Строка для транзакции 
+            /// </summary>
+            /// <param name="nameField">Название поля</param>
+            /// <param name="id">ид</param>
+            /// <param name="value">значение </param>
+            /// <param name="operaton">операция</param>
+            public FieldSqlTrn(string nameField, long id, float value, OperatonEnum operaton)
+            {
+                NameField = nameField;
+                Value = value;
+                ID = id;
+                Operaton = operaton;
+            }
+
+            public FieldSqlTrn(string nameField, long id, float value, OperatonEnum operaton, bool completed)
+            {
+                NameField = nameField;
+                Value = value;
+                ID = id;
+                Operaton = operaton;
+                TransactionСompleted = completed;
+            }
+
+            public FieldSqlTrn(FieldSqlTrn trn, bool completed)
+            {
+                NameField = trn.NameField;
+                Value = trn.Value;
+                ID = trn.ID;
+                Operaton = trn.Operaton;
+                TransactionСompleted = completed;
+            }
+        }
     }
 }

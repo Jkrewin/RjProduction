@@ -33,7 +33,7 @@ namespace RjProduction.Model.DocElement
         /// <summary>
         /// Выбранная куботура для этого Product
         /// </summary>
-        public required double SelectedCub;
+        public required float SelectedCub;
         /// <summary>
         /// Операция с кубами
         /// </summary>

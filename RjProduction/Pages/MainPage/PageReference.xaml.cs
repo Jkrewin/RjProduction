@@ -30,9 +30,9 @@ namespace RjProduction.Pages
         /// </summary>
         private class RowMaterial : MainRow
         {
-            public required double Высота { get; set; }
-            public required double Ширина { get; set; }
-            public required double Длинна { get; set; }
+            public required float Высота { get; set; }
+            public required float Ширина { get; set; }
+            public required float Длинна { get; set; }
             public required double Цена { get; set; }
             public required string Общее_Название { get; set; }
 
@@ -45,6 +45,7 @@ namespace RjProduction.Pages
             public override void RefrehData()
             {
                 var index = MDL.MyDataBase.MaterialsDic.FindIndex(x => x == ((MaterialObj)Obj));
+                if (index == -1) return;
                 var t = MDL.MyDataBase.MaterialsDic[index];
                 t.WidthMaterial = Ширина;
                 t.HeightMaterial = Высота;

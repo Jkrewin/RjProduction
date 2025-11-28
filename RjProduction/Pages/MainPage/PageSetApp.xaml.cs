@@ -1,4 +1,5 @@
 ﻿
+using RjProduction.Model;
 using RjProduction.Sql;
 using RjProduction.XML;
 using System.Windows;
@@ -80,6 +81,10 @@ namespace RjProduction.Pages
             }
 
             if (MDL.MyDataBase.CompanyOwn is not null) TBox_Company.Text = MDL.MyDataBase.CompanyOwn.ShortName;
+
+#if DEBUG !=true
+            КнопкаОтладка.Visibility = Visibility.Collapsed;
+#endif
 
             // sqlite
             Tbox_Filename.Text = MDL.SetApp.DataBaseFile;
@@ -174,6 +179,18 @@ namespace RjProduction.Pages
                     MDL.MyDataBase.CompanyOwn = comp;
                 }
             });
+        }
+
+        private void НажатаКнопкаОтладка(object sender, RoutedEventArgs e)
+        {
+            if (MDL.SqlProfile == null)
+            {
+                IDocMain.ErrorMessage(IDocMain.Error_Txt.Нет_подключенияБД);
+                return;
+            }
+            else {
+                Clipboard.SetText(MDL.SqlProfile.SqlLogString.ReadInfo);
+            }
         }
     }
 }

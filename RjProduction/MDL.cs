@@ -4,6 +4,7 @@ using RjProduction.Model.DocElement;
 using RjProduction.Sql;
 using RjProduction.WpfFrm;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -16,7 +17,7 @@ namespace RjProduction
 {
     static public class MDL
     {
-
+        
         /// <summary>
         /// Необходим для перехвата клавишь для frame
         /// </summary>
@@ -522,6 +523,31 @@ namespace RjProduction
                 MDL.LogError($"Ошибка при сохрании в файл {cl}", sFile + "\n   " + ex.Message + "\n" + ex.Source + "\n" + ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Загружает данные из XML. Пропускает если файла нет может быть null если несовпадают типы
+        /// </summary>
+        /// <typeparam name="T">Тип есть проверка на соответствие</typeparam>
+        /// <param name="sFile">Файл проверка на существание если нет файла null</param>
+        /// <returns></returns>
+        static public T? LoadXml<T>(string sFile)
+        {
+            if (File.Exists(sFile) == false) return default;
+            XmlSerializer xmlSerializer = new(typeof(T));
+            try
+            {
+                using FileStream fs = new(sFile, FileMode.OpenOrCreate);
+                object? obj = xmlSerializer.Deserialize(fs);
+                if (obj is T t) return t;
+                else return default;
+            }
+            catch (InvalidOperationException ax)
+            {
+                MessageBox.Show("LoadXml Ошибка чтения файла Xml (" + sFile + ") причина : " + ax.Message);
+                return default;
+            }
+        }
+
         /// <summary>
         /// Сохранить настройки приложения
         /// </summary>

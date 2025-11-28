@@ -31,18 +31,37 @@ namespace RjProduction.Pages
         /// <param name="cntr">Какое значение следует изменить</param>
         /// <param name="sender">Texbox</param>
         /// <param name="str">По умолчанию значение измененное поменяет значение в TexBox</param>
+        private void ChangeField(ref float cntr, object sender, string str = "")
+        {
+            if (!string.IsNullOrEmpty(str)) ((TextBox)sender).Text = str;
+            if (ushort.TryParse(((TextBox)sender).Text, out ushort r)) cntr = r;
+            ((TextBox)sender).Text = cntr.ToString();
+
+            Changer();
+        }
+
+        /// <summary>
+        /// Обновляет поле и добовляет значение в общюю структуру
+        /// </summary>
+        /// <param name="cntr">Какое значение следует изменить</param>
+        /// <param name="sender">Texbox</param>
+        /// <param name="str">По умолчанию значение измененное поменяет значение в TexBox</param>
         private void ChangeField(ref double cntr, object sender, string str = "")
         {
             if (!string.IsNullOrEmpty(str)) ((TextBox)sender).Text = str;
             if (ushort.TryParse(((TextBox)sender).Text, out ushort r)) cntr = r;
             ((TextBox)sender).Text = cntr.ToString();
 
+            Changer();
+        }
+
+        private void Changer() {
             if (_Material.MaterialType == MaterialObj.MaterialTypeEnum.Количество)
             {
                 // количество
-                LabelTest.Content = (float) _Material.Cub;
+                LabelTest.Content = (float)_Material.Cub;
                 if (LabelОбъем != null) LabelОбъем.Content = _Material.CubatureAll;
-                Label_Amount.Content = Math.Round(_Material.Amount,2);
+                Label_Amount.Content = Math.Round(_Material.Amount, 2);
             }
             else if (_Material.MaterialType == MaterialObj.MaterialTypeEnum.Объем)
             {
@@ -114,7 +133,7 @@ namespace RjProduction.Pages
             {
                 if (int.TryParse(TBoxКоличество.Text, out int i))
                 {
-                    LabelОбъем.Content =(float)( _Material.Cub * i);
+                    LabelОбъем.Content = _Material.Cub * i;
                     if (int.TryParse(TBoxPrice.Text, out int ii))
                     {
                         Label_Amount.Content = Math.Round((_Material.Cub * i) * ii, 2);
@@ -138,7 +157,7 @@ namespace RjProduction.Pages
         {
             Lab_Title.Content = "(мм)Ш  х  (мм)В х  (см)Д      (шт) Кол";
             TBoxКоличество.Visibility = Visibility.Visible;
-            _Material.Quantity = double.Parse(TBoxКоличество.Text);
+            _Material.Quantity = float.Parse(TBoxКоличество.Text);
             ChangeField(ref _Material.Quantity, TBoxКоличество);
             LabelMaterialType.Content = MaterialObj.MaterialTypeEnum.Количество.ToString();
             _Material.MaterialType = MaterialObj.MaterialTypeEnum.Количество;

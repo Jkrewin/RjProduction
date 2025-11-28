@@ -13,10 +13,11 @@ namespace RjProduction.Sql
     /// </summary>
     public class SqliteProfile : ISqlProfile
     {
+
         private SQLiteTransaction? SqlTransaction;
         private readonly SQLiteConnection SQLite = new();
         public TypeSqlConnection SqlType => ISqlProfile.TypeSqlConnection.Sqlite;
-
+                
         /// <summary>
         /// Локальное размещение папки для базы данных
         /// </summary>
@@ -32,21 +33,23 @@ namespace RjProduction.Sql
         // <summary>
         /// Строка последнего запроса для поиска ошибок
         /// </summary>
-        public string SqlLogString { get; set; } = string.Empty;
+        public DedugSql SqlLogString { get;  } = new();
 
         public string QuotSql(string str) => $"[{str}]";
 
+
+
         public void Transaction(TypeTransaction transaction)
         {
-            if (transaction == TypeTransaction.commit) SqlTransaction?.Commit();
-            else if (transaction == TypeTransaction.roolback) SqlTransaction?.Rollback();
+            if (transaction == TypeTransaction.commit) { SqlTransaction?.Commit(); SqlLogString.AddInfo="Commit"; }
+            else if (transaction == TypeTransaction.roolback) {SqlTransaction?.Rollback(); SqlLogString.AddInfo = "Rollback"; }
         }
 
         public ISqlProfile.FieldSql[] GetFieldSql(string where, string TabelName)
         {
             List<FieldSql> ls = new();
-            SqlLogString = $"SELECT * FROM [{TabelName}] WHERE {where} LIMIT 1";
-            using SQLiteCommand command = new(SqlLogString, SQLite);
+            SqlLogString.AddInfo = $"SELECT * FROM [{TabelName}] WHERE {where} LIMIT 1";
+            using SQLiteCommand command = new(SqlLogString.ReadEnd, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             using SQLiteDataReader sqReader = command.ExecuteReader();
             if (sqReader.HasRows)
@@ -57,7 +60,7 @@ namespace RjProduction.Sql
                     ls.Add(new ISqlProfile.FieldSql(sqReader.GetName(i), sqReader.GetFieldType(i).Name, sqReader.GetValue(i).ToString() ?? string.Empty));
                 }
             }
-            return ls.ToArray();
+            return [.. ls];
         }
 
         public ISqlProfile.FieldSql[] GetFieldSql(long ID, string TabelName)
@@ -67,9 +70,9 @@ namespace RjProduction.Sql
 
         public List<FieldSql[]> GetFieldSql(string where, string tabelName, string select = "*")
         {
-            List<FieldSql[]> ls = new();
-            SqlLogString = $"SELECT {select} FROM [{tabelName}] WHERE {where}";
-            using SQLiteCommand command = new(SqlLogString, SQLite);
+            List<FieldSql[]> ls = [];
+            SqlLogString.AddInfo = $"SELECT {select} FROM [{tabelName}] WHERE {where}";
+            using SQLiteCommand command = new(SqlLogString.ReadEnd, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             using SQLiteDataReader sqReader = command.ExecuteReader();
             while (sqReader.Read())
@@ -87,8 +90,8 @@ namespace RjProduction.Sql
         public bool ExistTabel(string tabelName)
         {
             if (!ConnectIs) throw new Exception("Не выполнено подключение к бд");
-            SqlLogString = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tabelName}'";
-            using SQLiteCommand command = new(SqlLogString, SQLite);
+            SqlLogString.AddInfo = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tabelName}'";
+            using SQLiteCommand command = new(SqlLogString.ReadEnd, SQLite);
             using SQLiteDataReader sqReader = command.ExecuteReader();
             return sqReader.Read() && sqReader.HasRows;
         }
@@ -112,7 +115,7 @@ namespace RjProduction.Sql
             using SQLiteCommand command = SQLite.CreateCommand();
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             command.CommandText = $"{sql}; SELECT last_insert_rowid();";
-            SqlLogString = $"SqlCommand: {DateTime.Now} {sql}";
+            SqlLogString.AddInfo = $"SqlCommand: {DateTime.Now} {sql}";
            
             return (long)command.ExecuteScalar();
         }
@@ -120,7 +123,7 @@ namespace RjProduction.Sql
         public object? AdapterSql(string tabelName, string nameField, string where = "")
         {
             string pol = where != "" ? $"SELECT {nameField} FROM [{tabelName}] WHERE {where} LIMIT 1" : $"SELECT {nameField} FROM [{tabelName}] LIMIT 1";
-            SqlLogString = "AdapterSql" + pol;
+            SqlLogString.AddInfo = "AdapterSql  " + pol;
             using SQLiteCommand command = new(pol, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             return command.ExecuteScalar();
@@ -130,8 +133,8 @@ namespace RjProduction.Sql
         {
             id = -1;
             string pol = where != "" ? $"SELECT * FROM [{tabelName}] WHERE {where}" : $"SELECT * FROM [{tabelName}]";
-            SqlLogString = pol;
-            List<object[]> ls = new();
+            SqlLogString.AddInfo = pol;
+            List<object[]> ls = [];
             using SQLiteCommand command = new(pol, SQLite);
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             using SQLiteDataReader sqReader = command.ExecuteReader();
@@ -156,7 +159,7 @@ namespace RjProduction.Sql
                 using SQLiteCommand cmd = SQLite.CreateCommand();
                 if (where_sql != "") where_sql = " WHERE " + where_sql;
                 cmd.CommandText = $"SELECT {select_sql} FROM {tabelName}{where_sql}";
-                SqlLogString = cmd.CommandText;
+                SqlLogString.AddInfo = cmd.CommandText;
                 using SQLiteDataAdapter dataAdapter = new(cmd.CommandText, SQLite);
                 dataAdapter.Fill(dataTable);
             }
@@ -171,6 +174,7 @@ namespace RjProduction.Sql
         {
             SqlTransaction?.Dispose();
             SQLite.Close();
+            SqlLogString.AddInfo = "Dispose";
         }
 
         public void Conection(bool startTransaction = false)
@@ -189,6 +193,7 @@ namespace RjProduction.Sql
             {
                 SQLite.Open();
                 SqlTransaction = startTransaction ? SQLite.BeginTransaction() : null;
+                SqlLogString.AddInfo = $"Open {DataBaseFile} startTransaction={startTransaction}";
             }
             catch
             {
@@ -209,7 +214,7 @@ namespace RjProduction.Sql
             using SQLiteCommand command = SQLite.CreateCommand();
             if (SqlTransaction is not null) command.Transaction = SqlTransaction;
             command.CommandText = $"DELETE FROM [{tabelName}] WHERE {where}";
-            SqlLogString = $"SqlCommand: {DateTime.Now} {command.CommandText}";
+            SqlLogString.AddInfo = $"SqlCommand: {DateTime.Now} {command.CommandText}";
             command.ExecuteNonQuery();
         }
     }

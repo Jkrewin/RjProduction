@@ -389,7 +389,7 @@
                             <SolidColorBrush Color="#FF261D1D" Opacity="0.5"/>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Frame NavigationUIVisibility="Hidden" x:Name="FrameWorkspace_frame" Background="#FFF57373" HorizontalAlignment="Right" Width="750"></Frame>
+                    <Frame NavigationUIVisibility="Hidden" x:Name="FrameWorkspace_frame" Background="White" HorizontalAlignment="Right" Width="750"></Frame>
                 </Grid>
             </Grid>
 

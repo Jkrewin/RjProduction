@@ -36,15 +36,19 @@ namespace RjProduction.XML
             List<string> strs = [];
 
             if (Buyer is null) {
-                strs.Add("Необходимо выбрать покупателя");
+                strs.Add("Необходимо выбрать покупателя ");
 
             }
             if (Warehouse_From is null)
             {
-                strs.Add("Склад не выбран");
+                strs.Add("Склад не выбран ");
 
             }
 
+            if (strs.Count != 0) { 
+                MessageBox.Show(string.Join("\n", strs), "Ошибка заполнения документа", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
             if (Status == StatusEnum.Проведен) return;
             if (MDL.SqlProfile == null)
@@ -62,19 +66,32 @@ namespace RjProduction.XML
             }
                       
 
+            List<SqlRequest.FieldSqlTrn> trn = [];
             // запуск сохранения в БД Products              
             foreach (var item in ListPseudonym)
             {
                 Products? cl = SqlRequest.ReadData<Products>([new("NameItem", item.Product.NameItem), new("Warehouse", item.Product.Warehouse.ID)]);
                 // Меняет текущее в на этом складе и по этому названию 
-                if (cl != null)
+                if (cl != null) trn.Add(new SqlRequest.FieldSqlTrn(nameof(Products.Cubature), cl.ID, item.SelectedCub, SqlRequest.OperatonEnum.vsMunis));
+                // если не найдено невозможно сохранить документ 
+                else 
                 {
-                    cl.ConcurrentReqest(MDL.SqlProfile, SqlRequest.OperatonEnum.vsMunis, item.SelectedCub);
-                    item.Product.SyncError = cl.SyncError; // сохранить ошибку если была
+                    MessageBox.Show($"Отсутствует на складе такой товар ({item.Product.NameItem}) ошибка синхронизации", "Ошибка при сохранение ", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
                 }
-                // создает новое значение если не найдено 
-                else SqlRequest.SetData(item.Product);
             }
+                        
+            SqlRequest.ReqestTransaction(MDL.SqlProfile, nameof(Products), trn).ForEach(item => { 
+                var tv = ListPseudonym.Find(x => item.ID == x.Product.ID);
+                if (tv is not null) tv.Product.SyncError = item.TransactionСompleted;
+            });
+
+            //Если транзакция была проблем 
+            if (ListPseudonym.Any(x => x.Product.SyncError == false)) {
+                var r = from tv in ListPseudonym where tv.Product.SyncError == false select  $"{tv.Product.NameItem} = {tv.Product.Cubature} Не может быть меньше количества которе на складе  ";
+                MessageBox.Show("Были изменения в БД внести изменения невозможно проверте количество: "  + string.Join("\n", r), "Ошибка при сохранение ", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }           
 
             // далее сохранения документа в БД document
             SqlRequest.SetData(this);
@@ -83,18 +100,7 @@ namespace RjProduction.XML
             foreach (var obj in MainTabel)
             {
                 foreach (var tv in obj.Tabels)
-                {
-                    if (tv is IConvertDoc doc)
-                    {
-                        // Если транзакция была проблем сохраняет в этот документ если были ошибки то частично проведен 
-                        var p = doc.ToProducts();
-                        if (products.Any(x => x.NameItem == p.NameItem & p.SyncError == true))
-                        {
-                            Status = StatusEnum.Частично;
-                            continue;
-                        }
-                    }
-
+                {                   
                     if (tv is DocRow.IDocRow d)
                     {
                         SqlRequest.SetData(d.ToDocRow(obj.NameGrup, ID_Doc));
@@ -103,7 +109,7 @@ namespace RjProduction.XML
                     else throw new NotImplementedException("DependentCode: Отуствие класса или структуры " + tv.ToString() + "\n ()CarryOut " + this.ToString());
                 }
             }
-            XmlProtocol.SaveDocXml<DocSales>(this);
+            SaveDocXml<DocSales>(this);
 
         }
     }

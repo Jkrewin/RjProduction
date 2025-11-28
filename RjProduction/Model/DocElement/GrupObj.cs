@@ -11,10 +11,7 @@ namespace RjProduction.Model.DocElement
         public decimal Amount { get => Tabels.Sum(x => x.Amount); }
         public double Cubature { get => Tabels.Sum(x => x.CubatureAll); }
 
-        public override string ToString()
-        {
-            return NameGrup;
-        }
+        public override string ToString() => NameGrup;
 
     }
 }

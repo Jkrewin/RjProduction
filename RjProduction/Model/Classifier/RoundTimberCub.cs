@@ -1,5 +1,4 @@
-﻿
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -45,22 +44,16 @@ namespace RjProduction.Model.Classifier
         /// <summary>
         /// Структура размера диаметра
         /// </summary>
-        public readonly struct RowCub
+        public readonly struct RowCub(string d, double value)
         {
             /// <summary>
             /// Диаметор бревна
             /// </summary>
-            [XmlAttribute] public readonly string Diameter;
+            [XmlAttribute] public readonly string Diameter = d;
             /// <summary>
             /// Объем бревна
             /// </summary>
-            [XmlAttribute] public readonly double Value;
-
-            public RowCub(string d, double value)
-            {
-                Diameter =d;
-                Value = value;
-            }
+            [XmlAttribute] public readonly double Value = value;
         }
 
 
@@ -86,8 +79,33 @@ namespace RjProduction.Model.Classifier
                     if (rows != null)
                     {
                         foreach (var row in rows)
-                        {   
-                            ls_rows.Add(new RowCub(row.Attribute("Diameter")?.Value ?? "0",double.Parse(row.Attribute("Value")?.Value?.Replace(",", ".") ?? "0", CultureInfo.InvariantCulture)));
+                        {
+                            string diameter;
+                            string value;
+                            try
+                            {
+                                var objA = row.Attribute("Diameter");
+                                var objB = row.Attribute("Value");
+                                if (objA == null || objB == null)
+                                {
+                                    throw new InvalidOperationException("Отсутствует необходимый атрибут Diameter или Value в элементе RowCub.");
+                                }
+                                else
+                                {
+                                    diameter = objA.Value ?? "0";
+                                    value = objB.Value ?? "0";                                    
+
+                                    ls_rows.Add(new RowCub(diameter, double.Parse(value, CultureInfo.InvariantCulture)));
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                MDL.LogError ("Ошибка чтения классификатора размеров бревен "  +
+                                    " Диаметр " + row.Attribute("Diameter")?.Value +
+                                    " Объем " + row.Attribute("Value")?.Value);
+                            }    
+                            
+
                         }
                     }
                     ls.Add(new RoundTimberCub(length, [.. ls_rows]));
